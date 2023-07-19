@@ -1,0 +1,36 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v7.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v7.0": {
+      "PhoneStorePL/1.0.0": {
+        "dependencies": {
+          "ThreeLayerLibrary": "1.0.0"
+        },
+        "runtime": {
+          "PhoneStorePL.dll": {}
+        }
+      },
+      "ThreeLayerLibrary/1.0.0": {
+        "runtime": {
+          "ThreeLayerLibrary.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "PhoneStorePL/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "ThreeLayerLibrary/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
