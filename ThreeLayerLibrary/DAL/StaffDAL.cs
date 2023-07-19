@@ -13,7 +13,6 @@ namespace DAL
         public Staff? GetAccountByUsername(string userName)
         {
             Staff? staff = null;
-            int count = 0;
             try
             {
                 if (connection.State == System.Data.ConnectionState.Closed)
@@ -28,7 +27,6 @@ namespace DAL
                 if (reader.Read())
                 {
                     staff = GetStaff(reader);
-                    count++;
                 }
                 reader.Close();
             }
@@ -48,7 +46,6 @@ namespace DAL
             staff.UserName = reader.GetString("User_Name");
             staff.Password = reader.GetString("Password");
             staff.Role = (StaffEnum.Role)Enum.Parse(typeof(StaffEnum.Role), reader.GetString("Role"));
-            Console.WriteLine(staff.Password);
             return staff;
         }
         public string CreateMD5(string input)

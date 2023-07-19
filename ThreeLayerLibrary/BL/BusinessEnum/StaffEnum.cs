@@ -5,9 +5,9 @@ namespace BusinessEnum
     {
         public enum Role
         {
-            Manager,
+            Seller,
             Accountant,
-            Seller
+            Manager
         }
     }
 }
