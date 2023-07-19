@@ -38,7 +38,7 @@ namespace Ults
                         return currentChoice;
                     }
 
-                    if (keyInfo.Key == ConsoleKey.DownArrow || keyInfo.Key == ConsoleKey.UpArrow || keyInfo.Key == ConsoleKey.Enter || keyInfo.Key == null)
+                    if (keyInfo.Key == ConsoleKey.DownArrow || keyInfo.Key == ConsoleKey.UpArrow || keyInfo.Key == ConsoleKey.Enter)
                     {
                         if (currentChoice >= 1 && currentChoice <= menuItem.Count())
                         {
@@ -364,7 +364,11 @@ namespace Ults
                 Console.Write($"\n👉 Press Enter To {action}...");
             }
             ConsoleKeyInfo key = Console.ReadKey();
-            if (key.Key == ConsoleKey.Enter) return;
+            if (key.Key == ConsoleKey.Enter)
+            {
+                Console.Clear();
+                return;
+            }
             else PressEnterTo(null);
         }
         //     public int CreateOrderMenuHandle()

@@ -67,15 +67,15 @@ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ __
             {
                 case ConsoleEnum.Alert.Success:
                     ConsoleForegroundColor(ConsoleEnum.Color.Green);
-                    Console.WriteLine("\n" + msg.ToUpper() + "✅");
+                    Console.WriteLine("\n" + "✅ " + msg.ToUpper());
                     break;
                 case ConsoleEnum.Alert.Warning:
                     ConsoleForegroundColor(ConsoleEnum.Color.Yellow);
-                    Console.WriteLine("\n" + msg.ToUpper() + "⚠️");
+                    Console.WriteLine("\n" + "⚠️  " + msg.ToUpper());
                     break;
                 case ConsoleEnum.Alert.Error:
                     ConsoleForegroundColor(ConsoleEnum.Color.Red);
-                    Console.WriteLine("\n" + msg.ToUpper() + "❌");
+                    Console.WriteLine("\n" + "❌ " + msg.ToUpper());
                     break;
                 default:
                     break;

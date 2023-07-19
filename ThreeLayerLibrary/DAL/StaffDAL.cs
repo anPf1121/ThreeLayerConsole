@@ -48,6 +48,7 @@ namespace DAL
             staff.UserName = reader.GetString("User_Name");
             staff.Password = reader.GetString("Password");
             staff.Role = (StaffEnum.Role)Enum.Parse(typeof(StaffEnum.Role), reader.GetString("Role"));
+            Console.WriteLine(staff.Password);
             return staff;
         }
         public string CreateMD5(string input)

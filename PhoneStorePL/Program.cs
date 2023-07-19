@@ -36,6 +36,7 @@ namespace PhoneStoreUI
 
                         else
                         {
+                            Console.WriteLine();
                             ConsoleUlts.Alert(ConsoleEnum.Alert.Error, "Invalid Username Or Password");
                             Main();
                         }
@@ -43,7 +44,7 @@ namespace PhoneStoreUI
                     else if (mainChoice == 2)
                     {
                         ConsoleUlts.Alert(ConsoleEnum.Alert.Success, "Exiting Success");
-                        return;
+                        Environment.Exit(0);
                     }
                     else
                     {
