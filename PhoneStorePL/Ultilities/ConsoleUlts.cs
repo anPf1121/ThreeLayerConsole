@@ -1,26 +1,27 @@
 using System;
+using GUIEnum;
 
 namespace Ults
 {
     class ConsoleUlts
     {
-        public void ConsoleForegroundColor(GUIEnum.Console.Color colorEnum)
+        public void ConsoleForegroundColor(ConsoleEnum.Color colorEnum)
         {
             switch (colorEnum)
             {
-                case GUIEnum.Console.Color.Red:
+                case ConsoleEnum.Color.Red:
                     Console.ForegroundColor = ConsoleColor.Red;
                     break;
-                case GUIEnum.Console.Color.Green:
+                case ConsoleEnum.Color.Green:
                     Console.ForegroundColor = ConsoleColor.Green;
                     break;
-                case GUIEnum.Console.Color.Blue:
+                case ConsoleEnum.Color.Blue:
                     Console.ForegroundColor = ConsoleColor.Blue;
                     break;
-                case GUIEnum.Console.Color.Yellow:
+                case ConsoleEnum.Color.Yellow:
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     break;
-                case GUIEnum.Console.Color.White:
+                case ConsoleEnum.Color.White:
                     Console.ForegroundColor = ConsoleColor.White;
                     break;
                 default:
@@ -29,55 +30,57 @@ namespace Ults
         }
         public void Line()
         {
-            Console.WriteLine(@"                                                                                                                                                                            
-█████ █████ █████ █████ █████ █████ █████ █████ █████ █████ █████ █████ █████ █████ █████ █████ █████ █████ █████");
+            Console.WriteLine(@"
+_____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____  
+\____\\____\\____\\____\\____\\____\\____\\____\\____\\____\\____\\____\\____\\____\\____\\____\
+");
         }
 
         public void TinyLine()
         {
-            Console.WriteLine("============================================================");
+            Console.WriteLine("================================================================================================");
         }
         public void Title(string? title, string? subTitle)
         {
             if (title != null)
             {
-                ConsoleForegroundColor(GUIEnum.Console.Color.White);
+                ConsoleForegroundColor(ConsoleEnum.Color.White);
                 Line();
-                ConsoleForegroundColor(GUIEnum.Console.Color.Red);
+                ConsoleForegroundColor(ConsoleEnum.Color.Red);
                 Console.WriteLine("\n" + title);
-                ConsoleForegroundColor(GUIEnum.Console.Color.White);
+                ConsoleForegroundColor(ConsoleEnum.Color.White);
                 Line();
             }
             if (subTitle != null)
             {
                 Line();
-                ConsoleForegroundColor(GUIEnum.Console.Color.Blue);
+                ConsoleForegroundColor(ConsoleEnum.Color.Blue);
                 Console.WriteLine("\n" + subTitle);
-                ConsoleForegroundColor(GUIEnum.Console.Color.White);
+                ConsoleForegroundColor(ConsoleEnum.Color.White);
                 Line();
             }
         }
-        public void Alert(GUIEnum.Console.Alert alertType, string msg)
+        public void Alert(ConsoleEnum.Alert alertType, string msg)
         {
             Ultilities Ultilities = new Ultilities();
             switch (alertType)
             {
-                case GUIEnum.Console.Alert.Success:
-                    ConsoleForegroundColor(GUIEnum.Console.Color.Green);
+                case ConsoleEnum.Alert.Success:
+                    ConsoleForegroundColor(ConsoleEnum.Color.Green);
                     Console.WriteLine("\n" + msg.ToUpper() + "✅");
                     break;
-                case GUIEnum.Console.Alert.Warning:
-                    ConsoleForegroundColor(GUIEnum.Console.Color.Yellow);
+                case ConsoleEnum.Alert.Warning:
+                    ConsoleForegroundColor(ConsoleEnum.Color.Yellow);
                     Console.WriteLine("\n" + msg.ToUpper() + "⚠️");
                     break;
-                case GUIEnum.Console.Alert.Error:
-                    ConsoleForegroundColor(GUIEnum.Console.Color.Red);
+                case ConsoleEnum.Alert.Error:
+                    ConsoleForegroundColor(ConsoleEnum.Color.Red);
                     Console.WriteLine("\n" + msg.ToUpper() + "❌");
                     break;
                 default:
                     break;
             }
-            ConsoleForegroundColor(GUIEnum.Console.Color.White);
+            ConsoleForegroundColor(ConsoleEnum.Color.White);
             Ultilities.PressEnterTo("Continue");
         }
         // public void PrintPhoneInfo(Phone phone)

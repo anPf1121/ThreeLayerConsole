@@ -1,6 +1,7 @@
-// using Persistence;
-// using BL;
-using System.Text.RegularExpressions;
+using Model;
+using BL;
+using BusinessEnum;
+using GUIEnum;
 
 namespace Ults
 {
@@ -8,10 +9,10 @@ namespace Ults
     {
         // private PhoneBL phoneBL = new PhoneBL();
         private ConsoleUlts ConsoleUlts = new ConsoleUlts();
-        // private StaffBL StaffBL = new StaffBL();
+        private StaffBL StaffBL = new StaffBL();
         // private CustomerBL customerBL = new CustomerBL();
         // private OrderBL orderBL = new OrderBL();
-        // private Staff? OrderStaff = null;
+        private Staff? OrderStaff = null;
         public int MenuHandle(string? title, string? subTitle, string[] menuItem)
         {
 
@@ -25,8 +26,8 @@ namespace Ults
                 if (currentChoice <= (menuItem.Count() + 1) && currentChoice >= 1)
                 {
                     for (int i = 0; i < menuItem.Count(); i++)
-                        Console.WriteLine(((currentChoice - 1 == i) ? (iconBackhand + " ") : "") + menuItem[i] + $" ({i + 1})");
-                    Console.WriteLine("================================================================================================");
+                        Console.WriteLine(((currentChoice - 1 == i) ? (iconBackhand + " ") : "") + " " + menuItem[i] + $" ({i + 1})");
+                    Console.WriteLine("\n================================================================================================");
                     Console.WriteLine("*press 'down arrow' to next choice or 'up arrow' to previous choice and press 'enter to confirm'");
                     Console.WriteLine("================================================================================================");
                     keyInfo = Console.ReadKey();
@@ -48,29 +49,19 @@ namespace Ults
 
                         if (currentChoice == (menuItem.Count() + 1))
                         {
-                            Console.WriteLine("Out Of Range");
+                            ConsoleUlts.Alert(ConsoleEnum.Alert.Error, "You Are In The Final Choice");
                             currentChoice = menuItem.Count();
-                            Console.Write("Press Any Key To Continue..");
-                            Console.ReadKey();
                         }
 
                         else if (currentChoice == 0)
                         {
-                            Console.WriteLine("Out Of Range");
+                            ConsoleUlts.Alert(ConsoleEnum.Alert.Error, "You Are In The First Choice");
                             currentChoice = 1;
-                            Console.Write("Press Any Key To Continue..");
-                            Console.ReadKey();
                         }
-
-                        Console.SetCursorPosition(0, Console.CursorTop - 1);
                         Console.Clear();
                     }
                     else
-                    {
-                        Console.Clear();
-                        Console.WriteLine("Please press 'down arrow' to next choice or 'up arrow' to previous choice and press 'enter to confirm'");
-                        PressEnterTo("Continue");
-                    }
+                        ConsoleUlts.Alert(ConsoleEnum.Alert.Warning, "Please press 'down arrow' to next choice or 'up arrow' to previous choice and press 'enter to confirm'");
                 }
             }
             return currentChoice;
@@ -311,58 +302,61 @@ namespace Ults
         //         }
         //         return menuTab;
         //     }
-        //     public int StartMenu()
-        //     {
-        //         Console.OutputEncoding = System.Text.Encoding.UTF8;
-        //         string[] menuItem = { "👉 Login", "👉 Exit" };
+        public int StartMenu()
+        {
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
+            string[] menuItem = { "Login", "Exit" };
 
-        //         int choice = MenuHandle(@"        ██████  ██   ██  ██████  ███    ██ ███████ ███████ ████████  ██████  ██████  ███████ 
-        //         ██   ██ ██   ██ ██    ██ ████   ██ ██      ██         ██    ██    ██ ██   ██ ██      
-        //         ██████  ███████ ██    ██ ██ ██  ██ █████   ███████    ██    ██    ██ ██████  █████   
-        //         ██      ██   ██ ██    ██ ██  ██ ██ ██           ██    ██    ██    ██ ██   ██ ██      
-        //         ██      ██   ██  ██████  ██   ████ ███████ ███████    ██     ██████  ██   ██ ███████ "
-        //         , null, menuItem);
+            int choice = MenuHandle(@"    ██████╗ ██╗  ██╗ ██████╗ ███╗   ██╗███████╗    ███████╗████████╗ ██████╗ ██████╗ ███████╗
+    ██╔══██╗██║  ██║██╔═══██╗████╗  ██║██╔════╝    ██╔════╝╚══██╔══╝██╔═══██╗██╔══██╗██╔════╝
+    ██████╔╝███████║██║   ██║██╔██╗ ██║█████╗      ███████╗   ██║   ██║   ██║██████╔╝█████╗  
+    ██╔═══╝ ██╔══██║██║   ██║██║╚██╗██║██╔══╝      ╚════██║   ██║   ██║   ██║██╔══██╗██╔══╝  
+    ██║     ██║  ██║╚██████╔╝██║ ╚████║███████╗    ███████║   ██║   ╚██████╔╝██║  ██║███████╗
+    ╚═╝     ╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═══╝╚══════╝    ╚══════╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚══════╝
+                                                                                             "
+            , null, menuItem);
 
-        //         if (choice == 1) return 1;
-        //         else if (choice == 2) return 2;
-        //         else return -1;
-        //     }
-        //     public E.Staff.Role? LoginUlt()
-        //     {
-        //         Console.OutputEncoding = System.Text.Encoding.UTF8;
-        //         ConsoleUlts.Title(null, @"                            ██       ██████   ██████  ██ ███    ██ 
-        //                             ██      ██    ██ ██       ██ ████   ██ 
-        //                             ██      ██    ██ ██   ███ ██ ██ ██  ██ 
-        //                             ██      ██    ██ ██    ██ ██ ██  ██ ██ 
-        //                             ███████  ██████   ██████  ██ ██   ████ ");
-        //         Console.Write("\n👉 User Name: ");
-        //         string userName = Console.ReadLine() ?? "";
-        //         Console.Write("\n👉 Password: ");
-        //         string pass = "";
-        //         ConsoleKeyInfo key;
-        //         do
-        //         {
-        //             key = Console.ReadKey(true);
-        //             if (key.Key != ConsoleKey.Backspace)
-        //             {
-        //                 pass += key.KeyChar;
-        //                 if (key.Key != ConsoleKey.Enter)
-        //                     Console.Write("*");
-        //             }
-        //             else if (key.Key == ConsoleKey.Backspace && pass.Length > 0)
-        //             {
-        //                 // Xóa ký tự cuối cùng trong chuỗi pass khi người dùng nhấn phím Backspace
-        //                 pass = pass.Substring(0, pass.Length - 1);
-        //                 Console.Write("\b \b");
-        //             }
-        //         }
-        //         while (key.Key != ConsoleKey.Enter);
-        //         pass = pass.Substring(0, pass.Length - 1);
-        //         OrderStaff = StaffBL.Authenticate(userName, pass);
-        //         if (OrderStaff != null)
-        //             return OrderStaff.Role;
-        //         else return null;
-        //     }
+            if (choice == 1) return 1;
+            else if (choice == 2) return 2;
+            else return -1;
+        }
+        public StaffEnum.Role? LoginUlt()
+        {
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
+            ConsoleUlts.Title(null, @"                            ██╗      ██████╗  ██████╗ ██╗███╗   ██╗
+                            ██║     ██╔═══██╗██╔════╝ ██║████╗  ██║
+                            ██║     ██║   ██║██║  ███╗██║██╔██╗ ██║
+                            ██║     ██║   ██║██║   ██║██║██║╚██╗██║
+                            ███████╗╚██████╔╝╚██████╔╝██║██║ ╚████║
+                            ╚══════╝ ╚═════╝  ╚═════╝ ╚═╝╚═╝  ╚═══╝");
+            Console.Write("\n👉 User Name: ");
+            string userName = Console.ReadLine() ?? "";
+            Console.Write("\n👉 Password: ");
+            string pass = "";
+            ConsoleKeyInfo key;
+            do
+            {
+                key = Console.ReadKey(true);
+                if (key.Key != ConsoleKey.Backspace)
+                {
+                    pass += key.KeyChar;
+                    if (key.Key != ConsoleKey.Enter)
+                        Console.Write("*");
+                }
+                else if (key.Key == ConsoleKey.Backspace && pass.Length > 0)
+                {
+                    // Xóa ký tự cuối cùng trong chuỗi pass khi người dùng nhấn phím Backspace
+                    pass = pass.Substring(0, pass.Length - 1);
+                    Console.Write("\b \b");
+                }
+            }
+            while (key.Key != ConsoleKey.Enter);
+            pass = pass.Substring(0, pass.Length - 1);
+            OrderStaff = StaffBL.Authenticate(userName, pass);
+            if (OrderStaff != null)
+                return OrderStaff.Role;
+            else return null;
+        }
         public void PressEnterTo(string? action)
         {
             if (action != null)
@@ -688,72 +682,64 @@ namespace Ults
         //             }
         //         }
         //     }
-        //     public int SellerMenu()
-        //     {
-        //         int result = 0;
-        //         bool active = true;
-        //         string[] menuItem = { "👉 Create Order", "👉 Handle Order", "👉 Log Out" };
-        //         while (active)
-        //         {
-        //             switch (MenuHandle(
-        //                 null
-        // , @"                                ███████ ███████ ██      ██      ███████ ██████  
-        //                                 ██      ██      ██      ██      ██      ██   ██ 
-        //                                 ███████ █████   ██      ██      █████   ██████  
-        //                                      ██ ██      ██      ██      ██      ██   ██ 
-        //                                 ███████ ███████ ███████ ███████ ███████ ██   ██ ", menuItem))
-        //             {
-        //                 case 1:
-        //                     int createOrderStatus = CreateOrderMenuHandle();
-        //                     if (createOrderStatus == 1) ConsoleUlts.Alert(E.Feature.Alert.Success, "Create Order Completed");
-        //                     else if (createOrderStatus == -1) ConsoleUlts.Alert(E.Feature.Alert.Error, "Don't Have Any Phone To Create Order");
-        //                     else if (createOrderStatus == 0) ConsoleUlts.Alert(E.Feature.Alert.Warning, "Create Order Fail");
-        //                     else break;
-        //                     break;
-        //                 case 2:
-        //                     HandleOrderMenuHandle();
-        //                     break;
-        //                 case 3:
-        //                     active = false;
-        //                     result = 1;
-        //                     break;
-        //                 default:
-        //                     break;
-        //             }
-        //         }
-        //         return result;
-        //     }
-        //     public int AccountantMenu()
-        //     {
-        //         int result = 0;
-        //         bool active = true;
-        //         Ultilities ultilities = new Ultilities();
-        //         string[] menuItem = { "👉 Payment", "👉 Revenue Report", "👉 Log Out" };
-        //         while (active)
-        //         {
-        //             switch (ultilities.MenuHandle(null,
-        //             @"              █████   ██████  ██████  ██████  ██    ██ ███    ██ ████████  █████  ███    ██ ████████ 
-        //              ██   ██ ██      ██      ██    ██ ██    ██ ████   ██    ██    ██   ██ ████   ██    ██    
-        //              ███████ ██      ██      ██    ██ ██    ██ ██ ██  ██    ██    ███████ ██ ██  ██    ██    
-        //              ██   ██ ██      ██      ██    ██ ██    ██ ██  ██ ██    ██    ██   ██ ██  ██ ██    ██    
-        //              ██   ██  ██████  ██████  ██████   ██████  ██   ████    ██    ██   ██ ██   ████    ██ ", menuItem))
-        //             {
-        //                 case 1:
-        //                     PaymentMenuHandle();
-        //                     break;
-        //                 case 2:
-        //                     RevenueMenuHandle();
-        //                     break;
-        //                 case 3:
-        //                     active = false;
-        //                     result = 1;
-        //                     break;
-        //                 default:
-        //                     break;
-        //             }
-        //         }
-        //         return result;
-        //     }
         // }
+        public int SellerMenu()
+        {
+            int result = 0;
+            bool active = true;
+            string[] menuItem = { "👉 Create Order", "👉 Handle Order", "👉 Log Out" };
+            while (active)
+            {
+                switch (MenuHandle(
+                    null
+    , @"                                ███████ ███████ ██      ██      ███████ ██████  
+                                        ██      ██      ██      ██      ██      ██   ██ 
+                                        ███████ █████   ██      ██      █████   ██████  
+                                             ██ ██      ██      ██      ██      ██   ██ 
+                                        ███████ ███████ ███████ ███████ ███████ ██   ██ ", menuItem))
+                {
+                    case 1:
+
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        active = false; result = 1;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            return result;
+        }
+        public int AccountantMenu()
+        {
+            int result = 0;
+            bool active = true;
+            Ultilities ultilities = new Ultilities();
+            string[] menuItem = { "👉 Payment", "👉 Revenue Report", "👉 Log Out" };
+            while (active)
+            {
+                switch (ultilities.MenuHandle(null,
+                @"              █████   ██████  ██████  ██████  ██    ██ ███    ██ ████████  █████  ███    ██ ████████ 
+                     ██   ██ ██      ██      ██    ██ ██    ██ ████   ██    ██    ██   ██ ████   ██    ██    
+                     ███████ ██      ██      ██    ██ ██    ██ ██ ██  ██    ██    ███████ ██ ██  ██    ██    
+                     ██   ██ ██      ██      ██    ██ ██    ██ ██  ██ ██    ██    ██   ██ ██  ██ ██    ██    
+                     ██   ██  ██████  ██████  ██████   ██████  ██   ████    ██    ██   ██ ██   ████    ██ ", menuItem))
+                {
+                    case 1:
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        active = false;
+                        result = 1;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            return result;
+        }
     }
 }

@@ -1,7 +1,7 @@
 
 namespace GUIEnum
 {
-    public class Console
+    public class ConsoleEnum
     {
         public enum Color
         {

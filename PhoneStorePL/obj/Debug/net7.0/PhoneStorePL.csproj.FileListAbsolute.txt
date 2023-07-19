@@ -16,3 +16,4 @@ C:\Users\anngu\Desktop\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\refint\Ph
 C:\Users\anngu\Desktop\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.pdb
 C:\Users\anngu\Desktop\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.genruntimeconfig.cache
 C:\Users\anngu\Desktop\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\ref\PhoneStorePL.dll
+C:\Users\anngu\Desktop\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\MySqlConnector.dll
