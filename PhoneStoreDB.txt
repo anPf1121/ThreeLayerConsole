@@ -1,0 +1,230 @@
+create database phonestore;
+use phonestore;
+
+create table brands(
+brand_id int auto_increment primary key,
+brand_name varchar(50) unique,
+website varchar(100) unique
+)engine = InnoDB;
+
+-- Thêm dữ liệu cho bảng Brands
+INSERT INTO brands (brand_name, website)
+VALUE ('Apple', 'https://www.apple.com/vn/');
+INSERT INTO brands (brand_name, website)
+VALUE ('Samsung', 'https://www.samsung.com/vn/');
+INSERT INTO brands (brand_name, website)
+VALUE ('Xiaomi', 'https://www.mi.com/vn');
+INSERT INTO brands (brand_name, website)
+VALUE ('Nokia', 'https://www.nokia.com/phones/vi_vn');
+INSERT INTO brands (brand_name, website)
+VALUE ('Oppo', 'https://www.oppo.com/vn/');
+INSERT INTO brands (brand_name, website)
+VALUE ('Realme', 'https://www.realme.com/vn/');
+INSERT INTO brands (brand_name, website)
+VALUE ('Lenovo', 'https://www.lenovo.com/vn/vn/');
+
+create table colors(
+color_id int auto_increment primary key,
+color_name varchar(50) unique not null
+)engine = InnoDB;
+
+-- thêm dữ liệu cho bảng colors
+INSERT INTO colors(color_name)
+VALUE ('Pink');
+INSERT INTO colors(color_name)
+VALUE ('Red');
+INSERT INTO colors(color_name)
+VALUE ('Yellow');
+INSERT INTO colors(color_name)
+VALUE ('Purple');
+INSERT INTO colors(color_name)
+VALUE ('Black');
+INSERT INTO colors(color_name)
+VALUE ('White');
+
+create table romsizes(
+rom_size_id int auto_increment primary key,
+rom_size varchar(50) unique not null
+)engine = InnoDB;
+-- thêm dữ liệu bảng romsizes
+INSERT INTO romsizes (rom_size)
+VALUE ('16GB');
+INSERT INTO romsizes (rom_size)
+VALUE ('32GB');
+INSERT INTO romsizes (rom_size)
+VALUE ('64GB');
+INSERT INTO romsizes (rom_size)
+VALUE ('128GB');
+INSERT INTO romsizes (rom_size)
+VALUE ('256GB');
+INSERT INTO romsizes (rom_size)
+VALUE ('512GB');
+INSERT INTO romsizes (rom_size)
+VALUE ('1TB');
+
+create table staffs(
+staff_id int auto_increment primary key,
+name varchar(50) not null,
+phone_number varchar(10) not null,
+address varchar(50),
+user_name varchar(20) unique not null,
+password varchar(100) not null,
+role int not null,
+status int default '0'
+)engine = InnoDB;
+-- thêm dữ liệu staffs
+INSERT INTO staffs(name, phone_number, address, user_name, password, role, status)
+VALUE ('Nguyen Thien An', '0766668602','Hanoi','manager','e99a18c428cb38d5f260853678922e03',2, 1);
+INSERT INTO staffs(name, phone_number, address, user_name, password, role, status)
+VALUE ('Bui Tien Dat', '0789456123','Hanoi','accountant','e99a18c428cb38d5f260853678922e03',1, 1);
+INSERT INTO staffs(name, phone_number, address, user_name, password, role, status)
+VALUE ('Tran Tien Anh', '0902126092','Hanoi','seller01','e99a18c428cb38d5f260853678922e03',0, 1);
+
+create table customers(
+cus_id int auto_increment primary key,
+name varchar(50) not null,
+phone_number varchar(10) not null,
+address varchar(50)
+)engine = InnoDB;
+insert into customers(name, phone_number, address) value('Yua Mikami', '0254136578', 'Quat Lam');
+insert into customers(name, phone_number, address) value('Erichio Masharo', '0254136548', 'Quat Lam');
+create table phones(
+phone_id int auto_increment primary key,
+phone_name varchar(50) unique,
+brand_id int not null,
+camera varchar(500) default 'not have',
+ram varchar(100) default 'not have',
+weight varchar(100) not null,
+processor varchar(500) default 'not have',
+battery_capacity varchar(100) not null,
+sim_slot varchar(100) not null,
+os varchar(500) default 'not have',
+screen varchar(200) not null,
+charge_port varchar(200) default 'not have',
+release_date datetime not null,
+connection varchar(300) default 'not have',
+description varchar(1000) default 'not have',
+create_at datetime default current_timestamp(),
+create_by int not null,
+foreign key(brand_id) references brands(brand_id),
+foreign key(create_by) references staffs(staff_id)
+)engine = InnoDB;
+insert into phones(phone_name, brand_id, weight, battery_capacity, sim_slot,screen, release_date, create_by) value('Nokia 1280', '2', '250g', '1080mAh', '1','500x200', '1998-12-12', '1');
+
+create table phonedetails(
+phone_detail_id int auto_increment primary key,
+phone_id int not null,
+color_id int not null,
+rom_size_id int,
+quantity int not null default '0',
+phone_status_type int,
+price decimal not null,
+update_at datetime default current_timestamp(),
+update_by int default '1',
+foreign key(update_by) references staffs(staff_id),
+foreign key(phone_id) references phones(phone_id),
+foreign key(color_id) references colors(color_id),
+foreign key(rom_size_id) references romsizes(rom_size_id),
+unique key pd_unique1(phone_id, color_id, rom_size_id)
+)engine = InnoDB;
+insert into phonedetails(phone_id, color_id,rom_size_id,  phone_status_type, price) value('1', '1','1', '1', '500000');
+insert into phonedetails(phone_id, color_id,rom_size_id,  phone_status_type, price) value('1', '2','1', '1', '500000');
+
+create table imeis(
+phone_imei varchar(15) primary key,
+phone_detail_id int not null,
+status varchar(20) default 'Not Export'
+)engine = InnoDB;
+delimiter $$
+create trigger after_insert_on_imeis after insert on imeis
+for each row
+begin
+update phonedetails set quantity = quantity+1 where phone_detail_id = new.phone_detail_id;
+end$$
+delimiter ;
+insert into imeis(phone_imei, phone_detail_id) value('378541254259874', '1');
+insert into imeis(phone_imei, phone_detail_id) value('378541254259875', '1');
+insert into imeis(phone_imei, phone_detail_id) value('378541254259876', '1');
+insert into imeis(phone_imei, phone_detail_id) value('378541254259877', '1');
+
+create table orders(
+order_id int auto_increment primary key,
+seller_id int not null,
+accountant_id int default '0',
+cus_id int not null,
+order_status int default '1',
+create_at datetime default current_timestamp(),
+update_at datetime,
+foreign key(seller_id) references staffs(staff_id),
+foreign key(accountant_id) references staffs(staff_id),
+foreign key(cus_id) references customers(cus_id)
+)engine = InnoDB;
+
+create table orderdetails(
+order_id int not null,
+phone_imei varchar(15) not null,
+foreign key (order_id) references orders(order_id),
+foreign key (phone_imei) references imeis(phone_imei)
+)engine = InnoDB;
+
+delimiter $$
+create trigger after_insert_on_orderdetails after insert on orderdetails
+for each row
+begin
+update imeis set status = 'Export' where phone_imei = new.phone_imei;
+end$$
+delimiter ;
+
+delimiter $$
+create trigger after_update_on_imeis after update on imeis
+for each row
+begin
+update phonedetails set quantity = quantity - 1 where phone_detail_id = new.phone_detail_id;
+end$$
+delimiter ;
+
+delimiter $$
+create trigger after_update_on_phonedetails after update on phonedetails
+for each row
+begin
+if(new.quantity<0) then signal sqlstate '02315' set message_text = 'Quantity cant be negative';
+end if;
+end$$
+delimiter ;
+
+
+create table discountpolicies(
+-- thong tin co ban cua discount
+policy_id int auto_increment primary key,
+title varchar(100) not null,
+from_date datetime not null,
+to_date datetime not null,
+-- thong tin cu the ve discount
+-- discount theo payment/ theo order
+payment_method varchar(20),
+maximum_purchase_amount decimal,
+minimun_purchase_amount decimal,
+discount_price decimal,
+discount_rate decimal,
+-- discount theo chinh sach thu cu
+phone_detail_id int,
+money_supported decimal,
+-- cac thong tin con lai
+create_by int not null,
+create_at datetime default current_timestamp(),
+update_by int default '1',
+update_at datetime default current_timestamp(),
+description varchar(200),
+foreign key (phone_detail_id) references phonedetails(phone_detail_id),
+foreign key (create_by) references staffs(staff_id),
+foreign key (update_by) references staffs(staff_id)
+)engine = InnoDB;
+insert into discountpolicies(title, from_date, to_date, phone_detail_id, discount_price, create_by) value('Giam gia cho dien thoai Nokia 1280 model 1', '2023-07-07', '2024-07-07', '1', '100000', '2');
+insert into discountpolicies(title, from_date, to_date, phone_detail_id, discount_price, create_by) value('Giam gia cho dien thoai Nokia 1280 model 2', '2023-07-07', '2024-07-07', '2', '100000', '2');
+create table discountpolicydetails(
+policy_detail_id int auto_increment primary key,
+policy_id int not null,
+order_id int not null,
+foreign key (policy_id) references discountpolicies(policy_id),
+foreign key (order_id) references orders(order_id)
+)engine = InnoDB;

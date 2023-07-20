@@ -9,5 +9,10 @@ namespace BusinessEnum
             Accountant,
             Manager
         }
+        public enum Status
+        {
+            Active, 
+            InActive
+        }
     }
 }

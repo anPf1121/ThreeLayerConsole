@@ -9,6 +9,6 @@ public class Staff
     public string UserName { get; set; } = string.Empty;
     public string Password { get; set; } = string.Empty;
     public string Address { get; set; } = string.Empty;
-    public string Status { get; set; } = string.Empty;
+    public StaffEnum.Status Status { get; set; }
     public StaffEnum.Role Role { get; set; }
 }

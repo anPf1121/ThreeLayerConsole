@@ -25,6 +25,7 @@ namespace DAL
                 {
                     conString += "IgnoreCommandTransaction=true;";
                 }
+                Console.ReadLine();
                 return GetConnection(conString);
             }
             catch

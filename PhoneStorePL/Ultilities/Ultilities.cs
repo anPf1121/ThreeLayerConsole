@@ -691,7 +691,7 @@ namespace Ults
         {
             int result = 0;
             bool active = true;
-            string[] menuItem = { "👉 Create Order", "👉 Handle Order", "👉 Log Out" };
+            string[] menuItem = { "Create Order", "Handle Order", "Log Out" };
             while (active)
             {
                 switch (MenuHandle(
@@ -721,7 +721,7 @@ namespace Ults
             int result = 0;
             bool active = true;
             Ultilities ultilities = new Ultilities();
-            string[] menuItem = { "👉 Payment", "👉 Revenue Report", "👉 Log Out" };
+            string[] menuItem = { "Payment", "Revenue Report", "Log Out" };
             while (active)
             {
                 switch (ultilities.MenuHandle(null,

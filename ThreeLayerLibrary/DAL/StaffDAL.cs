@@ -27,10 +27,13 @@ namespace DAL
                 if (reader.Read())
                 {
                     staff = GetStaff(reader);
+                    Console.WriteLine(staff.Password);
                 }
                 reader.Close();
             }
-            catch { }
+            catch (MySqlException ex) {
+                Console.WriteLine(ex.Message);
+            }
             if (connection.State == System.Data.ConnectionState.Open)
             {
                 connection.Close();
@@ -41,11 +44,13 @@ namespace DAL
         {
             Staff staff = new Staff();
             staff.StaffID = reader.GetInt32("Staff_ID");
-            staff.StaffName = reader.GetString("Staff_Name");
+            staff.StaffName = reader.GetString("Name");
+            staff.PhoneNumber = reader.GetString("Phone_Number");
             staff.Address = reader.GetString("Address");
             staff.UserName = reader.GetString("User_Name");
             staff.Password = reader.GetString("Password");
-            staff.Role = (StaffEnum.Role)Enum.Parse(typeof(StaffEnum.Role), reader.GetString("Role"));
+            staff.Role = (StaffEnum.Role)Enum.ToObject(typeof(StaffEnum.Role), reader.GetInt32("Role"));
+            staff.Status = (StaffEnum.Status)Enum.ToObject(typeof(StaffEnum.Status), reader.GetInt32("Status"));
             return staff;
         }
         public string CreateMD5(string input)
