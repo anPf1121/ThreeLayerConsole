@@ -4,6 +4,7 @@ using System.Collections.Generic;
 namespace DAL;
 public class CustomerDAL
 {
+    
     private MySqlConnection connection = DbConfig.GetConnection();
     private string query = "";
 
