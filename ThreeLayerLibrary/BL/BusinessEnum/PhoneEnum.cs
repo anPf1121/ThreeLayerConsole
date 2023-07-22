@@ -13,15 +13,6 @@ namespace BusinessEnum
             Type4,
             Type5
         }
-        public enum Color
-        {
-            Pink,
-            Red,
-            Yellow,
-            Purple,
-            Black,
-            White
-        }
         public enum ImeiStatus
         {
             NotExport,

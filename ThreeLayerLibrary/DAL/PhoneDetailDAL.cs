@@ -42,7 +42,6 @@ namespace DAL
         }
         public PhoneDetail GetPhoneDetail(MySqlDataReader reader)
         {
-            int phoneID = reader.GetInt32("phone_id");
             PhoneDAL phoneDAL = new PhoneDAL();
             StaffDAL staffDAL = new StaffDAL();
             PhoneDetail phoneDetail = new PhoneDetail(
@@ -91,34 +90,35 @@ namespace DAL
             {
                 connection.Close();
             }
-            foreach (PhoneDetail item in phoneDetails)
-            {
-                try
-                {
-                    if (connection.State == System.Data.ConnectionState.Closed)
-                    {
-                        connection.Open();
-                    }
-                    query = @"SELECT phone_imei, status FROM imeis WHERE phone_detail_id=@phoneDetailID";
-                    MySqlCommand command = new MySqlCommand(query, connection);
-                    command.Parameters.Clear();
-                    command.Parameters.AddWithValue("@phoneDetailID", item.PhoneDetailID);
-                    MySqlDataReader reader = command.ExecuteReader();
-                    while (reader.Read())
-                    {
-                        item.ListImei.Add(GetImei(reader));
-                    }
-                    reader.Close();
-                }
-                catch (MySqlException ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
-            }
-            if (connection.State == System.Data.ConnectionState.Open)
-            {
-                connection.Close();
-            }
+
+            // foreach (PhoneDetail item in phoneDetails)
+            // {
+            //     try
+            //     {
+            //         if (connection.State == System.Data.ConnectionState.Closed)
+            //         {
+            //             connection.Open();
+            //         }
+            //         query = @"SELECT phone_imei, status FROM imeis WHERE phone_detail_id=@phoneDetailID";
+            //         MySqlCommand command = new MySqlCommand(query, connection);
+            //         command.Parameters.Clear();
+            //         command.Parameters.AddWithValue("@phoneDetailID", item.PhoneDetailID);
+            //         MySqlDataReader reader = command.ExecuteReader();
+            //         while (reader.Read())
+            //         {
+            //             item.ListImei.Add(GetImei(reader));
+            //         }
+            //         reader.Close();
+            //     }
+            //     catch (MySqlException ex)
+            //     {
+            //         Console.WriteLine(ex.Message);
+            //     }
+            // }
+            // if (connection.State == System.Data.ConnectionState.Open)
+            // {
+            //     connection.Close();
+            // }
 
             return phoneDetails;
         }

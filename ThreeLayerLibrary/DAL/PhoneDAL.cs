@@ -15,14 +15,12 @@ namespace DAL
         public MySqlConnection connection = DbConfig.GetConnection();
         public Phone GetPhone(MySqlDataReader reader)
         {
+            StaffDAL staffDAL = new StaffDAL();
+            PhoneDetailsDAL phoneDetailsDAL = new PhoneDetailsDAL();
             Phone phone = new Phone(
                 reader.GetInt32("phone_id"),
                 reader.GetString("phone_name"),
-                new Brand(
-                reader.GetInt32("brand_id"),
-                reader.GetString("brand_name"),
-                reader.GetString("website")
-                ),
+                phoneDetailsDAL.GetBrand(reader),
                 reader.GetString("camera"),
                 reader.GetString("ram"),
                 reader.GetString("weight"),
@@ -35,24 +33,15 @@ namespace DAL
                 new List<PhoneDetail>(),
                 reader.GetDateTime("release_date"),
                 reader.GetString("charge_port"),
-                new Staff(
-                reader.GetInt32("Staff_ID"),
-                reader.GetString("Name"),
-                reader.GetString("Phone_Number"),
-                reader.GetString("Address"),
-                reader.GetString("User_Name"),
-                reader.GetString("Password"),
-                (StaffEnum.Status)Enum.ToObject(typeof(StaffEnum.Status), reader.GetInt32("Status")),
-                (StaffEnum.Role)Enum.ToObject(typeof(StaffEnum.Role), reader.GetInt32("Role"))
-                ),
+                staffDAL.GetStaff(reader),
                 reader.GetDateTime("create_at"),
                 reader.GetString("description")
             );
             return phone;
         }
-        public Phone GetPhoneById(int phoneID)
+        public Phone? GetPhoneById(int phoneID)
         {
-            Phone phone = null;
+            Phone? phone = null;
             try
             {
                 if (connection.State == System.Data.ConnectionState.Closed)
@@ -61,6 +50,7 @@ namespace DAL
                 }
                 query = @"select * from phones P
                         INNER JOIN brands B ON P.brand_id = B.brand_id
+                        INNER JOIN staffs S ON P.create_by = S.staff_id
                         INNER JOIN phonedetails PD ON P.phone_id = PD.phone_id;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.Clear();
@@ -77,9 +67,16 @@ namespace DAL
             {
                 connection.Close();
             }
+
+            if (phone != null)
+            {
+                PhoneDetailsDAL phoneDetailsDAL = new PhoneDetailsDAL();
+                phone.PhoneDetails = phoneDetailsDAL.GetPhoneDetailsByPhoneID(phone.PhoneID);
+            }
+
             return phone;
         }
-        public List<Phone> GetPhones(int phoneFilter, string? input)
+        public List<Phone>? GetPhones(int phoneFilter, string? input)
         {
             List<Phone> lst = new List<Phone>();
             try
@@ -153,6 +150,7 @@ namespace DAL
             {
                 connection.Close();
             }
+            if (lst.Count() == 0) return null;
             return lst;
         }
     }

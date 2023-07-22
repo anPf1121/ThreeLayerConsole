@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "+IBrxNFYp7NOScEV6NGW25YxUHdXBpsD1gqMcfzqvhs3PYFJwwr8JqG5D5209Kjey7D7ilLSTbEBIcIFHiugNA==",
+  "dgSpecHash": "xV1K22g8oCf/5QNQ/nbLyFoEhg6CCfrnU4zr36mNQjZo941La1E5h/3MCRiEkAkUuDId8i4LXozUODGyMioyOg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\anngu\\Desktop\\ThreeLayerConsole\\ThreeLayerLibrary\\ThreeLayerLibrary.csproj",
+  "projectFilePath": "C:\\Users\\anngu\\Desktop\\ThreeLayerLibrary\\ThreeLayerConsole\\ThreeLayerLibrary\\ThreeLayerLibrary.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\anngu\\.nuget\\packages\\mysqlconnector\\2.2.6\\mysqlconnector.2.2.6.nupkg.sha512"
   ],

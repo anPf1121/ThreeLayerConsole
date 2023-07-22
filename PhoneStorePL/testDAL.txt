@@ -1,0 +1,14 @@
+// test GetOrdersInDay(1)
+
+using DAL;
+using Model;
+
+OrderDAL orderDAL = new OrderDAL();
+
+    foreach (Order i in orderDAL.GetOrdersInDay(1))
+    {
+        foreach (PhoneDetail item in i.PhoneDetails)
+        {
+            Console.WriteLine(item.PhoneColor.Color); 
+        }
+    }

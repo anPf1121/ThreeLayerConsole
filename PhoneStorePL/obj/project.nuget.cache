@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "eRKfP/HM9GxZyirXePi3V3oBTWvTdalEKqSkQBnCyJ6q0gYu6Eh1HfcvWBfsE73JUF5KcRydanl5P5G9czhL2Q==",
+  "dgSpecHash": "PQ89WbmISCQFpMjsTdW+x61N/j1CS8fkVibOo4xdKP4Pgw1NtoGDMZkcui9jiEfr693T7CXNyHKOwGS6YAdurg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\anngu\\Desktop\\ThreeLayerConsole\\PhoneStorePL\\PhoneStorePL.csproj",
+  "projectFilePath": "C:\\Users\\anngu\\Desktop\\ThreeLayerLibrary\\ThreeLayerConsole\\PhoneStorePL\\PhoneStorePL.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\anngu\\.nuget\\packages\\mysqlconnector\\2.2.6\\mysqlconnector.2.2.6.nupkg.sha512"
   ],
