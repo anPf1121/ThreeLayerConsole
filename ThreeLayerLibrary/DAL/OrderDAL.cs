@@ -18,41 +18,41 @@ namespace DAL
 
         private MySqlConnection connection = DbConfig.GetConnection();
         private string query = "";
-        public Order GetOrder(MySqlDataReader reader)
-        {
-            Order order = new Order();
-            return order;
-        }
-        public Customer GetOrderCustomer(int id)
-        {
-            Customer customer = new Customer();
-            return customer;
-        }
+        // public Order GetOrder(MySqlDataReader reader)
+        // {
+        //     Order order = new Order();
+        //     return order;
+        // }
+        // public Customer GetOrderCustomer(int id)
+        // {
+        //     Customer customer = new Customer();
+        //     return customer;
+        // }
 
         // + lay id cua staff cho order tu phuong thuc GetOrderByID(int id)
-        public Order GetOrderByID(int id)
-        {
-            Order order = new Order();
-            return order;
-        }
-        public List<Phone> GetItemsInOrderByID(int id)
-        {
-            List<Phone> lstPhone = new List<Phone>();
-            return lstPhone;
-        }
-        public List<Order> GetOrdersInDay(int orderFilter)
-        {
-            List<Order> lstOrder = new List<Order>();
-            return lstOrder;
-        }
-        public bool InsertOrder(Order order)
-        {
-            bool result = false;
-            return result;
-        }
-        public bool UpdateOrder(int statusFilter, Order order)
-        {
-            return true;
-        }
+    //     public Order GetOrderByID(int id)
+    //     {
+    //         Order order = new Order();
+    //         return order;
+    //     }
+    //     public List<Phone> GetItemsInOrderByID(int id)
+    //     {
+    //         List<Phone> lstPhone = new List<Phone>();
+    //         return lstPhone;
+    //     }
+    //     public List<Order> GetOrdersInDay(int orderFilter)
+    //     {
+    //         List<Order> lstOrder = new List<Order>();
+    //         return lstOrder;
+    //     }
+    //     public bool InsertOrder(Order order)
+    //     {
+    //         bool result = false;
+    //         return result;
+    //     }
+    //     public bool UpdateOrder(int statusFilter, Order order)
+    //     {
+    //         return true;
+    //     }
     }
 }

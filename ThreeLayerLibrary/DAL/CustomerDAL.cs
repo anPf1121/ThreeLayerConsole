@@ -9,11 +9,12 @@ public class CustomerDAL
 
     public Customer GetCustomer(MySqlDataReader reader)
     {
-        Customer customer = new Customer();
-        customer.CustomerID = reader.GetInt32("cus_id");
-        customer.CustomerName = reader.GetString("name");
-        customer.PhoneNumber = reader.GetString("phone_number");
-        customer.Address = reader.GetString("address");
+        Customer customer = new Customer(
+            reader.GetInt32("cus_id"),
+            reader.GetString("name"),
+            reader.GetString("phone_number"),
+            reader.GetString("address")
+        );
         return customer;
     }
     public List<Customer> GetCustomersByName(string name)
@@ -23,7 +24,6 @@ public class CustomerDAL
             if (connection.State == System.Data.ConnectionState.Closed)
             {
                 connection.Open();
-                
             }
             query = @"select * from customers where name like @name;";
             MySqlCommand command = new MySqlCommand(query, connection);
@@ -33,6 +33,7 @@ public class CustomerDAL
             while(reader.Read()){
                 lstCustomer.Add(GetCustomer(reader));
             }
+            reader.Close();
         }
         catch(MySqlException ex){
             Console.WriteLine(ex.Message);
@@ -40,13 +41,12 @@ public class CustomerDAL
         if (connection.State == System.Data.ConnectionState.Open)
             {
                 connection.Close();
-                
             }
         return lstCustomer;
     }
     public Customer GetCustomerByPhone(string phonenumber)
     {
-        Customer customer = new Customer();
+        Customer customer = null;
         try{
             if (connection.State == System.Data.ConnectionState.Closed)
             {
@@ -61,6 +61,7 @@ public class CustomerDAL
             if(reader.Read()){
                 customer = GetCustomer(reader);
             }
+            reader.Close();
         }
         catch(MySqlException ex){
             Console.WriteLine(ex.Message);

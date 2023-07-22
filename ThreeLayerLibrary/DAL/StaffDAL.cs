@@ -31,7 +31,8 @@ namespace DAL
                 }
                 reader.Close();
             }
-            catch (MySqlException ex) {
+            catch (MySqlException ex)
+            {
                 Console.WriteLine(ex.Message);
             }
             if (connection.State == System.Data.ConnectionState.Open)
@@ -42,15 +43,16 @@ namespace DAL
         }
         public Staff GetStaff(MySqlDataReader reader)
         {
-            Staff staff = new Staff();
-            staff.StaffID = reader.GetInt32("Staff_ID");
-            staff.StaffName = reader.GetString("Name");
-            staff.PhoneNumber = reader.GetString("Phone_Number");
-            staff.Address = reader.GetString("Address");
-            staff.UserName = reader.GetString("User_Name");
-            staff.Password = reader.GetString("Password");
-            staff.Role = (StaffEnum.Role)Enum.ToObject(typeof(StaffEnum.Role), reader.GetInt32("Role"));
-            staff.Status = (StaffEnum.Status)Enum.ToObject(typeof(StaffEnum.Status), reader.GetInt32("Status"));
+            Staff staff = new Staff(
+                reader.GetInt32("Staff_ID"),
+                reader.GetString("Name"),
+                reader.GetString("Phone_Number"),
+                reader.GetString("Address"),
+                reader.GetString("User_Name"),
+                reader.GetString("Password"),
+                (StaffEnum.Status)Enum.ToObject(typeof(StaffEnum.Status), reader.GetInt32("Status")),
+                (StaffEnum.Role)Enum.ToObject(typeof(StaffEnum.Role), reader.GetInt32("Role"))
+            );
             return staff;
         }
         public string CreateMD5(string input)

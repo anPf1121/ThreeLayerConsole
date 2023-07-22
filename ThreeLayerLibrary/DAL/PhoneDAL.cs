@@ -3,66 +3,95 @@ using Model;
 using BusinessEnum;
 namespace DAL
 {
-    public static class ItemFilter
+    public static class PhoneFilter
     {
         public const int GET_ALL = 0;
-        public const int FILTER_BY_ITEM_INFORMATION = 1;
-        public const int FILTER_BY_ITEM_HAVE_DISCOUNT = 2;
+        public const int FILTER_BY_PHONE_INFORMATION = 1;
+        public const int FILTER_BY_PHONE_HAVE_DISCOUNT = 2;
     }
     public class PhoneDAL
     {
         private string query = "";
         public MySqlConnection connection = DbConfig.GetConnection();
-        public Phone GetItemById(int itemId)
+        public Phone GetPhone(MySqlDataReader reader)
         {
-            connection.Open();
-            Phone phone = new Phone();
-           
+            Phone phone = new Phone(
+                reader.GetInt32("phone_id"),
+                reader.GetString("phone_name"),
+                new Brand(
+                reader.GetInt32("brand_id"),
+                reader.GetString("brand_name"),
+                reader.GetString("website")
+                ),
+                reader.GetString("camera"),
+                reader.GetString("ram"),
+                reader.GetString("weight"),
+                reader.GetString("processor"),
+                reader.GetString("battery_capacity"),
+                reader.GetString("sim_slot"),
+                reader.GetString("os"),
+                reader.GetString("screen"),
+                reader.GetString("connection"),
+                new List<PhoneDetail>(),
+                reader.GetDateTime("release_date"),
+                reader.GetString("charge_port"),
+                new Staff(
+                reader.GetInt32("Staff_ID"),
+                reader.GetString("Name"),
+                reader.GetString("Phone_Number"),
+                reader.GetString("Address"),
+                reader.GetString("User_Name"),
+                reader.GetString("Password"),
+                (StaffEnum.Status)Enum.ToObject(typeof(StaffEnum.Status), reader.GetInt32("Status")),
+                (StaffEnum.Role)Enum.ToObject(typeof(StaffEnum.Role), reader.GetInt32("Role"))
+                ),
+                reader.GetDateTime("create_at"),
+                reader.GetString("description")
+            );
             return phone;
         }
-        public Phone GetItem(MySqlDataReader reader)
+        public Phone GetPhoneById(int phoneID)
         {
-            Phone phone = new Phone();
-            phone.PhoneID = reader.GetInt32("phone_id");
-            phone.PhoneName = reader.GetString("phone_name");
-            phone.Brand.BrandName = reader.GetString("brand_name");
-            phone.Camera = reader.GetString("camera");
-            phone.RAM = reader.GetString("ram");
-            phone.Weight = reader.GetString("weight");
-            phone.Processor = reader.GetString("processor");
-            phone.BatteryCapacity = reader.GetString("battery_capacity");
-            phone.SimSlot = reader.GetString("sim_slot");
-            phone.OS = reader.GetString("os");
-            phone.Screen = reader.GetString("screen");
-            phone.ChargePort = reader.GetString("charge_port");
-            phone.ReleaseDate = reader.GetDateTime("release_date");
-            phone.Connection = reader.GetString("connection");
-            phone.Description = reader.GetString("description");
-            phone.CreateAt = reader.GetDateTime("create_at");
-            phone.CreateBy.StaffID = reader.GetInt32("create_by");
-            phone.ROM.ROM = reader.GetString("rom_size");
-            phone.Color.Color = reader.GetString("color_name");
-            phone.Price = reader.GetDecimal("price");
-            phone.Quantity = reader.GetInt32("quantity");
-            phone.PhoneStatusType = (PhoneEnum.Status)Enum.ToObject(typeof(PhoneEnum.Status), reader.GetInt32("phone_status_type"));
-            phone.UpdateAt = reader.GetDateTime("update_at");
-            phone.UpdateBy.StaffID = reader.GetInt32("update_by");
+            Phone phone = null;
+            try
+            {
+                if (connection.State == System.Data.ConnectionState.Closed)
+                {
+                    connection.Open();
+                }
+                query = @"select * from phones P
+                        INNER JOIN brands B ON P.brand_id = B.brand_id
+                        INNER JOIN phonedetails PD ON P.phone_id = PD.phone_id;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.Clear();
+                command.Parameters.AddWithValue("@phoneID", phoneID);
+                MySqlDataReader reader = command.ExecuteReader();
+                if (reader.Read()) phone = GetPhone(reader);
+                reader.Close();
+            }
+            catch (MySqlException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            if (connection.State == System.Data.ConnectionState.Open)
+            {
+                connection.Close();
+            }
             return phone;
         }
-        public List<Phone> GetItems(int itemFilter, string? input)
+        public List<Phone> GetPhones(int phoneFilter, string? input)
         {
             List<Phone> lst = new List<Phone>();
             try
             {
                 if (connection.State == System.Data.ConnectionState.Closed)
-            {
-                connection.Open();
-                
-            }
-                MySqlCommand command = new MySqlCommand("", connection);
-                switch (itemFilter)
                 {
-                    case ItemFilter.GET_ALL:
+                    connection.Open();
+                }
+                MySqlCommand command = new MySqlCommand("", connection);
+                switch (phoneFilter)
+                {
+                    case PhoneFilter.GET_ALL:
                         query = @"SELECT p.phone_id, p.phone_name, b.brand_name, p.camera, p.ram, p.weight, p.processor, p.battery_capacity,
                         p.sim_slot, p.os, p.screen,  p.charge_port, p.release_date, p.connection, p.description, p.create_at, p.create_by, r.rom_size,
                         c.color_name,  pd.price, pd.quantity, pd.phone_status_type, pd.update_at, pd.update_by
@@ -72,7 +101,7 @@ namespace DAL
                         inner join colors c on c.color_id = pd.color_id
                         inner join romsizes r on r.rom_size_id = pd.rom_size_id;";
                         break;
-                    case ItemFilter.FILTER_BY_ITEM_INFORMATION:
+                    case PhoneFilter.FILTER_BY_PHONE_INFORMATION:
                         query = @"SELECT p.phone_id, p.phone_name, b.brand_name, p.camera, p.ram, p.weight, p.processor, p.battery_capacity,
                         p.sim_slot, p.os, p.screen,  p.charge_port, p.release_date, p.connection, p.description, p.create_at, p.create_by, r.rom_size,
                         c.color_name,  pd.price, pd.quantity, pd.phone_status_type, pd.update_at, pd.update_by
@@ -88,7 +117,7 @@ namespace DAL
                         p.description like @input or r.rom_size like @input or c.color_name like @input or pd.price like @input or
                         pd.phone_status_type like @input;";
                         break;
-                    case ItemFilter.FILTER_BY_ITEM_HAVE_DISCOUNT:
+                    case PhoneFilter.FILTER_BY_PHONE_HAVE_DISCOUNT:
                         query = @"SELECT p.phone_id, p.phone_name, b.brand_name, p.camera, p.ram, p.weight, p.processor, p.battery_capacity,
                         p.sim_slot, p.os, p.screen,  p.charge_port, p.release_date, p.connection, p.description, p.create_at, p.create_by, r.rom_size,
                         c.color_name,  pd.price, pd.quantity, pd.phone_status_type, pd.update_at, pd.update_by
@@ -104,7 +133,7 @@ namespace DAL
                         break;
                 }
                 command.CommandText = query;
-                if (itemFilter == ItemFilter.FILTER_BY_ITEM_INFORMATION)
+                if (phoneFilter == PhoneFilter.FILTER_BY_PHONE_INFORMATION)
                 {
                     command.Parameters.Clear();
                     command.Parameters.AddWithValue("@input", "%" + input + "%");
@@ -112,7 +141,7 @@ namespace DAL
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    lst.Add(GetItem(reader));
+                    lst.Add(GetPhone(reader));
                 }
                 reader.Close();
             }
@@ -123,32 +152,8 @@ namespace DAL
             if (connection.State == System.Data.ConnectionState.Open)
             {
                 connection.Close();
-                
             }
             return lst;
-        }
-        public bool CheckImeiExist(string imei, Phone phone)
-        {
-            bool check = false;
-            try
-            {
-                connection.Open();
-                query = "select * from phonedetails where phone_imei = @phoneimei or phone_id = @phoneid or status = 'Not Export';";
-                MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.Clear();
-                command.Parameters.AddWithValue("@phoneimei", imei);
-                command.Parameters.AddWithValue("@phoneid", phone.PhoneID);
-                MySqlDataReader reader = command.ExecuteReader();
-                if (reader.Read()) check = true;
-                reader.Close();
-            }
-            catch (MySqlException ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-            connection.Close();
-            if (check) return true;
-            else return false;
         }
     }
 }
