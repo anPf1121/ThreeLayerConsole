@@ -16,7 +16,7 @@ public class Phone
     public string OS { get; set; }
     public string Screen { get; set; }
     public string Connection { get; set; }
-    public List<PhoneDetail>? PhoneDetails { get; set; } // tạm thời để null để test
+    public List<PhoneDetail> PhoneDetails { get; set; } 
     public DateTime ReleaseDate { get; set; } 
     public string ChargePort { get; set; }
     public Staff CreateBy { get; set; }
