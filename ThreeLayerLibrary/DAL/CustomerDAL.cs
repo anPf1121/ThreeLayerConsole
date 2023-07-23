@@ -44,9 +44,9 @@ public class CustomerDAL
             }
         return lstCustomer;
     }
-    public Customer GetCustomerByPhone(string phonenumber)
+    public Customer? GetCustomerByPhone(string phonenumber)
     {
-        Customer customer = null;
+        Customer? customer = null;
         try{
             if (connection.State == System.Data.ConnectionState.Closed)
             {

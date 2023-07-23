@@ -104,7 +104,7 @@ charge_port VARCHAR(200) DEFAULT 'not have',
 release_date DATETIME NOT NULL,
 connection VARCHAR(300) DEFAULT 'not have',
 description VARCHAR(1000) DEFAULT 'not have',
-create_at DATETIME DEFAULT current_timestamp(),
+create_at DATETIME DEFAULT CURRENT_TIMESTAMP(),
 create_by INT NOT NULL,
 FOREIGN KEY(brand_id) REFERENCES brands(brand_id),
 FOREIGN KEY(create_by) REFERENCES staffs(staff_id)
@@ -118,14 +118,14 @@ color_id INT NOT NULL,
 rom_size_id INT,
 quantity INT NOT NULL DEFAULT '0',
 phone_status_type INT,
-price decimal NOT NULL,
-update_at DATETIME DEFAULT current_timestamp(),
+price DECIMAL NOT NULL,
+update_at DATETIME DEFAULT CURRENT_TIMESTAMP(),
 update_by INT DEFAULT '1',
 FOREIGN KEY(update_by) REFERENCES staffs(staff_id),
 FOREIGN KEY(phone_id) REFERENCES phones(phone_id),
 FOREIGN KEY(color_id) REFERENCES colors(color_id),
 FOREIGN KEY(rom_size_id) REFERENCES romsizes(rom_size_id),
-UNIQUE key pd_UNIQUE1(phone_id, color_id, rom_size_id)
+UNIQUE key pd_unique1(phone_id, color_id, rom_size_id)
 )engine = InnoDB;
 INSERT INTO phonedetails(phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('1', '1','1', '1', '500000');
 INSERT INTO phonedetails(phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('1', '2','1', '1', '500000');
@@ -136,13 +136,13 @@ phone_detail_id INT NOT NULL,
 status INT DEFAULT '0',
 FOREIGN KEY(phone_detail_id) REFERENCES phonedetails(phone_detail_id)
 )engine = InnoDB;
-delimiter $$
-CREATE TRIGGER after_INSERT_on_imeis AFTER INSERT ON imeis
+DELIMITER $$
+CREATE TRIGGER after_insert_on_imeis AFTER INSERT ON imeis
 FOR EACH ROW
 BEGIN
 UPDATE phonedetails SET quantity = quantity+1 WHERE phone_detail_id = new.phone_detail_id;
-end$$
-delimiter ;
+END$$
+DELIMITER ;
 INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259874', '1');
 INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259875', '1');
 INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259876', '1');
@@ -155,7 +155,7 @@ seller_id INT NOT NULL,
 accountant_id INT DEFAULT '0',
 customer_id INT NOT NULL,
 order_status INT DEFAULT '1',
-create_at DATETIME DEFAULT current_timestamp(),
+create_at DATETIME DEFAULT CURRENT_TIMESTAMP(),
 update_at DATETIME,
 FOREIGN KEY(seller_id) REFERENCES staffs(staff_id),
 FOREIGN KEY(accountant_id) REFERENCES staffs(staff_id),
@@ -169,30 +169,30 @@ FOREIGN KEY (order_id) REFERENCES orders(order_id),
 FOREIGN KEY (phone_imei) REFERENCES imeis(phone_imei)
 )engine = InnoDB;
 
-delimiter $$
+DELIMITER $$
 CREATE TRIGGER after_INSERT_on_orderdetails AFTER INSERT ON orderdetails
 FOR EACH ROW
 BEGIN
 UPDATE imeis SET status = '1' WHERE phone_imei = new.phone_imei;
-end$$
-delimiter ;
+END$$
+DELIMITER ;
 
-delimiter $$
-CREATE TRIGGER after_update_on_imeis after update on imeis
+DELIMITER $$
+CREATE TRIGGER after_update_on_imeis AFTER UPDATE ON imeis
 FOR EACH ROW
 BEGIN
 UPDATE phonedetails SET quantity = quantity - 1 WHERE phone_detail_id = new.phone_detail_id;
-end$$
-delimiter ;
+END$$
+DELIMITER ;
 
-delimiter $$
-CREATE TRIGGER after_update_on_phonedetails after update on phonedetails
+DELIMITER $$
+CREATE TRIGGER after_update_on_phonedetails AFTER UPDATE ON phonedetails
 FOR EACH ROW
 BEGIN
-if(new.quantity<0) then signal sqlstate '02315' SET message_text = 'Quantity cant be negative';
-end if;
-end$$
-delimiter ;
+IF(new.quantity<0) THEN SIGNAL SQLSTATE '02315' SET message_text = 'Quantity cant be negative';
+END IF;
+END$$
+DELIMITER ;
 
 CREATE TABLE discountpolicies(
 -- thong tin co ban cua discount
@@ -203,18 +203,18 @@ to_date DATETIME NOT NULL,
 -- thong tin cu the ve discount
 -- discount theo payment/ theo order
 payment_method VARCHAR(20),
-maximum_purchase_amount decimal,
-minimun_purchase_amount decimal,
-discount_price decimal,
-discount_rate decimal,
+maximum_purchase_amount DECIMAL,
+minimun_purchase_amount DECIMAL,
+discount_price DECIMAL,
+discount_rate DECIMAL,
 -- discount theo chinh sach thu cu
 phone_detail_id INT,
-money_supported decimal,
+money_supported DECIMAL,
 -- cac thong tin con lai
 create_by INT NOT NULL,
-create_at DATETIME DEFAULT current_timestamp(),
+create_at DATETIME DEFAULT CURRENT_TIMESTAMP(),
 update_by INT DEFAULT '1',
-update_at DATETIME DEFAULT current_timestamp(),
+update_at DATETIME DEFAULT CURRENT_TIMESTAMP(),
 description VARCHAR(200),
 FOREIGN KEY (phone_detail_id) REFERENCES phonedetails(phone_detail_id),
 FOREIGN KEY (create_by) REFERENCES staffs(staff_id),
