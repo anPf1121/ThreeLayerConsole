@@ -6,84 +6,110 @@ namespace Ults
 {
     class ConsoleUlts
     {
-//         public void ConsoleForegroundColor(ConsoleEnum.Color colorEnum)
-//         {
-//             switch (colorEnum)
-//             {
-//                 case ConsoleEnum.Color.Red:
-//                     Console.ForegroundColor = ConsoleColor.Red;
-//                     break;
-//                 case ConsoleEnum.Color.Green:
-//                     Console.ForegroundColor = ConsoleColor.Green;
-//                     break;
-//                 case ConsoleEnum.Color.Blue:
-//                     Console.ForegroundColor = ConsoleColor.Blue;
-//                     break;
-//                 case ConsoleEnum.Color.Yellow:
-//                     Console.ForegroundColor = ConsoleColor.Yellow;
-//                     break;
-//                 case ConsoleEnum.Color.White:
-//                     Console.ForegroundColor = ConsoleColor.White;
-//                     break;
-//                 default:
-//                     break;
-//             }
-//         }
-//         public void Line()
-//         {
-//             Console.WriteLine(@"
-// _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____  
-// \____\\____\\____\\____\\____\\____\\____\\____\\____\\____\\____\\____\\____\\____\\____\\____\
-// ");
-//         }
+        public void ConsoleForegroundColor(ConsoleEnum.Color colorEnum)
+        {
+            switch (colorEnum)
+            {
+                case ConsoleEnum.Color.Red:
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    break;
+                case ConsoleEnum.Color.Green:
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    break;
+                case ConsoleEnum.Color.Blue:
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    break;
+                case ConsoleEnum.Color.Yellow:
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    break;
+                case ConsoleEnum.Color.White:
+                    Console.ForegroundColor = ConsoleColor.White;
+                    break;
+                default:
+                    break;
+            }
+        }
+        public void Line()
+        {
+            Console.WriteLine(@"
+_____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____  
+\____\\____\\____\\____\\____\\____\\____\\____\\____\\____\\____\\____\\____\\____\\____\\____\
+");
+        }
 
         public void TinyLine()
         {
             Console.WriteLine("================================================================================================");
         }
-//         public void Title(string? title, string? subTitle)
-//         {
-//             if (title != null)
-//             {
-//                 ConsoleForegroundColor(ConsoleEnum.Color.White);
-//                 Line();
-//                 ConsoleForegroundColor(ConsoleEnum.Color.Red);
-//                 Console.WriteLine("\n" + title);
-//                 ConsoleForegroundColor(ConsoleEnum.Color.White);
-//                 Line();
-//             }
-//             if (subTitle != null)
-//             {
-//                 Line();
-//                 ConsoleForegroundColor(ConsoleEnum.Color.Blue);
-//                 Console.WriteLine("\n" + subTitle);
-//                 ConsoleForegroundColor(ConsoleEnum.Color.White);
-//                 Line();
-//             }
-//         }
-//         public void Alert(ConsoleEnum.Alert alertType, string msg)
-//         {
-//             Ultilities Ultilities = new Ultilities();
-//             switch (alertType)
-//             {
-//                 case ConsoleEnum.Alert.Success:
-//                     ConsoleForegroundColor(ConsoleEnum.Color.Green);
-//                     Console.WriteLine("\n" + "✅ " + msg.ToUpper());
-//                     break;
-//                 case ConsoleEnum.Alert.Warning:
-//                     ConsoleForegroundColor(ConsoleEnum.Color.Yellow);
-//                     Console.WriteLine("\n" + "⚠️  " + msg.ToUpper());
-//                     break;
-//                 case ConsoleEnum.Alert.Error:
-//                     ConsoleForegroundColor(ConsoleEnum.Color.Red);
-//                     Console.WriteLine("\n" + "❌ " + msg.ToUpper());
-//                     break;
-//                 default:
-//                     break;
-//             }
-//             ConsoleForegroundColor(ConsoleEnum.Color.White);
-//             Ultilities.PressEnterTo("Continue");
-//         }
+        public void Title(string? title, string? subTitle)
+        {
+            if (title != null)
+            {
+                ConsoleForegroundColor(ConsoleEnum.Color.White);
+                Line();
+                ConsoleForegroundColor(ConsoleEnum.Color.Red);
+                Console.WriteLine("\n" + title);
+                ConsoleForegroundColor(ConsoleEnum.Color.White);
+                Line();
+            }
+            if (subTitle != null)
+            {
+                Line();
+                ConsoleForegroundColor(ConsoleEnum.Color.Blue);
+                Console.WriteLine("\n" + subTitle);
+                ConsoleForegroundColor(ConsoleEnum.Color.White);
+                Line();
+            }
+        }
+        // public void Alert(ConsoleEnum.Alert alertType, string msg)
+        // {
+        //     Ultilities Ultilities = new Ultilities();
+        //     switch (alertType)
+        //     {
+        //         case ConsoleEnum.Alert.Success:
+        //             ConsoleForegroundColor(ConsoleEnum.Color.Green);
+        //             Console.WriteLine("\n" + "✅ " + msg.ToUpper());
+        //             break;
+        //         case ConsoleEnum.Alert.Warning:
+        //             ConsoleForegroundColor(ConsoleEnum.Color.Yellow);
+        //             Console.WriteLine("\n" + "⚠️  " + msg.ToUpper());
+        //             break;
+        //         case ConsoleEnum.Alert.Error:
+        //             ConsoleForegroundColor(ConsoleEnum.Color.Red);
+        //             Console.WriteLine("\n" + "❌ " + msg.ToUpper());
+        //             break;
+        //         default:
+        //             break;
+        //     }
+        //     ConsoleForegroundColor(ConsoleEnum.Color.White);
+        //     Ultilities.PressEnterTo("Continue");
+        // }
+        public void PressEnterTo(string? action)
+        {
+            if (action != null)
+            {
+                Console.Write($"\n👉 Press Enter To {action}...");
+            }
+            ConsoleKeyInfo key = Console.ReadKey();
+            if (key.Key == ConsoleKey.Enter)
+            {
+                Console.Clear();
+                return;
+            }
+            else PressEnterTo(null);
+        }
+        public void PrintPhoneBorderLine()
+        {
+            Console.WriteLine("========================================================================================================================");
+            Console.WriteLine("| {0, 10} | {1, 30} | {2, 15} | {3, 15} | {4, 15} | {5, 15}  |", "ID", "Phone Name", "Brand", "Price", "OS", "Quantity");
+            Console.WriteLine("========================================================================================================================");
+        }
+        public void PrintOrderBorderLine()
+        {
+            Console.WriteLine("========================================================================================================================");
+            Console.WriteLine("| {0, 10} | {1, 30} | {2, 20} | {3, 15} |", "ID", "Customer Name", "Order Date", "Status");
+            Console.WriteLine("========================================================================================================================");
+        }
         public void PrintPhoneInfo(Phone phone)
         {
             Console.WriteLine("| {0, 10} | {1, 30} | {2, 15} | {3, 15} | {4, 15} | {5, 15}  |", phone.PhoneID, phone.PhoneName, phone.Brand.BrandName, new PhoneDetailsDAL().GetPhoneDetailsByPhoneID(phone.PhoneID)[0].Price, phone.OS, new PhoneDAL().GetPhoneById(phone.PhoneID).PhoneDetails.Count());
