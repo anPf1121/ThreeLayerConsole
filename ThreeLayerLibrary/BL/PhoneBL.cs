@@ -18,6 +18,7 @@ public class PhoneBL
         if (tempList.Count() == 0) return null;
         else return tempList;
     }
+    
     public List<Phone>? GetPhonesByInformation(string? phoneInformation)
     {
         if (phoneInformation == "") return GetAllPhone();
