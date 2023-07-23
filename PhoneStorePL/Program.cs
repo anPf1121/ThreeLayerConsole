@@ -56,4 +56,13 @@
 //         }
 //     }
 // }
+using Model;
+using DAL;
+using System.Collections.Generic;
+
+Phone phone = new PhoneDAL().GetPhoneById(1);
+List<PhoneDetail> ps = new PhoneDetailsDAL().GetPhoneDetailsByPhoneID(phone.PhoneID);
+foreach(var p in ps){
+    Console.WriteLine(p.Phone.PhoneName+ " "+ p.PhoneColor.Color);
+}
 
