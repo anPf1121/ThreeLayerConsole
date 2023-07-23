@@ -12,3 +12,45 @@ OrderDAL orderDAL = new OrderDAL();
             Console.WriteLine(item.PhoneColor.Color); 
         }
     }
+
+
+using DAL;
+using Model;
+
+OrderDAL orderDAL = new OrderDAL();
+
+foreach (var i in orderDAL.GetOrderByID(1).Phones)
+{
+    foreach (var j in i.PhoneDetails)
+    {
+        foreach (var item in j.ListImei)
+        {
+            Console.WriteLine(item.PhoneImei);
+        }
+        break;
+    }
+    break;
+}
+
+
+using DAL;
+using Model;
+
+OrderDAL orderDAL = new OrderDAL();
+
+foreach (Order i in orderDAL.GetOrdersInDay(1))
+{
+    foreach (var item in i.Phones)
+    {
+        foreach (var j in item.PhoneDetails)
+        {
+            foreach (var k in j.ListImei)
+            {
+                Console.WriteLine(k.PhoneImei);
+            }
+            break;
+        }
+        break;
+    }
+    break;
+}
