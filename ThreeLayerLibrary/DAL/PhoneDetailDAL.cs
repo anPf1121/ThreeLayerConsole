@@ -49,6 +49,7 @@ namespace DAL
                 phoneDAL.GetPhone(reader),
                 GetROMSize(reader),
                 GetPhoneColor(reader),
+                reader.GetDecimal("price"),
                 (PhoneEnum.Status)Enum.ToObject(typeof(PhoneEnum.Status), reader.GetInt32("phone_status_type")),
                 new List<Imei>(),
                 staffDAL.GetStaff(reader),
@@ -86,20 +87,14 @@ namespace DAL
             {
                 Console.WriteLine(ex.Message);
             }
-            if (connection.State == System.Data.ConnectionState.Open)
-            {
-                connection.Close();
-            }
+
 
             // add imei to phone details
             foreach (PhoneDetail item in phoneDetails)
             {
                 try
                 {
-                    if (connection.State == System.Data.ConnectionState.Closed)
-                    {
-                        connection.Open();
-                    }
+            
                     query = @"SELECT phone_imei, status FROM imeis WHERE phone_detail_id=@phoneDetailID";
                     MySqlCommand command = new MySqlCommand(query, connection);
                     command.Parameters.Clear();

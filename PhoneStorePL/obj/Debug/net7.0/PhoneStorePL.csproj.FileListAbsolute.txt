@@ -36,3 +36,24 @@ C:\Users\anngu\Desktop\ThreeLayerLibrary\ThreeLayerConsole\PhoneStorePL\obj\Debu
 C:\Users\anngu\Desktop\ThreeLayerLibrary\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.pdb
 C:\Users\anngu\Desktop\ThreeLayerLibrary\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.genruntimeconfig.cache
 C:\Users\anngu\Desktop\ThreeLayerLibrary\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\ref\PhoneStorePL.dll
+C:\Users\PC\Desktop\New folder\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\PhoneStorePL.exe
+C:\Users\PC\Desktop\New folder\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\PhoneStorePL.deps.json
+C:\Users\PC\Desktop\New folder\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\PhoneStorePL.runtimeconfig.json
+C:\Users\PC\Desktop\New folder\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\PhoneStorePL.dll
+C:\Users\PC\Desktop\New folder\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\PhoneStorePL.pdb
+C:\Users\PC\Desktop\New folder\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\MySqlConnector.dll
+C:\Users\PC\Desktop\New folder\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\ThreeLayerLibrary.dll
+C:\Users\PC\Desktop\New folder\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\ThreeLayerLibrary.pdb
+C:\Users\PC\Desktop\New folder\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.csproj.AssemblyReference.cache
+C:\Users\PC\Desktop\New folder\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\PC\Desktop\New folder\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.AssemblyInfoInputs.cache
+C:\Users\PC\Desktop\New folder\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.AssemblyInfo.cs
+C:\Users\PC\Desktop\New folder\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.csproj.CoreCompileInputs.cache
+C:\Users\PC\Desktop\New folder\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.csproj.CopyComplete
+C:\Users\PC\Desktop\New folder\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.dll
+C:\Users\PC\Desktop\New folder\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\refint\PhoneStorePL.dll
+C:\Users\PC\Desktop\New folder\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.pdb
+C:\Users\PC\Desktop\New folder\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.genruntimeconfig.cache
+C:\Users\PC\Desktop\New folder\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\ref\PhoneStorePL.dll
+C:\Users\PC\Desktop\New folder\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\MySql.Data.dll
+C:\Users\PC\Desktop\New folder\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\MySQLConnection.dll

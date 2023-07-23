@@ -37,9 +37,10 @@ namespace DAL
                 reader.GetDateTime("create_at"),
                 reader.GetString("description")
             );
+            
             return phone;
         }
-        public Phone? GetPhoneById(int phoneID)
+        public Phone ?GetPhoneById(int phoneID)
         {
             Phone? phone = null;
             try
@@ -89,21 +90,18 @@ namespace DAL
                 switch (phoneFilter)
                 {
                     case PhoneFilter.GET_ALL:
-                        query = @"SELECT p.phone_id, p.phone_name, b.brand_name, p.camera, p.ram, p.weight, p.processor, p.battery_capacity,
-                        p.sim_slot, p.os, p.screen,  p.charge_port, p.release_date, p.connection, p.description, p.create_at, p.create_by, r.rom_size,
-                        c.color_name,  pd.price, pd.quantity, pd.phone_status_type, pd.update_at, pd.update_by
-                        FROM phones p
+                        query = @"SELECT p.*, b.*, s.*, pd.* from phones p
                         inner join brands b on p.brand_id = b.brand_id
+                        inner join staffs s on s.staff_id = p.create_by
                         inner join phonedetails pd on p.phone_id = pd.phone_id
                         inner join colors c on c.color_id = pd.color_id
                         inner join romsizes r on r.rom_size_id = pd.rom_size_id;";
                         break;
                     case PhoneFilter.FILTER_BY_PHONE_INFORMATION:
-                        query = @"SELECT p.phone_id, p.phone_name, b.brand_name, p.camera, p.ram, p.weight, p.processor, p.battery_capacity,
-                        p.sim_slot, p.os, p.screen,  p.charge_port, p.release_date, p.connection, p.description, p.create_at, p.create_by, r.rom_size,
-                        c.color_name,  pd.price, pd.quantity, pd.phone_status_type, pd.update_at, pd.update_by
+                        query = @"SELECT p.*, b.*, s.*, pd.*
                         FROM phones p
                         inner join brands b on p.brand_id = b.brand_id
+                        inner join staffs s on s.staff_id = p.create_by
                         inner join phonedetails pd on p.phone_id = pd.phone_id
                         inner join colors c on c.color_id = pd.color_id
                         inner join romsizes r on r.rom_size_id = pd.rom_size_id

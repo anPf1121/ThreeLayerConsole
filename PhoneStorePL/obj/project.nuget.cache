@@ -1,10 +1,33 @@
 {
   "version": 2,
-  "dgSpecHash": "PQ89WbmISCQFpMjsTdW+x61N/j1CS8fkVibOo4xdKP4Pgw1NtoGDMZkcui9jiEfr693T7CXNyHKOwGS6YAdurg==",
+  "dgSpecHash": "ZOfj+9T68j1wDZFk9osEmHUerO0kpk3rMldfz5hmAN3p4ijzXVDvhMGdIE2HGmC3qo//wxnXlOh11j3bPzixDw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\anngu\\Desktop\\ThreeLayerLibrary\\ThreeLayerConsole\\PhoneStorePL\\PhoneStorePL.csproj",
+  "projectFilePath": "C:\\Users\\PC\\Desktop\\New folder\\ThreeLayerConsole\\PhoneStorePL\\PhoneStorePL.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\anngu\\.nuget\\packages\\mysqlconnector\\2.2.6\\mysqlconnector.2.2.6.nupkg.sha512"
+    "C:\\Users\\PC\\.nuget\\packages\\mysql.data\\6.9.8\\mysql.data.6.9.8.nupkg.sha512",
+    "C:\\Users\\PC\\.nuget\\packages\\mysqlconnection\\1.0.1\\mysqlconnection.1.0.1.nupkg.sha512",
+    "C:\\Users\\PC\\.nuget\\packages\\mysqlconnector\\2.2.6\\mysqlconnector.2.2.6.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'MySql.Data 6.9.8' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net7.0'. This package may not be fully compatible with your project.",
+      "libraryId": "MySql.Data",
+      "targetGraphs": [
+        "net7.0"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'MySQLConnection 1.0.1' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net7.0'. This package may not be fully compatible with your project.",
+      "libraryId": "MySQLConnection",
+      "targetGraphs": [
+        "net7.0"
+      ]
+    }
+  ]
 }
