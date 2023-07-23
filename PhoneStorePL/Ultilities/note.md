@@ -64,7 +64,7 @@ namespace Ults
             }
             return currentChoice;
         }
-        //     public bool? ListPhonePagination(List<Phone> listPhone)
+        //     public bool? ListPhonePagination(List<object> listPhone)
         //     {
         //         if (listPhone != null)
         //         {
@@ -241,16 +241,17 @@ namespace Ults
         //         return false;
 
         //     }
-        //     public Dictionary<int, List<Phone>> PhoneMenuPaginationHandle(List<Phone> phoneList)
+                MenuPaginationHandle((dynamic)listPhone);
+        //     public Dictionary<int, List<object>> MenuPaginationHandle(List<object> list)
         //     {
-        //         List<Phone> sList = new List<Phone>();
-        //         Dictionary<int, List<Phone>> menuTab = new Dictionary<int, List<Phone>>();
+        //         List<object> sList = new List<object>();
+        //         Dictionary<int, List<object>> menuTab = new Dictionary<int, List<object>>();
         //         int phoneQuantity = phoneList.Count(), itemInTab = 4, numberOfTab = 0, count = 1, secondCount = 1, idTab = 0;
 
         //         if (phoneQuantity % itemInTab != 0) numberOfTab = (phoneQuantity / itemInTab) + 1;
         //         else numberOfTab = phoneQuantity / itemInTab;
 
-        //         foreach (Phone phone in phoneList)
+        //         foreach (var item in list)
         //         {
         //             if ((count - 1) == itemInTab)
         //             {
