@@ -128,11 +128,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\PC\\Desktop\\New folder\\ThreeLayerConsole\\ThreeLayerConsole\\PhoneStorePL\\PhoneStorePL.csproj",
+      "projectUniqueName": "C:\\Users\\PC\\Desktop\\New folder (3)\\ThreeLayerConsole\\PhoneStorePL\\PhoneStorePL.csproj",
       "projectName": "PhoneStorePL",
-      "projectPath": "C:\\Users\\PC\\Desktop\\New folder\\ThreeLayerConsole\\ThreeLayerConsole\\PhoneStorePL\\PhoneStorePL.csproj",
+      "projectPath": "C:\\Users\\PC\\Desktop\\New folder (3)\\ThreeLayerConsole\\PhoneStorePL\\PhoneStorePL.csproj",
       "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\PC\\Desktop\\New folder\\ThreeLayerConsole\\ThreeLayerConsole\\PhoneStorePL\\obj\\",
+      "outputPath": "C:\\Users\\PC\\Desktop\\New folder (3)\\ThreeLayerConsole\\PhoneStorePL\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -149,8 +149,8 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "C:\\Users\\PC\\Desktop\\New folder\\ThreeLayerConsole\\ThreeLayerConsole\\ThreeLayerLibrary\\ThreeLayerLibrary.csproj": {
-              "projectPath": "C:\\Users\\PC\\Desktop\\New folder\\ThreeLayerConsole\\ThreeLayerConsole\\ThreeLayerLibrary\\ThreeLayerLibrary.csproj"
+            "C:\\Users\\PC\\Desktop\\New folder (3)\\ThreeLayerConsole\\ThreeLayerLibrary\\ThreeLayerLibrary.csproj": {
+              "projectPath": "C:\\Users\\PC\\Desktop\\New folder (3)\\ThreeLayerConsole\\ThreeLayerLibrary\\ThreeLayerLibrary.csproj"
             }
           }
         }

@@ -50,12 +50,40 @@ namespace DAL
                 GetROMSize(reader),
                 GetPhoneColor(reader),
                 reader.GetDecimal("price"),
+                reader.GetInt32("quantity"),
                 (PhoneEnum.Status)Enum.ToObject(typeof(PhoneEnum.Status), reader.GetInt32("phone_status_type")),
                 new List<Imei>(),
                 staffDAL.GetStaff(reader),
                 reader.GetDateTime("update_at")
             );
             return phoneDetail;
+        }
+        public PhoneDetail GetPhoneDetailByID(int phonedetailid){
+            PhoneDetail output = null;
+            try{
+                if(connection.State == System.Data.ConnectionState.Closed){
+                    connection.Open();
+                }
+                query = @"SELECT p.*, b.*, s.*, pd.*, c.*, r.* from phones p
+                        inner join brands b on p.brand_id = b.brand_id
+                        inner join staffs s on s.staff_id = p.create_by
+                        inner join phonedetails pd on p.phone_id = pd.phone_id
+                        inner join colors c on c.color_id = pd.color_id
+                        inner join romsizes r on r.rom_size_id = pd.rom_size_id where pd.phone_detail_id = @id;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.Clear();
+                command.Parameters.AddWithValue("@id", phonedetailid);
+                MySqlDataReader reader = command.ExecuteReader();
+                if(reader.Read()){
+                    output = GetPhoneDetail(reader);
+                }
+            }catch(MySqlException ex){
+                Console.WriteLine(ex.Message);
+            }
+            if(connection.State == System.Data.ConnectionState.Open){
+                    connection.Close();
+                }
+            return output;
         }
         public List<PhoneDetail> GetPhoneDetailsByPhoneID(int phoneID)
         {
@@ -72,7 +100,7 @@ namespace DAL
                             INNER JOIN romsizes RS ON PD.rom_size_id = RS.rom_size_id
                             INNER JOIN colors C ON PD.color_id = C.color_id
                             INNER JOIN staffs S ON P.create_by = S.staff_id
-                            WHERE PD.phone_id = @phoneID";
+                            WHERE PD.phone_id = @phoneID order by pd.phone_detail_id asc;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.Clear();
                 command.Parameters.AddWithValue("@phoneID", phoneID);
@@ -95,7 +123,7 @@ namespace DAL
                 try
                 {
             
-                    query = @"SELECT phone_imei, status FROM imeis WHERE phone_detail_id=@phoneDetailID";
+                    query = @"SELECT phone_imei, status FROM imeis WHERE phone_detail_id=@phoneDetailID and status = '0';";
                     MySqlCommand command = new MySqlCommand(query, connection);
                     command.Parameters.Clear();
                     command.Parameters.AddWithValue("@phoneDetailID", item.PhoneDetailID);

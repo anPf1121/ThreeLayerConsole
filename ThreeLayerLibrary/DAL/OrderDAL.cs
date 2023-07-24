@@ -28,7 +28,7 @@ namespace DAL
                 staffDAL.GetStaff(reader),
                 staffDAL.GetStaff(reader),
                 customerDAL.GetCustomer(reader),
-                new List<Phone>(),
+                new List<PhoneDetail>(),
                 (OrderEnum.Status)Enum.ToObject(typeof(OrderEnum.Status), reader.GetInt32("Status")),
                 new List<DiscountPolicy>()
             );
@@ -39,7 +39,6 @@ namespace DAL
         public Order? GetOrderByID(int id)
         {
             PhoneDetailsDAL phoneDetailsDAL = new PhoneDetailsDAL();
-            PhoneDAL phoneDAL = new PhoneDAL();
             Order? order = null;
             try
             {
@@ -69,47 +68,10 @@ namespace DAL
             {
                 connection.Close();
             }
-
-            // Get Phone In Order
-            if (order != null)
-            {
-                try
-                {
-                    if (connection.State == System.Data.ConnectionState.Closed)
-                    {
-                        connection.Open();
-                    }
-                    query = @"SELECT * FROM orders O
-                            INNER JOIN orderdetails OD ON OD.order_id = O.order_id
-                            INNER JOIN imeis I ON I.phone_imei = OD.phone_imei
-                            INNER JOIN phonedetails PD ON I.phone_detail_id = PD.phone_detail_id
-                            INNER JOIN phones P ON P.phone_id = PD.phone_id
-                            INNER JOIN brands B ON P.brand_id = B.brand_id
-                            INNER JOIN staffs S ON O.seller_id = S.staff_id
-                            WHERE OD.order_id = @orderid;";
-                    MySqlCommand command = new MySqlCommand(query, connection);
-                    command.Parameters.Clear();
-                    command.Parameters.AddWithValue("@orderid", order.OrderID);
-                    MySqlDataReader reader = command.ExecuteReader();
-                    while (reader.Read())
-                    {
-                        order.Phones.Add(phoneDAL.GetPhone(reader));
-                    }
-                    reader.Close();
-                }
-                catch (MySqlException ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
-                if (connection.State == System.Data.ConnectionState.Open)
-                {
-                    connection.Close();
-                }
-
                 // Get Phone Details In Order 
-                if (order.Phones.Count() > 0)
+                if (order.PhoneDetails.Count() > 0)
                 {
-                    foreach (Phone phoneDetail in order.Phones)
+                    foreach (PhoneDetail phoneDetail in order.PhoneDetails)
                     {
                         try
                         {
@@ -132,7 +94,7 @@ namespace DAL
                             MySqlDataReader reader = command.ExecuteReader();
                             while (reader.Read())
                             {
-                                phoneDetail.PhoneDetails.Add(phoneDetailsDAL.GetPhoneDetail(reader));
+                                order.PhoneDetails.Add(phoneDetailsDAL.GetPhoneDetail(reader));
                                 // phoneDetail.PhoneDetails
                             }
                             reader.Close();
@@ -145,9 +107,9 @@ namespace DAL
                         {
                             connection.Close();
                         }
-                        if (phoneDetail.PhoneDetails.Count() != 0)
+                        if (order.PhoneDetails.Count() != 0)
                         {
-                            foreach (PhoneDetail item in phoneDetail.PhoneDetails)
+                            foreach (PhoneDetail item in order.PhoneDetails)
                             {
                                 try
                                 {
@@ -181,9 +143,9 @@ namespace DAL
                         }
                     }
                 }
+                return order;
             }
-            return order;
-        }
+
         public List<Order> GetOrdersInDay(int orderFilter)
         {
             PhoneDetailsDAL phoneDetailsDAL = new PhoneDetailsDAL();
@@ -257,7 +219,7 @@ namespace DAL
                         MySqlDataReader reader = command.ExecuteReader();
                         while (reader.Read())
                         {
-                            order.Phones.Add(phoneDAL.GetPhone(reader));
+                            order.PhoneDetails.Add(phoneDetailsDAL.GetPhoneDetail(reader));
                         }
                         reader.Close();
                     }
@@ -270,9 +232,9 @@ namespace DAL
                         connection.Close();
                     }
                     // Get Phone Details In Order 
-                    if (order.Phones.Count() > 0)
+                    if (order.PhoneDetails.Count() > 0)
                     {
-                        foreach (Phone phoneDetail in order.Phones)
+                        foreach (PhoneDetail phoneDetail in order.PhoneDetails)
                         {
                             try
                             {
@@ -295,7 +257,7 @@ namespace DAL
                                 MySqlDataReader reader = command.ExecuteReader();
                                 while (reader.Read())
                                 {
-                                    phoneDetail.PhoneDetails.Add(phoneDetailsDAL.GetPhoneDetail(reader));
+                                    order.PhoneDetails.Add(phoneDetailsDAL.GetPhoneDetail(reader));
                                     // phoneDetail.PhoneDetails
                                 }
                                 reader.Close();
@@ -308,9 +270,9 @@ namespace DAL
                             {
                                 connection.Close();
                             }
-                            if (phoneDetail.PhoneDetails.Count() != 0)
+                            if (order.PhoneDetails.Count() != 0)
                             {
-                                foreach (PhoneDetail item in phoneDetail.PhoneDetails)
+                                foreach (PhoneDetail item in order.PhoneDetails)
                                 {
                                     try
                                     {

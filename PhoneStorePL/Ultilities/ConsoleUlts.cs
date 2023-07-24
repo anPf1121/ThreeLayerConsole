@@ -61,29 +61,29 @@ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ __
                 Line();
             }
         }
-        // public void Alert(ConsoleEnum.Alert alertType, string msg)
-        // {
-        //     Ultilities Ultilities = new Ultilities();
-        //     switch (alertType)
-        //     {
-        //         case ConsoleEnum.Alert.Success:
-        //             ConsoleForegroundColor(ConsoleEnum.Color.Green);
-        //             Console.WriteLine("\n" + "✅ " + msg.ToUpper());
-        //             break;
-        //         case ConsoleEnum.Alert.Warning:
-        //             ConsoleForegroundColor(ConsoleEnum.Color.Yellow);
-        //             Console.WriteLine("\n" + "⚠️  " + msg.ToUpper());
-        //             break;
-        //         case ConsoleEnum.Alert.Error:
-        //             ConsoleForegroundColor(ConsoleEnum.Color.Red);
-        //             Console.WriteLine("\n" + "❌ " + msg.ToUpper());
-        //             break;
-        //         default:
-        //             break;
-        //     }
-        //     ConsoleForegroundColor(ConsoleEnum.Color.White);
-        //     Ultilities.PressEnterTo("Continue");
-        // }
+        public void Alert(ConsoleEnum.Alert alertType, string msg)
+        {
+            Ultilities Ultilities = new Ultilities();
+            switch (alertType)
+            {
+                case ConsoleEnum.Alert.Success:
+                    ConsoleForegroundColor(ConsoleEnum.Color.Green);
+                    Console.WriteLine("\n" + "✅ " + msg.ToUpper());
+                    break;
+                case ConsoleEnum.Alert.Warning:
+                    ConsoleForegroundColor(ConsoleEnum.Color.Yellow);
+                    Console.WriteLine("\n" + "⚠️  " + msg.ToUpper());
+                    break;
+                case ConsoleEnum.Alert.Error:
+                    ConsoleForegroundColor(ConsoleEnum.Color.Red);
+                    Console.WriteLine("\n" + "❌ " + msg.ToUpper());
+                    break;
+                default:
+                    break;
+            }
+            ConsoleForegroundColor(ConsoleEnum.Color.White);
+            Ultilities.PressEnterTo("Continue");
+        }
         public void PressEnterTo(string? action)
         {
             if (action != null)
@@ -112,32 +112,35 @@ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ __
         }
         public void PrintPhoneInfo(Phone phone)
         {
-            Console.WriteLine("| {0, 10} | {1, 30} | {2, 15} | {3, 15} | {4, 15} | {5, 15}  |", phone.PhoneID, phone.PhoneName, phone.Brand.BrandName, new PhoneDetailsDAL().GetPhoneDetailsByPhoneID(phone.PhoneID)[0].Price, phone.OS, new PhoneDAL().GetPhoneById(phone.PhoneID).PhoneDetails.Count());
+            int quantity = 0;
+            foreach(var phonedetails in phone.PhoneDetails){
+                quantity+=phonedetails.ListImei.Count();
+            }
+            Console.WriteLine("| {0, 10} | {1, 30} | {2, 15} | {3, 15} | {4, 15} | {5, 15}  |", phone.PhoneID, phone.PhoneName, phone.Brand.BrandName, new PhoneDetailsDAL().GetPhoneDetailsByPhoneID(phone.PhoneID)[0].Price, phone.OS, quantity);
         }
         public void PrintOrderInfo(Order order)
         {
             Console.WriteLine("| {0, 10} | {1, 30} | {2, 15} | {3, 15} |", order.OrderID, order.Customer.CustomerName, order.CreateAt, order.OrderStatus);
         }
-        public void PrintPhoneDetailsInfo(Phone phone)
+        public void PrintPhoneDetailsInfo(PhoneDetail phoneDetail)
         {
-            Console.WriteLine("PHONE DETAILS");
             TinyLine();
-            Console.WriteLine("Phone ID: {0}", phone.PhoneID);
-            Console.WriteLine("Phone Name: {0}", phone.PhoneName);
-            Console.WriteLine("Brand: {0}", phone.Brand.BrandName);
-            Console.WriteLine("Camera: {0}", phone.Camera);
-            Console.WriteLine("RAM: {0}", phone.RAM);
-            Console.WriteLine("Weight: {0}", phone.Weight);
-            Console.WriteLine("Price: {0}", new PhoneDAL().GetPhoneById(phone.PhoneID).PhoneDetails[0].Price);
-            Console.WriteLine("Processor: {0}", phone.Processor);
-            Console.WriteLine("Battery: {0}", phone.BatteryCapacity);
-            Console.WriteLine("OS: {0}", phone.OS);
-            Console.WriteLine("Sim Slot: {0}", phone.SimSlot);
-            Console.WriteLine("Screen : {0}", phone.Screen);
-            Console.WriteLine("Connection: {0}", phone.Connection);
-            Console.WriteLine("Charge Port: {0}", phone.ChargePort);
-            Console.WriteLine("Release Date: {0}", phone.ReleaseDate);
-            Console.WriteLine("Description: {0}", phone.Description);
+            Console.WriteLine("Phone ID: {0}", phoneDetail.Phone.PhoneID);
+            Console.WriteLine("Phone Name: {0}", phoneDetail.Phone.PhoneName);
+            Console.WriteLine("Brand: {0}", phoneDetail.Phone.Brand.BrandName);
+            Console.WriteLine("Camera: {0}", phoneDetail.Phone.Camera);
+            Console.WriteLine("RAM: {0}", phoneDetail.Phone.RAM);
+            Console.WriteLine("Weight: {0}", phoneDetail.Phone.Weight);
+            Console.WriteLine("Price: {0}", new PhoneDAL().GetPhoneById(phoneDetail.Phone.PhoneID).PhoneDetails[0].Price);
+            Console.WriteLine("Processor: {0}", phoneDetail.Phone.Processor);
+            Console.WriteLine("Battery: {0}", phoneDetail.Phone.BatteryCapacity);
+            Console.WriteLine("OS: {0}", phoneDetail.Phone.OS);
+            Console.WriteLine("Sim Slot: {0}", phoneDetail.Phone.SimSlot);
+            Console.WriteLine("Screen : {0}", phoneDetail.Phone.Screen);
+            Console.WriteLine("Connection: {0}", phoneDetail.Phone.Connection);
+            Console.WriteLine("Charge Port: {0}", phoneDetail.Phone.ChargePort);
+            Console.WriteLine("Release Date: {0}", phoneDetail.Phone.ReleaseDate);
+            Console.WriteLine("Description: {0}", phoneDetail.Phone.Description);
             TinyLine();
         }
     }

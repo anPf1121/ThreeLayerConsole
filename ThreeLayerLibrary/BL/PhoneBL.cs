@@ -8,6 +8,7 @@ namespace BL;
 public class PhoneBL
 {
     private PhoneDAL phoneDAL = new PhoneDAL();
+    private PhoneDetailsDAL phoneDetailDAL = new PhoneDetailsDAL();
     public Phone? GetPhoneById(int phoneID)
     {
         return phoneDAL.GetPhoneById(phoneID);
@@ -29,5 +30,11 @@ public class PhoneBL
             if (tempList.Count() == 0) return null;
             else return tempList;
         }
+    }
+    public List<PhoneDetail> GetPhoneDetailsByPhoneID(int id){
+        return phoneDetailDAL.GetPhoneDetailsByPhoneID(id);
+    }
+    public PhoneDetail GetPhoneDetailByID(int id){
+        return phoneDetailDAL.GetPhoneDetailByID(id);
     }
 }

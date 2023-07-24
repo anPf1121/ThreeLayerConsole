@@ -10,7 +10,7 @@ public class CustomerDAL
     public Customer GetCustomer(MySqlDataReader reader)
     {
         Customer customer = new Customer(
-            reader.GetInt32("cus_id"),
+            reader.GetInt32("customer_id"),
             reader.GetString("name"),
             reader.GetString("phone_number"),
             reader.GetString("address")
@@ -104,7 +104,6 @@ public class CustomerDAL
         if (connection.State == System.Data.ConnectionState.Open)
             {
                 connection.Close();
-                
             }
         return true;
     }

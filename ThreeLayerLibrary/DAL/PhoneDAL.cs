@@ -52,7 +52,7 @@ namespace DAL
                 query = @"select * from phones P
                         INNER JOIN brands B ON P.brand_id = B.brand_id
                         INNER JOIN staffs S ON P.create_by = S.staff_id
-                        INNER JOIN phonedetails PD ON P.phone_id = PD.phone_id;";
+                        INNER JOIN phonedetails PD ON P.phone_id = PD.phone_id where p.phone_id = @phoneid;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.Clear();
                 command.Parameters.AddWithValue("@phoneID", phoneID);
@@ -148,8 +148,19 @@ namespace DAL
             {
                 connection.Close();
             }
-            if (lst.Count() == 0) return null;
-            return lst;
+
+            //Xu li cac phone trung lap:
+            List<Phone> output = new List<Phone>();
+            foreach(var p in lst){
+                int count = 0;
+                foreach(var o in output){
+                    if(o.PhoneName == p.PhoneName && o.PhoneID == p.PhoneID)count++;
+                }
+                if(count == 0)output.Add(GetPhoneById(p.PhoneID));
+            }
+        
+            if (output.Count() == 0) return null;
+            return output;
         }
     }
 }
