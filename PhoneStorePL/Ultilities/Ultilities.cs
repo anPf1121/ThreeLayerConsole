@@ -13,6 +13,9 @@ namespace Ults
         // private CustomerBL customerBL = new CustomerBL();
         private OrderBL orderBL = new OrderBL();
         public Staff? OrderStaff = null;
+
+        public Dictionary<int, List<Phone>> listAllPhones = null;
+        int currentPageDetails = 1;
         public int MenuHandle(string? title, string? subTitle, string[] menuItem)
         {
             Console.Clear();
@@ -136,12 +139,12 @@ namespace Ults
             {
                 switch (MenuHandle(
                     null, @"
-                            ███████╗███████╗██╗     ██╗     ███████╗██████╗ 
-                            ██╔════╝██╔════╝██║     ██║     ██╔════╝██╔══██╗
-                            ███████╗█████╗  ██║     ██║     █████╗  ██████╔╝
-                            ╚════██║██╔══╝  ██║     ██║     ██╔══╝  ██╔══██╗
-                            ███████║███████╗███████╗███████╗███████╗██║  ██║
-                            ╚══════╝╚══════╝╚══════╝╚══════╝╚══════╝╚═╝  ╚═╝
+                          ███████╗███████╗██╗     ██╗     ███████╗██████╗ 
+                          ██╔════╝██╔════╝██║     ██║     ██╔════╝██╔══██╗
+                          ███████╗█████╗  ██║     ██║     █████╗  ██████╔╝
+                          ╚════██║██╔══╝  ██║     ██║     ██╔══╝  ██╔══██╗
+                          ███████║███████╗███████╗███████╗███████╗██║  ██║
+                          ╚══════╝╚══════╝╚══════╝╚══════╝╚══════╝╚═╝  ╚═╝
                                                 ", menuItem))
                 {
                     case 1:
@@ -199,6 +202,7 @@ namespace Ults
                 bool validInput = false;
                 Dictionary<int, List<Phone>> phones = new Dictionary<int, List<Phone>>();
                 phones = PhoneMenuPaginationHandle(listPhone);
+                listAllPhones = phones;
                 int countPage = phones.Count(), currentPage = 1;
                 ConsoleKeyInfo input = new ConsoleKeyInfo();
                 ConsoleKeyInfo input2 = new ConsoleKeyInfo();
@@ -218,18 +222,7 @@ namespace Ults
                     );
                     while (active)
                     {
-                        ConsoleUlts.PrintPhoneBorderLine();
-
-                        foreach (Phone phone in phones[currentPage])
-                        {
-
-                            ConsoleUlts.PrintPhoneInfo(phone);
-
-                        }
-
-                        Console.WriteLine("========================================================================================================================");
-                        Console.WriteLine("{0,55}" + "< " + $"{currentPage}/{countPage}" + " >", " ");
-                        Console.WriteLine("========================================================================================================================");
+                        ConsoleUlts.PrintOrderAndPhoneBorder(phones, currentPage, countPage);
                         Console.WriteLine("Press 'Left Arrow' To Back Previous Page, 'Right Arror' To Next Page");
                         Console.Write("Press 'Space' To Choose a phone, 'B' To Back Previous Menu");
                         input = Console.ReadKey();
@@ -238,11 +231,13 @@ namespace Ults
                             if (input.Key == ConsoleKey.RightArrow)
                             {
                                 if (currentPage <= countPage - 1) currentPage++;
+                                currentPageDetails = currentPage;
                                 Console.Clear();
                             }
                             else if (input.Key == ConsoleKey.LeftArrow)
                             {
                                 if (currentPage > 1) currentPage--;
+                                currentPageDetails = currentPage;
                                 Console.Clear();
                             }
 
@@ -253,29 +248,16 @@ namespace Ults
 
                             else if (input.Key == ConsoleKey.Spacebar)
                             {
-                                ConsoleUlts.PrintAgainBorder(phones, currentPage, countPage);
                                 do
                                 {
-                                    validInput = false;
+                                    ConsoleUlts.PrintOrderAndPhoneBorder(phones, currentPage, countPage);
                                     Console.WriteLine("Continue to select phone to view details or change the phone list page ? Press Y to continue or press N to switch pages(Y / N):");
                                     input2 = Console.ReadKey(true);
-                                    if (input2.Key == ConsoleKey.Y)
-                                    {
-                                        validInput = true;
-                                        active = false;
-                                        return true;
-
-                                    }
-                                    else if (input2.Key == ConsoleKey.N)
-                                    {
-                                        validInput = true;
-                                        Console.Clear();
-                                    }
+                                    if (input2.Key == ConsoleKey.Y) return true;
+                                    else if (input2.Key == ConsoleKey.N) break;
                                     else
                                     {
                                         ConsoleUlts.Alert(ConsoleEnum.Alert.Error, "Invalid Input (Y/N)");
-                                        ConsoleUlts.PrintAgainBorder(phones, currentPage, countPage);
-
                                     }
                                 } while (!validInput);
                             }
@@ -427,117 +409,135 @@ namespace Ults
 
         public void CreateOrder()
         {
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
             List<PhoneDetail> Cart = new List<PhoneDetail>();
             bool activeSearchPhone = true;
             string input = "";
             int phoneId = 0;
             int phonedetailId = 0;
+            int count = 0;
             //Buoc 1: Tim va chon ra tung dien thoai muon them vao order
             do
             {
+
+                ConsoleUlts.Title(@"
+                        ███████╗███████╗ █████╗ ██████╗  ██████╗██╗  ██╗    
+                        ██╔════╝██╔════╝██╔══██╗██╔══██╗██╔════╝██║  ██║
+                        ███████╗█████╗  ███████║██████╔╝██║     ███████║
+                        ╚════██║██╔══╝  ██╔══██║██╔══██╗██║     ██╔══██║
+                        ███████║███████╗██║  ██║██║  ██║╚██████╗██║  ██║
+                        ╚══════╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝
+                                                ", null);
                 List<Imei> Imeis = new List<Imei>();
-                Console.Write("Search Phone to add to Cart: ");
+                Console.Write("👌 Search Phone to add to Cart (Press Enter to view all phones): ");
                 input = Console.ReadLine() ?? "";
                 List<Phone> listTemp = phoneBL.GetPhonesByInformation(input);
                 bool? listPhoneSearch = ListPhonePagination(listTemp);
                 if (listPhoneSearch == null)
                 {
+                    ConsoleUlts.Alert(ConsoleEnum.Alert.Warning, "Phone Not Found");
                     activeSearchPhone = false;
                 }
                 else
                 {
-                    do
+                    if (listPhoneSearch == true)
                     {
-
-                        Console.Write("Choose an id to view phone details: ");
-                        int.TryParse(Console.ReadLine(), out phoneId);
-                        if (phoneId <= 0 || phoneId > phoneBL.GetAllPhone().Count())
+                        do
                         {
-                            ConsoleUlts.Alert(ConsoleEnum.Alert.Error, "Invalid phone Id");
+                            ConsoleUlts.PrintOrderAndPhoneBorder(listAllPhones, listAllPhones.Count(), currentPageDetails);
+                            Console.Write("Choose an id to view phone details: ");
+                            int.TryParse(Console.ReadLine(), out phoneId);
+                            if (phoneId <= 0 || phoneId > phoneBL.GetAllPhone().Count())
+                            {
+                                ConsoleUlts.Alert(ConsoleEnum.Alert.Error, "Invalid phone Id");
+                            }
+                        } while (phoneId <= 0 || phoneId > phoneBL.GetAllPhone().Count());
+                        List<PhoneDetail> phonedetails = phoneBL.GetPhoneDetailsByPhoneID(phoneId);
+                        foreach (var pd in phonedetails)
+                        {
+                            Console.WriteLine(pd.PhoneDetailID + "➖" + pd.PhoneColor.Color + " " + pd.ROMSize.ROM + " " + pd.Price);
                         }
-                    } while (phoneId <= 0 || phoneId > phoneBL.GetAllPhone().Count());
-
-                    List<PhoneDetail> phonedetails = phoneBL.GetPhoneDetailsByPhoneID(phoneId);
-                    foreach (var pd in phonedetails)
-                    {
-                        Console.WriteLine(pd.PhoneDetailID + " " + pd.PhoneColor.Color + " " + pd.ROMSize.ROM + " " + pd.Price);
-                    }
-                    Console.Write("Choose a version of phone by id: ");
-                    phonedetailId = Convert.ToInt32(Console.ReadLine() ?? "");
-                    PhoneDetail phonedt = phoneBL.GetPhoneDetailByID(phonedetailId);
-
-                    int quantity;
-                    if (phonedt.Quantity > 0)
-                    {
-                        Console.Write("Input quantity: ");
-                        while (!(int.TryParse(Console.ReadLine() ?? "", out quantity) && quantity <= phonedt.Quantity))
+                        Console.Write("Choose a version of phone by id: ");
+                        phonedetailId = Convert.ToInt32(Console.ReadLine() ?? "");
+                        PhoneDetail phonedt = phoneBL.GetPhoneDetailByID(phonedetailId);
+                        if (phonedetailId <= 0 || phonedetailId > phoneBL.GetPhoneDetailsByPhoneID(phonedetailId).Count())
                         {
-                            Console.Write("Out of stock OR Invalid input! \nPlease input again: ");
+                            ConsoleUlts.Alert(ConsoleEnum.Alert.Error, "Invalid phone details Id");
                         }
-                    }
-                    else
-                    {
-                        Console.WriteLine("Phone is out of stock. Please choose another phone!");
-                        continue;
-                    }
-                    bool check = false;
-
-                    while (check == false)
-                    {
-                        for (int i = 0; i < quantity; i++)
+                        int quantity;
+                        if (phonedt.Quantity > 0)
                         {
-                            Console.Write($"Imei number {i + 1} for {phonedt.Phone.PhoneName}: ");
-                            string imei = Console.ReadLine() ?? "";
-                            Imeis.Add(new Imei(imei, PhoneEnum.ImeiStatus.NotExport));
-                        }
-                        if (new PhoneBL().CheckImeisExits(phonedt, Imeis))
-                        {
-                            Cart.Add(phonedt);
-                            check = true;
-                            Console.WriteLine("Vao day roi lol");
+                            Console.Write("Input quantity: ");
+                            while (!(int.TryParse(Console.ReadLine() ?? "", out quantity) && quantity <= phonedt.Quantity))
+                            {
+                                Console.Write("Out of stock OR Invalid input! \nPlease input again: ");
+                            }
                         }
                         else
                         {
-                            Console.Write("Wrong imeis! Choose re-enter Imeis or Back to choose phone.\nYour choice is(write 'stop imeis' to back to previous, any word to re-input imeis): ");
-                            string answer = Console.ReadLine() ?? "";
-                            if (answer == "stop imeis")
+                            Console.WriteLine("Phone is out of stock. Please choose another phone!");
+                            continue;
+                        }
+                        bool check = false;
+
+                        while (check == false)
+                        {
+                            for (int i = 0; i < quantity; i++)
                             {
-                                break;
+                                Console.Write($"Imei number {i + 1} for {phonedt.Phone.PhoneName}: ");
+                                string imei = Console.ReadLine() ?? "";
+                                Imeis.Add(new Imei(imei, PhoneEnum.ImeiStatus.NotExport));
+                            }
+                            if (new PhoneBL().CheckImeisExits(phonedt, Imeis))
+                            {
+                                Cart.Add(phonedt);
+                                check = true;
+                                Console.WriteLine("Vao day roi lol");
+                            }
+                            else
+                            {
+                                Console.Write("Wrong imeis! Choose re-enter Imeis or Back to choose phone.\nYour choice is(write 'stop imeis' to back to previous, any word to re-input imeis): ");
+                                string answer = Console.ReadLine() ?? "";
+                                if (answer == "stop imeis")
+                                {
+                                    break;
+                                }
                             }
                         }
+                        Console.WriteLine("Add Phone to order completed! Keep Adding Press any key OR Stop adding write 'stop' !");
+                        Console.Write("Your choice: ");
+                        input = Console.ReadLine() ?? "";
+                        Console.Clear();
+
+                        // foreach(var phonedetail in Cart){
+                        //     phonedetail.
+                        // }
+
+                        //Buoc 2: Insert thong tin cua customer va seller
+                        Console.WriteLine("Customer Information");
+                        Console.Write("Customer name: ");
+                        string cusname = Console.ReadLine() ?? "";
+                        Console.Write("Phone number: ");
+                        string phonenumber = Console.ReadLine() ?? "";
+                        Console.Write("Address: ");
+                        string address = Console.ReadLine() ?? "";
+
+                        Customer newcustomer = new Customer(0, cusname, phonenumber, address);
+                        //Buoc 3: Insert vao trong database
+
+                        Order neworder = new Order(0, new DateTime(), OrderStaff, new Staff(0, "not have", "not have", "not have", "not have", "not have", StaffEnum.Role.Accountant, StaffEnum.Status.InActive), newcustomer, Cart, OrderEnum.Status.Pending, new List<DiscountPolicy>());
+                        Console.WriteLine(OrderStaff.StaffID);
+                        if (orderBL.CreateOrder(neworder) == true)
+                        {
+                            Console.WriteLine("Create Order completed");
+
+                        }
+                        else
+                        {
+                            Console.WriteLine("Create Order False");
+                        }
                     }
-                    Console.WriteLine("Add Phone to order completed! Keep Adding Press any key OR Stop adding write 'stop' !");
-                    Console.Write("Your choice: ");
-                    input = Console.ReadLine() ?? "";
-                    Console.Clear();
-
-                    // foreach(var phonedetail in Cart){
-                    //     phonedetail.
-                    // }
-
-                    //Buoc 2: Insert thong tin cua customer va seller
-                    Console.WriteLine("Customer Information");
-                    Console.Write("Customer name: ");
-                    string cusname = Console.ReadLine() ?? "";
-                    Console.Write("Phone number: ");
-                    string phonenumber = Console.ReadLine() ?? "";
-                    Console.Write("Address: ");
-                    string address = Console.ReadLine() ?? "";
-
-                    Customer newcustomer = new Customer(0, cusname, phonenumber, address);
-                    //Buoc 3: Insert vao trong database
-
-                    Order neworder = new Order(0, new DateTime(), OrderStaff, new Staff(0, "not have", "not have", "not have", "not have", "not have", StaffEnum.Role.Accountant, StaffEnum.Status.InActive), newcustomer, Cart, OrderEnum.Status.Pending, new List<DiscountPolicy>());
-                    Console.WriteLine(OrderStaff.StaffID);
-                    if (orderBL.CreateOrder(neworder) == true)
-                    {
-                        Console.WriteLine("Create Order completed");
-
-                    }
-                    else
-                    {
-                        Console.WriteLine("Create Order False");
-                    }
+                    else break;
                 }
             } while (activeSearchPhone);
         }
