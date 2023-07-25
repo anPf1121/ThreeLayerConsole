@@ -47,11 +47,11 @@ namespace DAL
                 reader.GetInt32("Staff_ID"),
                 reader.GetString("Name"),
                 reader.GetString("Phone_Number"),
-                reader.GetString("Address"),
-                reader.GetString("User_Name"),
-                reader.GetString("Password"),
-                (StaffEnum.Status)Enum.ToObject(typeof(StaffEnum.Status), reader.GetInt32("Status")),
-                (StaffEnum.Role)Enum.ToObject(typeof(StaffEnum.Role), reader.GetInt32("Role"))
+                reader.GetString("user_name"),
+                reader.GetString("password"),
+                reader.GetString("address"),
+                (StaffEnum.Role)Enum.ToObject(typeof(StaffEnum.Role), reader.GetInt32("role")),
+                (StaffEnum.Status)Enum.ToObject(typeof(StaffEnum.Status), reader.GetInt32("status"))
             );
             return staff;
         }

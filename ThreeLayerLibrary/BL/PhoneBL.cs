@@ -37,4 +37,21 @@ public class PhoneBL
     public PhoneDetail GetPhoneDetailByID(int id){
         return phoneDetailDAL.GetPhoneDetailByID(id);
     }
+    public bool CheckImeisExits(PhoneDetail phonedetail, List<Imei> imeiWantToCheck){
+        
+    int count = 0;
+    foreach(var imeisofphone in phonedetail.ListImei){
+        foreach(var imeiwanttocheck in imeiWantToCheck){
+            if(imeisofphone.PhoneImei == imeiwanttocheck.PhoneImei){
+                count++;
+                break;
+            }
+        }
+    }
+    if(count == imeiWantToCheck.Count()){
+        return true;
+    }
+    return false;
+    
+    }
 }

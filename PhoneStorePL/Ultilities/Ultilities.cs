@@ -11,8 +11,8 @@ namespace Ults
         private ConsoleUlts ConsoleUlts = new ConsoleUlts();
         private StaffBL StaffBL = new StaffBL();
         // private CustomerBL customerBL = new CustomerBL();
-        // private OrderBL orderBL = new OrderBL();
-        private Staff? OrderStaff = null;
+        private OrderBL orderBL = new OrderBL();
+        public Staff ?OrderStaff = null;
         public int MenuHandle(string? title, string? subTitle, string[] menuItem)
         {
 
@@ -147,16 +147,20 @@ namespace Ults
                         Console.WriteLine("Create Order");
 
                         List<PhoneDetail> Cart = new List<PhoneDetail>();
+
                         string input = "";
                         int phoneid = 0;
                         int phonedetailid = 0;
-                        //Tim va chon ra tung dien thoai muon them vao order
+                        //Buoc 1: Tim va chon ra tung dien thoai muon them vao order
                         do{
+                            List<Imei> Imeis = new List<Imei>();
                             Console.Write("Search Phone to add to Cart: ");
                             input = Console.ReadLine()??"";
                             ListPhonePagination(phoneBL.GetPhonesByInformation(input));
                             Console.Write("Choose an id to view phone details: ");
-                            phoneid = Convert.ToInt32(Console.ReadLine()??"");
+                            while((!int.TryParse(Console.ReadLine()??"", out phoneid) && phoneid >=1)){
+                                ListPhonePagination(phoneBL.GetPhonesByInformation(input));
+                            }
                             List<PhoneDetail> phonedetails = phoneBL.GetPhoneDetailsByPhoneID(phoneid);
                             foreach(var pd in phonedetails){
                                 Console.WriteLine(pd.PhoneDetailID+ " "+pd.PhoneColor.Color +" "+ pd.ROMSize.ROM+ " "+pd.Price);
@@ -164,14 +168,70 @@ namespace Ults
                             Console.Write("Choose a version of phone by id: ");
                             phonedetailid = Convert.ToInt32(Console.ReadLine()??"");
                             PhoneDetail phonedt = phoneBL.GetPhoneDetailByID(phonedetailid);
-                            Console.Write("Input quantity: ");
-                            int quantity =Convert.ToInt32(Console.ReadLine()??"");
-                            phonedt.Quantity = quantity;
-                            Console.Write("Stop? (write 'stop' to stop adding OR write any word to keep adding): ");
+        
+                            int quantity;
+                            if(phonedt.Quantity > 0){
+                                Console.Write("Input quantity: ");
+                            while(!(int.TryParse(Console.ReadLine()??"", out quantity) && quantity <=phonedt.Quantity)){
+                                Console.Write("Out of stock OR Invalid input! \nPlease input again: ");
+                            }
+                            }
+                            else{
+                                Console.WriteLine("Phone is out of stock. Please choose another phone!");
+                                continue;
+                            }
+                            bool check = false;
+                            
+                            while(check == false){
+                            for(int i = 0;i<quantity;i++){
+                                Console.Write($"Imei number {i+1} for {phonedt.Phone.PhoneName}: ");
+                                string imei = Console.ReadLine()??"";
+                                Imeis.Add(new Imei(imei, PhoneEnum.ImeiStatus.NotExport));
+                            }
+                            if(new PhoneBL().CheckImeisExits(phonedt, Imeis)){
+                                Cart.Add(phonedt);
+                                check = true;
+                                Console.WriteLine("Vao day roi lol");
+                            }
+                            else{
+                                Console.Write("Wrong imeis! Choose re-enter Imeis or Back to choose phone.\nYour choice is(write 'stop imeis' to back to previous, any word to re-input imeis): ");
+                                string answer = Console.ReadLine()??"";
+                                if(answer == "stop imeis"){
+                                    break;
+                                }
+                            }
+                            }
+                            Console.WriteLine("Add Phone to order completed! Keep Adding Press any key OR Stop adding write 'stop' !");
+                            Console.Write("Your choice: ");
                             input = Console.ReadLine()??"";
-                            Cart.Add(phonedt);
                             Console.Clear();
                         }while(input != "stop");
+                        // foreach(var phonedetail in Cart){
+                        //     phonedetail.
+                        // }
+                        
+                        //Buoc 2: Insert thong tin cua customer va seller
+                        Console.WriteLine("Customer Information");
+                        Console.Write("Customer name: ");
+                        string cusname = Console.ReadLine()??"";
+                        Console.Write("Phone number: ");
+                        string phonenumber = Console.ReadLine()??"";
+                        Console.Write("Address: ");
+                        string address = Console.ReadLine()??"";
+
+                        Customer newcustomer = new Customer(0,cusname, phonenumber, address);
+                        //Buoc 3: Insert vao trong database
+                        
+                            Order neworder = new Order(0, new DateTime(),OrderStaff, new Staff(0,"not have", "not have", "not have", "not have", "not have", StaffEnum.Role.Accountant, StaffEnum.Status.InActive),newcustomer, Cart, OrderEnum.Status.Pending, new List<DiscountPolicy>()  );
+                            Console.WriteLine(OrderStaff.StaffID);
+                            if(orderBL.CreateOrder(neworder)){
+                                Console.WriteLine("Create Order completed");
+
+                            }
+                            else {
+                                Console.WriteLine("Create Order False");
+                            }
+                        
                         break;
                     case 2:
                         break;

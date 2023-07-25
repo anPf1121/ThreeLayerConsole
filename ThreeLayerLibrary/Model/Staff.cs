@@ -12,14 +12,14 @@ public class Staff
     public StaffEnum.Status Status { get; set; }
     public StaffEnum.Role Role { get; set; }
     
-    public Staff(int staffID, string staffName, string phoneNumber, string userName, string password, string address, StaffEnum.Status status, StaffEnum.Role role){
+    public Staff(int staffID, string staffName, string phoneNumber, string userName, string password, string address, StaffEnum.Role role, StaffEnum.Status status){
         this.StaffID = staffID;
         this.StaffName = staffName;
         this.PhoneNumber = phoneNumber;
         this.UserName = userName;
         this.Password = password;
         this.Address = address;
-        this.Status = status;
         this.Role = role;
+        this.Status = status;
     }
 }
