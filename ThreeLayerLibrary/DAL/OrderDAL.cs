@@ -1,6 +1,7 @@
 using Model;
 using MySqlConnector;
 using BusinessEnum;
+
 namespace DAL
 {
     public static class OrderFilter
@@ -441,7 +442,7 @@ namespace DAL
             }
             return result;
         }
-        // public bool UpdateOrder(int statusFilter, Order order)
+        // public bool UpdateOrder(OrderEnum.Status orderStatus, Order order)
         // {
         //     try
         //     {
@@ -450,11 +451,11 @@ namespace DAL
         //             connection.Open();
         //         }
         //         MySqlCommand command = new MySqlCommand("", connection);
-        //         switch (statusFilter)
+        //         switch (orderStatus)
         //         {
-        //             case StatusFilter.Paid:
-        //                 query = @"update orders set accountant_id = @accountantid, order_status = @orderstatus, paymentmethod = @paymentmethod 
-        //         where order_id = @orderid;";
+        //             case OrderEnum.Status.Pending:
+        //                 query = @"update orders set accountant_id = @accountantid, order_status = @orderstatus 
+        //                 where order_id = @orderid;";
         //                 command.CommandText = query;
         //                 command.Parameters.Clear();
         //                 command.Parameters.AddWithValue("@accountantid", order.OrderAccountant.StaffID);
@@ -463,7 +464,7 @@ namespace DAL
         //                 command.Parameters.AddWithValue("@orderid", order.OrderID);
         //                 command.ExecuteNonQuery();
         //                 break;
-        //             case StatusFilter.Export:
+        //             case OrderEnum.Status.Confirmed:
         //                 query = @"update orders set order_status = @orderstatus where order_id = @orderid;";
         //                 command.CommandText = query;
         //                 command.Parameters.Clear();
