@@ -11,5 +11,7 @@ public class OrderBL
         if (order == null) return null;
         return order;
     }
-
+    public bool CreateOrder(Order order) {
+        return orderDAL.InsertOrder(order);
+    }
 }
