@@ -16,7 +16,8 @@ public class DiscountPolicy
     public Staff UpdateBy { get; set; } = default!;
     public decimal? DiscountPrice { get; set; }
     public string Description { get; set; } 
-    public DiscountPolicy(int policyID, string title, DateTime fromDate, DateTime toDate, Staff createBy, DateTime createAt, decimal minimumPurchaseAmount, decimal maximumPurchaseAmount, decimal? moneySupported, string? paymentMethod, PhoneDetail? phoneDetail, DateTime updateAt, Staff? updateBy, decimal discountPrice, string description){
+    public Order Order { get; set; }
+    public DiscountPolicy(int policyID, string title, DateTime fromDate, DateTime toDate, Staff createBy, DateTime createAt, decimal minimumPurchaseAmount, decimal maximumPurchaseAmount, decimal? moneySupported, string? paymentMethod, PhoneDetail? phoneDetail, DateTime updateAt, Staff? updateBy, decimal discountPrice, string description, Order order){
         this.PolicyID = policyID;
         this.Title = title;
         this.FromDate = fromDate;
@@ -32,5 +33,6 @@ public class DiscountPolicy
         this.UpdateBy = updateBy;
         this.DiscountPrice = discountPrice;
         this.Description = description;
+        this.Order = order;
     }
 }
