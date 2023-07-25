@@ -100,6 +100,7 @@ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ __
         }
         public void PrintPhoneBorderLine()
         {
+            Console.Clear();
             Console.WriteLine("========================================================================================================================");
             Console.WriteLine("| {0, 10} | {1, 30} | {2, 15} | {3, 15} | {4, 15} | {5, 15}  |", "ID", "Phone Name", "Brand", "Price", "OS", "Quantity");
             Console.WriteLine("========================================================================================================================");
@@ -113,8 +114,9 @@ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ __
         public void PrintPhoneInfo(Phone phone)
         {
             int quantity = 0;
-            foreach(var phonedetails in phone.PhoneDetails){
-                quantity+=phonedetails.ListImei.Count();
+            foreach (var phonedetails in phone.PhoneDetails)
+            {
+                quantity += phonedetails.ListImei.Count();
             }
             Console.WriteLine("| {0, 10} | {1, 30} | {2, 15} | {3, 15} | {4, 15} | {5, 15}  |", phone.PhoneID, phone.PhoneName, phone.Brand.BrandName, new PhoneDetailsDAL().GetPhoneDetailsByPhoneID(phone.PhoneID)[0].Price, phone.OS, quantity);
         }
@@ -142,6 +144,18 @@ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ __
             Console.WriteLine("Release Date: {0}", phoneDetail.Phone.ReleaseDate);
             Console.WriteLine("Description: {0}", phoneDetail.Phone.Description);
             TinyLine();
+        }
+        public void PrintAgainBorder(Dictionary<int, List<Phone>> phones, int currentPage, int countPage)
+        {
+            PrintPhoneBorderLine();
+            foreach (Phone phone in phones[currentPage])
+            {
+                PrintPhoneInfo(phone);
+            }
+
+            Console.WriteLine("========================================================================================================================");
+            Console.WriteLine("{0,55}" + "< " + $"{currentPage}/{countPage}" + " >", " ");
+            Console.WriteLine("========================================================================================================================");
         }
     }
 }
