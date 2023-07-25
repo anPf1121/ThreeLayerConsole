@@ -12,6 +12,7 @@ namespace DAL
         {
             StaffDAL staffDAL = new StaffDAL();
             PhoneDetailsDAL phoneDetailsDAL = new PhoneDetailsDAL();
+            OrderDAL orderDAL = new OrderDAL();
             DiscountPolicy discountPolicy = new DiscountPolicy(
                 reader.GetInt32("policy_id"), // dc policy, staff, Phonedetails
                 reader.GetString("title"),
@@ -27,7 +28,8 @@ namespace DAL
                 reader.GetDateTime("update_at"),
                 staffDAL.GetStaff(reader),
                 reader.GetDecimal("discount_price"),
-                reader.GetString("description")
+                reader.GetString("description"),
+                orderDAL.GetOrder(reader)
             );
             return discountPolicy;
         }
@@ -47,6 +49,7 @@ namespace DAL
                         INNER JOIN brands B ON B.brand_id = P.brand_id
                         INNER JOIN romsizes RS ON PD.rom_size_id = RS.rom_size_id
                         INNER JOIN colors C ON PD.color_id = C.color_id
+                        INNER JOIN orders O ON S.staff_id = O.seller_id
                         WHERE DP.policy_id = @discountpolicyid;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.Clear();
@@ -89,6 +92,7 @@ namespace DAL
                         INNER JOIN brands B ON B.brand_id = P.brand_id
                         INNER JOIN romsizes RS ON PD.rom_size_id = RS.rom_size_id
                         INNER JOIN colors C ON PD.color_id = C.color_id
+                        INNER JOIN orders O ON S.staff_id = O.seller_id
                         WHERE DP.to_date >= date(current_time());";
                 command.CommandText = query;
                 MySqlDataReader reader = command.ExecuteReader();
