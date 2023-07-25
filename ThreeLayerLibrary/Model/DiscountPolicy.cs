@@ -26,6 +26,7 @@ public class DiscountPolicy
         this.MinimumPurchaseAmount = minimumPurchaseAmount;
         this.MaximumPurchaseAmount = maximumPurchaseAmount;
         this.MoneySupported = moneySupported;
+        this.PaymentMethod = paymentMethod;
         this.PhoneDetail = phoneDetail;
         this.UpdateAt = updateAt;
         this.UpdateBy = updateBy;
