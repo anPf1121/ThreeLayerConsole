@@ -3,7 +3,7 @@ using Model;
 namespace DAL;
 public class CustomerDAL
 {
-    
+
     private MySqlConnection connection = DbConfig.GetConnection();
     private string query = "";
 
@@ -20,7 +20,8 @@ public class CustomerDAL
     public List<Customer> GetCustomersByName(string name)
     {
         List<Customer> lstCustomer = new List<Customer>();
-        try{
+        try
+        {
             if (connection.State == System.Data.ConnectionState.Closed)
             {
                 connection.Open();
@@ -28,65 +29,67 @@ public class CustomerDAL
             query = @"select * from customers where name like @name;";
             MySqlCommand command = new MySqlCommand(query, connection);
             command.Parameters.Clear();
-            command.Parameters.AddWithValue("@name", "%"+name+"%");
+            command.Parameters.AddWithValue("@name", "%" + name + "%");
             MySqlDataReader reader = command.ExecuteReader();
-            while(reader.Read()){
+            while (reader.Read())
+            {
                 lstCustomer.Add(GetCustomer(reader));
             }
             reader.Close();
         }
-        catch(MySqlException ex){
+        catch (MySqlException ex)
+        {
             Console.WriteLine(ex.Message);
         }
         if (connection.State == System.Data.ConnectionState.Open)
-            {
-                connection.Close();
-            }
+        {
+            connection.Close();
+        }
         return lstCustomer;
     }
     public Customer? GetCustomerByPhone(string phonenumber)
     {
         Customer? customer = null;
-        try{
+        try
+        {
             if (connection.State == System.Data.ConnectionState.Closed)
             {
                 connection.Open();
-                
+
             }
             query = @"select * from customers where phone_number = @phonenumber;";
             MySqlCommand command = new MySqlCommand(query, connection);
             command.Parameters.Clear();
             command.Parameters.AddWithValue("@phonenumber", phonenumber);
             MySqlDataReader reader = command.ExecuteReader();
-            if(reader.Read()){
+            if (reader.Read())
+            {
                 customer = GetCustomer(reader);
             }
             reader.Close();
         }
-        catch(MySqlException ex){
+        catch (MySqlException ex)
+        {
             Console.WriteLine(ex.Message);
         }
         if (connection.State == System.Data.ConnectionState.Open)
-            {
-                connection.Close();
-                
-            }
+        {
+            connection.Close();
+
+        }
         return customer;
     }
     public bool InsertCustomer(Customer newcustomer)
     {
-        try{
-            if (connection.State == System.Data.ConnectionState.Closed)
-            {
-                connection.Open();
-                
-            }
+        try
+        {
             query = @"select * from customers where phone_number = @phonenumber limit 1;";
             MySqlCommand command = new MySqlCommand(query, connection);
             command.Parameters.Clear();
             command.Parameters.AddWithValue("@phonenumber", newcustomer.PhoneNumber);
             MySqlDataReader reader = command.ExecuteReader();
-            if(reader.Read()){
+            if (reader.Read())
+            {
                 return false;
             }
             reader.Close();
@@ -98,13 +101,10 @@ public class CustomerDAL
             command.Parameters.AddWithValue("@address", newcustomer.Address);
             command.ExecuteNonQuery();
         }
-        catch(MySqlException ex){
+        catch (MySqlException ex)
+        {
             Console.WriteLine(ex.Message);
         }
-        if (connection.State == System.Data.ConnectionState.Open)
-            {
-                connection.Close();
-            }
         return true;
     }
 }

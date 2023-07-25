@@ -156,7 +156,7 @@ namespace DAL
                 foreach(var o in output){
                     if(o.PhoneName == p.PhoneName && o.PhoneID == p.PhoneID)count++;
                 }
-                if(count == 0)output.Add(GetPhoneById(p.PhoneID));
+                if(count == 0) output.Add(GetPhoneById(p.PhoneID));
             }
         
             if (output.Count() == 0) return null;

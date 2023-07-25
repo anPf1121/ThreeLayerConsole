@@ -58,7 +58,7 @@ namespace DAL
             );
             return phoneDetail;
         }
-        public PhoneDetail GetPhoneDetailByID(int phonedetailid){
+        public PhoneDetail GetPhoneDetailByID(int phonedetailid) {
             PhoneDetail output = null;
             try{
                 if(connection.State == System.Data.ConnectionState.Closed){
@@ -116,14 +116,13 @@ namespace DAL
                 Console.WriteLine(ex.Message);
             }
 
-
             // add imei to phone details
             foreach (PhoneDetail item in phoneDetails)
             {
                 try
                 {
             
-                    query = @"SELECT phone_imei, status FROM imeis WHERE phone_detail_id=@phoneDetailID and status = '0';";
+                    query = @"SELECT phone_imei, status FROM imeis WHERE phone_detail_id=@phoneDetailID and status = '" + (int)PhoneEnum.ImeiStatus.NotExport + "';";
                     MySqlCommand command = new MySqlCommand(query, connection);
                     command.Parameters.Clear();
                     command.Parameters.AddWithValue("@phoneDetailID", item.PhoneDetailID);

@@ -32,7 +32,6 @@ namespace DAL
                 (OrderEnum.Status)Enum.ToObject(typeof(OrderEnum.Status), reader.GetInt32("Status")),
                 new List<DiscountPolicy>()
             );
-
             return order;
         }
         // + lay id cua staff cho order tu phuong thuc GetOrderByID(int id)
@@ -68,6 +67,8 @@ namespace DAL
             {
                 connection.Close();
             }
+            if (order != null)
+            {
                 // Get Phone Details In Order 
                 if (order.PhoneDetails.Count() > 0)
                 {
@@ -143,8 +144,9 @@ namespace DAL
                         }
                     }
                 }
-                return order;
             }
+            return order;
+        }
 
         public List<Order> GetOrdersInDay(int orderFilter)
         {
@@ -310,170 +312,135 @@ namespace DAL
             }
             return orders;
         }
-        // public bool InsertOrder(Order order)
-        // {
-        // bool result = false;
-        // int countphone = 0;
-        // CustomerDAL cdl = new CustomerDAL();
-        // MySqlTransaction? tr = null;
-        // try
-        // {
-        //     if (connection.State == System.Data.ConnectionState.Closed)
-        //     {
-        //         connection.Open();
-        //     }
-        //     tr = connection.BeginTransaction();
-        //     MySqlCommand command = new MySqlCommand(connection, tr);
-        //     MySqlDataReader? reader = null;
-        //     if (cdl.InsertCustomer(order.Customer))
-        //     {
-        //         // Neu insert thanh cong tuc la truoc do chua ton tai customer nay
-        //         // Lay ra id cua nguoi customer vua moi insert vao database
-        //         query = @"select customer_id from customers order by customer_id desc limit 1;";
-        //         command.CommandText = query;
-        //         reader = command.ExecuteReader();
-        //         if (reader.Read())
-        //         {
-        //             order.Customer.CustomerID = reader.GetInt32("customer_id");
-        //         }
-        //         reader.Close();
-
-        //     }
-        //     else
-        //     {
-        //         // Neu insert that bai thi truoc do da ton tai customer nay
-        //         // Lay ra id cua customer nay
-        //         query = @"select customer_id where customer_name = @cusname and Phone_Number = @phonenumber;";
-        //         command.CommandText = query;
-        //         command.Parameters.Clear();
-        //         command.Parameters.AddWithValue("@cusname", order.Customer.CustomerName);
-        //         command.Parameters.AddWithValue("@phonenumber", order.Customer.PhoneNumber);
-        //         if (reader != null)
-        //         {
-        //             if (reader.Read())
-        //             {
-        //                 order.Customer.CustomerID = reader.GetInt32("customer_id");
-        //             }
-        //             reader.Close();
-        //         }
-        //         else return false;
-        //     }
-        //     //Thuc thi Insert order vao DB
-        //     query = @"insert into orders(customer_id, seller_id) 
-        // value (@cusid, @sellerid);";
-        //     command.CommandText = query;
-        //     command.Parameters.Clear();
-        //     command.Parameters.AddWithValue("@cusid", order.Customer.CustomerID);
-        //     command.Parameters.AddWithValue("@sellerid", order.Seller.StaffID);
-        //     command.ExecuteNonQuery();
-        //     //Chon ra order vua insert vao DB
-        //     query = @"select Order_ID from orders order by Order_ID desc limit 1; ";
-        //     command.CommandText = query;
-        //     reader = command.ExecuteReader();
-        //     //Lay ra id cua order vua moi insert
-        //     if (reader.Read())
-        //     {
-        //         order.OrderID = reader.GetInt32("Order_ID");
-        //     }
-        //     reader.Close();
-        //     //Kiem tra cac mat hang co trong Cart
-        //     foreach (var phone in order.PhoneDetails)
-        //     {
-
-        //         int phoneid = 0;
-        //         int quantity = 0;
-        //         int countPhoneNotOrderYet = 0;
-        //         try
-        //         {
-        //             query = @"select phone_id, Quantity from phones where phone_name = @name 
-        //         and brand = @brand and price = @price and os = @os;";
-        //             command.CommandText = query;
-        //             command.Parameters.Clear();
-        //             command.Parameters.AddWithValue("@name", phone.PhoneName);
-        //             command.Parameters.AddWithValue("@brand", phone.Brand);
-        //             command.Parameters.AddWithValue("@price", phone.Price);
-        //             command.Parameters.AddWithValue("@os", phone.OS);
-        //             reader = command.ExecuteReader();
-        //             if (reader.Read())
-        //             {
-        //                 phoneid = reader.GetInt32("Phone_ID");
-        //                 quantity = reader.GetInt32("Quantity");
-        //                 countPhoneNotOrderYet++;
-        //             }
-        //             reader.Close();
-        //             // check ton tai trong DB
-        //             if (countPhoneNotOrderYet > 0)
-        //             {
-        //                 //neu ton tai thi kiem tra so luong co hop le hay khong
-        //                 if (phone.Quantity > quantity)
-        //                 {
-        //                     result = false;
-        //                     break;
-        //                 }
-        //                 else
-        //                 {
-        //                     query = @"insert into orderdetails(order_id, phone_id, phone_imei) 
-        //                     value(@orderid, @phoneid, @phoneimei);";
-        //                     command.CommandText = query;
-        //                     foreach (var phonedict in order.PhoneWithImei)
-        //                     {
-        //                         if (phonedict.Value.PhoneID == phoneid)
-        //                         {
-        //                             command.Parameters.Clear();
-        //                             command.Parameters.AddWithValue("@orderid", order.OrderID);
-        //                             command.Parameters.AddWithValue("@phoneid", phoneid);
-        //                             command.Parameters.AddWithValue("@phoneimei", phonedict.Key);
-        //                             command.ExecuteNonQuery();
-        //                         }
-        //                     }
-        //                     countphone++;
-        //                 }
-
-        //             }
-        //             else
-        //             {
-        //                 //Khong ton tai trong DB
-        //                 result = false;
-        //                 break;
-        //             }
-        //         }
-        //         catch (MySqlException ex)
-        //         {
-        //             Console.WriteLine(ex.Message);
-        //         }
-        //     }
-        //     if (countphone == order.ListPhone.Count() && order.ListPhone.Count() > 0) result = true;
-        //     else
-        //     {
-        //         result = false;
-        //     }
-        //     if (result == true)
-        //     {
-        //         tr.Commit();
-        //     }
-        //     else tr.Rollback();
-
-        // }
-        // catch (MySqlException ex)
-        // {
-        //     try
-        //     {
-        //         if (tr != null)
-        //             tr.Rollback();
-        //         result = false;
-        //     }
-        //     catch (MySqlException ex1)
-        //     {
-        //         Console.WriteLine(ex1.Message);
-        //     }
-        //     Console.WriteLine(ex.Message);
-        // }
-        // if (connection.State == System.Data.ConnectionState.Open)
-        // {
-        //     connection.Close();
-        // }
-        // return result;
-        // }
+        public bool InsertOrder(Order order)
+        {
+            bool result = false;
+            int countphone = 0;
+            CustomerDAL cdl = new CustomerDAL();
+            MySqlTransaction? tr = null;
+            try
+            {
+                if (connection.State == System.Data.ConnectionState.Closed)
+                {
+                    connection.Open();
+                }
+                tr = connection.BeginTransaction();
+                MySqlCommand command = new MySqlCommand(connection, tr);
+                MySqlDataReader? reader = null;
+                if (cdl.InsertCustomer(order.Customer))
+                {
+                    query = @"select customer_id from customers order by customer_id desc limit 1;";
+                    command.CommandText = query;
+                    reader = command.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        order.Customer.CustomerID = reader.GetInt32("customer_id");
+                    }
+                    reader.Close();
+                }
+                else
+                {
+                    query = @"select customer_id where Phone_Number = @phonenumber;";
+                    command.CommandText = query;
+                    command.Parameters.Clear();
+                    command.Parameters.AddWithValue("@phonenumber", order.Customer.PhoneNumber);
+                    if (reader != null)
+                    {
+                        if (reader.Read())
+                        {
+                            order.Customer.CustomerID = reader.GetInt32("customer_id");
+                        }
+                        reader.Close();
+                    }
+                    else return false;
+                }
+                query = @"insert into orders(customer_id, seller_id) 
+        value (@cusid, @sellerid);";
+                command.CommandText = query;
+                command.Parameters.Clear();
+                command.Parameters.AddWithValue("@cusid", order.Customer.CustomerID);
+                command.Parameters.AddWithValue("@sellerid", order.Seller.StaffID);
+                command.ExecuteNonQuery();
+                query = @"select Order_ID from orders order by Order_ID desc limit 1; ";
+                command.CommandText = query;
+                reader = command.ExecuteReader();
+                if (reader.Read())
+                {
+                    order.OrderID = reader.GetInt32("Order_ID");
+                }
+                reader.Close();
+                foreach (var phone in order.PhoneDetails)
+                {
+                    int phoneDetailID = 0;
+                    int quantity = 0;
+                    bool mySqlReader = false;
+                    try
+                    {
+                        query = @"select phone_detail_id, quantity from phonedetails where price = @price;";
+                        command.CommandText = query;
+                        command.Parameters.Clear();
+                        command.Parameters.AddWithValue("@price", phone.Price);
+                        reader = command.ExecuteReader();
+                        mySqlReader = reader.Read();
+                        if (mySqlReader)
+                        {
+                            phoneDetailID = reader.GetInt32("phone_detail_id");
+                            quantity = reader.GetInt32("quantity");
+                        }
+                        reader.Close();
+                        if (mySqlReader)
+                        {
+                            if (phone.Quantity > quantity) break;
+                            else
+                            {
+                                query = @"insert into orderdetails(order_id, phone_imei) 
+                                value(@orderid, @phoneimei);";
+                                command.CommandText = query;
+                                foreach (Imei imei in phone.ListImei)
+                                {
+                                    if (phone.PhoneDetailID == phoneDetailID)
+                                    {
+                                        command.Parameters.Clear();
+                                        command.Parameters.AddWithValue("@orderid", order.OrderID);
+                                        command.Parameters.AddWithValue("@phoneimei", imei.PhoneImei);
+                                        command.ExecuteNonQuery();
+                                    }
+                                }
+                                countphone++;
+                            }
+                        }
+                        else break;
+                    }
+                    catch (MySqlException ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+                }
+                if (countphone == order.PhoneDetails.Count() && order.PhoneDetails.Count() > 0) result = true;
+                else result = false;
+                if (result == true) tr.Commit();
+                else tr.Rollback();
+            }
+            catch (MySqlException ex)
+            {
+                try
+                {
+                    if (tr != null)
+                        tr.Rollback();
+                    result = false;
+                }
+                catch (MySqlException ex1)
+                {
+                    Console.WriteLine(ex1.Message);
+                }
+                Console.WriteLine(ex.Message);
+            }
+            if (connection.State == System.Data.ConnectionState.Open)
+            {
+                connection.Close();
+            }
+            return result;
+        }
         // public bool UpdateOrder(int statusFilter, Order order)
         // {
         //     try
@@ -518,6 +485,5 @@ namespace DAL
         //     }
         //     return true;
         // }
-
     }
 }
