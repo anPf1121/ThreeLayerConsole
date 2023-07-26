@@ -1,0 +1,10 @@
+C:\Users\Acer\OneDrive\Desktop\Application-v0.1\PhoneStorePL.exe
+C:\Users\Acer\OneDrive\Desktop\Application-v0.1\PhoneStorePL.dll
+C:\Users\Acer\OneDrive\Desktop\Application-v0.1\PhoneStorePL.deps.json
+C:\Users\Acer\OneDrive\Desktop\Application-v0.1\PhoneStorePL.runtimeconfig.json
+C:\Users\Acer\OneDrive\Desktop\Application-v0.1\PhoneStorePL.pdb
+C:\Users\Acer\OneDrive\Desktop\Application-v0.1\MySql.Data.dll
+C:\Users\Acer\OneDrive\Desktop\Application-v0.1\MySQLConnection.dll
+C:\Users\Acer\OneDrive\Desktop\Application-v0.1\MySqlConnector.dll
+C:\Users\Acer\OneDrive\Desktop\Application-v0.1\ThreeLayerLibrary.dll
+C:\Users\Acer\OneDrive\Desktop\Application-v0.1\ThreeLayerLibrary.pdb

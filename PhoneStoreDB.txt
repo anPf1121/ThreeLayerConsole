@@ -152,7 +152,7 @@ INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259878', '2');
 CREATE TABLE orders(
 order_id INT AUTO_INCREMENT PRIMARY KEY,
 seller_id INT NOT NULL,
-accountant_id INT DEFAULT '0',
+accountant_id INT DEFAULT '2',
 customer_id INT NOT NULL,
 order_status INT DEFAULT '1',
 create_at DATETIME DEFAULT CURRENT_TIMESTAMP(),

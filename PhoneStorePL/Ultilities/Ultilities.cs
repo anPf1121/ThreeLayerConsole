@@ -2,6 +2,7 @@ using Model;
 using BL;
 using BusinessEnum;
 using GUIEnum;
+using System.Diagnostics;
 
 namespace Ults
 {
@@ -250,7 +251,7 @@ namespace Ults
                             {
                                 do
                                 {
-                                    ConsoleUlts.PrintOrderAndPhoneBorder(phones, currentPage, countPage);
+                                    Console.WriteLine();
                                     Console.WriteLine("Continue to select phone to view details or change the phone list page ? Press Y to continue or press N to switch pages(Y / N):");
                                     input2 = Console.ReadKey(true);
                                     if (input2.Key == ConsoleKey.Y) return true;
@@ -435,7 +436,6 @@ namespace Ults
                 bool? listPhoneSearch = ListPhonePagination(listTemp);
                 if (listPhoneSearch == null)
                 {
-                    ConsoleUlts.Alert(ConsoleEnum.Alert.Warning, "Phone Not Found");
                     activeSearchPhone = false;
                 }
                 else
@@ -444,7 +444,6 @@ namespace Ults
                     {
                         do
                         {
-                            ConsoleUlts.PrintOrderAndPhoneBorder(listAllPhones, listAllPhones.Count(), currentPageDetails);
                             Console.Write("Choose an id to view phone details: ");
                             int.TryParse(Console.ReadLine(), out phoneId);
                             if (phoneId <= 0 || phoneId > phoneBL.GetAllPhone().Count())
@@ -453,9 +452,11 @@ namespace Ults
                             }
                         } while (phoneId <= 0 || phoneId > phoneBL.GetAllPhone().Count());
                         List<PhoneDetail> phonedetails = phoneBL.GetPhoneDetailsByPhoneID(phoneId);
+                        int cnt = 0;
                         foreach (var pd in phonedetails)
                         {
-                            Console.WriteLine(pd.PhoneDetailID + "➖" + pd.PhoneColor.Color + " " + pd.ROMSize.ROM + " " + pd.Price);
+                            cnt++;
+                            Console.WriteLine(cnt + "➖" + pd.PhoneColor.Color + " " + pd.ROMSize.ROM + " " + pd.Price);
                         }
                         Console.Write("Choose a version of phone by id: ");
                         phonedetailId = Convert.ToInt32(Console.ReadLine() ?? "");
@@ -464,7 +465,12 @@ namespace Ults
                         {
                             ConsoleUlts.Alert(ConsoleEnum.Alert.Error, "Invalid phone details Id");
                         }
-                        int quantity;
+                        Console.WriteLine($"Display all information of {phonedt.Phone.PhoneName}");
+                        ConsoleUlts.PrintPhoneDetailsInfo(phonedt);
+                        Console.Write("Press any key to continue...");
+                        Console.ReadKey();
+                        ConsoleUlts.ClearCurrentConsoleLine();
+                        int quantity = 0;
                         if (phonedt.Quantity > 0)
                         {
                             Console.Write("Input quantity: ");
@@ -472,11 +478,13 @@ namespace Ults
                             {
                                 Console.Write("Out of stock OR Invalid input! \nPlease input again: ");
                             }
+                            phonedt.Quantity = quantity;
                         }
                         else
                         {
                             Console.WriteLine("Phone is out of stock. Please choose another phone!");
-                            continue;
+                            ConsoleUlts.PrintOrderAndPhoneBorder(listAllPhones, listAllPhones.Count(), currentPageDetails);
+
                         }
                         bool check = false;
 
@@ -492,7 +500,7 @@ namespace Ults
                             {
                                 Cart.Add(phonedt);
                                 check = true;
-                    
+
                             }
                             else
                             {
@@ -530,7 +538,10 @@ namespace Ults
                         if (orderBL.CreateOrder(neworder) == true)
                         {
                             Console.WriteLine("Create Order completed");
-
+                            Console.WriteLine("Press Any key to continue...");
+                            Console.ReadKey();
+                            ConsoleUlts.ClearCurrentConsoleLine();
+                            break;
                         }
                         else
                         {
@@ -541,6 +552,7 @@ namespace Ults
                 }
             } while (activeSearchPhone);
         }
+
     }
 
 }

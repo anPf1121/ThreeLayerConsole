@@ -37,10 +37,10 @@ namespace DAL
                 reader.GetDateTime("create_at"),
                 reader.GetString("description")
             );
-            
+
             return phone;
         }
-        public Phone ?GetPhoneById(int phoneID)
+        public Phone? GetPhoneById(int phoneID)
         {
             Phone? phone = null;
             try
@@ -95,7 +95,7 @@ namespace DAL
                         inner join staffs s on s.staff_id = p.create_by
                         inner join phonedetails pd on p.phone_id = pd.phone_id
                         inner join colors c on c.color_id = pd.color_id
-                        inner join romsizes r on r.rom_size_id = pd.rom_size_id;";
+                        inner join romsizes r on r.rom_size_id = pd.rom_size_id order by p.phone_id asc;";
                         break;
                     case PhoneFilter.FILTER_BY_PHONE_INFORMATION:
                         query = @"SELECT p.*, b.*, s.*, pd.*
@@ -110,7 +110,7 @@ namespace DAL
                         p.battery_capacity like @input or p.sim_slot like @input or p.os like @input or p.screen like @input or
                         p.charge_port like @input or p.release_date like @input or p.connection like @input or 
                         p.description like @input or r.rom_size like @input or c.color_name like @input or pd.price like @input or
-                        pd.phone_status_type like @input;";
+                        pd.phone_status_type like @input order by p.phone_id asc;";
                         break;
                     case PhoneFilter.FILTER_BY_PHONE_HAVE_DISCOUNT:
                         query = @"SELECT p.phone_id, p.phone_name, b.brand_name, p.camera, p.ram, p.weight, p.processor, p.battery_capacity,
@@ -151,14 +151,16 @@ namespace DAL
 
             //Xu li cac phone trung lap:
             List<Phone> output = new List<Phone>();
-            foreach(var p in lst){
+            foreach (var p in lst)
+            {
                 int count = 0;
-                foreach(var o in output){
-                    if(o.PhoneName == p.PhoneName && o.PhoneID == p.PhoneID)count++;
+                foreach (var o in output)
+                {
+                    if (o.PhoneName == p.PhoneName && o.PhoneID == p.PhoneID) count++;
                 }
-                if(count == 0) output.Add(GetPhoneById(p.PhoneID));
+                if (count == 0) output.Add(GetPhoneById(p.PhoneID));
             }
-        
+
             if (output.Count() == 0) return null;
             return output;
         }
