@@ -165,20 +165,21 @@ namespace DAL
                     case OrderEnum.Status.Pending:
                         query = @"select order_id, customer_id, seller_id, accountant_id, create_at, order_status, S.* from orders O
                         INNER JOIN staffs S ON O.seller_id = S.staff_id
-                        where O.order_status = " + (int)OrderEnum.Status.Pending +" and date(O.create_at) = date(current_time());";
+                        where O.order_status = 0 and date(O.create_at) = date(current_time());";
                         break;
                     case OrderEnum.Status.Confirmed:
                         query = @"select order_id, customer_id, seller_id, accountant_id, create_at, order_status, S.*
                         from orders O
                         INNER JOIN staffs S ON O.seller_id = S.staff_id
-                        where O.order_status = " + (int)OrderEnum.Status.Confirmed +" and date(O.create_at) = date(current_time());";
+                        where O.order_status = 1 and date(O.create_at) = date(current_time());";
                         break;
                     case OrderEnum.Status.Completed:
                         query = @"select order_id, customer_id, seller_id, accountant_id, create_at, order_status, S.*
                         from orders O
                         INNER JOIN staffs S ON O.seller_id = S.staff_id
-                        where O.order_status = " + (int)OrderEnum.Status.Completed + " and date(O.create_at) = date(current_time());";
+                        where O.order_status = 2 and date(O.create_at) = date(current_time());";
                         break;
+                    default: break;
                 }
                 MySqlCommand command = new MySqlCommand(query, connection);
                 MySqlDataReader reader = command.ExecuteReader();
@@ -233,81 +234,81 @@ namespace DAL
                     {
                         connection.Close();
                     }
-                    // Get Phone Details In Order 
-                    if (order.PhoneDetails.Count() > 0)
-                    {
-                        foreach (PhoneDetail phoneDetail in order.PhoneDetails)
-                        {
-                            try
-                            {
-                                if (connection.State == System.Data.ConnectionState.Closed)
-                                {
-                                    connection.Open();
-                                }
-                                query = @"SELECT * FROM phones P
-                            INNER JOIN phonedetails PD ON P.phone_id = PD.phone_id
-                            INNER JOIN imeis I ON PD.phone_detail_id = I.phone_detail_id
-                            INNER JOIN orderdetails OD ON OD.phone_imei = I.phone_imei
-                            INNER JOIN brands B ON P.brand_id = B.brand_id
-                            INNER JOIN romsizes RS ON PD.rom_size_id = RS.rom_size_id
-                            INNER JOIN colors C ON PD.color_id = C.color_id
-                            INNER JOIN staffs S ON P.create_by = S.staff_id
-                            WHERE OD.order_id = @orderID";
-                                MySqlCommand command = new MySqlCommand(query, connection);
-                                command.Parameters.Clear();
-                                command.Parameters.AddWithValue("@orderID", order.OrderID);
-                                MySqlDataReader reader = command.ExecuteReader();
-                                while (reader.Read())
-                                {
-                                    order.PhoneDetails.Add(phoneDetailsDAL.GetPhoneDetail(reader));
-                                    // phoneDetail.PhoneDetails
-                                }
-                                reader.Close();
-                            }
-                            catch (MySqlException ex)
-                            {
-                                Console.WriteLine(ex.Message);
-                            }
-                            if (connection.State == System.Data.ConnectionState.Open)
-                            {
-                                connection.Close();
-                            }
-                            if (order.PhoneDetails.Count() != 0)
-                            {
-                                foreach (PhoneDetail item in order.PhoneDetails)
-                                {
-                                    try
-                                    {
-                                        if (connection.State == System.Data.ConnectionState.Closed)
-                                        {
-                                            connection.Open();
-                                        }
-                                        query = @"SELECT * FROM imeis I 
-                                            INNER JOIN orderdetails OD ON OD.phone_imei = I.phone_Imei
-                                            INNER JOIN orders O ON O.order_id = OD.order_id
-                                            WHERE O.order_id=@orderID";
-                                        MySqlCommand command = new MySqlCommand(query, connection);
-                                        command.Parameters.Clear();
-                                        command.Parameters.AddWithValue("@orderID", order.OrderID);
-                                        MySqlDataReader reader = command.ExecuteReader();
-                                        while (reader.Read())
-                                        {
-                                            item.ListImei.Add(phoneDetailsDAL.GetImei(reader));
-                                        }
-                                        reader.Close();
-                                    }
-                                    catch (MySqlException ex)
-                                    {
-                                        Console.WriteLine(ex.Message);
-                                    }
-                                }
-                                if (connection.State == System.Data.ConnectionState.Open)
-                                {
-                                    connection.Close();
-                                }
-                            }
-                        }
-                    }
+                    // // Get Phone Details In Order 
+                    // if (order.PhoneDetails.Count() > 0)
+                    // {
+                    //     foreach (PhoneDetail phoneDetail in order.PhoneDetails)
+                    //     {
+                    //         try
+                    //         {
+                    //             if (connection.State == System.Data.ConnectionState.Closed)
+                    //             {
+                    //                 connection.Open();
+                    //             }
+                    //             query = @"SELECT * FROM phones P
+                    //             INNER JOIN phonedetails PD ON P.phone_id = PD.phone_id
+                    //             INNER JOIN imeis I ON PD.phone_detail_id = I.phone_detail_id
+                    //             INNER JOIN orderdetails OD ON OD.phone_imei = I.phone_imei
+                    //             INNER JOIN brands B ON P.brand_id = B.brand_id
+                    //             INNER JOIN romsizes RS ON PD.rom_size_id = RS.rom_size_id
+                    //             INNER JOIN colors C ON PD.color_id = C.color_id
+                    //             INNER JOIN staffs S ON P.create_by = S.staff_id
+                    //             WHERE OD.order_id = @orderID";
+                    //             MySqlCommand command = new MySqlCommand(query, connection);
+                    //             command.Parameters.Clear();
+                    //             command.Parameters.AddWithValue("@orderID", order.OrderID);
+                    //             MySqlDataReader reader = command.ExecuteReader();
+                    //             while (reader.Read())
+                    //             {
+                    //                 order.PhoneDetails.Add(phoneDetailsDAL.GetPhoneDetail(reader));
+                    //                 // phoneDetail.PhoneDetails
+                    //             }
+                    //             reader.Close();
+                    //         }
+                    //         catch (MySqlException ex)
+                    //         {
+                    //             Console.WriteLine(ex.Message);
+                    //         }
+                    //         if (connection.State == System.Data.ConnectionState.Open)
+                    //         {
+                    //             connection.Close();
+                    //         }
+                    //         if (order.PhoneDetails.Count() != 0)
+                    //         {
+                    //             foreach (PhoneDetail item in order.PhoneDetails)
+                    //             {
+                    //                 try
+                    //                 {
+                    //                     if (connection.State == System.Data.ConnectionState.Closed)
+                    //                     {
+                    //                         connection.Open();
+                    //                     }
+                    //                     query = @"SELECT * FROM imeis I 
+                    //                             INNER JOIN orderdetails OD ON OD.phone_imei = I.phone_Imei
+                    //                             INNER JOIN orders O ON O.order_id = OD.order_id
+                    //                             WHERE O.order_id=@orderID";
+                    //                     MySqlCommand command = new MySqlCommand(query, connection);
+                    //                     command.Parameters.Clear();
+                    //                     command.Parameters.AddWithValue("@orderID", order.OrderID);
+                    //                     MySqlDataReader reader = command.ExecuteReader();
+                    //                     while (reader.Read())
+                    //                     {
+                    //                         item.ListImei.Add(phoneDetailsDAL.GetImei(reader));
+                    //                     }
+                    //                     reader.Close();
+                    //                 }
+                    //                 catch (MySqlException ex)
+                    //                 {
+                    //                     Console.WriteLine(ex.Message);
+                    //                 }
+                    //             }
+                    //             if (connection.State == System.Data.ConnectionState.Open)
+                    //             {
+                    //                 connection.Close();
+                    //             }
+                    //         }
+                    //     }
+                    // }
                 }
             }
             return orders;

@@ -54,3 +54,13 @@ foreach (Order i in orderDAL.GetOrdersInDay(1))
     }
     break;
 }
+
+using DAL;
+
+OrderDAL odal = new OrderDAL();
+List<Model.Order> listOrders = odal.GetOrdersInDay(BusinessEnum.OrderEnum.Status.Confirmed);
+Console.WriteLine(listOrders.Count());
+foreach (Model.Order order in listOrders)
+{
+    Console.WriteLine(order.OrderStatus);
+}
