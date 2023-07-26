@@ -58,27 +58,6 @@ namespace Ults
             }
             return currentChoice;
         }
-        public int StartMenu()
-        {
-            Console.OutputEncoding = System.Text.Encoding.UTF8;
-            string[] menuItem = { "Login", "Exit" };
-
-            int choice = MenuHandle(@"
-    ██████╗ ██╗  ██╗ ██████╗ ███╗   ██╗███████╗    ███████╗████████╗ ██████╗ ██████╗ ███████╗
-    ██╔══██╗██║  ██║██╔═══██╗████╗  ██║██╔════╝    ██╔════╝╚══██╔══╝██╔═══██╗██╔══██╗██╔════╝
-    ██████╔╝███████║██║   ██║██╔██╗ ██║█████╗      ███████╗   ██║   ██║   ██║██████╔╝█████╗  
-    ██╔═══╝ ██╔══██║██║   ██║██║╚██╗██║██╔══╝      ╚════██║   ██║   ██║   ██║██╔══██╗██╔══╝  
-    ██║     ██║  ██║╚██████╔╝██║ ╚████║███████╗    ███████║   ██║   ╚██████╔╝██║  ██║███████╗
-    ╚═╝     ╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═══╝╚══════╝    ╚══════╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚══════╝
-                                                                                             "
-            , null, menuItem);
-
-            if (choice == 1) return 1;
-            else if (choice == 2) return 2;
-            else return -1;
-        }
-
-
         public StaffEnum.Role? LoginUlt()
         {
             Console.OutputEncoding = System.Text.Encoding.UTF8;
@@ -113,8 +92,18 @@ namespace Ults
             pass = pass.Substring(0, pass.Length - 1);
             OrderStaff = StaffBL.Authenticate(userName, pass);
             if (OrderStaff != null)
+            {
+                ShowStaffName();
                 return OrderStaff.Role;
+            }
             else return null;
+        }
+        public void ShowStaffName()
+        {
+            Console.Clear();
+            Console.WriteLine("-- Login Success! --------------------------------");
+            Console.WriteLine("\n   Hello, " + OrderStaff.StaffName + "!");
+            PressEnterTo("Continue");
         }
         public void PressEnterTo(string? action)
         {
