@@ -100,9 +100,9 @@ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ __
         }
         public void PrintPhoneBorderLine()
         {
-            Console.WriteLine("========================================================================================================================");
-            Console.WriteLine("| {0, 10} | {1, 30} | {2, 15} | {3, 15} | {4, 15} | {5, 15}  |", "ID", "Phone Name", "Brand", "Price", "OS", "Quantity");
-            Console.WriteLine("========================================================================================================================");
+            Console.WriteLine("================================================================================================");
+            Console.WriteLine("| {0, 10} | {1, 30} | {2, 15} | {3, 15} |", "ID", "Phone Name", "Brand", "OS");
+            Console.WriteLine("================================================================================================");
         }
         public void PrintOrderBorderLine()
         {
@@ -117,7 +117,7 @@ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ __
             {
                 quantity += phonedetails.ListImei.Count();
             }
-            Console.WriteLine("| {0, 10} | {1, 30} | {2, 15} | {3, 15} | {4, 15} | {5, 15}  |", phone.PhoneID, phone.PhoneName, phone.Brand.BrandName, new PhoneDetailsDAL().GetPhoneDetailsByPhoneID(phone.PhoneID)[0].Price, phone.OS, quantity);
+            Console.WriteLine("| {0, 10} | {1, 30} | {2, 15} | {3, 15} |", phone.PhoneID, phone.PhoneName, phone.Brand.BrandName, phone.OS);
         }
         public void PrintOrderInfo(Order order)
         {
@@ -144,6 +144,14 @@ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ __
             Console.WriteLine("Description: {0}", phoneDetail.Phone.Description);
             TinyLine();
         }
+        public void PrintPhoneDetailsType(PhoneDetail phoneDetail)
+        {
+            foreach (PhoneDetail item in phoneDetail)
+            {
+                PrintPhoneDetailsInfoTitle();
+                Console.WriteLine("| {0, 10} | {1, 30} | {2, 15} | {3, 15} | {4, 15} |", item.PhoneColor.Color, item.ROMSize.ROM, item.Price, item.PhoneStatusType, item.Quantity);
+            }
+        }
         public void PrintOrderAndPhoneBorder(Dictionary<int, List<Phone>> phones, int currentPage, int countPage)
         {
             Console.Clear();
@@ -164,9 +172,9 @@ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ __
                 PrintPhoneInfo(phone);
             }
 
-            Console.WriteLine("========================================================================================================================");
-            Console.WriteLine("{0,55}" + "< " + $"{currentPage}/{countPage}" + " >", " ");
-            Console.WriteLine("========================================================================================================================");
+            Console.WriteLine("================================================================================================");
+            Console.WriteLine("{0,45}" + "< " + $"{currentPage}/{countPage}" + " >", " ");
+            Console.WriteLine("================================================================================================");
         }
         public static void ClearCurrentConsoleLine()
         {

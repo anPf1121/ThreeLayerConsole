@@ -20,12 +20,18 @@ namespace PhoneStoreUI
             int mainChoice = 0, SellerAccount = 0, AccountantAccount = 0;
             bool active = true;
             do
-            { 
+            {
                 loginAccount = Ults.LoginUlt();
                 if (loginAccount == StaffEnum.Role.Seller)
+                {
+                    Ults.ShowLoginSuccessAlert();
                     SellerAccount = Ults.SellerMenu();
+                }
                 else if (loginAccount == StaffEnum.Role.Accountant)
+                {
+                    Ults.ShowLoginSuccessAlert();
                     AccountantAccount = Ults.AccountantMenu();
+                }
                 else
                 {
                     Console.WriteLine();

@@ -91,17 +91,15 @@ namespace Ults
             while (key.Key != ConsoleKey.Enter);
             pass = pass.Substring(0, pass.Length - 1);
             OrderStaff = StaffBL.Authenticate(userName, pass);
-            if (OrderStaff != null)
-            {
-                ShowStaffName();
-                return OrderStaff.Role;
-            }
+            if (OrderStaff != null) return OrderStaff.Role;
             else return null;
         }
-        public void ShowStaffName()
+        public void ShowLoginSuccessAlert()
         {
             Console.Clear();
+            ConsoleUlts.ConsoleForegroundColor(ConsoleEnum.Color.Green);
             Console.WriteLine("-- Login Success! --------------------------------");
+            ConsoleUlts.ConsoleForegroundColor(ConsoleEnum.Color.White);
             Console.WriteLine("\n   Hello, " + OrderStaff.StaffName + "!");
             PressEnterTo("Continue");
         }
@@ -240,7 +238,7 @@ namespace Ults
                                 do
                                 {
                                     Console.WriteLine();
-                                    Console.WriteLine("Continue to select phone to view details or change the phone list page ? Press Y to continue or press N to switch pages(Y / N):");
+                                    Console.Write("Continue to select phone to view details or change the phone list page ? Press Y to continue or press N to switch pages(Y / N)");
                                     input2 = Console.ReadKey(true);
                                     if (input2.Key == ConsoleKey.Y) return true;
                                     else if (input2.Key == ConsoleKey.N) break;
@@ -440,7 +438,6 @@ namespace Ults
                             }
                         } while (phoneId <= 0 || phoneId > phoneBL.GetAllPhone().Count());
                         List<PhoneDetail> phonedetails = phoneBL.GetPhoneDetailsByPhoneID(phoneId);
-                        int cnt = 0;
                         foreach (var pd in phonedetails)
                         {
                             cnt++;

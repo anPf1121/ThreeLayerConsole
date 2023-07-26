@@ -27,5 +27,4 @@ public class PhoneDetail
         this.UpdateBy = updateBy;
         this.UpdateAt = updateAt;
     }
-
 }

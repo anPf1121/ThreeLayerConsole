@@ -149,7 +149,7 @@ namespace DAL
             return order;
         }
 
-        public List<Order> GetOrdersInDay(int orderFilter)
+        public List<Order> GetOrdersInDay(OrderEnum.Status status)
         {
             PhoneDetailsDAL phoneDetailsDAL = new PhoneDetailsDAL();
             PhoneDAL phoneDAL = new PhoneDAL();
@@ -160,21 +160,20 @@ namespace DAL
                 {
                     connection.Open();
                 }
-                switch (orderFilter)
+                switch (status)
                 {
-                    case OrderFilter.GET_ORDER_PENDING_IN_DAY:
+                    case OrderEnum.Status.Pending:
+                        query = @"select order_id, customer_id, seller_id, accountant_id, create_at, order_status, S.* from orders O
+                        INNER JOIN staffs S ON O.seller_id = S.staff_id
+                        where O.order_status = " + (int)OrderEnum.Status.Pending +" and date(O.create_at) = date(current_time());";
+                        break;
+                    case OrderEnum.Status.Confirmed:
                         query = @"select order_id, customer_id, seller_id, accountant_id, create_at, order_status, S.*
                         from orders O
                         INNER JOIN staffs S ON O.seller_id = S.staff_id
-                        where O.order_status = " + (int)OrderEnum.Status.Pending + " and date(O.create_at) = date(current_time());";
+                        where O.order_status = " + (int)OrderEnum.Status.Confirmed +" and date(O.create_at) = date(current_time());";
                         break;
-                    case OrderFilter.GET_ORDER_CONFIRMED_IN_DAY:
-                        query = @"select order_id, customer_id, seller_id, accountant_id, create_at, order_status, S.*
-                        from orders O
-                        INNER JOIN staffs S ON O.seller_id = S.staff_id
-                        where O.order_status = " + (int)OrderEnum.Status.Confirmed + " and date(O.create_at) = date(current_time());";
-                        break;
-                    case OrderFilter.GET_ORDER_COMPLETED_IN_DAY:
+                    case OrderEnum.Status.Completed:
                         query = @"select order_id, customer_id, seller_id, accountant_id, create_at, order_status, S.*
                         from orders O
                         INNER JOIN staffs S ON O.seller_id = S.staff_id
