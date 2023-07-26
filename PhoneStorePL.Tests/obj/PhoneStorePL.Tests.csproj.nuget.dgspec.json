@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Acer\\OneDrive\\Desktop\\ThreeLayerConsole\\PhoneStorePL.Tests\\PhoneStorePL.Tests.csproj": {}
+    "c:\\Users\\Acer\\OneDrive\\Desktop\\ThreeLayerConsole\\PhoneStorePL.Tests\\PhoneStorePL.Tests.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Acer\\OneDrive\\Desktop\\ThreeLayerConsole\\PhoneStorePL.Tests\\PhoneStorePL.Tests.csproj": {
+    "c:\\Users\\Acer\\OneDrive\\Desktop\\ThreeLayerConsole\\PhoneStorePL.Tests\\PhoneStorePL.Tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Acer\\OneDrive\\Desktop\\ThreeLayerConsole\\PhoneStorePL.Tests\\PhoneStorePL.Tests.csproj",
+        "projectUniqueName": "c:\\Users\\Acer\\OneDrive\\Desktop\\ThreeLayerConsole\\PhoneStorePL.Tests\\PhoneStorePL.Tests.csproj",
         "projectName": "PhoneStorePL.Tests",
-        "projectPath": "C:\\Users\\Acer\\OneDrive\\Desktop\\ThreeLayerConsole\\PhoneStorePL.Tests\\PhoneStorePL.Tests.csproj",
+        "projectPath": "c:\\Users\\Acer\\OneDrive\\Desktop\\ThreeLayerConsole\\PhoneStorePL.Tests\\PhoneStorePL.Tests.csproj",
         "packagesPath": "C:\\Users\\Acer\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Acer\\OneDrive\\Desktop\\ThreeLayerConsole\\PhoneStorePL.Tests\\obj\\",
+        "outputPath": "c:\\Users\\Acer\\OneDrive\\Desktop\\ThreeLayerConsole\\PhoneStorePL.Tests\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Acer\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -26,8 +26,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "C:\\Users\\Acer\\OneDrive\\Desktop\\ThreeLayerConsole\\PhoneStorePL\\PhoneStorePL.csproj": {
-                "projectPath": "C:\\Users\\Acer\\OneDrive\\Desktop\\ThreeLayerConsole\\PhoneStorePL\\PhoneStorePL.csproj"
+              "c:\\Users\\Acer\\OneDrive\\Desktop\\ThreeLayerConsole\\PhoneStorePL\\PhoneStorePL.csproj": {
+                "projectPath": "c:\\Users\\Acer\\OneDrive\\Desktop\\ThreeLayerConsole\\PhoneStorePL\\PhoneStorePL.csproj"
               }
             }
           }
@@ -83,14 +83,14 @@
         }
       }
     },
-    "C:\\Users\\Acer\\OneDrive\\Desktop\\ThreeLayerConsole\\PhoneStorePL\\PhoneStorePL.csproj": {
+    "c:\\Users\\Acer\\OneDrive\\Desktop\\ThreeLayerConsole\\PhoneStorePL\\PhoneStorePL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Acer\\OneDrive\\Desktop\\ThreeLayerConsole\\PhoneStorePL\\PhoneStorePL.csproj",
+        "projectUniqueName": "c:\\Users\\Acer\\OneDrive\\Desktop\\ThreeLayerConsole\\PhoneStorePL\\PhoneStorePL.csproj",
         "projectName": "PhoneStorePL",
-        "projectPath": "C:\\Users\\Acer\\OneDrive\\Desktop\\ThreeLayerConsole\\PhoneStorePL\\PhoneStorePL.csproj",
+        "projectPath": "c:\\Users\\Acer\\OneDrive\\Desktop\\ThreeLayerConsole\\PhoneStorePL\\PhoneStorePL.csproj",
         "packagesPath": "C:\\Users\\Acer\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Acer\\OneDrive\\Desktop\\ThreeLayerConsole\\PhoneStorePL\\obj\\",
+        "outputPath": "c:\\Users\\Acer\\OneDrive\\Desktop\\ThreeLayerConsole\\PhoneStorePL\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Acer\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -105,8 +105,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "C:\\Users\\Acer\\OneDrive\\Desktop\\ThreeLayerConsole\\ThreeLayerLibrary\\ThreeLayerLibrary.csproj": {
-                "projectPath": "C:\\Users\\Acer\\OneDrive\\Desktop\\ThreeLayerConsole\\ThreeLayerLibrary\\ThreeLayerLibrary.csproj"
+              "c:\\Users\\Acer\\OneDrive\\Desktop\\ThreeLayerConsole\\ThreeLayerLibrary\\ThreeLayerLibrary.csproj": {
+                "projectPath": "c:\\Users\\Acer\\OneDrive\\Desktop\\ThreeLayerConsole\\ThreeLayerLibrary\\ThreeLayerLibrary.csproj"
               }
             }
           }
@@ -140,14 +140,14 @@
         }
       }
     },
-    "C:\\Users\\Acer\\OneDrive\\Desktop\\ThreeLayerConsole\\ThreeLayerLibrary\\ThreeLayerLibrary.csproj": {
+    "c:\\Users\\Acer\\OneDrive\\Desktop\\ThreeLayerConsole\\ThreeLayerLibrary\\ThreeLayerLibrary.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Acer\\OneDrive\\Desktop\\ThreeLayerConsole\\ThreeLayerLibrary\\ThreeLayerLibrary.csproj",
+        "projectUniqueName": "c:\\Users\\Acer\\OneDrive\\Desktop\\ThreeLayerConsole\\ThreeLayerLibrary\\ThreeLayerLibrary.csproj",
         "projectName": "ThreeLayerLibrary",
-        "projectPath": "C:\\Users\\Acer\\OneDrive\\Desktop\\ThreeLayerConsole\\ThreeLayerLibrary\\ThreeLayerLibrary.csproj",
+        "projectPath": "c:\\Users\\Acer\\OneDrive\\Desktop\\ThreeLayerConsole\\ThreeLayerLibrary\\ThreeLayerLibrary.csproj",
         "packagesPath": "C:\\Users\\Acer\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Acer\\OneDrive\\Desktop\\ThreeLayerConsole\\ThreeLayerLibrary\\obj\\",
+        "outputPath": "c:\\Users\\Acer\\OneDrive\\Desktop\\ThreeLayerConsole\\ThreeLayerLibrary\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Acer\\AppData\\Roaming\\NuGet\\NuGet.Config"

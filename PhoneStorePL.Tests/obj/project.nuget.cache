@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "NrNldZ6ZT47GIRI7tYomDMK0aXcLhfHjdVulGBsMhX+jJemtNoOUZ4EoVYbT/MCGgtEW2GTraQHaA62Rh4Jd4g==",
+  "dgSpecHash": "8QvFc9I7hNzzQ6RarHbaOs//7cHDksYCFm5SP3mE2xn8SoPcomJ4+Im9IoEQqFkZhr+ds8gxTF8FfWUfUIxSYQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Acer\\OneDrive\\Desktop\\ThreeLayerConsole\\PhoneStorePL.Tests\\PhoneStorePL.Tests.csproj",
+  "projectFilePath": "c:\\Users\\Acer\\OneDrive\\Desktop\\ThreeLayerConsole\\PhoneStorePL.Tests\\PhoneStorePL.Tests.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Acer\\.nuget\\packages\\coverlet.collector\\3.1.2\\coverlet.collector.3.1.2.nupkg.sha512",
     "C:\\Users\\Acer\\.nuget\\packages\\microsoft.codecoverage\\17.3.2\\microsoft.codecoverage.17.3.2.nupkg.sha512",

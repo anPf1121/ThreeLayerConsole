@@ -110,11 +110,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Acer\\OneDrive\\Desktop\\ThreeLayerConsole\\ThreeLayerLibrary\\ThreeLayerLibrary.csproj",
+      "projectUniqueName": "c:\\Users\\Acer\\OneDrive\\Desktop\\ThreeLayerConsole\\ThreeLayerLibrary\\ThreeLayerLibrary.csproj",
       "projectName": "ThreeLayerLibrary",
-      "projectPath": "C:\\Users\\Acer\\OneDrive\\Desktop\\ThreeLayerConsole\\ThreeLayerLibrary\\ThreeLayerLibrary.csproj",
+      "projectPath": "c:\\Users\\Acer\\OneDrive\\Desktop\\ThreeLayerConsole\\ThreeLayerLibrary\\ThreeLayerLibrary.csproj",
       "packagesPath": "C:\\Users\\Acer\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Acer\\OneDrive\\Desktop\\ThreeLayerConsole\\ThreeLayerLibrary\\obj\\",
+      "outputPath": "c:\\Users\\Acer\\OneDrive\\Desktop\\ThreeLayerConsole\\ThreeLayerLibrary\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Acer\\AppData\\Roaming\\NuGet\\NuGet.Config"

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ajOj/Ot9pIAlHwboCsxrYeDQYYzLtm4qdwCPnpZgaD/YWP1ZyML9BmXh1oj82zuh4Ql0r3P8yOCNFodJ9aQItg==",
+  "dgSpecHash": "fucBaq+3TyeCcmEel1SpZvK/anmUGHw0AjwWGorou2dhKGfWjLV9q6UXJqtmfyLUIP9uUEwiHKBPqJwdXuiQSw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Acer\\OneDrive\\Desktop\\ThreeLayerConsole\\PhoneStorePL\\PhoneStorePL.csproj",
+  "projectFilePath": "c:\\Users\\Acer\\OneDrive\\Desktop\\ThreeLayerConsole\\PhoneStorePL\\PhoneStorePL.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Acer\\.nuget\\packages\\mysql.data\\6.9.8\\mysql.data.6.9.8.nupkg.sha512",
     "C:\\Users\\Acer\\.nuget\\packages\\mysqlconnection\\1.0.1\\mysqlconnection.1.0.1.nupkg.sha512",

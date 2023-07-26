@@ -110,6 +110,38 @@ FOREIGN KEY(brand_id) REFERENCES brands(brand_id),
 FOREIGN KEY(create_by) REFERENCES staffs(staff_id)
 )engine = InnoDB;
 INSERT INTO phones(phone_name, brand_id, weight, battery_capacity, sim_slot,screen, release_date, create_by) VALUE('Nokia 1280', '2', '250g', '1080mAh', '1','500x200', '1998-12-12', '1');
+INSERT INTO phones (phone_name, brand_id, weight, battery_capacity, sim_slot,screen, release_date, create_by)
+VALUE ('Iphone 11', '1', '194 grams', '3,110 mAh', '2', '828 x 1792','2019-09-20', '1');
+INSERT INTO phones (phone_name, brand_id, weight, battery_capacity, sim_slot,screen, release_date, create_by)
+VALUE ('Iphone 12', '1', '194 grams', '3,110 mAh', '2', '1828 x 1792','2019-09-20', '1');
+INSERT INTO phones (phone_name, brand_id, weight, battery_capacity, sim_slot,screen, release_date, create_by)
+VALUE ('Iphone 13', '1', '194 grams', '3,110 mAh', '2', '2828 x 1792','2029-09-20', '1');
+INSERT INTO phones (phone_name, brand_id, weight, battery_capacity, sim_slot,screen, release_date, create_by)
+VALUE ('Iphone 14', '1', '194 grams', '3,110 mAh', '2', '3828 x 1792','2039-09-20', '1');
+INSERT INTO phones (phone_name, brand_id, weight, battery_capacity, sim_slot,screen, release_date, create_by)
+VALUE ('Iphone 15', '1', '194 grams', '3,110 mAh', '2', '4828 x 1792','2049-09-20', '1');
+INSERT INTO phones (phone_name, brand_id, weight, battery_capacity, sim_slot,screen, release_date, create_by)
+VALUE ('Iphone 16', '1', '194 grams', '3,110 mAh', '2', '5828 x 1792','2059-09-20', '1');
+INSERT INTO phones (phone_name, brand_id, weight, battery_capacity, sim_slot,screen, release_date, create_by)
+VALUE ('Iphone 17', '1', '194 grams', '3,110 mAh', '2', '6828 x 1792','2069-09-20', '1');
+INSERT INTO phones (phone_name, brand_id, weight, battery_capacity, sim_slot,screen, release_date, create_by)
+VALUE ('Iphone 18', '1', '194 grams', '3,110 mAh', '2', '7828 x 1792','2079-09-20', '1');
+INSERT INTO phones (phone_name, brand_id, weight, battery_capacity, sim_slot,screen, release_date, create_by)
+VALUE ('Iphone 19', '1', '194 grams', '3,110 mAh', '2', '8828 x 1792','2089-09-20', '1');
+INSERT INTO phones (phone_name, brand_id, weight, battery_capacity, sim_slot,screen, release_date, create_by)
+VALUE ('Iphone XX', '1', '194 grams', '3,110 mAh', '2', '9828 x 1792','2099-09-20', '1');
+INSERT INTO phones (phone_name, brand_id, weight, battery_capacity, sim_slot,screen, release_date, create_by)
+VALUE ('Samsung Note 10', '2', '200 grams', '4,000 mAh', '2', '1828 x 1792','2018-10-15', '1');
+INSERT INTO phones (phone_name, brand_id, weight, battery_capacity, sim_slot,screen, release_date, create_by)
+VALUE ('Samsung Note 11', '2', '200 grams', '4,000 mAh', '2', '2828 x 1792','2019-10-15', '1');
+INSERT INTO phones (phone_name, brand_id, weight, battery_capacity, sim_slot,screen, release_date, create_by)
+VALUE ('Samsung Note 12', '2', '200 grams', '4,000 mAh', '2', '3828 x 1792','2020-10-15', '1');
+INSERT INTO phones (phone_name, brand_id, weight, battery_capacity, sim_slot,screen, release_date, create_by)
+VALUE ('Samsung Note 13', '2', '200 grams', '4,000 mAh', '2', '4828 x 1792','2021-10-15', '1');
+INSERT INTO phones (phone_name, brand_id, weight, battery_capacity, sim_slot,screen, release_date, create_by)
+VALUE ('Samsung Note 14', '2', '200 grams', '4,000 mAh', '2', '5828 x 1792','2022-10-15', '1');
+INSERT INTO phones (phone_name, brand_id, weight, battery_capacity, sim_slot,screen, release_date, create_by)
+VALUE ('Samsung Note 15', '2', '200 grams', '4,000 mAh', '2', '6828 x 1792','2023-10-15', '1');
 
 CREATE TABLE phonedetails(
 phone_detail_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -129,6 +161,21 @@ UNIQUE key pd_unique1(phone_id, color_id, rom_size_id)
 )engine = InnoDB;
 INSERT INTO phonedetails(phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('1', '1','1', '1', '500000');
 INSERT INTO phonedetails(phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('1', '2','1', '1', '500000');
+INSERT INTO phonedetails(phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('3', '1','1', '1', '500000');
+INSERT INTO phonedetails(phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('4', '1','1', '1', '500000');
+INSERT INTO phonedetails(phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('5', '1','1', '1', '500000');
+INSERT INTO phonedetails(phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('6', '1','1', '1', '500000');
+INSERT INTO phonedetails(phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('7', '1','1', '1', '500000');
+INSERT INTO phonedetails(phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('8', '1','1', '1', '500000');
+INSERT INTO phonedetails(phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('9', '1','1', '1', '500000');
+INSERT INTO phonedetails(phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('10', '1','1', '1', '500000');
+INSERT INTO phonedetails(phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('11', '1','1', '1', '500000');
+INSERT INTO phonedetails(phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('12', '1','1', '1', '500000');
+INSERT INTO phonedetails(phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('13', '1','1', '1', '500000');
+INSERT INTO phonedetails(phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('14', '1','1', '1', '500000');
+INSERT INTO phonedetails(phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('15', '1','1', '1', '500000');
+INSERT INTO phonedetails(phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('16', '1','1', '1', '500000');
+INSERT INTO phonedetails(phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('17', '1','1', '1', '500000');
 
 CREATE TABLE imeis(
 phone_imei VARCHAR(15) PRIMARY KEY,
@@ -143,11 +190,50 @@ BEGIN
 UPDATE phonedetails SET quantity = quantity+1 WHERE phone_detail_id = new.phone_detail_id;
 END$$
 DELIMITER ;
-INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259874', '1');
-INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259875', '1');
-INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259876', '1');
-INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259877', '1');
-INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259878', '2');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('388541254259874', '1');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('388541254259875', '1');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('388541254259876', '1');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('388541254259877', '1');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('388541254259878', '1');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('388541254259879', '1');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259880', '1');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259890', '2');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259891', '2');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259892', '2');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259893', '2');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259894', '2');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259895', '3');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259896', '3');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259897', '4');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259898', '4');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259899', '5');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259100', '5');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259101', '6');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259102', '6');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259103', '7');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259104', '7');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259105', '8');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259106', '8');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259107', '9');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259108', '9');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259109', '10');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259110', '11');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259111', '12');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259112', '13');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259113', '14');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259114', '15');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259115', '16');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259116', '17');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259117', '17');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259118', '16');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259119', '15');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259120', '14');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259121', '15');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259122', '16');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259123', '17');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259124', '17');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259125', '8');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259126', '1');
 
 CREATE TABLE orders(
 order_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -237,7 +323,4 @@ FOREIGN KEY (order_id) REFERENCES orders(order_id)
 --                 INNER JOIN phonedetails PD ON I.phone_detail_id = PD.phone_detail_id
 --                 INNER JOIN phones P ON PD.phone_id = P.phone_id
 
-INSERT INTO Orders(seller_id, accountant_id, customer_id) VALUES (2, 1, 1);
-INSERT INTO OrderDetails(order_id, phone_imei) VALUES (1, "378541254259874");
-INSERT INTO OrderDetails(order_id, phone_imei) VALUES (1, "378541254259875");
-INSERT INTO OrderDetails(order_id, phone_imei) VALUES (1, "378541254259878");
+
