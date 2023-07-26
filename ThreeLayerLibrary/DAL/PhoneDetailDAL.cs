@@ -77,6 +77,25 @@ namespace DAL
                 if(reader.Read()){
                     output = GetPhoneDetail(reader);
                 }
+                reader.Close();
+                try
+                {
+            
+                    query = @"SELECT phone_imei, status FROM imeis WHERE phone_detail_id=@phoneDetailID and status = '0';";
+                    command = new MySqlCommand(query, connection);
+                    command.Parameters.Clear();
+                    command.Parameters.AddWithValue("@phoneDetailID", phonedetailid);
+                    reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        output.ListImei.Add(GetImei(reader));
+                    }
+                    reader.Close();
+                }
+                catch (MySqlException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
             }catch(MySqlException ex){
                 Console.WriteLine(ex.Message);
             }
@@ -122,7 +141,7 @@ namespace DAL
                 try
                 {
             
-                    query = @"SELECT phone_imei, status FROM imeis WHERE phone_detail_id=@phoneDetailID and status = '" + (int)PhoneEnum.ImeiStatus.NotExport + "';";
+                    query = @"SELECT phone_imei, status FROM imeis WHERE phone_detail_id=@phoneDetailID and status = '0';";
                     MySqlCommand command = new MySqlCommand(query, connection);
                     command.Parameters.Clear();
                     command.Parameters.AddWithValue("@phoneDetailID", item.PhoneDetailID);

@@ -492,7 +492,7 @@ namespace Ults
                             {
                                 Cart.Add(phonedt);
                                 check = true;
-                                Console.WriteLine("Vao day roi lol");
+                    
                             }
                             else
                             {
@@ -525,7 +525,7 @@ namespace Ults
                         Customer newcustomer = new Customer(0, cusname, phonenumber, address);
                         //Buoc 3: Insert vao trong database
 
-                        Order neworder = new Order(0, new DateTime(), OrderStaff, new Staff(0, "not have", "not have", "not have", "not have", "not have", StaffEnum.Role.Accountant, StaffEnum.Status.InActive), newcustomer, Cart, OrderEnum.Status.Pending, new List<DiscountPolicy>());
+                        Order neworder = new Order(0, new DateTime(), OrderStaff, new Staff(2, "not have", "not have", "not have", "not have", "not have", StaffEnum.Role.Accountant, StaffEnum.Status.InActive), newcustomer, Cart, OrderEnum.Status.Pending, new List<DiscountPolicy>());
                         Console.WriteLine(OrderStaff.StaffID);
                         if (orderBL.CreateOrder(neworder) == true)
                         {
