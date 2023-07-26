@@ -14,7 +14,6 @@ namespace Ults
         // private CustomerBL customerBL = new CustomerBL();
         private OrderBL orderBL = new OrderBL();
         public Staff? OrderStaff = null;
-
         public Dictionary<int, List<Phone>> listAllPhones = null;
         int currentPageDetails = 1;
         public int MenuHandle(string? title, string? subTitle, string[] menuItem)

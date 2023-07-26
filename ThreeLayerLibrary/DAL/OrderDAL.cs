@@ -442,49 +442,48 @@ namespace DAL
             }
             return result;
         }
-        // public bool UpdateOrder(OrderEnum.Status orderStatus, Order order)
-        // {
-        //     try
-        //     {
-        //         if (connection.State == System.Data.ConnectionState.Closed)
-        //         {
-        //             connection.Open();
-        //         }
-        //         MySqlCommand command = new MySqlCommand("", connection);
-        //         switch (orderStatus)
-        //         {
-        //             case OrderEnum.Status.Pending:
-        //                 query = @"update orders set accountant_id = @accountantid, order_status = @orderstatus 
-        //                 where order_id = @orderid;";
-        //                 command.CommandText = query;
-        //                 command.Parameters.Clear();
-        //                 command.Parameters.AddWithValue("@accountantid", order.OrderAccountant.StaffID);
-        //                 command.Parameters.AddWithValue("@orderstatus", order.OrderStatus);
-        //                 command.Parameters.AddWithValue("@paymentmethod", order.PaymentMethod);
-        //                 command.Parameters.AddWithValue("@orderid", order.OrderID);
-        //                 command.ExecuteNonQuery();
-        //                 break;
-        //             case OrderEnum.Status.Confirmed:
-        //                 query = @"update orders set order_status = @orderstatus where order_id = @orderid;";
-        //                 command.CommandText = query;
-        //                 command.Parameters.Clear();
-        //                 command.Parameters.AddWithValue("@orderstatus", order.OrderStatus);
-        //                 command.Parameters.AddWithValue("@orderid", order.OrderID);
-        //                 command.ExecuteNonQuery();
-        //                 break;
-        //             default:
-        //                 return false;
-        //         }
-        //     }
-        //     catch (MySqlException ex)
-        //     {
-        //         Console.WriteLine(ex.Message);
-        //     }
-        //     if (connection.State == System.Data.ConnectionState.Open)
-        //     {
-        //         connection.Close();
-        //     }
-        //     return true;
-        // }
+        public bool UpdateOrder(OrderEnum.Status orderStatus, Order order)
+        {
+            try
+            {
+                if (connection.State == System.Data.ConnectionState.Closed)
+                {
+                    connection.Open();
+                }
+                MySqlCommand command = new MySqlCommand("", connection);
+                switch (orderStatus)
+                {
+                    case OrderEnum.Status.Pending:
+                        query = @"update orders set accountant_id = @accountantid, order_status = @orderstatus 
+                        where order_id = @orderid;";
+                        command.CommandText = query;
+                        command.Parameters.Clear();
+                        command.Parameters.AddWithValue("@accountantid", order.OrderAccountant.StaffID);
+                        command.Parameters.AddWithValue("@orderstatus", order.OrderStatus);
+                        command.Parameters.AddWithValue("@orderid", order.OrderID);
+                        command.ExecuteNonQuery();
+                        break;
+                    case OrderEnum.Status.Confirmed:
+                        query = @"update orders set order_status = @orderstatus where order_id = @orderid;";
+                        command.CommandText = query;
+                        command.Parameters.Clear();
+                        command.Parameters.AddWithValue("@orderstatus", order.OrderStatus);
+                        command.Parameters.AddWithValue("@orderid", order.OrderID);
+                        command.ExecuteNonQuery();
+                        break;
+                    default:
+                        return false;
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            if (connection.State == System.Data.ConnectionState.Open)
+            {
+                connection.Close();
+            }
+            return true;
+        }
     }
 }

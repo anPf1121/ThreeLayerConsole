@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Model;
 using Ults;
@@ -20,7 +20,7 @@ namespace PhoneStoreUI
             int mainChoice = 0, SellerAccount = 0, AccountantAccount = 0;
             bool active = true;
             do
-            {
+            { 
                 loginAccount = Ults.LoginUlt();
                 if (loginAccount == StaffEnum.Role.Seller)
                     SellerAccount = Ults.SellerMenu();
