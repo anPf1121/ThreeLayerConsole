@@ -39,7 +39,7 @@ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ __
 
         public void TinyLine()
         {
-            Console.WriteLine("================================================================================================");
+            Console.WriteLine("=====================================================================================================");
         }
         public void Title(string? title, string? subTitle)
         {
@@ -123,10 +123,19 @@ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ __
         {
             Console.WriteLine("| {0, 10} | {1, 30} | {2, 15} | {3, 15} |", order.OrderID, order.Customer.CustomerName, order.CreateAt, order.OrderStatus);
         }
+        public void PrintPhoneDetailsInfoTitle()
+        {
+            Console.WriteLine("=====================================================================================================");
+            Console.WriteLine("| PHONE DETAILS TYPE                                                                                |");
+            Console.WriteLine("=====================================================================================================");
+            Console.WriteLine("| {0, 10} | {1, 13} | {2, 15} | {3, 15} | {4, 15} | {5, 14} |", "Detail ID", "Phone Color", "ROM Size", "Price", "Phone Status", "Quantity");
+            Console.WriteLine("=====================================================================================================");
+        }
         public void PrintPhoneDetailsInfo(PhoneDetail phoneDetail)
         {
             TinyLine();
-            Console.WriteLine("Phone ID: {0}", phoneDetail.Phone.PhoneID);
+            Console.WriteLine("PHONE DETAILS INFOMATION");
+            TinyLine();
             Console.WriteLine("Phone Name: {0}", phoneDetail.Phone.PhoneName);
             Console.WriteLine("Brand: {0}", phoneDetail.Phone.Brand.BrandName);
             Console.WriteLine("Camera: {0}", phoneDetail.Phone.Camera);
@@ -146,11 +155,7 @@ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ __
         }
         public void PrintPhoneDetailsType(PhoneDetail phoneDetail)
         {
-            foreach (PhoneDetail item in phoneDetail)
-            {
-                PrintPhoneDetailsInfoTitle();
-                Console.WriteLine("| {0, 10} | {1, 30} | {2, 15} | {3, 15} | {4, 15} |", item.PhoneColor.Color, item.ROMSize.ROM, item.Price, item.PhoneStatusType, item.Quantity);
-            }
+            Console.WriteLine("| {0, 10} | {1, 13} | {2, 15} | {3, 15} | {4, 15} | {5, 14} |", phoneDetail.PhoneDetailID, phoneDetail.PhoneColor.Color, phoneDetail.ROMSize.ROM, phoneDetail.Price, phoneDetail.PhoneStatusType, phoneDetail.Quantity);
         }
         public void PrintOrderAndPhoneBorder(Dictionary<int, List<Phone>> phones, int currentPage, int countPage)
         {

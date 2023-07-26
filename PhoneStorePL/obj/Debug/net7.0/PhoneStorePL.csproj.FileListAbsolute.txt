@@ -141,3 +141,5 @@ C:\Users\Acer\OneDrive\Desktop\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\r
 C:\Users\Acer\OneDrive\Desktop\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.pdb
 C:\Users\Acer\OneDrive\Desktop\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.genruntimeconfig.cache
 C:\Users\Acer\OneDrive\Desktop\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\ref\PhoneStorePL.dll
+C:\Users\anngu\Desktop\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\MySql.Data.dll
+C:\Users\anngu\Desktop\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\MySQLConnection.dll
