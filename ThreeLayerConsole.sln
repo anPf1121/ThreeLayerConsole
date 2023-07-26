@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThreeLayerLibrary", "ThreeL
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoneStorePL", "PhoneStorePL\PhoneStorePL.csproj", "{9F3F6AB0-1C66-4D2A-B843-32AF24E2D549}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoneStorePL.Tests", "PhoneStorePL.Tests\PhoneStorePL.Tests.csproj", "{BCEC7099-00EC-44CE-B579-4A39E167E5E2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{9F3F6AB0-1C66-4D2A-B843-32AF24E2D549}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9F3F6AB0-1C66-4D2A-B843-32AF24E2D549}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9F3F6AB0-1C66-4D2A-B843-32AF24E2D549}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BCEC7099-00EC-44CE-B579-4A39E167E5E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCEC7099-00EC-44CE-B579-4A39E167E5E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCEC7099-00EC-44CE-B579-4A39E167E5E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCEC7099-00EC-44CE-B579-4A39E167E5E2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
