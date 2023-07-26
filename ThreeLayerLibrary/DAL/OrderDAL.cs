@@ -458,8 +458,8 @@ namespace DAL
                         where order_id = @orderid;";
                         command.CommandText = query;
                         command.Parameters.Clear();
-                        command.Parameters.AddWithValue("@accountantid", order.OrderAccountant.StaffID);
-                        command.Parameters.AddWithValue("@orderstatus", order.OrderStatus);
+                        command.Parameters.AddWithValue("@accountantid", order.Accountant.StaffID);
+                        command.Parameters.AddWithValue("@orderstatus", (int)order.OrderStatus);
                         command.Parameters.AddWithValue("@orderid", order.OrderID);
                         command.ExecuteNonQuery();
                         break;
@@ -467,7 +467,7 @@ namespace DAL
                         query = @"update orders set order_status = @orderstatus where order_id = @orderid;";
                         command.CommandText = query;
                         command.Parameters.Clear();
-                        command.Parameters.AddWithValue("@orderstatus", order.OrderStatus);
+                        command.Parameters.AddWithValue("@orderstatus", (int)order.OrderStatus);
                         command.Parameters.AddWithValue("@orderid", order.OrderID);
                         command.ExecuteNonQuery();
                         break;
