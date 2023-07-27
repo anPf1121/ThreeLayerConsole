@@ -2,6 +2,7 @@ using System;
 using GUIEnum;
 using Model;
 using DAL;
+using System.Globalization; // thu vien format tien 
 namespace Ults
 {
     class ConsoleUlts
@@ -39,7 +40,7 @@ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ __
 
         public void TinyLine()
         {
-            Console.WriteLine("\n========================================================================================================================");
+            Console.WriteLine("=====================================================================================================");
         }
         public void Title(string? title, string? subTitle)
         {
@@ -112,21 +113,16 @@ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ __
         }
         public void PrintPhoneInfo(Phone phone)
         {
-            int quantity = 0;
-            foreach (var phonedetails in phone.PhoneDetails)
-            {
-                quantity += phonedetails.ListImei.Count();
-            }
             Console.WriteLine("| {0, 10} | {1, 30} | {2, 15} | {3, 15} |", phone.PhoneID, phone.PhoneName, phone.Brand.BrandName, phone.OS);
         }
         public void PrintOrderInfo(Order order)
         {
             Console.WriteLine("| {0, 10} | {1, 30} | {2, 15} | {3, 15} |", order.OrderID, order.Customer.CustomerName, order.CreateAt, order.OrderStatus);
         }
-        public void PrintPhoneDetailsInfoTitle()
+        public void PrintPhoneModelTitle()
         {
             Console.WriteLine("=====================================================================================================");
-            Console.WriteLine("| PHONE DETAILS TYPE                                                                                |");
+            Console.WriteLine("| PHONE MODEL                                                                                |");
             Console.WriteLine("=====================================================================================================");
             Console.WriteLine("| {0, 10} | {1, 13} | {2, 15} | {3, 15} | {4, 15} | {5, 14} |", "Detail ID", "Phone Color", "ROM Size", "Price", "Phone Status", "Quantity");
             Console.WriteLine("=====================================================================================================");
@@ -141,7 +137,6 @@ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ __
             Console.WriteLine("Camera: {0}", phoneDetail.Phone.Camera);
             Console.WriteLine("RAM: {0}", phoneDetail.Phone.RAM);
             Console.WriteLine("Weight: {0}", phoneDetail.Phone.Weight);
-            Console.WriteLine("Price: {0}", new PhoneDAL().GetPhoneById(phoneDetail.Phone.PhoneID).PhoneDetails[0].Price);
             Console.WriteLine("Processor: {0}", phoneDetail.Phone.Processor);
             Console.WriteLine("Battery: {0}", phoneDetail.Phone.BatteryCapacity);
             Console.WriteLine("OS: {0}", phoneDetail.Phone.OS);
@@ -151,11 +146,23 @@ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ __
             Console.WriteLine("Charge Port: {0}", phoneDetail.Phone.ChargePort);
             Console.WriteLine("Release Date: {0}", phoneDetail.Phone.ReleaseDate);
             Console.WriteLine("Description: {0}", phoneDetail.Phone.Description);
-            TinyLine();
         }
-        public void PrintPhoneDetailsType(PhoneDetail phoneDetail)
+        public void PrintListPhase(string[] phase, int itemCount, int currentPhase)
         {
-            Console.WriteLine("| {0, 10} | {1, 13} | {2, 15} | {3, 15} | {4, 15} | {5, 14} |", phoneDetail.PhoneDetailID, phoneDetail.PhoneColor.Color, phoneDetail.ROMSize.ROM, phoneDetail.Price, phoneDetail.PhoneStatusType, phoneDetail.Quantity);
+            TinyLine();
+            foreach (string item in phase)
+            {
+                itemCount++;
+                Console.Write(((itemCount == currentPhase) ? " 👉 " + item : " > " + item));
+                if (itemCount == phase.Length) Console.Write("\n");
+            }
+            TinyLine();
+            itemCount = 0;
+        }
+        public void PrintPhoneModelInfo(PhoneDetail phoneDetail)
+        {
+            CultureInfo cultureInfo = new CultureInfo("vi-VN");
+            Console.WriteLine("| {0, 10} | {1, 13} | {2, 15} | {3, 15} | {4, 15} | {5, 14} |", phoneDetail.PhoneDetailID, phoneDetail.PhoneColor.Color, phoneDetail.ROMSize.ROM, string.Format(cultureInfo, "{0:N0} ₫", phoneDetail.Price), phoneDetail.PhoneStatusType, phoneDetail.Quantity);
         }
         public void PrintOrderAndPhoneBorder(Dictionary<int, List<Phone>> phones, int currentPage, int countPage)
         {

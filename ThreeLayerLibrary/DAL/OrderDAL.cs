@@ -26,30 +26,33 @@ namespace DAL
             Order order = new Order(
                 reader.GetInt32("Order_ID"),
                 reader.GetDateTime("Create_At"),
-                staffDAL.GetStaff(reader),
-                staffDAL.GetStaff(reader),
-                customerDAL.GetCustomer(reader),
+                new Staff(reader.GetInt32("seller_id"), "", "", "", "", "", StaffEnum.Role.Seller, StaffEnum.Status.Active),
+                new Staff(reader.GetInt32("accountant_id"), "", "", "", "", "", StaffEnum.Role.Accountant, StaffEnum.Status.Active),
+                new Customer(reader.GetInt32("customer_id"), "", "", ""),
                 new List<PhoneDetail>(),
-                (OrderEnum.Status)Enum.ToObject(typeof(OrderEnum.Status), reader.GetInt32("Status")),
-                new List<DiscountPolicy>()
+                (OrderEnum.Status)Enum.ToObject(typeof(OrderEnum.Status), reader.GetInt32("order_status")),
+                new List<DiscountPolicy>(),
+                reader.GetString("payment_method"),
+                0
             );
             return order;
         }
         // + lay id cua staff cho order tu phuong thuc GetOrderByID(int id)
-        public Order? GetOrderByID(int id)
+        public Order GetOrderByID(int id)
         {
+            StaffDAL staffDAL = new StaffDAL();
+            CustomerDAL customerDAL = new CustomerDAL();
             PhoneDetailsDAL phoneDetailsDAL = new PhoneDetailsDAL();
-            Order? order = null;
+            Order order = new Order(0, new DateTime(), new Staff(0, "", "", "", "", "", StaffEnum.Role.Seller, StaffEnum.Status.Active),new Staff(0, "", "", "", "", "", StaffEnum.Role.Accountant, StaffEnum.Status.Active), new Customer(0, "", "", ""), new List<PhoneDetail>(), OrderEnum.Status.Pending, new List<DiscountPolicy>(), "", 0);
+
+            // Dau tien lay ra thong tin cua Customer, Seller, Accountant theo order id
             try
             {
                 if (connection.State == System.Data.ConnectionState.Closed)
                 {
                     connection.Open();
                 }
-                query = @"SELECT * FROM orders O
-                INNER JOIN staffs S ON O.seller_id = S.staff_id
-                INNER JOIN customers C ON O.customer_id = C.customer_id
-                WHERE O.order_id = @orderid;";
+                query = @"SELECT * FROM orders where order_id = @orderid";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.Clear();
                 command.Parameters.AddWithValue("@orderid", id);
@@ -64,88 +67,21 @@ namespace DAL
             {
                 Console.WriteLine(ex.Message);
             }
+
             if (connection.State == System.Data.ConnectionState.Open)
-            {
-                connection.Close();
-            }
-            if (order != null)
-            {
-                // Get Phone Details In Order 
-                if (order.PhoneDetails.Count() > 0)
                 {
-                    foreach (PhoneDetail phoneDetail in order.PhoneDetails)
-                    {
-                        try
-                        {
-                            if (connection.State == System.Data.ConnectionState.Closed)
-                            {
-                                connection.Open();
-                            }
-                            query = @"SELECT * FROM phones P
-                            INNER JOIN phonedetails PD ON P.phone_id = PD.phone_id
-                            INNER JOIN imeis I ON PD.phone_detail_id = I.phone_detail_id
-                            INNER JOIN orderdetails OD ON OD.phone_imei = I.phone_imei
-                            INNER JOIN brands B ON P.brand_id = B.brand_id
-                            INNER JOIN romsizes RS ON PD.rom_size_id = RS.rom_size_id
-                            INNER JOIN colors C ON PD.color_id = C.color_id
-                            INNER JOIN staffs S ON P.create_by = S.staff_id
-                            WHERE OD.order_id = @orderID";
-                            MySqlCommand command = new MySqlCommand(query, connection);
-                            command.Parameters.Clear();
-                            command.Parameters.AddWithValue("@orderID", order.OrderID);
-                            MySqlDataReader reader = command.ExecuteReader();
-                            while (reader.Read())
-                            {
-                                order.PhoneDetails.Add(phoneDetailsDAL.GetPhoneDetail(reader));
-                                // phoneDetail.PhoneDetails
-                            }
-                            reader.Close();
-                        }
-                        catch (MySqlException ex)
-                        {
-                            Console.WriteLine(ex.Message);
-                        }
-                        if (connection.State == System.Data.ConnectionState.Open)
-                        {
-                            connection.Close();
-                        }
-                        if (order.PhoneDetails.Count() != 0)
-                        {
-                            foreach (PhoneDetail item in order.PhoneDetails)
-                            {
-                                try
-                                {
-                                    if (connection.State == System.Data.ConnectionState.Closed)
-                                    {
-                                        connection.Open();
-                                    }
-                                    query = @"SELECT * FROM imeis I 
-                                            INNER JOIN orderdetails OD ON OD.phone_imei = I.phone_Imei
-                                            INNER JOIN orders O ON O.order_id = OD.order_id
-                                            WHERE O.order_id=@orderID";
-                                    MySqlCommand command = new MySqlCommand(query, connection);
-                                    command.Parameters.Clear();
-                                    command.Parameters.AddWithValue("@orderID", order.OrderID);
-                                    MySqlDataReader reader = command.ExecuteReader();
-                                    while (reader.Read())
-                                    {
-                                        item.ListImei.Add(phoneDetailsDAL.GetImei(reader));
-                                    }
-                                    reader.Close();
-                                }
-                                catch (MySqlException ex)
-                                {
-                                    Console.WriteLine(ex.Message);
-                                }
-                            }
-                            if (connection.State == System.Data.ConnectionState.Open)
-                            {
-                                connection.Close();
-                            }
-                        }
-                    }
+                    connection.Close();
                 }
-            }
+                // trong order chi chua thuoc tinh id cua customer, accountant, seller
+                // de lay toan bo thong tin cua 3 actor tren ta can phai get tat ca gia tri thong qua id nhu sau: 
+                
+                    order.Accountant = staffDAL.GetStaffByID(order.Accountant.StaffID);
+                    order.Seller = staffDAL.GetStaffByID(order.Seller.StaffID);
+                    order.Customer = customerDAL.GetCustomerByID(order.Customer.CustomerID);
+                    order.PhoneDetails = phoneDetailsDAL.GetListPhoneDetailInOrder(order.OrderID);
+                
+            //Lay danh sach Phonedetails co trong order
+         
             return order;
         }
 
@@ -163,21 +99,16 @@ namespace DAL
                 switch (status)
                 {
                     case OrderEnum.Status.Pending:
-                        query = @"select order_id, customer_id, seller_id, accountant_id, create_at, order_status, S.* from orders O
-                        INNER JOIN staffs S ON O.seller_id = S.staff_id
-                        where O.order_status = 0 and date(O.create_at) = date(current_time());";
+                        query = @"select * from orders
+                        where order_status = 1 and date(create_at) = date(current_time());";
                         break;
                     case OrderEnum.Status.Confirmed:
-                        query = @"select order_id, customer_id, seller_id, accountant_id, create_at, order_status, S.*
-                        from orders O
-                        INNER JOIN staffs S ON O.seller_id = S.staff_id
-                        where O.order_status = 1 and date(O.create_at) = date(current_time());";
+                        query = @"select * from orders
+                        where order_status = 2 and date(create_at) = date(current_time());";
                         break;
                     case OrderEnum.Status.Completed:
-                        query = @"select order_id, customer_id, seller_id, accountant_id, create_at, order_status, S.*
-                        from orders O
-                        INNER JOIN staffs S ON O.seller_id = S.staff_id
-                        where O.order_status = 2 and date(O.create_at) = date(current_time());";
+                        query = @"select * from orders
+                        where order_status = 3 and date(create_at) = date(current_time());";
                         break;
                     default: break;
                 }
@@ -193,125 +124,11 @@ namespace DAL
             {
                 Console.WriteLine(ex.Message);
             }
-            if (connection.State == System.Data.ConnectionState.Open)
-            {
-                connection.Close();
+            List <Order> output = new List<Order>();
+            foreach(var o in orders){
+                output.Add(GetOrderByID(o.OrderID));
             }
-            if (orders.Count() != 0)
-            {
-                foreach (var order in orders)
-                {
-                    try
-                    {
-                        if (connection.State == System.Data.ConnectionState.Closed)
-                        {
-                            connection.Open();
-                        }
-                        query = @"SELECT * FROM orderdetails O
-                            INNER JOIN imeis I ON O.phone_imei = I.phone_imei
-                            INNER JOIN phonedetails PD ON I.phone_detail_id = PD.phone_detail_id
-                            INNER JOIN phones P ON PD.phone_id = P.phone_id
-                            INNER JOIN brands B ON B.brand_id = P.brand_id
-                            INNER JOIN staffs S ON P.create_by = S.staff_id
-                            INNER JOIN romsizes RS ON PD.rom_size_id = RS.rom_size_id
-                            INNER JOIN colors C ON C.color_id = PD.color_id
-                            WHERE O.order_id = @orderid;";
-                        MySqlCommand command = new MySqlCommand(query, connection);
-                        command.Parameters.Clear();
-                        command.Parameters.AddWithValue("@orderid", order.OrderID);
-                        MySqlDataReader reader = command.ExecuteReader();
-                        while (reader.Read())
-                        {
-                            order.PhoneDetails.Add(phoneDetailsDAL.GetPhoneDetail(reader));
-                        }
-                        reader.Close();
-                    }
-                    catch (MySqlException ex)
-                    {
-                        Console.WriteLine(ex.Message);
-                    }
-                    if (connection.State == System.Data.ConnectionState.Open)
-                    {
-                        connection.Close();
-                    }
-                    // // Get Phone Details In Order 
-                    // if (order.PhoneDetails.Count() > 0)
-                    // {
-                    //     foreach (PhoneDetail phoneDetail in order.PhoneDetails)
-                    //     {
-                    //         try
-                    //         {
-                    //             if (connection.State == System.Data.ConnectionState.Closed)
-                    //             {
-                    //                 connection.Open();
-                    //             }
-                    //             query = @"SELECT * FROM phones P
-                    //             INNER JOIN phonedetails PD ON P.phone_id = PD.phone_id
-                    //             INNER JOIN imeis I ON PD.phone_detail_id = I.phone_detail_id
-                    //             INNER JOIN orderdetails OD ON OD.phone_imei = I.phone_imei
-                    //             INNER JOIN brands B ON P.brand_id = B.brand_id
-                    //             INNER JOIN romsizes RS ON PD.rom_size_id = RS.rom_size_id
-                    //             INNER JOIN colors C ON PD.color_id = C.color_id
-                    //             INNER JOIN staffs S ON P.create_by = S.staff_id
-                    //             WHERE OD.order_id = @orderID";
-                    //             MySqlCommand command = new MySqlCommand(query, connection);
-                    //             command.Parameters.Clear();
-                    //             command.Parameters.AddWithValue("@orderID", order.OrderID);
-                    //             MySqlDataReader reader = command.ExecuteReader();
-                    //             while (reader.Read())
-                    //             {
-                    //                 order.PhoneDetails.Add(phoneDetailsDAL.GetPhoneDetail(reader));
-                    //                 // phoneDetail.PhoneDetails
-                    //             }
-                    //             reader.Close();
-                    //         }
-                    //         catch (MySqlException ex)
-                    //         {
-                    //             Console.WriteLine(ex.Message);
-                    //         }
-                    //         if (connection.State == System.Data.ConnectionState.Open)
-                    //         {
-                    //             connection.Close();
-                    //         }
-                    //         if (order.PhoneDetails.Count() != 0)
-                    //         {
-                    //             foreach (PhoneDetail item in order.PhoneDetails)
-                    //             {
-                    //                 try
-                    //                 {
-                    //                     if (connection.State == System.Data.ConnectionState.Closed)
-                    //                     {
-                    //                         connection.Open();
-                    //                     }
-                    //                     query = @"SELECT * FROM imeis I 
-                    //                             INNER JOIN orderdetails OD ON OD.phone_imei = I.phone_Imei
-                    //                             INNER JOIN orders O ON O.order_id = OD.order_id
-                    //                             WHERE O.order_id=@orderID";
-                    //                     MySqlCommand command = new MySqlCommand(query, connection);
-                    //                     command.Parameters.Clear();
-                    //                     command.Parameters.AddWithValue("@orderID", order.OrderID);
-                    //                     MySqlDataReader reader = command.ExecuteReader();
-                    //                     while (reader.Read())
-                    //                     {
-                    //                         item.ListImei.Add(phoneDetailsDAL.GetImei(reader));
-                    //                     }
-                    //                     reader.Close();
-                    //                 }
-                    //                 catch (MySqlException ex)
-                    //                 {
-                    //                     Console.WriteLine(ex.Message);
-                    //                 }
-                    //             }
-                    //             if (connection.State == System.Data.ConnectionState.Open)
-                    //             {
-                    //                 connection.Close();
-                    //             }
-                    //         }
-                    //     }
-                    // }
-                }
-            }
-            return orders;
+            return output;
         }
         public bool InsertOrder(Order order)
         {
@@ -459,7 +276,7 @@ namespace DAL
                         command.CommandText = query;
                         command.Parameters.Clear();
                         command.Parameters.AddWithValue("@accountantid", order.Accountant.StaffID);
-                        command.Parameters.AddWithValue("@orderstatus", (int)order.OrderStatus);
+                        command.Parameters.AddWithValue("@orderstatus", (int)OrderEnum.Status.Confirmed);
                         command.Parameters.AddWithValue("@orderid", order.OrderID);
                         command.ExecuteNonQuery();
                         break;
@@ -467,7 +284,17 @@ namespace DAL
                         query = @"update orders set order_status = @orderstatus where order_id = @orderid;";
                         command.CommandText = query;
                         command.Parameters.Clear();
-                        command.Parameters.AddWithValue("@orderstatus", (int)order.OrderStatus);
+                        command.Parameters.AddWithValue("@orderstatus", (int)OrderEnum.Status.Completed);
+                        command.Parameters.AddWithValue("@orderid", order.OrderID);
+                        command.ExecuteNonQuery();
+                        break;
+                    case OrderEnum.Status.Canceled:
+                        query = @"update orders set accountant_id = @accountantid, order_status = @orderstatus 
+                        where order_id = @orderid;";
+                        command.CommandText = query;
+                        command.Parameters.Clear();
+                        command.Parameters.AddWithValue("@accountantid", order.Accountant.StaffID);
+                        command.Parameters.AddWithValue("@orderstatus", (int)OrderEnum.Status.Canceled);
                         command.Parameters.AddWithValue("@orderid", order.OrderID);
                         command.ExecuteNonQuery();
                         break;

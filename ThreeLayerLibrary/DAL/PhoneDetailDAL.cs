@@ -17,6 +17,27 @@ namespace DAL
             );
             return brand;
         }
+        public Brand GetBrandByID(int id){
+            Brand output = new Brand(0, "", "");
+            try{
+                if(connection.State == System.Data.ConnectionState.Closed){
+                    connection.Open();
+                }
+                query = @"select * from brands where brand_id = @brandid;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.Clear();
+                command.Parameters.AddWithValue("@brandid", id);
+                MySqlDataReader reader = command.ExecuteReader();
+                if(reader.Read())output = GetBrand(reader);
+                reader.Close();
+            }catch(MySqlException ex){
+                Console.WriteLine(ex.Message);
+            }
+            if(connection.State == System.Data.ConnectionState.Open){
+                    connection.Close();
+                }
+            return output;
+        }
         public ROMSize GetROMSize(MySqlDataReader reader)
         {
             ROMSize romsize = new ROMSize(
@@ -24,6 +45,48 @@ namespace DAL
                     reader.GetString("rom_size")
                 );
             return romsize;
+        }
+        public ROMSize GetROMSizeByID(int id){
+            ROMSize output = new ROMSize(0, "");
+            try{
+                if(connection.State == System.Data.ConnectionState.Closed){
+                    connection.Open();
+                }
+                query = @"select * from romsizes where rom_size_id = @romsizeid;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.Clear();
+                command.Parameters.AddWithValue("@romsizeid", id);
+                MySqlDataReader reader = command.ExecuteReader();
+                if(reader.Read())output = GetROMSize(reader);
+                reader.Close();
+            }catch(MySqlException ex){
+                Console.WriteLine(ex.Message);
+            }
+            if(connection.State == System.Data.ConnectionState.Open){
+                    connection.Close();
+                }
+            return output;
+        }
+        public PhoneColor GetPhoneColoreByID(int id){
+            PhoneColor output = new PhoneColor(0, "");
+            try{
+                if(connection.State == System.Data.ConnectionState.Closed){
+                    connection.Open();
+                }
+                query = @"select * from colors where color_id = @colorid;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.Clear();
+                command.Parameters.AddWithValue("@colorid", id);
+                MySqlDataReader reader = command.ExecuteReader();
+                if(reader.Read())output = GetPhoneColor(reader);
+                reader.Close();
+            }catch(MySqlException ex){
+                Console.WriteLine(ex.Message);
+            }
+            if(connection.State == System.Data.ConnectionState.Open){
+                    connection.Close();
+                }
+            return output;
         }
         public PhoneColor GetPhoneColor(MySqlDataReader reader) {
             PhoneColor phoneColor = new PhoneColor(
@@ -46,80 +109,58 @@ namespace DAL
             StaffDAL staffDAL = new StaffDAL();
             PhoneDetail phoneDetail = new PhoneDetail(
                 reader.GetInt32("phone_detail_id"),
-                phoneDAL.GetPhone(reader),
-                GetROMSize(reader),
-                GetPhoneColor(reader),
+                new Phone(reader.GetInt32("phone_id"), "", new Brand(0, "", ""), "", "", "", "", "", "", "", "", "", new DateTime(), "",new Staff(0, "", "", "", "", "", StaffEnum.Role.Seller, StaffEnum.Status.Active), new DateTime(), ""),
+                new ROMSize(reader.GetInt32("rom_size_id"), ""),
+                new PhoneColor(reader.GetInt32("color_id"), ""),
                 reader.GetDecimal("price"),
                 reader.GetInt32("quantity"),
                 (PhoneEnum.Status)Enum.ToObject(typeof(PhoneEnum.Status), reader.GetInt32("phone_status_type")),
                 new List<Imei>(),
-                staffDAL.GetStaff(reader),
+                new Staff(reader.GetInt32("update_by"), "", "", "", "", "", StaffEnum.Role.Seller, StaffEnum.Status.Active),
                 reader.GetDateTime("update_at")
             );
             return phoneDetail;
         }
         public PhoneDetail GetPhoneDetailByID(int phonedetailid) {
-            PhoneDetail output = null;
+            PhoneDetail output = new PhoneDetail(0, new Phone(0, "", new Brand(0, "", ""), "", "", "", "", "", "", "", "", "", new DateTime(), "",new Staff(0, "", "", "", "", "", StaffEnum.Role.Seller, StaffEnum.Status.Active), new DateTime(), ""), new ROMSize(0, ""), new PhoneColor(0, ""), 0, 0, PhoneEnum.Status.Type1, new List<Imei>(), new Staff(0, "", "", "", "", "", StaffEnum.Role.Seller, StaffEnum.Status.Active), new DateTime());
+            PhoneDAL phoneDAL = new PhoneDAL();
+            StaffDAL staffDAL = new StaffDAL();
             try{
                 if(connection.State == System.Data.ConnectionState.Closed){
                     connection.Open();
                 }
-                query = @"SELECT p.*, b.*, s.*, pd.*, c.*, r.* from phones p
-                        inner join brands b on p.brand_id = b.brand_id
-                        inner join staffs s on s.staff_id = p.create_by
-                        inner join phonedetails pd on p.phone_id = pd.phone_id
-                        inner join colors c on c.color_id = pd.color_id
-                        inner join romsizes r on r.rom_size_id = pd.rom_size_id where pd.phone_detail_id = @id;";
+                query = @"select * from phonedetails where phone_detail_id = @phonedetailid;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.Clear();
-                command.Parameters.AddWithValue("@id", phonedetailid);
+                command.Parameters.AddWithValue("@phonedetailid", phonedetailid);
                 MySqlDataReader reader = command.ExecuteReader();
                 if(reader.Read()){
                     output = GetPhoneDetail(reader);
                 }
                 reader.Close();
-                try
-                {
-            
-                    query = @"SELECT phone_imei, status FROM imeis WHERE phone_detail_id=@phoneDetailID and status = '0';";
-                    command = new MySqlCommand(query, connection);
-                    command.Parameters.Clear();
-                    command.Parameters.AddWithValue("@phoneDetailID", phonedetailid);
-                    reader = command.ExecuteReader();
-                    while (reader.Read())
-                    {
-                        output.ListImei.Add(GetImei(reader));
-                    }
-                    reader.Close();
-                }
-                catch (MySqlException ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
             }catch(MySqlException ex){
                 Console.WriteLine(ex.Message);
             }
             if(connection.State == System.Data.ConnectionState.Open){
                     connection.Close();
-                }
+            }
+                output.Phone = phoneDAL.GetPhoneById(output.Phone.PhoneID);
+                output.ROMSize = GetROMSizeByID(output.ROMSize.ROMID);
+                output.PhoneColor = GetPhoneColoreByID(output.PhoneColor.ColorID);
+                output.UpdateBy = staffDAL.GetStaffByID(output.UpdateBy.StaffID);
             return output;
         }
         public List<PhoneDetail> GetPhoneDetailsByPhoneID(int phoneID)
         {
             List<PhoneDetail> phoneDetails = new List<PhoneDetail>();
+            PhoneDetailsDAL phoneDetailsDAL = new PhoneDetailsDAL();
             try
             {
                 if (connection.State == System.Data.ConnectionState.Closed)
                 {
                     connection.Open();
                 }
-                query = @"SELECT * FROM phones P
-                            INNER JOIN phonedetails PD ON P.phone_id = PD.phone_id
-                            INNER JOIN brands B ON P.brand_id = B.brand_id
-                            INNER JOIN romsizes RS ON PD.rom_size_id = RS.rom_size_id
-                            INNER JOIN colors C ON PD.color_id = C.color_id
-                            INNER JOIN staffs S ON P.create_by = S.staff_id
-                            WHERE PD.phone_id = @phoneID order by pd.phone_detail_id asc;";
+                query = @"SELECT * FROM phonedetails where phone_id = @phoneid;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.Clear();
                 command.Parameters.AddWithValue("@phoneID", phoneID);
@@ -134,35 +175,127 @@ namespace DAL
             {
                 Console.WriteLine(ex.Message);
             }
-
-            // add imei to phone details
-            foreach (PhoneDetail item in phoneDetails)
-            {
-                try
-                {
-            
-                    query = @"SELECT phone_imei, status FROM imeis WHERE phone_detail_id=@phoneDetailID and status = '0';";
-                    MySqlCommand command = new MySqlCommand(query, connection);
-                    command.Parameters.Clear();
-                    command.Parameters.AddWithValue("@phoneDetailID", item.PhoneDetailID);
-                    MySqlDataReader reader = command.ExecuteReader();
-                    while (reader.Read())
-                    {
-                        item.ListImei.Add(GetImei(reader));
-                    }
-                    reader.Close();
-                }
-                catch (MySqlException ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
-            }
             if (connection.State == System.Data.ConnectionState.Open)
             {
                 connection.Close();
             }
+            // List<PhoneDetail> lst = new List<PhoneDetail>();
+            // foreach(var phone in phoneDetails){
+            //     int count = 0;
+            //     foreach(var i in lst){
+            //         if(i.PhoneDetailID == phone.PhoneDetailID)count++;
+            //     }
+            //     if(count == 0)lst.Add(phone);
+            // }
+            List<PhoneDetail> output = new List<PhoneDetail>();
+            foreach(var p in phoneDetails){
+                output.Add(GetPhoneDetailByID(p.PhoneDetailID));
+            }
 
-            return phoneDetails;
+            return output;
+        }
+        public List<Imei> GetListImeisOfPhonedetailInOrder(int phonedetailid, int orderid){
+            List<Imei> output = new List<Imei>();
+            try{
+                if(connection.State == System.Data.ConnectionState.Closed){
+                    connection.Open();
+                }
+                query = @"select i.* from imeis i 
+                inner join orderdetails od on od.phone_imei = i.phone_imei
+                where od.order_id = @orderid and i.phone_detail_id = @phonedetailid;";
+                MySqlCommand command = new MySqlCommand(query,connection);
+                command.Parameters.Clear();
+                command.Parameters.AddWithValue("@orderid", orderid);
+                command.Parameters.AddWithValue("@phonedetailid", phonedetailid);
+                MySqlDataReader reader = command.ExecuteReader();
+                while(reader.Read()){
+                    output.Add(GetImei(reader));
+                }
+                reader.Close();
+            }catch(MySqlException ex){
+                Console.WriteLine(ex.Message);
+            }
+            return output;
+        }
+        public List<PhoneDetail> GetListPhoneDetailInOrder(int orderid){ // Ham nay lay ra list<phonedetail> co trong order chi tiet den ca quantity 
+            List<PhoneDetail> lst = new List<PhoneDetail>();
+            try{
+                if(connection.State == System.Data.ConnectionState.Closed){
+                    connection.Open();
+                }
+                query = @"select pd.* from orders o 
+                inner join orderdetails os on o.order_id = os.order_id
+                inner join imeis i on i.phone_imei = os.phone_imei
+                inner join phonedetails pd on pd.phone_detail_id = i.phone_detail_id
+                where o.order_id = @orderid;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.Clear();
+                command.Parameters.AddWithValue("@orderid", orderid);
+                MySqlDataReader reader = command.ExecuteReader();
+                while(reader.Read()){
+                    lst.Add(GetPhoneDetail(reader));
+                }
+                reader.Close();
+            }
+            catch(MySqlException ex){
+                Console.WriteLine(ex.Message);
+            }
+            List<PhoneDetail> lst2 = new List<PhoneDetail>();
+            foreach(var i in lst){
+                lst2.Add(GetPhoneDetailByID(i.PhoneDetailID));
+            }
+            if(connection.State == System.Data.ConnectionState.Open){
+                    connection.Close();
+                }
+                List<PhoneDetail> output = new List<PhoneDetail>();
+                foreach(var p in lst2){
+                    int count = 0;
+                    foreach(var o in output){
+                        if(o.PhoneDetailID == p.PhoneDetailID)count++;
+                    }
+                    if(count == 0)output.Add(p);
+                }
+                List<PhoneDetail> output1 = new List<PhoneDetail>();
+                foreach(var o in output){
+                    int count = 0;
+                    foreach(var i in lst2){
+                        if(o.PhoneDetailID == i.PhoneDetailID)count++;
+                    }
+                    o.Quantity = count;
+                    o.ListImei = GetListImeisOfPhonedetailInOrder(o.PhoneDetailID,orderid);
+                    output1.Add(o);
+                }
+            return output1;
+        }
+        public Dictionary<PhoneDetail, decimal> GetListPhoneDetailHaveDiscountByDiscountPolicy(int policyid){
+            Dictionary<PhoneDetail, decimal> dic = new Dictionary<PhoneDetail, decimal>();
+            try{
+                if(connection.State == System.Data.ConnectionState.Closed){
+                    connection.Open();
+                }
+                query = @"select pd.*, dp.discount_price from discountpolicies dp
+                        inner join phonedetails pd on pd.phone_detail_id = dp.phone_detail_id
+                        where dp.discount_price != 0 and dp.policy_id = @policyid;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.Clear();
+                command.Parameters.AddWithValue("@policyid", policyid);
+                MySqlDataReader reader = command.ExecuteReader();
+                while(reader.Read()){
+                    dic.Add(GetPhoneDetail(reader), reader.GetDecimal("discount_price"));
+                }
+                reader.Close();
+            }
+            catch(MySqlException ex){
+                Console.WriteLine(ex.Message);
+            }
+            if(connection.State == System.Data.ConnectionState.Open){
+                    connection.Close();
+                }
+                Dictionary<PhoneDetail, decimal> output = new Dictionary<PhoneDetail, decimal>();
+                foreach(var d in dic){
+                    output.Add(GetPhoneDetailByID(d.Key.PhoneDetailID), d.Value);
+                }
+                return output;
         }
     }
 }

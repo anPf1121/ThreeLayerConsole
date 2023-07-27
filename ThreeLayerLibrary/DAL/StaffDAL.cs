@@ -10,9 +10,9 @@ namespace DAL
     {
         private MySqlConnection connection = DbConfig.GetConnection();
         private string query = "";
-        public Staff? GetAccountByUsername(string userName)
+        public Staff GetAccountByUsername(string userName)
         {
-            Staff? staff = null;
+           Staff staff = new Staff(0, "", "", "", "", "", StaffEnum.Role.Seller, StaffEnum.Status.Active);
             try
             {
                 if (connection.State == System.Data.ConnectionState.Closed)
@@ -70,6 +70,30 @@ namespace DAL
                 }
                 return sb.ToString();
             }
+        }
+        public Staff GetStaffByID(int id){
+            Staff output = new Staff(0, "", "", "", "", "", StaffEnum.Role.Seller, StaffEnum.Status.Active);
+            try{
+                if (connection.State == System.Data.ConnectionState.Closed)
+                {
+                    connection.Open();
+                }
+                query = @"select * from staffs where staff_id = @id;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.Clear();
+                command.Parameters.AddWithValue("@id", id);
+                MySqlDataReader reader = command.ExecuteReader();
+                if(reader.Read())output = GetStaff(reader);
+                reader.Close();
+            }
+            catch(MySqlException ex){
+                Console.WriteLine(ex.Message);
+            }
+            if (connection.State == System.Data.ConnectionState.Open)
+                {
+                    connection.Close();
+                }
+            return output;
         }
     }
 }

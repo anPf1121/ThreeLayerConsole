@@ -9,33 +9,30 @@ public class PhoneBL
 {
     private PhoneDAL phoneDAL = new PhoneDAL();
     private PhoneDetailsDAL phoneDetailDAL = new PhoneDetailsDAL();
-    public Phone? GetPhoneById(int phoneID)
+    public Phone GetPhoneById(int phoneID)
     {
         return phoneDAL.GetPhoneById(phoneID);
     }
-    public List<Phone>? GetAllPhone()
+    public List<Phone> GetAllPhone()
     {
         List<Phone> tempList = phoneDAL.GetPhones(PhoneFilter.GET_ALL, null);
-        if (tempList.Count() == 0) return null;
-        else return tempList;
+        return tempList;
     }
     
-    public List<Phone>? GetPhonesByInformation(string? phoneInformation)
+    public List<Phone> GetPhonesByInformation(string phoneInformation)
     {
         if (phoneInformation == "") return GetAllPhone();
-        else if (phoneInformation == null) return null;
-        else
-        {
+        
             List<Phone> tempList = phoneDAL.GetPhones(PhoneFilter.FILTER_BY_PHONE_INFORMATION, phoneInformation);
-            if (tempList.Count() == 0) return null;
-            else return tempList;
-        }
+
+            return tempList;
+        
     }
     public List<PhoneDetail> GetPhoneDetailsByPhoneID(int id){
         return phoneDetailDAL.GetPhoneDetailsByPhoneID(id);
     }
-    public PhoneDetail GetPhoneDetailByID(int id){
-        return phoneDetailDAL.GetPhoneDetailByID(id);
+    public PhoneDetail GetPhoneDetailByID(int phonedetailid){
+        return phoneDetailDAL.GetPhoneDetailByID(phonedetailid);
     }
     public bool CheckImeisExits(PhoneDetail phonedetail, List<Imei> imeiWantToCheck){
         
@@ -53,5 +50,8 @@ public class PhoneBL
     }
     return false;
     
+    }
+    public Dictionary<PhoneDetail, decimal> GetListPhoneDetailHaveDiscountByDiscountPolicy(int policyid){
+        return phoneDetailDAL.GetListPhoneDetailHaveDiscountByDiscountPolicy(policyid);
     }
 }

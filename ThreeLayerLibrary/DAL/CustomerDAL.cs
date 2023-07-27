@@ -47,9 +47,9 @@ public class CustomerDAL
         }
         return lstCustomer;
     }
-    public Customer? GetCustomerByPhone(string phonenumber)
+    public Customer GetCustomerByID(int id)
     {
-        Customer? customer = null;
+        Customer customer = new Customer(0, "", "", "");
         try
         {
             if (connection.State == System.Data.ConnectionState.Closed)
@@ -57,10 +57,10 @@ public class CustomerDAL
                 connection.Open();
 
             }
-            query = @"select * from customers where phone_number = @phonenumber;";
+            query = @"select * from customers where customer_id = @id;";
             MySqlCommand command = new MySqlCommand(query, connection);
             command.Parameters.Clear();
-            command.Parameters.AddWithValue("@phonenumber", phonenumber);
+            command.Parameters.AddWithValue("@id", id);
             MySqlDataReader reader = command.ExecuteReader();
             if (reader.Read())
             {

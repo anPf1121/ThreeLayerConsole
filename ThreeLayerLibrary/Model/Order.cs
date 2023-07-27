@@ -11,7 +11,9 @@ public class Order
     public List<PhoneDetail> PhoneDetails { get; set; }
     public OrderEnum.Status OrderStatus { get; set; } 
     public List<DiscountPolicy>? DiscountPolicies { get; set; }
-    public Order(int orderID, DateTime createAt, Staff seller, Staff accountant, Customer customer, List<PhoneDetail> phones, OrderEnum.Status orderStatus, List<DiscountPolicy> discountPolicies){
+    public string PaymentMethod{get;set;}
+    public decimal TotalDue {get;set;}
+    public Order(int orderID, DateTime createAt, Staff seller, Staff accountant, Customer customer, List<PhoneDetail> phones, OrderEnum.Status orderStatus, List<DiscountPolicy> discountPolicies, string paymentMethod, decimal totaldue){
         this.OrderID = orderID;
         this.CreateAt = createAt;
         this.Seller = seller;
@@ -20,5 +22,7 @@ public class Order
         this.PhoneDetails = phones;
         this.OrderStatus = orderStatus;
         this.DiscountPolicies = discountPolicies;
+        this.PaymentMethod = paymentMethod;
+        this.TotalDue = totaldue;
     }
 }

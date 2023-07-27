@@ -16,13 +16,12 @@ public class Phone
     public string OS { get; set; }
     public string Screen { get; set; }
     public string Connection { get; set; }
-    public List<PhoneDetail>? PhoneDetails { get; set; } 
     public DateTime ReleaseDate { get; set; } 
     public string ChargePort { get; set; }
     public Staff CreateBy { get; set; }
     public DateTime CreateAt { get; set; } 
     public string Description { get; set; }
-    public Phone(int phoneID, string phoneName, Brand brand, string camera, string ram, string weight, string processor, string batteryCapacity, string simSlot, string os, string screen, string connection, List<PhoneDetail>? phoneDetails, DateTime releaseDate, string chargePort, Staff createBy, DateTime createAt, string description){
+    public Phone(int phoneID, string phoneName, Brand brand, string camera, string ram, string weight, string processor, string batteryCapacity, string simSlot, string os, string screen, string connection, DateTime releaseDate, string chargePort, Staff createBy, DateTime createAt, string description){
         this.PhoneID = phoneID;
         this.PhoneName = phoneName;
         this.Brand = brand;
@@ -35,7 +34,6 @@ public class Phone
         this.OS = os;
         this.Screen = screen;
         this.Connection = connection;
-        this.PhoneDetails = phoneDetails;
         this.ReleaseDate = releaseDate;
         this.ChargePort = chargePort;
         this.CreateBy = createBy;

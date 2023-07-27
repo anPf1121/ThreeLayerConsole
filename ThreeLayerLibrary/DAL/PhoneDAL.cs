@@ -20,7 +20,7 @@ namespace DAL
             Phone phone = new Phone(
                 reader.GetInt32("phone_id"),
                 reader.GetString("phone_name"),
-                phoneDetailsDAL.GetBrand(reader),
+                new Brand(reader.GetInt32("brand_id"), "", ""),
                 reader.GetString("camera"),
                 reader.GetString("ram"),
                 reader.GetString("weight"),
@@ -30,29 +30,25 @@ namespace DAL
                 reader.GetString("os"),
                 reader.GetString("screen"),
                 reader.GetString("connection"),
-                new List<PhoneDetail>(),
                 reader.GetDateTime("release_date"),
                 reader.GetString("charge_port"),
-                staffDAL.GetStaff(reader),
+                new Staff(reader.GetInt32("create_by"), "", "", "", "", "", StaffEnum.Role.Seller, StaffEnum.Status.Active),
                 reader.GetDateTime("create_at"),
                 reader.GetString("description")
             );
 
             return phone;
         }
-        public Phone? GetPhoneById(int phoneID)
+        public Phone GetPhoneById(int phoneID)
         {
-            Phone? phone = null;
+            Phone phone = new Phone(0, "", new Brand(0, "", ""), "", "", "", "", "", "", "", "", "", new DateTime(), "",new Staff(0, "", "", "", "", "", StaffEnum.Role.Seller, StaffEnum.Status.Active), new DateTime(), "");
             try
             {
                 if (connection.State == System.Data.ConnectionState.Closed)
                 {
                     connection.Open();
                 }
-                query = @"select * from phones P
-                        INNER JOIN brands B ON P.brand_id = B.brand_id
-                        INNER JOIN staffs S ON P.create_by = S.staff_id
-                        INNER JOIN phonedetails PD ON P.phone_id = PD.phone_id where p.phone_id = @phoneid;";
+                query = @"select * from phones where phone_id = @phoneid;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.Clear();
                 command.Parameters.AddWithValue("@phoneID", phoneID);
@@ -68,16 +64,12 @@ namespace DAL
             {
                 connection.Close();
             }
-
-            if (phone != null)
-            {
-                PhoneDetailsDAL phoneDetailsDAL = new PhoneDetailsDAL();
-                phone.PhoneDetails = phoneDetailsDAL.GetPhoneDetailsByPhoneID(phone.PhoneID);
-            }
+            phone.CreateBy = new StaffDAL().GetStaffByID(phone.CreateBy.StaffID);
+            phone.Brand = new PhoneDetailsDAL().GetBrandByID(phone.Brand.BrandID);
 
             return phone;
         }
-        public List<Phone>? GetPhones(int phoneFilter, string? input)
+        public List<Phone> GetPhones(int phoneFilter, string? input)
         {
             List<Phone> lst = new List<Phone>();
             try
@@ -158,10 +150,8 @@ namespace DAL
                 {
                     if (o.PhoneName == p.PhoneName && o.PhoneID == p.PhoneID) count++;
                 }
-                if (count == 0) output.Add(GetPhoneById(p.PhoneID));
+                if (count == 0 ) output.Add(GetPhoneById(p.PhoneID));
             }
-
-            if (output.Count() == 0) return null;
             return output;
         }
     }
