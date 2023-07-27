@@ -18,7 +18,7 @@
         "runtime": {
           "lib/net45/MySql.Data.dll": {
             "assemblyVersion": "6.9.8.0",
-            "fileVersion": "0.0.0.0"
+            "fileVersion": "6.9.8.0"
           }
         }
       },
