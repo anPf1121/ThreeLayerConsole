@@ -28,6 +28,7 @@ namespace Ults
             while (activeSelectedMenu)
             {
                 ConsoleUlts.Title(title, subTitle);
+                ShowStaffNameAndID();
                 if (currentChoice <= (menuItem.Count() + 1) && currentChoice >= 1)
                 {
                     for (int i = 0; i < menuItem.Count(); i++)
@@ -103,6 +104,15 @@ namespace Ults
             ConsoleUlts.ConsoleForegroundColor(ConsoleEnum.Color.White);
             Console.WriteLine("\n   Hello, " + OrderStaff.StaffName + "!");
             PressEnterTo("Continue");
+        }
+        public void ShowStaffNameAndID()
+        {
+            if (OrderStaff != null)
+            {
+                ConsoleUlts.ConsoleForegroundColor(ConsoleEnum.Color.Green);
+                Console.WriteLine("                                                            Staff: " + OrderStaff.StaffName + " - ID: " + OrderStaff.StaffID);
+                ConsoleUlts.ConsoleForegroundColor(ConsoleEnum.Color.White);
+            }
         }
         public void PressEnterTo(string? action)
         {
@@ -182,18 +192,16 @@ namespace Ults
             }
             return result;
         }
-        public bool? ListPhonePagination(List<Phone> listPhone)
+        public bool ListPhonePagination(List<Phone> listPhone)
         {
             if (listPhone != null)
             {
                 bool active = true;
-                bool validInput = false;
                 Dictionary<int, List<Phone>> phones = new Dictionary<int, List<Phone>>();
                 phones = PhoneMenuPaginationHandle(listPhone);
                 listAllPhones = phones;
                 int countPage = phones.Count(), currentPage = 1;
                 ConsoleKeyInfo input = new ConsoleKeyInfo();
-                ConsoleKeyInfo input2 = new ConsoleKeyInfo();
                 while (true)
                 {
                     Console.Clear();
@@ -208,6 +216,7 @@ namespace Ults
     ╚═╝  ╚═╝╚═════╝ ╚═════╝        ╚═╝    ╚═════╝      ╚═════╝ ╚═╝  ╚═╝╚═════╝ ╚══════╝╚═╝  ╚═╝
                                                                                            "
                     );
+                    ShowStaffNameAndID();
                     while (active)
                     {
                         ConsoleUlts.PrintOrderAndPhoneBorder(phones, currentPage, countPage);
@@ -228,31 +237,9 @@ namespace Ults
                                 currentPageDetails = currentPage;
                                 Console.Clear();
                             }
-
-                            else if (input.Key == ConsoleKey.B)
-                            {
-                                return null;
-                            }
-
-                            else if (input.Key == ConsoleKey.Spacebar)
-                            {
-                                do
-                                {
-                                    Console.WriteLine();
-                                    Console.Write("Continue to select phone to view details or change the phone list page ? Press Y to continue or press N to switch pages(Y / N)");
-                                    input2 = Console.ReadKey(true);
-                                    if (input2.Key == ConsoleKey.Y) return true;
-                                    else if (input2.Key == ConsoleKey.N) break;
-                                    else
-                                    {
-                                        ConsoleUlts.Alert(ConsoleEnum.Alert.Error, "Invalid Input (Y/N)");
-                                    }
-                                } while (!validInput);
-                            }
-                            else
-                            {
-                                Console.Clear();
-                            }
+                            else if (input.Key == ConsoleKey.B) return false;
+                            else if (input.Key == ConsoleKey.Spacebar) return true;
+                            else Console.Clear();
                         }
                     }
                 }
@@ -284,6 +271,7 @@ namespace Ults
                     ██   ██ ██      ██          ██    ██ ██   ██ ██   ██ ██      ██   ██      ██ 
                     ██   ██ ███████ ███████      ██████  ██   ██ ██████  ███████ ██   ██ ███████ "
                     );
+                    ShowStaffNameAndID();
                     while (active)
                     {
                         Console.WriteLine("========================================================================================================================");
@@ -397,67 +385,134 @@ namespace Ults
 
         public void CreateOrder()
         {
-            Console.OutputEncoding = System.Text.Encoding.UTF8;
-            List<PhoneDetail> Cart = new List<PhoneDetail>();
-            bool activeSearchPhone = true;
-            string input = "";
-            int phoneId = 0;
-            int phonedetailId = 0;
-            int count = 0;
-            //Buoc 1: Tim va chon ra tung dien thoai muon them vao order
-            do
-            {
-
-                ConsoleUlts.Title(@"
+            string searchTitle = @"
                         ███████╗███████╗ █████╗ ██████╗  ██████╗██╗  ██╗    
                         ██╔════╝██╔════╝██╔══██╗██╔══██╗██╔════╝██║  ██║
                         ███████╗█████╗  ███████║██████╔╝██║     ███████║
                         ╚════██║██╔══╝  ██╔══██║██╔══██╗██║     ██╔══██║
                         ███████║███████╗██║  ██║██║  ██║╚██████╗██║  ██║
                         ╚══════╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝
-                                                ", null);
-                List<Imei> Imeis = new List<Imei>();
-                Console.Write("👌 Search Phone to add to Cart: ");
-                input = Console.ReadLine() ?? "";
-                List<Phone> listTemp = phoneBL.GetPhonesByInformation(input);
-                List<int> listPhoneDetailsID = new List<int>();
-                bool? listPhoneSearch = ListPhonePagination(listTemp);
-                if (listPhoneSearch == null)
+                                                ";
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
+            List<PhoneDetail> Cart = new List<PhoneDetail>();
+            string[] menuSearchChoice = { "Search All Phone", "Search Phone By Information", "Back To Previous Menu" };
+            bool activeSearchPhone = true;
+            string input = "";
+            int phoneId = 0;
+            int phonedetailId = 0;
+            int count = 0;
+            int searchChoice = 0;
+            List<Imei> Imeis = new List<Imei>();
+            List<int> listPhoneDetailsID = new List<int>();
+            List<int>? listAllPhonesID = new List<int>();
+            bool? listPhoneSearch = false;
+            List<Phone>? listTemp = null;
+            int currentPhase = 1;
+            //Buoc 1: Tim va chon ra tung dien thoai muon them vao order
+            do
+            {
+                ShowStaffNameAndID();
+                searchChoice = MenuHandle(searchTitle, null, menuSearchChoice);
+                switch (searchChoice)
                 {
-                    activeSearchPhone = false;
+                    case 1:
+                        listTemp = phoneBL.GetPhonesByInformation("");
+                        break;
+                    case 2:
+                        ConsoleUlts.Title(searchTitle, null);
+                        Console.Write("👌 Search Phone To Add To Cart: ");
+                        input = Console.ReadLine() ?? "";
+                        listTemp = phoneBL.GetPhonesByInformation(input);
+                        break;
+                    case 3:
+                        break;
                 }
+                if (searchChoice == 3) break;
+                listPhoneSearch = ListPhonePagination(listTemp);
+                if (listPhoneSearch == null) activeSearchPhone = false;
                 else
                 {
                     if (listPhoneSearch == true)
                     {
+                        int phaseChoice = 0;
                         do
                         {
-                            Console.Write("\nEnter Phone ID To View Details: ");
-                            int.TryParse(Console.ReadLine(), out phoneId);
-                            if (phoneId <= 0 || phoneId > phoneBL.GetAllPhone().Count())
+                            switch (currentPhase)
                             {
-                                ConsoleUlts.Alert(ConsoleEnum.Alert.Error, "Invalid phone Id");
+                                case 1:
+                                    do
+                                    {
+                                        listPhoneSearch = ListPhonePagination(listTemp);
+                                        foreach (Phone item in listAllPhones[currentPageDetails])
+                                        {
+                                            listAllPhonesID.Add(item.PhoneID);
+                                        }
+                                        Console.Write("\nEnter Phone ID To View Details: ");
+                                        int.TryParse(Console.ReadLine(), out phoneId);
+                                        if (listAllPhonesID.IndexOf(phoneId) == -1)
+                                        {
+                                            Console.WriteLine("\nInvalid Phone ID In This Page");
+                                            ConsoleUlts.PressEnterTo("Comeback");
+                                            phoneBL.GetPhonesByInformation(input);
+                                            ListPhonePagination(listTemp);
+                                            listAllPhonesID = new List<int>();
+                                            currentPageDetails = 1;
+                                        }
+                                    } while (listAllPhonesID.IndexOf(phoneId) == -1);
+                                    currentPhase = 2;
+                                    break;
+                                case 2:
+                                    List<PhoneDetail> phonedetails = phoneBL.GetPhoneDetailsByPhoneID(phoneId);
+                                    foreach (PhoneDetail pd in phonedetails)
+                                    {
+                                        listPhoneDetailsID.Add(pd.PhoneDetailID);
+                                        ConsoleUlts.PrintPhoneDetailsInfo(pd);
+                                        break;
+                                    }
+                                    do
+                                    {
+                                        Console.Clear();
+                                        ConsoleUlts.PrintPhoneDetailsInfoTitle();
+                                        foreach (PhoneDetail pd in phonedetails)
+                                        {
+                                            ConsoleUlts.PrintPhoneDetailsType(pd);
+                                        }
+                                        ConsoleUlts.TinyLine();
+                                        Console.Write("Enter Phone Detail ID You Want To Choose: ");
+                                        phonedetailId = Convert.ToInt32(Console.ReadLine() ?? "");
+                                        if (listPhoneDetailsID.IndexOf(phonedetailId) == -1)
+                                        {
+                                            Console.WriteLine("\nInvalid Phone Details ID Please Choice Again");
+                                            ConsoleUlts.PressEnterTo("Re-enter Phone Details ID");
+                                        }
+                                    } while (listPhoneDetailsID.IndexOf(phonedetailId) == -1);
+                                    Console.Write("Press 1 To Create Order Or 2 To Back Previous Phase: ");
+                                    int.TryParse(Console.ReadLine(), out phaseChoice);
+                                    switch (phaseChoice)
+                                    {
+                                        case 1:
+                                            currentPhase++;
+                                            break;
+                                        case 2:
+                                            currentPhase--;
+                                            break;
+                                        default:
+                                            break;
+                                    }
+
+                                    break;
+                                case 3:
+                                    Console.WriteLine("phase 3");
+                                    Console.ReadKey();
+                                    break;
+                                case 4:
+                                    break;
+                                case 5:
+                                    break;
                             }
-                        } while (phoneId <= 0 || phoneId > phoneBL.GetAllPhone().Count());
-                        List<PhoneDetail> phonedetails = phoneBL.GetPhoneDetailsByPhoneID(phoneId);
-                        foreach (PhoneDetail pd in phonedetails)
-                        {
-                            listPhoneDetailsID.Add(pd.PhoneDetailID);
-                            ConsoleUlts.PrintPhoneDetailsInfo(pd);
-                            break;
-                        }
-                        PressEnterTo("Choose Phone Details Type");
-                        ConsoleUlts.PrintPhoneDetailsInfoTitle();
-                        foreach (PhoneDetail pd in phonedetails)
-                        {
-                            ConsoleUlts.PrintPhoneDetailsType(pd);
-                        }
-                        ConsoleUlts.TinyLine();
-                        // do
-                        // {
-                        //     Console.Write("Enter Phone Detail ID You Want To Choose: ");
-                        //     phonedetailId = Convert.ToInt32(Console.ReadLine() ?? "");
-                        // } while (Array.IndexOf(listPhoneDetailsID, phonedetailId) == -1);
+                        } while (currentPhase != 4);
+
+
                         // int quantity = 0;
                         // if (phonedt.Quantity > 0)
                         // {
@@ -540,7 +595,10 @@ namespace Ults
                 }
             } while (activeSearchPhone);
         }
+        public void SearchPhoneMenuHandle()
+        {
 
+        }
     }
 
 }

@@ -93,7 +93,7 @@ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ __
             ConsoleKeyInfo key = Console.ReadKey();
             if (key.Key == ConsoleKey.Enter)
             {
-                Console.Clear();
+                ClearCurrentConsoleLine();
                 return;
             }
             else PressEnterTo(null);
