@@ -43,7 +43,7 @@ namespace DAL
             StaffDAL staffDAL = new StaffDAL();
             CustomerDAL customerDAL = new CustomerDAL();
             PhoneDetailsDAL phoneDetailsDAL = new PhoneDetailsDAL();
-            Order order = new Order(0, new DateTime(), new Staff(0, "", "", "", "", "", StaffEnum.Role.Seller, StaffEnum.Status.Active),new Staff(0, "", "", "", "", "", StaffEnum.Role.Accountant, StaffEnum.Status.Active), new Customer(0, "", "", ""), new List<PhoneDetail>(), OrderEnum.Status.Pending, new List<DiscountPolicy>(), "", 0);
+            Order order = new Order(0, new DateTime(), new Staff(0, "", "", "", "", "", StaffEnum.Role.Seller, StaffEnum.Status.Active), new Staff(0, "", "", "", "", "", StaffEnum.Role.Accountant, StaffEnum.Status.Active), new Customer(0, "", "", ""), new List<PhoneDetail>(), OrderEnum.Status.Pending, new List<DiscountPolicy>(), "", 0);
 
             // Dau tien lay ra thong tin cua Customer, Seller, Accountant theo order id
             try
@@ -69,19 +69,19 @@ namespace DAL
             }
 
             if (connection.State == System.Data.ConnectionState.Open)
-                {
-                    connection.Close();
-                }
-                // trong order chi chua thuoc tinh id cua customer, accountant, seller
-                // de lay toan bo thong tin cua 3 actor tren ta can phai get tat ca gia tri thong qua id nhu sau: 
-                
-                    order.Accountant = staffDAL.GetStaffByID(order.Accountant.StaffID);
-                    order.Seller = staffDAL.GetStaffByID(order.Seller.StaffID);
-                    order.Customer = customerDAL.GetCustomerByID(order.Customer.CustomerID);
-                    order.PhoneDetails = phoneDetailsDAL.GetListPhoneDetailInOrder(order.OrderID);
-                
+            {
+                connection.Close();
+            }
+            // trong order chi chua thuoc tinh id cua customer, accountant, seller
+            // de lay toan bo thong tin cua 3 actor tren ta can phai get tat ca gia tri thong qua id nhu sau: 
+
+            order.Accountant = staffDAL.GetStaffByID(order.Accountant.StaffID);
+            order.Seller = staffDAL.GetStaffByID(order.Seller.StaffID);
+            order.Customer = customerDAL.GetCustomerByID(order.Customer.CustomerID);
+            order.PhoneDetails = phoneDetailsDAL.GetListPhoneDetailInOrder(order.OrderID);
+
             //Lay danh sach Phonedetails co trong order
-         
+
             return order;
         }
 
@@ -100,9 +100,13 @@ namespace DAL
                 {
                     case OrderEnum.Status.Pending:
                         query = @"select * from orders
-                        where order_status = 1 and date(create_at) = date(current_time());";
+                        where order_status = 0 and date(create_at) = date(current_time());";
                         break;
                     case OrderEnum.Status.Confirmed:
+                        query = @"select * from orders
+                        where order_status = 1 and date(create_at) = date(current_time());";
+                        break;
+                    case OrderEnum.Status.Canceled:
                         query = @"select * from orders
                         where order_status = 2 and date(create_at) = date(current_time());";
                         break;
@@ -124,8 +128,9 @@ namespace DAL
             {
                 Console.WriteLine(ex.Message);
             }
-            List <Order> output = new List<Order>();
-            foreach(var o in orders){
+            List<Order> output = new List<Order>();
+            foreach (var o in orders)
+            {
                 output.Add(GetOrderByID(o.OrderID));
             }
             return output;

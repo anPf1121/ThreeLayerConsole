@@ -188,6 +188,32 @@ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ __
             Console.WriteLine("{0,45}" + "< " + $"{currentPage}/{countPage}" + " >", " ");
             Console.WriteLine("================================================================================================");
         }
+        public void PrintOrderDetailsInfo(Order order)
+        {
+            Console.Clear();
+            TinyLine();
+            Console.WriteLine("ORDER DETAILS INFOMATION");
+            TinyLine();
+            Console.WriteLine($"Order ID: {order.OrderID}");
+            Console.WriteLine($"Create At: {order.CreateAt}");
+            Console.WriteLine($"Seller: {order.Seller.StaffName}");
+            Console.WriteLine($"Seller id : {order.Seller.StaffID}");
+            Console.WriteLine($"Accountant: {order.Accountant.StaffName}");
+            Console.WriteLine($"Accountant id: {order.Accountant.StaffID}");
+            Console.WriteLine($"Customer: {order.Customer.CustomerName}");
+            Console.WriteLine($"Customer id: {order.Customer.CustomerID}");
+            foreach (PhoneDetail phoneDetail in order.PhoneDetails)
+            {
+                Console.WriteLine("ROM Size: ", phoneDetail.ROMSize.ROM);
+                Console.WriteLine("Phone Color: ", phoneDetail.PhoneColor.Color);
+            }
+            Console.WriteLine($"Phone Quantity in order:{order.PhoneDetails.Count()}");
+            Console.WriteLine($"Total Due:{order.GetTotalDue()}");
+            // Phải hiển thị thêm DiscountPolicy các chính sách giảm giá được áp dụng cho order
+            Console.WriteLine($"Status: {order.OrderStatus}");
+
+
+        }
         public static void ClearCurrentConsoleLine()
         {
             int currentLineCursor = Console.CursorTop;

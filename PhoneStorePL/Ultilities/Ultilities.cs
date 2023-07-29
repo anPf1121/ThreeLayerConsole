@@ -4,6 +4,7 @@ using BusinessEnum;
 using GUIEnum;
 using System.Diagnostics;
 using System;
+using System.Reflection.Metadata;
 
 namespace Ults
 {
@@ -132,6 +133,7 @@ namespace Ults
             int result = 0;
             bool active = true;
             string[] menuItem = { "Create Order", "Handle Order", "Log Out" };
+            int HandleResult = 0;
             while (active)
             {
                 switch (MenuHandle(
@@ -148,6 +150,11 @@ namespace Ults
                         CreateOrder();
                         break;
                     case 2:
+                        HandleResult = HandleOrder();
+                        if (HandleResult == -1) ConsoleUlts.Alert(GUIEnum.ConsoleEnum.Alert.Error, "No Order exist");
+                        else if (HandleResult == 0) ConsoleUlts.Alert(GUIEnum.ConsoleEnum.Alert.Warning, "Cancel Order Completed");
+                        else if (HandleResult == 1) ConsoleUlts.Alert(GUIEnum.ConsoleEnum.Alert.Success, "Handle Order Completed");
+                        else if (HandleResult == 2) PressEnterTo("Back Previous Menu");
                         break;
                     case 3:
                         active = false; result = 1;
@@ -256,64 +263,66 @@ namespace Ults
             if (listOrder != null)
             {
                 bool active = true;
-                Dictionary<int, List<Order>> orders = OrderMenuPaginationHandle(listOrder);
-                int countPage = orders.Count(), currentPage = 1;
-                ConsoleKeyInfo input = new ConsoleKeyInfo();
-                while (true)
+                Dictionary<int, List<Order>> orders = new Dictionary<int, List<Order>>();
+                orders = OrderMenuPaginationHandle(listOrder);
+                if (orders != null && orders.Count > 0)
                 {
-                    ConsoleUlts.Title(
-                        null,
-                        @"
+                    int countPage = orders.Count(), currentPage = 1;
+                    ConsoleKeyInfo input = new ConsoleKeyInfo();
+                    while (true)
+                    {
+                        Console.Clear();
+                        ConsoleUlts.Title(
+                            null,
+                            @"
                      █████  ██      ██           ██████  ██████  ██████  ███████ ██████  ███████ 
                     ██   ██ ██      ██          ██    ██ ██   ██ ██   ██ ██      ██   ██ ██      
                     ███████ ██      ██          ██    ██ ██████  ██   ██ █████   ██████  ███████ 
                     ██   ██ ██      ██          ██    ██ ██   ██ ██   ██ ██      ██   ██      ██ 
                     ██   ██ ███████ ███████      ██████  ██   ██ ██████  ███████ ██   ██ ███████ "
-                    );
-                    ShowStaffNameAndID();
-                    while (active)
-                    {
-                        Console.WriteLine("========================================================================================================================");
-                        Console.WriteLine("| {0, 10} | {1, 30} | {2, 20} | {3, 15} |", "ID", "Customer Name", "Order Date", "Status");
-                        Console.WriteLine("========================================================================================================================");
-                        foreach (Order order in orders[currentPage])
+                        );
+                        while (active)
                         {
-                            ConsoleUlts.PrintOrderInfo(order);
-                        }
-                        Console.WriteLine("========================================================================================================================");
-                        Console.WriteLine("{0,55}" + "< " + $"{currentPage}/{countPage}" + " >", " ");
-                        Console.WriteLine("========================================================================================================================");
-                        Console.WriteLine("Press 'Left Arrow' To Back Previous Page, 'Right Arrow' To Next Page");
-                        Console.Write("Press 'Space' To View Order Details, 'B' To Back Previous Menu");
-                        input = Console.ReadKey();
-                        if (input.Key == ConsoleKey.RightArrow)
-                        {
-                            if (currentPage <= countPage - 1) currentPage++;
-                            Console.Clear();
-                        }
-                        else if (input.Key == ConsoleKey.LeftArrow)
-                        {
-                            if (currentPage > 1) currentPage--;
-                            Console.Clear();
-                        }
+                            Console.WriteLine("========================================================================================================================");
+                            Console.WriteLine("| {0, 10} | {1, 30} | {2, 20} | {3, 15} |", "ID", "Customer Name", "Order Date", "Status");
+                            Console.WriteLine("========================================================================================================================");
 
-                        else if (input.Key == ConsoleKey.B)
-                        {
-                            return null;
-                        }
-                        else if (input.Key == ConsoleKey.Spacebar)
-                        {
-                            return true;
-                        }
-                        else
-                            Console.Clear();
+                            foreach (Order order in orders[currentPage])
+                            {
+                                ConsoleUlts.PrintOrderInfo(order);
+                            }
+                            Console.WriteLine("========================================================================================================================");
+                            Console.WriteLine("{0,55}" + "< " + $"{currentPage}/{countPage}" + " >", " ");
+                            Console.WriteLine("========================================================================================================================");
+                            Console.WriteLine("Press 'Left Arrow' To Back Previous Page, 'Right Arrow' To Next Page");
+                            Console.Write("Press 'Space' To View Order Details, 'B' To Back Previous Menu");
+                            input = Console.ReadKey(true);
+                            if (input.Key == ConsoleKey.RightArrow)
+                            {
+                                if (currentPage <= countPage - 1) currentPage++;
+                                Console.Clear();
+                            }
+                            else if (input.Key == ConsoleKey.LeftArrow)
+                            {
+                                if (currentPage > 1) currentPage--;
+                                Console.Clear();
+                            }
 
+                            else if (input.Key == ConsoleKey.B)
+                            {
+                                return null;
+                            }
+                            else if (input.Key == ConsoleKey.Spacebar)
+                            {
+                                return true;
+                            }
+                            else
+                                Console.Clear();
+
+                        }
                     }
                 }
             }
-            else
-                ConsoleUlts.Alert(ConsoleEnum.Alert.Warning, "No orders exist");
-            PressEnterTo("Back To Previous Menu");
             return false;
 
         }
@@ -621,6 +630,107 @@ namespace Ults
         {
 
         }
+        public int HandleOrder()
+        {
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
+            ConsoleUlts.Title(@"
+            ██╗  ██╗ █████╗ ███╗   ██╗██████╗ ██╗     ███████╗
+            ██║  ██║██╔══██╗████╗  ██║██╔══██╗██║     ██╔════╝
+            ███████║███████║██╔██╗ ██║██║  ██║██║     █████╗  
+            ██╔══██║██╔══██║██║╚██╗██║██║  ██║██║     ██╔══╝  
+            ██║  ██║██║  ██║██║ ╚████║██████╔╝███████╗███████╗
+            ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═════╝ ╚══════╝╚══════╝
+                                                  ", null);
+            // Hiển thị danh sách các order có trạng thái Confirmed
+            List<Order> listConfirmedOrder = new List<Order>();
+            List<int> IdPattern = new List<int>();
+            int orderId = 0;
+            bool activeConfirmOrCancel = true;
+            ConsoleKeyInfo input = new ConsoleKeyInfo();
+            listConfirmedOrder = orderBL.GetOrdersInDay(OrderEnum.Status.Confirmed);
+            foreach (var order in listConfirmedOrder)
+            {
+                IdPattern.Add(order.OrderID);
+            }
+            bool? temp = ListOrderPagination(listConfirmedOrder);
+            if (temp == true)
+            {
+                // nhập Id order để xem
+                Console.Write("\n👉 Enter Order ID:");
+                string inputOrderId = Console.ReadLine() ?? "";
+                while (!CheckInputIDValid(inputOrderId, IdPattern))
+                {
+                    Console.Write("👉 Enter Order ID:");
+                    inputOrderId = Console.ReadLine() ?? "";
+
+                }
+                orderId = Convert.ToInt32(inputOrderId);
+
+                Order order = orderBL.GetOrderById(orderId);
+                Console.WriteLine(order.OrderID);
+                // hiển thị thông tin của Order
+                ConsoleUlts.PrintOrderDetailsInfo(order);
+
+                // Confirm order or cancel
+                while (activeConfirmOrCancel)
+                {
+                    ConsoleUlts.PrintOrderDetailsInfo(order);
+                    Console.WriteLine("Press Y to Confirm Product or Press N to cancel Confirm");
+                    input = Console.ReadKey(true);
+                    if (input.Key == ConsoleKey.N)
+                    {
+                        activeConfirmOrCancel = false;
+                        return 0;
+                    }
+                    else if (input.Key == ConsoleKey.Y)
+                    {
+                        // đổi trạng thái Order thành completed
+                        if (orderBL.UpdateOrder(OrderEnum.Status.Confirmed, order) == true) return 1;
+                    }
+                    else Console.Clear();
+                }
+            }
+            else if (temp == false)
+            {
+                return -1;
+            }
+            else if (temp == null)
+            {
+                return 2;
+            }
+            return 0;
+
+        }
+        public bool CheckInputIDValid(string inputId, List<int> IDPattern)
+        { // Ham nay de loc input xem co dung kieu va gia tri co trong list(list order, list phonedetail, list imei ..vv.)
+            string listofid = "";
+            foreach (var ID in IDPattern)
+            {
+                listofid += (ID + " ");
+            }
+            int id;
+            bool IsIntType = int.TryParse(inputId, out id);
+            if (IsIntType == true)
+            {
+                int count = 0;
+                foreach (var i in IDPattern)
+                {
+                    if (id == i) count++;
+                }
+                if (count != 0) return true;
+                else
+                {
+                    Console.WriteLine($"Please choose an id in list({listofid})");
+                    return false;
+                }
+            }
+            else
+            {
+                Console.WriteLine("Invalid input! Please input a number!");
+                return false;
+            }
+        }
+
     }
 
 }

@@ -1,35 +1,33 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\anngu\\Desktop\\ThreeLayerConsole\\PhoneStorePL\\PhoneStorePL.csproj": {}
+    "C:\\Học\\PhoneStore\\ThreeLayerConsole\\PhoneStorePL\\PhoneStorePL.csproj": {}
   },
   "projects": {
-    "C:\\Users\\anngu\\Desktop\\ThreeLayerConsole\\PhoneStorePL\\PhoneStorePL.csproj": {
+    "C:\\Học\\PhoneStore\\ThreeLayerConsole\\PhoneStorePL\\PhoneStorePL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\anngu\\Desktop\\ThreeLayerConsole\\PhoneStorePL\\PhoneStorePL.csproj",
+        "projectUniqueName": "C:\\Học\\PhoneStore\\ThreeLayerConsole\\PhoneStorePL\\PhoneStorePL.csproj",
         "projectName": "PhoneStorePL",
-        "projectPath": "C:\\Users\\anngu\\Desktop\\ThreeLayerConsole\\PhoneStorePL\\PhoneStorePL.csproj",
-        "packagesPath": "C:\\Users\\anngu\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\anngu\\Desktop\\ThreeLayerConsole\\PhoneStorePL\\obj\\",
+        "projectPath": "C:\\Học\\PhoneStore\\ThreeLayerConsole\\PhoneStorePL\\PhoneStorePL.csproj",
+        "packagesPath": "C:\\Users\\Acer\\.nuget\\packages\\",
+        "outputPath": "C:\\Học\\PhoneStore\\ThreeLayerConsole\\PhoneStorePL\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\anngu\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\Acer\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "C:\\Users\\anngu\\Desktop\\ThreeLayerConsole\\ThreeLayerLibrary\\ThreeLayerLibrary.csproj": {
-                "projectPath": "C:\\Users\\anngu\\Desktop\\ThreeLayerConsole\\ThreeLayerLibrary\\ThreeLayerLibrary.csproj"
+              "C:\\Học\\PhoneStore\\ThreeLayerConsole\\ThreeLayerLibrary\\ThreeLayerLibrary.csproj": {
+                "projectPath": "C:\\Học\\PhoneStore\\ThreeLayerConsole\\ThreeLayerLibrary\\ThreeLayerLibrary.csproj"
               }
             }
           }
@@ -63,24 +61,22 @@
         }
       }
     },
-    "C:\\Users\\anngu\\Desktop\\ThreeLayerConsole\\ThreeLayerLibrary\\ThreeLayerLibrary.csproj": {
+    "C:\\Học\\PhoneStore\\ThreeLayerConsole\\ThreeLayerLibrary\\ThreeLayerLibrary.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\anngu\\Desktop\\ThreeLayerConsole\\ThreeLayerLibrary\\ThreeLayerLibrary.csproj",
+        "projectUniqueName": "C:\\Học\\PhoneStore\\ThreeLayerConsole\\ThreeLayerLibrary\\ThreeLayerLibrary.csproj",
         "projectName": "ThreeLayerLibrary",
-        "projectPath": "C:\\Users\\anngu\\Desktop\\ThreeLayerConsole\\ThreeLayerLibrary\\ThreeLayerLibrary.csproj",
-        "packagesPath": "C:\\Users\\anngu\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\anngu\\Desktop\\ThreeLayerConsole\\ThreeLayerLibrary\\obj\\",
+        "projectPath": "C:\\Học\\PhoneStore\\ThreeLayerConsole\\ThreeLayerLibrary\\ThreeLayerLibrary.csproj",
+        "packagesPath": "C:\\Users\\Acer\\.nuget\\packages\\",
+        "outputPath": "C:\\Học\\PhoneStore\\ThreeLayerConsole\\ThreeLayerLibrary\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\anngu\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\Acer\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
