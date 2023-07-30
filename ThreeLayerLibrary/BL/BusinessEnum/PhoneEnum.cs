@@ -6,7 +6,7 @@ namespace BusinessEnum
     {
         public enum Status
         {
-            NotHave,
+            New,
             Type1,
             Type2,
             Type3,

@@ -194,20 +194,19 @@ namespace DAL
                 reader.Close();
                 foreach (var phone in order.PhoneDetails)
                 {
-                    int phoneDetailID = 0;
                     int quantity = 0;
+
                     bool mySqlReader = false;
                     try
                     {
-                        query = @"select phone_detail_id, quantity from phonedetails where price = @price;";
+                        query = @"select quantity from phonedetails where phone_detail_id = @phonedetailid;";
                         command.CommandText = query;
                         command.Parameters.Clear();
-                        command.Parameters.AddWithValue("@price", phone.Price);
+                        command.Parameters.AddWithValue("@phonedetailid", phone.PhoneDetailID);
                         reader = command.ExecuteReader();
                         mySqlReader = reader.Read();
                         if (mySqlReader)
                         {
-                            phoneDetailID = reader.GetInt32("phone_detail_id");
                             quantity = reader.GetInt32("quantity");
                         }
                         reader.Close();
@@ -221,15 +220,11 @@ namespace DAL
                                 command.CommandText = query;
                                 foreach (Imei imei in phone.ListImei)
                                 {
-                                    if (phone.PhoneDetailID == phoneDetailID)
-                                    {
-                                        command.Parameters.Clear();
-                                        command.Parameters.AddWithValue("@orderid", order.OrderID);
-                                        command.Parameters.AddWithValue("@phoneimei", imei.PhoneImei);
-                                        command.ExecuteNonQuery();
-                                    }
+                                    command.Parameters.Clear();
+                                    command.Parameters.AddWithValue("@orderid", order.OrderID);
+                                    command.Parameters.AddWithValue("@phoneimei", imei.PhoneImei);
+                                    command.ExecuteNonQuery();
                                 }
-                                countphone++;
                             }
                         }
                         else break;
@@ -238,6 +233,7 @@ namespace DAL
                     {
                         Console.WriteLine(ex.Message);
                     }
+                    countphone++;
                 }
                 if (countphone == order.PhoneDetails.Count() && order.PhoneDetails.Count() > 0) result = true;
                 else result = false;

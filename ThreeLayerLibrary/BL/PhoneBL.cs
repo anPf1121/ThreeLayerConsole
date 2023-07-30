@@ -31,8 +31,18 @@ public class PhoneBL
     public List<PhoneDetail> GetPhoneDetailsByPhoneID(int id){
         return phoneDetailDAL.GetPhoneDetailsByPhoneID(id);
     }
+    public bool CheckImeiExist(Imei imei, int phoneDetailID) {
+        foreach (Imei item in phoneDetailDAL.GetImeisByPhoneDetailsID(phoneDetailID))
+        {
+            if(item.PhoneImei == imei.PhoneImei && item.Status == imei.Status) return true;
+        }
+        return false;
+    }
     public PhoneDetail GetPhoneDetailByID(int phonedetailid){
         return phoneDetailDAL.GetPhoneDetailByID(phonedetailid);
+    }
+    public List<Imei> GetImeisByPhoneDetailsID(int phoneDetailID) {
+        return phoneDetailDAL.GetImeisByPhoneDetailsID(phoneDetailID);
     }
     public bool CheckImeisExits(PhoneDetail phonedetail, List<Imei> imeiWantToCheck){
         

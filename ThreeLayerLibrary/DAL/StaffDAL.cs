@@ -27,7 +27,6 @@ namespace DAL
                 if (reader.Read())
                 {
                     staff = GetStaff(reader);
-                    Console.WriteLine(staff.Password);
                 }
                 reader.Close();
             }

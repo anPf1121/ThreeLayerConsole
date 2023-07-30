@@ -31,7 +31,7 @@ public class Order
         decimal totalDue = 0;
         foreach (var item in PhoneDetails)
         {
-            totalDue += item.Price;
+            totalDue += item.ListImei.Count() * item.Price;
         }
         return totalDue;
     }

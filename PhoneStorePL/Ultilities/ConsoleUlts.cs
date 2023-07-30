@@ -37,7 +37,20 @@ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ __
 \____\\____\\____\\____\\____\\____\\____\\____\\____\\____\\____\\____\\____\\____\\____\\____\
 ");
         }
-
+        public void PrintPhoneDetailsInfo(List<PhoneDetail> phoneDetails)
+        {
+            foreach (PhoneDetail pd in phoneDetails)
+            {
+                PrintPhoneDetailsInfo(pd);
+                break;
+            }
+            PrintPhoneModelTitle();
+            foreach (PhoneDetail pd in phoneDetails)
+            {
+                PrintPhoneModelInfo(pd);
+            }
+            TinyLine();
+        }
         public void TinyLine()
         {
             Console.WriteLine("=====================================================================================================");
@@ -83,7 +96,7 @@ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ __
                     break;
             }
             ConsoleForegroundColor(ConsoleEnum.Color.White);
-            Ultilities.PressEnterTo("Continue");
+            PressEnterTo("Continue");
         }
         public void PressEnterTo(string? action)
         {
@@ -158,6 +171,42 @@ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ __
             }
             TinyLine();
             itemCount = 0;
+        }
+        public void PrintSellerOrder(Order ord)
+        {
+            int totalQuantity = 0;
+            CultureInfo cultureInfo = new CultureInfo("vi-VN");
+            Console.WriteLine("\n=======================================================================================================================");
+            Console.WriteLine("------------------------------------------------------------ VTC Mobile -----------------------------------------------");
+            Console.WriteLine("=======================================================================================================================");
+            Console.WriteLine("Website: https://vtc.edu.vn/");
+            Console.WriteLine("Address: 18 Tam Trinh, Quận Hai Bà Trưng, Thành Phố Hà Nội");
+            Console.WriteLine("=======================================================================================================================");
+            Console.WriteLine("Seller: " + ord.Seller.StaffName + " - ID: " + ord.Seller.StaffID);
+            Console.WriteLine("=======================================================================================================================");
+            Console.WriteLine("Customer: " + ord.Customer.CustomerName);
+            Console.WriteLine("Address: " + ord.Customer.Address);
+            Console.WriteLine("Phone Number: " + ord.Customer.PhoneNumber);
+            Console.WriteLine("=======================================================================================================================");
+            Console.WriteLine("| {0, 10} | {1, 30} | {2, 15} | {3, 15} | {4, 15} | {5, 15} |", "Phone ID", "Phone Name", "Quantity", "Imei", "Status", "Price");
+            Console.WriteLine("=======================================================================================================================");
+            int printImeiHandle = 0;
+            int printImeiHandle2 = 0;
+            foreach (var pd in ord.PhoneDetails)
+            {
+                printImeiHandle = pd.Phone.PhoneID;
+                Console.WriteLine("-----------------------------------------------------------------------------------------------------------------------");
+                foreach (var ims in pd.ListImei)
+                {
+                    Console.WriteLine("| {0, 10} | {1, 30} | {2, 15} | {3, 15} | {4, 15} | {5, 15} |", (printImeiHandle != printImeiHandle2) ? pd.Phone.PhoneID : "", (printImeiHandle != printImeiHandle2) ? pd.Phone.PhoneName : "", (printImeiHandle != printImeiHandle2) ? pd.Quantity : "", ims.PhoneImei, (printImeiHandle != printImeiHandle2) ? pd.PhoneStatusType : "", (printImeiHandle != printImeiHandle2) ? pd.Price : "");
+                    printImeiHandle2 = printImeiHandle;
+                }
+            }
+            Console.WriteLine("-----------------------------------------------------------------------------------------------------------------------");
+            Console.WriteLine("  {0, 10}   {1, 30}   {2, 15}   {3, 15}   {4, 15}   {5, 15}  ", "", "", "", "", "Total Due:", string.Format(cultureInfo, "{0:N0} ₫", ord.GetTotalDue()));
+            Console.WriteLine("  {0, 10}   {1, 30}   {2, 15}   {3, 15}   {4, 15}   {5, 15}  ", "", "", "", "", "Discount Price:", string.Format(cultureInfo, "{0:N0} ₫", 0)); // hard coded
+            Console.WriteLine("=======================================================================================================================");
+
         }
         public void PrintPhoneModelInfo(PhoneDetail phoneDetail)
         {
