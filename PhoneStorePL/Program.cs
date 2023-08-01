@@ -13,7 +13,7 @@ namespace PhoneStoreUI
     {
         static void Main()
         {
-            DbConfig.CreateDefaultDb();
+            // DbConfig.CreateDefaultDb();
             Console.OutputEncoding = System.Text.Encoding.UTF8;
             Ultilities Ults = new Ultilities();
             ConsoleUlts ConsoleUlts = new ConsoleUlts();

@@ -32,7 +32,7 @@ namespace Ults
         }
         public void Line()
         {
-            Console.WriteLine(@"-----------------------------------------------------------------------------------------------");
+            Console.WriteLine(@"----------------------------------------------------------------------------------------------");
         }
         public void PrintPhoneDetailsInfo(List<PhoneDetail> phoneDetails)
         {
@@ -50,7 +50,7 @@ namespace Ults
         }
         public void TinyLine()
         {
-            Console.WriteLine("______________________________________________________________________________________________________");
+            Console.WriteLine("----------------------------------------------------------------------------------------------");
         }
         public void Alert(ConsoleEnum.Alert alertType, string msg)
         {

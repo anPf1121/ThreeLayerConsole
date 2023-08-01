@@ -13,13 +13,13 @@ namespace DAL
         }
         public static bool CreateDefaultDb()
         {
-            string sqlFilePath = "phonestore.sql";
-            string mysqlPath = @"C:\DatabaseMySQL\MySQL\MySQL Server 8.0\bin\mysql.exe"; // Path to mysql.exe
+            string sqlFilePath = "../../phonestore.sql";
+            string mysqlPath = @"mysql "; // Path to mysql.exe
             string username = "root";
             string hostname = "localhost";
             string password = "123456";
 
-            string arguments = $"-u {username} -h {hostname} -p {password} < \"{sqlFilePath}\"";
+            string arguments = $"-f {mysqlPath} -u {username} -h {hostname} -p {password} < \"{sqlFilePath}\"";
 
             try
             {
@@ -32,7 +32,6 @@ namespace DAL
                 process.StartInfo.RedirectStandardOutput = true;
                 process.StartInfo.RedirectStandardError = true;
 
-                // Set up event handlers for asynchronous reading
                 process.OutputDataReceived += Process_OutputDataReceived;
                 process.ErrorDataReceived += Process_ErrorDataReceived;
 
@@ -41,8 +40,7 @@ namespace DAL
                 process.BeginOutputReadLine();
                 process.BeginErrorReadLine();
 
-                // Wait for the process to complete, with a timeout to prevent potential deadlocks
-                bool exited = process.WaitForExit(5000); // Adjust the timeout as needed
+                bool exited = process.WaitForExit(5000); 
 
                 if (exited)
                 {
@@ -51,7 +49,6 @@ namespace DAL
                 else
                 {
                     Console.WriteLine("Execution timed out or encountered an error.");
-                    // Optionally, you can kill the process if it doesn't exit within the timeout
                     process.Kill();
                 }
             }
@@ -65,7 +62,7 @@ namespace DAL
         {
             if (!string.IsNullOrEmpty(e.Data))
             {
-                // Console.WriteLine("Output: " + e.Data);
+                Console.WriteLine("Output: " + e.Data);
             }
         }
 
@@ -73,7 +70,7 @@ namespace DAL
         {
             if (!string.IsNullOrEmpty(e.Data))
             {
-                // Console.WriteLine("Error: " + e.Data);
+                Console.WriteLine("Error: " + e.Data);
             }
         }
         public static MySqlConnection GetConnection()

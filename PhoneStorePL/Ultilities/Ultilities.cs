@@ -182,7 +182,8 @@ namespace Ults
             }
             return result;
         }
-        public string GetAppTitle() {
+        public string GetAppTitle()
+        {
             return @"                             _                      _               
                          ___| |_ ___ ___ ___    ___| |_ ___ ___ ___ 
                         | . |   | . |   | -_|  |_ -|  _| . |  _| -_|
@@ -433,7 +434,7 @@ namespace Ults
             int currentPhase = 1;
             int phaseChoice = 0;
             int quantity = 0;
-            string[] listPhase = { "Search Phone", "Add Phone To Cart", "Enter Quantity", "Enter Imei", "Add More Phone", "Enter Customer Info", "Confirm Order" };
+            string[] listPhase = { "Search Phone", "Add Phone To Order", "Enter Quantity", "Enter Imei", "Add More Phone", "Enter Customer Info", "Confirm Order" };
             //Buoc 1: Tim va chon ra tung dien thoai muon them vao order
 
             do
@@ -484,16 +485,9 @@ namespace Ults
                                     {
                                         break;
                                     }
-                                } while (true);
-                                currentPhase++;
+                                } while (listAllPhonesID.IndexOf(phoneId) == -1);
                             }
-                        } while (listAllPhonesID.IndexOf(phoneId) == -1);
-                        break;
-                    case 2:
-                        phonedetails = phoneBL.GetPhoneDetailsByPhoneID(phoneId);
-                        do
-                        {
-                            ConsoleUlts.PrintListPhase(listPhase, count, currentPhase);
+                            ConsoleUlts.Line();
                             Console.Write("Press '1' To Back Previous Phase And '2' To Choose Phone Model: ");
                             int.TryParse(Console.ReadLine(), out phaseChoice);
                             if (phaseChoice == 1)
@@ -503,23 +497,46 @@ namespace Ults
                             }
                             else if (phaseChoice == 2)
                             {
-                                List<int> listPhoneDetailID = new List<int>();
-                                foreach (PhoneDetail item in phonedetails)
+                                currentPhase++;
+                                break;
+                            }
+                            else
+                                ConsoleUlts.Alert(GUIEnum.ConsoleEnum.Alert.Error, "Invalid Phase Choice");
+                        } while (phaseChoice != 1 && phaseChoice != 2);
+                        break;
+                    case 2:
+                        phonedetails = phoneBL.GetPhoneDetailsByPhoneID(phoneId);
+                        do
+                        {
+                            ConsoleUlts.PrintListPhase(listPhase, count, currentPhase);
+                            List<int> listPhoneDetailID = new List<int>();
+                            foreach (PhoneDetail item in phonedetails)
+                            {
+                                listPhoneDetailID.Add(item.PhoneDetailID);
+                            }
+                            do
+                            {
+                                ConsoleUlts.PrintPhoneDetailsInfo(phonedetails);
+                                Console.Write("Enter Phone Model ID: ");
+                                int.TryParse(Console.ReadLine(), out phoneModelID);
+                                if (listPhoneDetailID.IndexOf(phoneModelID) == -1)
                                 {
-                                    listPhoneDetailID.Add(item.PhoneDetailID);
+                                    ConsoleUlts.Alert(GUIEnum.ConsoleEnum.Alert.Error, "Invalid Phone Model ID Please Choice Again");
+                                    ConsoleUlts.PrintListPhase(listPhase, count, currentPhase);
                                 }
-                                do
-                                {
-                                    ConsoleUlts.PrintPhoneDetailsInfo(phonedetails);
-                                    Console.Write("Enter Phone Model ID: ");
-                                    int.TryParse(Console.ReadLine(), out phoneModelID);
-                                    if (listPhoneDetailID.IndexOf(phoneModelID) == -1)
-                                    {
-                                        ConsoleUlts.Alert(GUIEnum.ConsoleEnum.Alert.Error, "Invalid Phone Model ID Please Choice Again");
-                                        ConsoleUlts.PrintListPhase(listPhase, count, currentPhase);
-                                    }
-                                    else currentPhase++;
-                                } while (listPhoneDetailID.IndexOf(phoneModelID) == -1);
+                            } while (listPhoneDetailID.IndexOf(phoneModelID) == -1);
+                            ConsoleUlts.Line();
+                            Console.Write("Press '1' To Back Previous Phase And '2' To Enter Quantity: ");
+                            int.TryParse(Console.ReadLine(), out phaseChoice);
+                            if (phaseChoice == 1)
+                            {
+                                currentPhase--;
+                                break;
+                            }
+                            else if (phaseChoice == 2)
+                            {
+                                currentPhase++;
+                                break;
                             }
                             else
                                 ConsoleUlts.Alert(GUIEnum.ConsoleEnum.Alert.Error, "Invalid Phase Choice");
@@ -531,7 +548,27 @@ namespace Ults
                         do
                         {
                             ConsoleUlts.PrintListPhase(listPhase, count, currentPhase);
-                            Console.Write("Press '1' To Back Previous Phase And '2' To Enter Quantity: ");
+                            do
+                            {
+                                ConsoleUlts.PrintPhoneDetailsInfo(phonedetails);
+                                Console.WriteLine("Phone Model ID: " + phoneModelID);
+                                Console.Write("Input Quantity: ");
+                                int.TryParse(Console.ReadLine(), out quantity);
+                                if (quantity <= 0 || quantity > pDetails.Quantity)
+                                {
+                                    ConsoleUlts.PrintPhoneDetailsInfo(phonedetails);
+                                    Console.WriteLine("Phone Model ID: " + phoneModelID);
+                                    ConsoleUlts.Alert(GUIEnum.ConsoleEnum.Alert.Error, "Invalid Quantity");
+                                }
+                                else
+                                {
+                                    ConsoleUlts.Alert(GUIEnum.ConsoleEnum.Alert.Success, "Quantity Successfully Added");
+                                    pDetails.Quantity = quantity;
+                                }
+                            } while ((quantity <= 0 || quantity > pDetails.Quantity));
+
+                            ConsoleUlts.Line();
+                            Console.Write("Press '1' To Back Previous Phase And '2' To Enter Imeis: ");
                             int.TryParse(Console.ReadLine(), out phaseChoice);
                             if (phaseChoice == 1)
                             {
@@ -540,25 +577,9 @@ namespace Ults
                             }
                             else if (phaseChoice == 2)
                             {
-                                do
-                                {
-                                    ConsoleUlts.PrintPhoneDetailsInfo(phonedetails);
-                                    Console.WriteLine("Phone Model ID: " + phoneModelID);
-                                    Console.Write("Input Quantity: ");
-                                    int.TryParse(Console.ReadLine(), out quantity);
-                                    if (quantity <= 0 || quantity > pDetails.Quantity)
-                                    {
-                                        ConsoleUlts.PrintPhoneDetailsInfo(phonedetails);
-                                        Console.WriteLine("Phone Model ID: " + phoneModelID);
-                                        ConsoleUlts.Alert(GUIEnum.ConsoleEnum.Alert.Error, "Invalid Quantity");
-                                    }
-                                    else
-                                    {
-                                        ConsoleUlts.Alert(GUIEnum.ConsoleEnum.Alert.Success, "Quantity Successfully Added");
-                                        pDetails.Quantity = quantity;
-                                        currentPhase++;
-                                    }
-                                } while ((quantity <= 0 || quantity > pDetails.Quantity));
+                                currentPhase++;
+                                break;
+
                             }
                             else
                                 ConsoleUlts.Alert(GUIEnum.ConsoleEnum.Alert.Error, "Invalid Phase Choice");
@@ -569,7 +590,44 @@ namespace Ults
                         do
                         {
                             ConsoleUlts.PrintListPhase(listPhase, count, currentPhase);
-                            Console.Write("Press '1' To Back Previous Phase And '2' To Enter Imeis: ");
+                            int idImei = 1;
+                            ConsoleUlts.PrintPhoneDetailsInfo(phonedetails);
+                            Console.WriteLine("Phone Model ID: " + phoneModelID);
+                            Console.WriteLine("Quantity: " + quantity);
+                            foreach (var item in imeis)
+                            {
+                                Console.WriteLine("Imei " + (idImei) + ": " + item.PhoneImei);
+                                idImei++;
+                            }
+                            for (int i = 0; i < quantity; i++)
+                            {
+                                Imei imei = new Imei("", BusinessEnum.PhoneEnum.ImeiStatus.NotExport);
+                                do
+                                {
+                                    Console.Write($"Enter Imei {i + 1}: ");
+                                    imei.PhoneImei = Console.ReadLine() ?? "";
+                                    if (!phoneBL.CheckImeiExist(imei, phoneModelID))
+                                    {
+                                        ConsoleUlts.Alert(GUIEnum.ConsoleEnum.Alert.Error, "Imei Not Found");
+                                        ConsoleUlts.PrintPhoneDetailsInfo(phonedetails);
+                                        Console.WriteLine("Phone Model ID: " + phoneModelID);
+                                        Console.WriteLine("Quantity: " + quantity);
+                                        idImei = 1;
+                                        foreach (var item in imeis)
+                                        {
+                                            Console.WriteLine("Imei " + (idImei) + ": " + item.PhoneImei);
+                                            idImei++;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        ConsoleUlts.Alert(GUIEnum.ConsoleEnum.Alert.Success, "Imei Successfully Added");
+                                        imeis.Add(imei);
+                                    }
+                                } while (!phoneBL.CheckImeiExist(imei, phoneModelID));
+                            }
+                            ConsoleUlts.Line();
+                            Console.Write("Press '1' To Back Previous Phase And '2' To Continue: ");
                             int.TryParse(Console.ReadLine(), out phaseChoice);
                             if (phaseChoice == 1)
                             {
@@ -578,43 +636,8 @@ namespace Ults
                             }
                             else if (phaseChoice == 2)
                             {
-                                int idImei = 1;
-                                ConsoleUlts.PrintPhoneDetailsInfo(phonedetails);
-                                Console.WriteLine("Phone Model ID: " + phoneModelID);
-                                Console.WriteLine("Quantity: " + quantity);
-                                foreach (var item in imeis)
-                                {
-                                    Console.WriteLine("Imei " + (idImei) + ": " + item.PhoneImei);
-                                    idImei++;
-                                }
-                                for (int i = 0; i < quantity; i++)
-                                {
-                                    Imei imei = new Imei("", BusinessEnum.PhoneEnum.ImeiStatus.NotExport);
-                                    do
-                                    {
-                                        Console.Write($"Enter Imei {i + 1}: ");
-                                        imei.PhoneImei = Console.ReadLine() ?? "";
-                                        if (!phoneBL.CheckImeiExist(imei, phoneModelID))
-                                        {
-                                            ConsoleUlts.Alert(GUIEnum.ConsoleEnum.Alert.Error, "Imei Not Found");
-                                            ConsoleUlts.PrintPhoneDetailsInfo(phonedetails);
-                                            Console.WriteLine("Phone Model ID: " + phoneModelID);
-                                            Console.WriteLine("Quantity: " + quantity);
-                                            idImei = 1;
-                                            foreach (var item in imeis)
-                                            {
-                                                Console.WriteLine("Imei " + (idImei) + ": " + item.PhoneImei);
-                                                idImei++;
-                                            }
-                                        }
-                                        else
-                                        {
-                                            ConsoleUlts.Alert(GUIEnum.ConsoleEnum.Alert.Success, "Imei Successfully Added");
-                                            imeis.Add(imei);
-                                        }
-                                    } while (!phoneBL.CheckImeiExist(imei, phoneModelID));
-                                }
                                 currentPhase++;
+                                break;
                             }
                             else
                             {
@@ -626,8 +649,6 @@ namespace Ults
                         do
                         {
                             ConsoleUlts.PrintListPhase(listPhase, count, currentPhase);
-                            Console.Write("Press '1' To Back Previous Phase Or '2' To Enter Customer Info\nPress '3' To Add More Phone: ");
-                            int.TryParse(Console.ReadLine(), out phaseChoice);
                             if (phaseChoice == 1)
                             {
                                 currentPhase--;
@@ -651,29 +672,36 @@ namespace Ults
                             {
                                 ConsoleUlts.Alert(GUIEnum.ConsoleEnum.Alert.Error, "Invalid Phase Choice");
                             }
+                            ConsoleUlts.Line();
+                            Console.Write("Press '1' To Back Previous Phase Or '2' To Enter Customer Info\nPress '3' To Add More Phone: ");
+                            int.TryParse(Console.ReadLine(), out phaseChoice);
                         } while (phaseChoice != 1 && phaseChoice != 2);
                         break;
                     case 6:
                         do
                         {
                             ConsoleUlts.PrintListPhase(listPhase, count, currentPhase);
+                            Console.WriteLine("--- Enter Customer Information ---");
+                            Console.Write(" - Customer Name: ");
+                            string customerName = Console.ReadLine() ?? "";
+                            Console.Write(" - Phone Number: ");
+                            string phoneNumber = Console.ReadLine() ?? "";
+                            Console.Write(" - Address: ");
+                            string address = Console.ReadLine() ?? "";
+                            customer = new Customer(0, customerName, phoneNumber, address);
+
+                            ConsoleUlts.Line();
                             Console.Write("Press '1' To Back Previous Phase Or '2' To Enter Customer Info: ");
                             int.TryParse(Console.ReadLine(), out phaseChoice);
+
                             if (phaseChoice == 1)
                             {
                                 currentPhase--;
                                 break;
                             }
+
                             else if (phaseChoice == 2)
                             {
-                                Console.WriteLine("--- Enter Customer Information ---");
-                                Console.Write(" - Customer Name: ");
-                                string customerName = Console.ReadLine() ?? "";
-                                Console.Write(" - Phone Number: ");
-                                string phoneNumber = Console.ReadLine() ?? "";
-                                Console.Write(" - Address: ");
-                                string address = Console.ReadLine() ?? "";
-                                customer = new Customer(0, customerName, phoneNumber, address);
                                 currentPhase++;
                                 break;
                             }

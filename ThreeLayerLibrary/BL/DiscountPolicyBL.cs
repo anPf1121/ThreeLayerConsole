@@ -6,7 +6,7 @@ using Model;
 namespace BL;
 public class DiscountPolicyBL{
     private DiscountPolicyDAL discountPolicyDAL = new DiscountPolicyDAL();
-    public List<DiscountPolicy> GetDiscountValidToOrder(Order order){
+    public List<DiscountPolicy> GetDiscountValidToOrder(Order order) {
         PhoneBL phoneBL = new PhoneBL();
         decimal totaldue = 0;
         foreach(var phone in order.PhoneDetails){
