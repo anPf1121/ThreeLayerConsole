@@ -29,15 +29,13 @@ namespace Ults
             int currentChoice = 1;
             while (activeSelectedMenu)
             {
-                ConsoleUlts.Title(title, subTitle);
-                ShowStaffNameAndID();
+                if (title != null || subTitle != null)
+                    Title(title, subTitle);
                 if (currentChoice <= (menuItem.Count() + 1) && currentChoice >= 1)
                 {
                     for (int i = 0; i < menuItem.Count(); i++)
                         Console.WriteLine(((currentChoice - 1 == i) ? (iconBackhand + " ") : "") + " " + menuItem[i] + $" ({i + 1})");
-                    Console.WriteLine("\n================================================================================================");
-                    Console.WriteLine("*press 'down arrow' to next choice or 'up arrow' to previous choice and press 'enter to confirm'");
-                    Console.WriteLine("================================================================================================");
+                    ConsoleUlts.Line();
                     keyInfo = Console.ReadKey();
 
                     if (keyInfo.Key == ConsoleKey.Enter)
@@ -65,13 +63,16 @@ namespace Ults
         public StaffEnum.Role? LoginUlt()
         {
             Console.OutputEncoding = System.Text.Encoding.UTF8;
-            ConsoleUlts.Title(null, @"
-                            ██╗      ██████╗  ██████╗ ██╗███╗   ██╗
-                            ██║     ██╔═══██╗██╔════╝ ██║████╗  ██║
-                            ██║     ██║   ██║██║  ███╗██║██╔██╗ ██║
-                            ██║     ██║   ██║██║   ██║██║██║╚██╗██║
-                            ███████╗╚██████╔╝╚██████╔╝██║██║ ╚████║
-                            ╚══════╝ ╚═════╝  ╚═════╝ ╚═╝╚═╝  ╚═══╝");
+            Title(@"                             _                      _               
+                         ___| |_ ___ ___ ___    ___| |_ ___ ___ ___ 
+                        | . |   | . |   | -_|  |_ -|  _| . |  _| -_|
+                        |  _|_|_|___|_|_|___|  |___|_| |___|_| |___|
+                        |_|                                         ", @"                                                       
+                                       _         _     
+                                      | |___ ___|_|___ 
+                                      | | . | . | |   |
+                                      |_|___|_  |_|_|_|
+                                            |___|      ");
             Console.Write("\n👉 User Name: ");
             string userName = Console.ReadLine() ?? "";
             Console.Write("\n👉 Password: ");
@@ -112,9 +113,31 @@ namespace Ults
             if (orderStaff != null)
             {
                 ConsoleUlts.ConsoleForegroundColor(ConsoleEnum.Color.Green);
-                Console.WriteLine("                                                              Staff: " + orderStaff.StaffName + " - ID: " + orderStaff.StaffID);
+                Console.WriteLine("                                                              " + ((orderStaff.Role == StaffEnum.Role.Accountant) ? "Accountant: " : "Seller: ") + orderStaff.StaffName + " - ID: " + orderStaff.StaffID);
                 ConsoleUlts.ConsoleForegroundColor(ConsoleEnum.Color.White);
             }
+        }
+        public void Title(string? title, string? subTitle)
+        {
+            Ultilities ults = new Ultilities();
+            if (title != null)
+            {
+                ConsoleUlts.Line();
+                ConsoleUlts.ConsoleForegroundColor(ConsoleEnum.Color.Red);
+                Console.WriteLine(title);
+                ConsoleUlts.ConsoleForegroundColor(ConsoleEnum.Color.White);
+                ConsoleUlts.Line();
+            }
+            if (subTitle != null)
+            {
+                ConsoleUlts.Line();
+                ConsoleUlts.ConsoleForegroundColor(ConsoleEnum.Color.Blue);
+                Console.WriteLine(subTitle);
+                ConsoleUlts.ConsoleForegroundColor(ConsoleEnum.Color.White);
+                ConsoleUlts.Line();
+            }
+            ShowStaffNameAndID();
+            ConsoleUlts.Line();
         }
         public void PressEnterTo(string? action)
         {
@@ -138,15 +161,7 @@ namespace Ults
             int HandleResult = 0;
             while (active)
             {
-                switch (MenuHandle(
-                    null, @"
-                          ███████╗███████╗██╗     ██╗     ███████╗██████╗ 
-                          ██╔════╝██╔════╝██║     ██║     ██╔════╝██╔══██╗
-                          ███████╗█████╗  ██║     ██║     █████╗  ██████╔╝
-                          ╚════██║██╔══╝  ██║     ██║     ██╔══╝  ██╔══██╗
-                          ███████║███████╗███████╗███████╗███████╗██║  ██║
-                          ╚══════╝╚══════╝╚══════╝╚══════╝╚══════╝╚═╝  ╚═╝
-                                                ", menuItem))
+                switch (MenuHandle(GetAppTitle(), null, menuItem))
                 {
                     case 1:
                         CreateOrder();
@@ -159,7 +174,7 @@ namespace Ults
                         else if (HandleResult == 2) PressEnterTo("Back Previous Menu");
                         break;
                     case 3:
-                        active = false; result = 1;
+                        active = false; result = 1; orderStaff = null;
                         break;
                     default:
                         break;
@@ -167,7 +182,13 @@ namespace Ults
             }
             return result;
         }
-
+        public string GetAppTitle() {
+            return @"                             _                      _               
+                         ___| |_ ___ ___ ___    ___| |_ ___ ___ ___ 
+                        | . |   | . |   | -_|  |_ -|  _| . |  _| -_|
+                        |  _|_|_|___|_|_|___|  |___|_| |___|_| |___|
+                        |_|                                         ";
+        }
         public int AccountantMenu()
         {
             int result = 0;
@@ -176,23 +197,14 @@ namespace Ults
             string[] menuItem = { "Payment", "Revenue Report", "Log Out" };
             while (active)
             {
-                switch (ultilities.MenuHandle(null,
-                @"
-         █████╗  ██████╗ ██████╗ ██████╗ ██╗   ██╗███╗   ██╗████████╗ █████╗ ███╗   ██╗████████╗
-        ██╔══██╗██╔════╝██╔════╝██╔═══██╗██║   ██║████╗  ██║╚══██╔══╝██╔══██╗████╗  ██║╚══██╔══╝
-        ███████║██║     ██║     ██║   ██║██║   ██║██╔██╗ ██║   ██║   ███████║██╔██╗ ██║   ██║   
-        ██╔══██║██║     ██║     ██║   ██║██║   ██║██║╚██╗██║   ██║   ██╔══██║██║╚██╗██║   ██║   
-        ██║  ██║╚██████╗╚██████╗╚██████╔╝╚██████╔╝██║ ╚████║   ██║   ██║  ██║██║ ╚████║   ██║   
-        ╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═╝   
-                                                                                        ", menuItem))
+                switch (ultilities.MenuHandle(GetAppTitle(), null, menuItem))
                 {
                     case 1:
                         break;
                     case 2:
                         break;
                     case 3:
-                        active = false;
-                        result = 1;
+                        active = false; result = 1; orderStaff = null;
                         break;
                     default:
                         break;
@@ -213,7 +225,7 @@ namespace Ults
                 while (true)
                 {
                     Console.Clear();
-                    ConsoleUlts.Title(
+                    Title(
                         null,
     @"
       █████╗ ██████╗ ██████╗     ████████╗ ██████╗      ██████╗ ██████╗ ██████╗ ███████╗██████╗ 
@@ -224,7 +236,6 @@ namespace Ults
     ╚═╝  ╚═╝╚═════╝ ╚═════╝        ╚═╝    ╚═════╝      ╚═════╝ ╚═╝  ╚═╝╚═════╝ ╚══════╝╚═╝  ╚═╝
                                                                                            "
                     );
-                    ShowStaffNameAndID();
                     while (active)
                     {
                         ConsoleUlts.PrintOrderAndPhoneBorder(phones, currentPage, countPage);
@@ -274,7 +285,7 @@ namespace Ults
                     while (true)
                     {
                         Console.Clear();
-                        ConsoleUlts.Title(
+                        Title(
                             null,
                             @"
                      █████  ██      ██           ██████  ██████  ██████  ███████ ██████  ███████ 
@@ -432,7 +443,6 @@ namespace Ults
                     case 1:
                         do
                         {
-                            ShowStaffNameAndID();
                             ConsoleUlts.PrintListPhase(listPhase, count, currentPhase);
                             searchChoice = MenuHandle(searchTitle, null, menuSearchChoice);
                             switch (searchChoice)
@@ -441,7 +451,7 @@ namespace Ults
                                     listTemp = phoneBL.GetPhonesByInformation("");
                                     break;
                                 case 2:
-                                    ConsoleUlts.Title(searchTitle, null);
+                                    Title(searchTitle, null);
                                     Console.Write("👌 Search For A Phone To Add To The Cart: ");
                                     input = Console.ReadLine() ?? "";
                                     listTemp = phoneBL.GetPhonesByInformation(input);
@@ -722,7 +732,7 @@ namespace Ults
         public int HandleOrder()
         {
             Console.OutputEncoding = System.Text.Encoding.UTF8;
-            ConsoleUlts.Title(@"
+            Title(@"
             ██╗  ██╗ █████╗ ███╗   ██╗██████╗ ██╗     ███████╗
             ██║  ██║██╔══██╗████╗  ██║██╔══██╗██║     ██╔════╝
             ███████║███████║██╔██╗ ██║██║  ██║██║     █████╗  

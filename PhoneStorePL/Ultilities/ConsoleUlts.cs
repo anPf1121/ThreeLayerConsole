@@ -32,10 +32,7 @@ namespace Ults
         }
         public void Line()
         {
-            Console.WriteLine(@"
-_____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____  
-\____\\____\\____\\____\\____\\____\\____\\____\\____\\____\\____\\____\\____\\____\\____\\____\
-");
+            Console.WriteLine(@"-----------------------------------------------------------------------------------------------");
         }
         public void PrintPhoneDetailsInfo(List<PhoneDetail> phoneDetails)
         {
@@ -53,27 +50,7 @@ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ __
         }
         public void TinyLine()
         {
-            Console.WriteLine("=====================================================================================================");
-        }
-        public void Title(string? title, string? subTitle)
-        {
-            if (title != null)
-            {
-                ConsoleForegroundColor(ConsoleEnum.Color.White);
-                Line();
-                ConsoleForegroundColor(ConsoleEnum.Color.Red);
-                Console.WriteLine("\n" + title);
-                ConsoleForegroundColor(ConsoleEnum.Color.White);
-                Line();
-            }
-            if (subTitle != null)
-            {
-                Line();
-                ConsoleForegroundColor(ConsoleEnum.Color.Blue);
-                Console.WriteLine("\n" + subTitle);
-                ConsoleForegroundColor(ConsoleEnum.Color.White);
-                Line();
-            }
+            Console.WriteLine("______________________________________________________________________________________________________");
         }
         public void Alert(ConsoleEnum.Alert alertType, string msg)
         {
@@ -215,8 +192,9 @@ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ __
         }
         public void PrintOrderAndPhoneBorder(Dictionary<int, List<Phone>> phones, int currentPage, int countPage)
         {
+            Ultilities ults = new Ultilities();
             Console.Clear();
-            Title(
+            ults.Title(
                         null,
     @"
       █████╗ ██████╗ ██████╗     ████████╗ ██████╗      ██████╗ ██████╗ ██████╗ ███████╗██████╗ 
