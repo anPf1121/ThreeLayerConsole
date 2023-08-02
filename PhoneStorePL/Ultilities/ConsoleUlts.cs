@@ -112,7 +112,7 @@ namespace Ults
         public void PrintPhoneModelTitle()
         {
             Console.WriteLine("=====================================================================================================");
-            Console.WriteLine("| PHONE MODEL                                                                                |");
+            Console.WriteLine("| PHONE MODEL                                                                                       |");
             Console.WriteLine("=====================================================================================================");
             Console.WriteLine("| {0, 10} | {1, 13} | {2, 15} | {3, 15} | {4, 15} | {5, 14} |", "Detail ID", "Phone Color", "ROM Size", "Price", "Phone Status", "Quantity");
             Console.WriteLine("=====================================================================================================");
@@ -152,9 +152,8 @@ namespace Ults
         public void PrintSellerOrder(Order ord)
         {
             int totalQuantity = 0;
-            CultureInfo cultureInfo = new CultureInfo("vi-VN");
             Console.WriteLine("\n=======================================================================================================================");
-            Console.WriteLine("------------------------------------------------------------ VTC Mobile -----------------------------------------------");
+            Console.WriteLine("--------------------------------------------------- VTC Mobile --------------------------------------------------------");
             Console.WriteLine("=======================================================================================================================");
             Console.WriteLine("Website: https://vtc.edu.vn/");
             Console.WriteLine("Address: 18 Tam Trinh, Quận Hai Bà Trưng, Thành Phố Hà Nội");
@@ -164,56 +163,38 @@ namespace Ults
             Console.WriteLine("Customer: " + ord.Customer.CustomerName);
             Console.WriteLine("Address: " + ord.Customer.Address);
             Console.WriteLine("Phone Number: " + ord.Customer.PhoneNumber);
+            PrintOrderDetails(ord);
+        }
+        public string FormatPrice(decimal price) {
+            CultureInfo cultureInfo = new CultureInfo("vi-VN");
+            return string.Format(cultureInfo, "{0:N0} ₫", price);
+        }
+        public void PrintOrderDetails(Order ord)
+        {
+            CultureInfo cultureInfo = new CultureInfo("vi-VN");
+            int printImeiHandle = 0;
+            int printImeiHandle2 = 0;
             Console.WriteLine("=======================================================================================================================");
             Console.WriteLine("| {0, 10} | {1, 30} | {2, 15} | {3, 15} | {4, 15} | {5, 15} |", "Phone ID", "Phone Name", "Quantity", "Imei", "Status", "Price");
             Console.WriteLine("=======================================================================================================================");
-            int printImeiHandle = 0;
-            int printImeiHandle2 = 0;
             foreach (var pd in ord.PhoneDetails)
             {
                 printImeiHandle = pd.Phone.PhoneID;
                 Console.WriteLine("-----------------------------------------------------------------------------------------------------------------------");
                 foreach (var ims in pd.ListImei)
                 {
-                    Console.WriteLine("| {0, 10} | {1, 30} | {2, 15} | {3, 15} | {4, 15} | {5, 15} |", (printImeiHandle != printImeiHandle2) ? pd.Phone.PhoneID : "", (printImeiHandle != printImeiHandle2) ? pd.Phone.PhoneName : "", (printImeiHandle != printImeiHandle2) ? pd.Quantity : "", ims.PhoneImei, (printImeiHandle != printImeiHandle2) ? pd.PhoneStatusType : "", (printImeiHandle != printImeiHandle2) ? pd.Price : "");
+                    Console.WriteLine("| {0, 10} | {1, 30} | {2, 15} | {3, 15} | {4, 15} | {5, 15} |", (printImeiHandle != printImeiHandle2) ? pd.Phone.PhoneID : "", (printImeiHandle != printImeiHandle2) ? pd.Phone.PhoneName : "", (printImeiHandle != printImeiHandle2) ? pd.Quantity : "", ims.PhoneImei, (printImeiHandle != printImeiHandle2) ? pd.PhoneStatusType : "", (printImeiHandle != printImeiHandle2) ? FormatPrice(pd.Price) : "");
                     printImeiHandle2 = printImeiHandle;
                 }
             }
             Console.WriteLine("-----------------------------------------------------------------------------------------------------------------------");
-            Console.WriteLine("  {0, 10}   {1, 30}   {2, 15}   {3, 15}   {4, 15}   {5, 15}  ", "", "", "", "", "Total Due:", string.Format(cultureInfo, "{0:N0} ₫", ord.GetTotalDue()));
-            Console.WriteLine("  {0, 10}   {1, 30}   {2, 15}   {3, 15}   {4, 15}   {5, 15}  ", "", "", "", "", "Discount Price:", string.Format(cultureInfo, "{0:N0} ₫", 0)); // hard coded
+            Console.WriteLine("  {0, 10}   {1, 30}   {2, 15}   {3, 15}   {4, 15}   {5, 15}  ", "", "", "", "", "Total Due:", FormatPrice(ord.GetTotalDue()));
             Console.WriteLine("=======================================================================================================================");
-
         }
         public void PrintPhoneModelInfo(PhoneDetail phoneDetail)
         {
             CultureInfo cultureInfo = new CultureInfo("vi-VN");
             Console.WriteLine("| {0, 10} | {1, 13} | {2, 15} | {3, 15} | {4, 15} | {5, 14} |", phoneDetail.PhoneDetailID, phoneDetail.PhoneColor.Color, phoneDetail.ROMSize.ROM, string.Format(cultureInfo, "{0:N0} ₫", phoneDetail.Price), phoneDetail.PhoneStatusType, phoneDetail.Quantity);
-        }
-        public void PrintOrderAndPhoneBorder(Dictionary<int, List<Phone>> phones, int currentPage, int countPage)
-        {
-            Ultilities ults = new Ultilities();
-            Console.Clear();
-            ults.Title(
-                        null,
-    @"
-      █████╗ ██████╗ ██████╗     ████████╗ ██████╗      ██████╗ ██████╗ ██████╗ ███████╗██████╗ 
-    ██╔══██╗██╔══██╗██╔══██╗    ╚══██╔══╝██╔═══██╗    ██╔═══██╗██╔══██╗██╔══██╗██╔════╝██╔══██╗
-    ███████║██║  ██║██║  ██║       ██║   ██║   ██║    ██║   ██║██████╔╝██║  ██║█████╗  ██████╔╝
-    ██╔══██║██║  ██║██║  ██║       ██║   ██║   ██║    ██║   ██║██╔══██╗██║  ██║██╔══╝  ██╔══██╗
-    ██║  ██║██████╔╝██████╔╝       ██║   ╚██████╔╝    ╚██████╔╝██║  ██║██████╔╝███████╗██║  ██║
-    ╚═╝  ╚═╝╚═════╝ ╚═════╝        ╚═╝    ╚═════╝      ╚═════╝ ╚═╝  ╚═╝╚═════╝ ╚══════╝╚═╝  ╚═╝
-                                                                                           "
-                    );
-            PrintPhoneBorderLine();
-            foreach (Phone phone in phones[currentPage])
-            {
-                PrintPhoneInfo(phone);
-            }
-
-            Console.WriteLine("================================================================================================");
-            Console.WriteLine("{0,45}" + "< " + $"{currentPage}/{countPage}" + " >", " ");
-            Console.WriteLine("================================================================================================");
         }
         public void PrintOrderDetailsInfo(Order order)
         {
