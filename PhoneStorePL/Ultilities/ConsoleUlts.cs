@@ -98,7 +98,7 @@ namespace Ults
         public void PrintOrderBorderLine()
         {
             Console.WriteLine("========================================================================================================================");
-            Console.WriteLine("| {0, 10} | {1, 30} | {2, 20} | {3, 15} |", "ID", "Customer Name", "Order Date", "Status");
+            Console.WriteLine("| {0, 10} | {1, 30} | {2, 35} | {3, 32} |", "ID", "Customer Name", "Order Date", "Status");
             Console.WriteLine("========================================================================================================================");
         }
         public void PrintPhoneInfo(Phone phone)
@@ -107,7 +107,7 @@ namespace Ults
         }
         public void PrintOrderInfo(Order order)
         {
-            Console.WriteLine("| {0, 10} | {1, 30} | {2, 15} | {3, 15} |", order.OrderID, order.Customer.CustomerName, order.CreateAt, order.OrderStatus);
+            Console.WriteLine("| {0, 10} | {1, 30} | {2, 35} | {3, 32} |", order.OrderID, order.Customer.CustomerName, order.CreateAt, order.OrderStatus);
         }
         public void PrintPhoneModelTitle()
         {

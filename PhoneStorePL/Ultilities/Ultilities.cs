@@ -83,32 +83,54 @@ namespace Ults
             } while (active);
             return false;
         }
-        public int PressCharacterTo(string firstAction, string secondAction, string thirdAction)
+        public int PressCharacterTo(string firstAction, string? secondAction, string? thirdAction)
         {
             ConsoleKeyInfo input = new ConsoleKeyInfo();
             bool active = true;
             char ch = 'c';
-            Console.Write($" - Press 'Q' To {firstAction}\n - Press 'W' To {secondAction}\n - Press 'E' To {thirdAction}");
-            do
+            if (firstAction != null && secondAction != null && thirdAction != null)
             {
-                input = Console.ReadKey(true);
-                if (input.Key == ConsoleKey.Q)
+                Console.Write($" - Press 'Q' To {firstAction}\n - Press 'W' To {secondAction}\n - Press 'E' To {thirdAction}");
+                do
                 {
-                    Console.Clear();
-                    return 0;
-                }
-                else if (input.Key == ConsoleKey.W)
+                    input = Console.ReadKey(true);
+                    if (input.Key == ConsoleKey.Q)
+                    {
+                        Console.Clear();
+                        return 0;
+                    }
+                    else if (input.Key == ConsoleKey.W)
+                    {
+                        Console.Clear();
+                        return 1;
+                    }
+                    else if (input.Key == ConsoleKey.E)
+                    {
+                        Console.Clear();
+                        return 2;
+                    }
+                } while (active);
+            }
+            if (firstAction != null && secondAction != null && thirdAction == null)
+            {
+                Console.Write($" - Press 'Q' To {firstAction}\n - Press 'W' To {secondAction}");
+                do
                 {
-                    Console.Clear();
-                    return 1;
-                }
-                else if (input.Key == ConsoleKey.E)
-                {
-                    Console.Clear();
-                    return 2;
-                }
-            } while (active);
+                    input = Console.ReadKey(true);
+                    if (input.Key == ConsoleKey.Q)
+                    {
+                        Console.Clear();
+                        return 0;
+                    }
+                    else if (input.Key == ConsoleKey.W)
+                    {
+                        Console.Clear();
+                        return 1;
+                    }
+                } while (active);
+            }
             return 0;
+
         }
         public StaffEnum.Role? LoginUlt()
         {
@@ -228,9 +250,11 @@ namespace Ults
         }
         public string GetAppTitle()
         {
-            return @"                              ┌─┐┬ ┬┌─┐┌┐┌┌─┐  ┌─┐┌┬┐┌─┐┬─┐┌─┐
+            return @"
+                              ┌─┐┬ ┬┌─┐┌┐┌┌─┐  ┌─┐┌┬┐┌─┐┬─┐┌─┐
                               ├─┘├─┤│ ││││├┤   └─┐ │ │ │├┬┘├┤ 
-                              ┴  ┴ ┴└─┘┘└┘└─┘  └─┘ ┴ └─┘┴└─└─┘";
+                              ┴  ┴ ┴└─┘┘└┘└─┘  └─┘ ┴ └─┘┴└─└─┘
+                              ";
         }
         public int AccountantMenu()
         {
@@ -490,6 +514,7 @@ namespace Ults
                 {
                     case 1:
                         ConsoleUlts.PrintListPhase(listPhase, count, currentPhase);
+                        Title(GetAppTitle(), searchTitle);
                         searchChoice = PressCharacterTo("Search All Phone", "Search Phone By Information", "Back To Previous Menu");
                         switch (searchChoice)
                         {
@@ -497,7 +522,8 @@ namespace Ults
                                 listTemp = phoneBL.GetPhonesByInformation("");
                                 break;
                             case 1:
-                                Title(searchTitle, null);
+                                ConsoleUlts.PrintListPhase(listPhase, count, currentPhase);
+                                Title(GetAppTitle(), searchTitle);
                                 Console.Write("👌 Search For A Phone To Add To The Cart: ");
                                 input = Console.ReadLine() ?? "";
                                 listTemp = phoneBL.GetPhonesByInformation(input);
@@ -563,14 +589,13 @@ namespace Ults
                         ConsoleUlts.PrintListPhase(listPhase, count, currentPhase);
                         do
                         {
+                            Console.Clear();
                             ConsoleUlts.PrintPhoneDetailsInfo(phonedetails);
                             Console.WriteLine("Phone Model ID: " + phoneModelID);
                             Console.Write("Input Quantity: ");
                             int.TryParse(Console.ReadLine(), out quantity);
                             if (quantity <= 0 || quantity > pDetails.Quantity)
                             {
-                                ConsoleUlts.PrintPhoneDetailsInfo(phonedetails);
-                                Console.WriteLine("Phone Model ID: " + phoneModelID);
                                 ConsoleUlts.Alert(GUIEnum.ConsoleEnum.Alert.Error, "Invalid Quantity");
                             }
                             else
@@ -691,7 +716,6 @@ namespace Ults
                             ├─┤├─┤│││ │││  ├┤   │ │├┬┘ ││├┤ ├┬┘└─┐
                             ┴ ┴┴ ┴┘└┘─┴┘┴─┘└─┘  └─┘┴└──┴┘└─┘┴└─└─┘
 ";
-            string[] menuChoice = { "Show orders have confirmed status", "Show orders have cancel status", "Back To Previous Menu" };
             string[] listPhase = { "Show orders", "Show order details", "Confirm Handle" };
             int currentPhase = 1;
             int phaseChoice = 0;
@@ -713,21 +737,17 @@ namespace Ults
                 {
                     case 1:
                         ConsoleUlts.PrintListPhase(listPhase, count, currentPhase);
-                        handleChoice = PressCharacterTo("Show orders have confirmed status", "Show orders have cancel status", "Back To Previous Menu");
+                        Title(GetAppTitle(), handleTitle);
+                        handleChoice = PressCharacterTo("Show orders have confirmed status in day", "Back To Previous Menu", null);
                         switch (handleChoice)
                         {
                             case 0:
                                 listOrderTemp = orderBL.GetOrdersInDay(OrderEnum.Status.Confirmed);
                                 break;
-
                             case 1:
-                                listOrderTemp = orderBL.GetOrdersInDay(OrderEnum.Status.Canceled);
-                                break;
-
-                            case 2:
                                 break;
                         }
-                        if (handleChoice == 2) return 2;
+                        if (handleChoice == 1) return 2;
 
                         foreach (var item in listOrderTemp)
                         {
@@ -756,12 +776,8 @@ namespace Ults
                         {
                             return -1;
                         }
-
-
                         currentPhase++;
-
                         break;
-
                     case 2:
                         Order order = orderBL.GetOrderById(orderId);
                         orderdetails = order;
@@ -775,7 +791,6 @@ namespace Ults
                             {
                                 currentPhase--;
                                 break;
-
                             }
                             else if (phaseChoice == 2)
                             {
@@ -784,7 +799,6 @@ namespace Ults
                             else ConsoleUlts.Alert(GUIEnum.ConsoleEnum.Alert.Error, "Invalid Phase Choice");
                         } while (phaseChoice != 1 && phaseChoice != 2);
                         break;
-
                     case 3:
                         while (activeConfirmOrCancel)
                         {
@@ -811,13 +825,10 @@ namespace Ults
                                 }
                             }
                             else ConsoleUlts.Alert(GUIEnum.ConsoleEnum.Alert.Error, "Invalid Choice");
-
                         }
                         break;
                 }
             } while (currentPhase != 4);
-
-
             return 1;
         }
         public bool CheckInputIDValid(string inputId, List<int> IDPattern)

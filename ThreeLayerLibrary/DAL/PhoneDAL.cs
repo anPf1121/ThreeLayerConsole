@@ -102,7 +102,7 @@ namespace DAL
                         p.battery_capacity like @input or p.sim_slot like @input or p.os like @input or p.screen like @input or
                         p.charge_port like @input or p.release_date like @input or p.connection like @input or 
                         p.description like @input or r.rom_size like @input or c.color_name like @input or pd.price like @input or
-                        pd.phone_status_type like @input where p.phone_id >0 order by p.phone_id asc;";
+                        pd.phone_status_type like @input order by p.phone_id asc;";
                         break;
                     case PhoneFilter.FILTER_BY_PHONE_HAVE_DISCOUNT:
                         query = @"SELECT p.phone_id, p.phone_name, b.brand_name, p.camera, p.ram, p.weight, p.processor, p.battery_capacity,
