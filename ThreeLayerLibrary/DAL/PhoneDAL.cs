@@ -41,7 +41,7 @@ namespace DAL
         }
         public Phone GetPhoneById(int phoneID)
         {
-            Phone phone = new Phone(0, "", new Brand(0, "", ""), "", "", "", "", "", "", "", "", "", new DateTime(), "",new Staff(0, "", "", "", "", "", StaffEnum.Role.Seller, StaffEnum.Status.Active), new DateTime(), "");
+            Phone phone = new Phone(0, "", new Brand(0, "", ""), "", "", "", "", "", "", "", "", "", new DateTime(), "", new Staff(0, "", "", "", "", "", StaffEnum.Role.Seller, StaffEnum.Status.Active), new DateTime(), "");
             try
             {
                 if (connection.State == System.Data.ConnectionState.Closed)
@@ -87,7 +87,7 @@ namespace DAL
                         inner join staffs s on s.staff_id = p.create_by
                         inner join phonedetails pd on p.phone_id = pd.phone_id
                         inner join colors c on c.color_id = pd.color_id
-                        inner join romsizes r on r.rom_size_id = pd.rom_size_id order by p.phone_id asc;";
+                        inner join romsizes r on r.rom_size_id = pd.rom_size_id where p.phone_id >0 order by p.phone_id asc;";
                         break;
                     case PhoneFilter.FILTER_BY_PHONE_INFORMATION:
                         query = @"SELECT p.*, b.*, s.*, pd.*
@@ -102,7 +102,7 @@ namespace DAL
                         p.battery_capacity like @input or p.sim_slot like @input or p.os like @input or p.screen like @input or
                         p.charge_port like @input or p.release_date like @input or p.connection like @input or 
                         p.description like @input or r.rom_size like @input or c.color_name like @input or pd.price like @input or
-                        pd.phone_status_type like @input order by p.phone_id asc;";
+                        pd.phone_status_type like @input where p.phone_id >0 order by p.phone_id asc;";
                         break;
                     case PhoneFilter.FILTER_BY_PHONE_HAVE_DISCOUNT:
                         query = @"SELECT p.phone_id, p.phone_name, b.brand_name, p.camera, p.ram, p.weight, p.processor, p.battery_capacity,
@@ -150,7 +150,7 @@ namespace DAL
                 {
                     if (o.PhoneName == p.PhoneName && o.PhoneID == p.PhoneID) count++;
                 }
-                if (count == 0 ) output.Add(GetPhoneById(p.PhoneID));
+                if (count == 0) output.Add(GetPhoneById(p.PhoneID));
             }
             return output;
         }

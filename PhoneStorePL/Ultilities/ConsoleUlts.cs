@@ -139,11 +139,21 @@ namespace Ults
         }
         public void PrintListPhase(string[] phase, int itemCount, int currentPhase)
         {
+            Console.Clear();
             TinyLine();
             foreach (string item in phase)
             {
                 itemCount++;
-                Console.Write(((itemCount == currentPhase) ? " 👉 " + item : " > " + item));
+                if (itemCount == currentPhase)
+                {
+                    ConsoleForegroundColor(ConsoleEnum.Color.Green);
+                    Console.Write(((itemCount == currentPhase) ? " 👉 " + item : " > " + item));
+                    ConsoleForegroundColor(ConsoleEnum.Color.White);
+                }
+                else
+                {
+                    Console.Write(((itemCount == currentPhase) ? " 👉 " + item : " > " + item));
+                }
                 if (itemCount == phase.Length) Console.Write("\n");
             }
             TinyLine();
@@ -165,7 +175,8 @@ namespace Ults
             Console.WriteLine("Phone Number: " + ord.Customer.PhoneNumber);
             PrintOrderDetails(ord);
         }
-        public string FormatPrice(decimal price) {
+        public string FormatPrice(decimal price)
+        {
             CultureInfo cultureInfo = new CultureInfo("vi-VN");
             return string.Format(cultureInfo, "{0:N0} ₫", price);
         }
@@ -198,7 +209,6 @@ namespace Ults
         }
         public void PrintOrderDetailsInfo(Order order)
         {
-            Console.Clear();
             TinyLine();
             Console.WriteLine("ORDER DETAILS INFOMATION");
             TinyLine();
@@ -219,6 +229,7 @@ namespace Ults
             Console.WriteLine($"Total Due:{order.GetTotalDue()}");
             // Phải hiển thị thêm DiscountPolicy các chính sách giảm giá được áp dụng cho order
             Console.WriteLine($"Status: {order.OrderStatus}");
+            TinyLine();
 
 
         }
