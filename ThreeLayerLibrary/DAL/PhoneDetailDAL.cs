@@ -174,6 +174,7 @@ namespace DAL
             output.ROMSize = GetROMSizeByID(output.ROMSize.ROMID);
             output.PhoneColor = GetPhoneColoreByID(output.PhoneColor.ColorID);
             output.UpdateBy = staffDAL.GetStaffByID(output.UpdateBy.StaffID);
+            output.ListImei = GetImeisByPhoneDetailsID(phonedetailid);
             return output;
         }
         public List<PhoneDetail> GetPhoneDetailsByPhoneID(int phoneID)
@@ -330,7 +331,7 @@ namespace DAL
             }
             return output1;
         }
-        public Dictionary<PhoneDetail, decimal> GetListPhoneDetailHaveDiscountByDiscountPolicy(int policyid)
+        public Dictionary<PhoneDetail, decimal> GetListPhoneDetailHaveDiscountByID(int phonedetailid)
         {
             Dictionary<PhoneDetail, decimal> dic = new Dictionary<PhoneDetail, decimal>();
             try
@@ -344,7 +345,7 @@ namespace DAL
                         where dp.discount_price != 0 and dp.policy_id = @policyid;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.Clear();
-                command.Parameters.AddWithValue("@policyid", policyid);
+                command.Parameters.AddWithValue("@policyid", phonedetailid);
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
@@ -366,6 +367,32 @@ namespace DAL
                 output.Add(GetPhoneDetailByID(d.Key.PhoneDetailID), d.Value);
             }
             return output;
+        }
+        public decimal GetPhoneDiscountPrice(int phonedetailid){
+            decimal output = 0;
+            try{
+                if (connection.State == System.Data.ConnectionState.Closed)
+                {
+                connection.Open();
+                }
+                query = @"select dp.discount_price from phonedetails pd
+                inner join discountpolicies dp on pd.phone_detail_id = dp.phone_detail_id
+                where pd.phone_detail_id = @phonedetailid;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.Clear();
+                command.Parameters.AddWithValue("@phonedetailid", phonedetailid);
+                MySqlDataReader reader = command.ExecuteReader();
+                if(reader.Read()){
+                    output = reader.GetDecimal("discount_price");
+                }
+            }catch(MySqlException ex){
+                Console.WriteLine(ex.Message);
+            }
+            if (connection.State == System.Data.ConnectionState.Open)
+                {
+                connection.Close();
+                }
+                return output;
         }
     }
 }

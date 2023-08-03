@@ -33,11 +33,11 @@ public class OrderBL
     }
     public bool Payment(Order order)
     {
-        return orderDAL.UpdateOrder(BusinessEnum.OrderEnum.Status.Pending, order);
+        return orderDAL.UpdateOrder(BusinessEnum.OrderEnum.Status.Confirmed, order);
     }
 
     public bool CancelPayment(Order order)
     {
-        return orderDAL.UpdateOrder(BusinessEnum.OrderEnum.Status.Confirmed, order);
+        return orderDAL.UpdateOrder(BusinessEnum.OrderEnum.Status.Canceled, order);
     }
 }

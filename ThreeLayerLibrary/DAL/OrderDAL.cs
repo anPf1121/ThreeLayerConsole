@@ -79,7 +79,10 @@ namespace DAL
             order.Seller = staffDAL.GetStaffByID(order.Seller.StaffID);
             order.Customer = customerDAL.GetCustomerByID(order.Customer.CustomerID);
             order.PhoneDetails = phoneDetailsDAL.GetListPhoneDetailInOrder(order.OrderID);
-
+            foreach(var phone in order.PhoneDetails){
+                order.TotalDue += (phone.Price - phoneDetailsDAL.GetPhoneDiscountPrice(phone.PhoneDetailID))*phone.Quantity;
+            }
+            Console.WriteLine(order.TotalDue);
             //Lay danh sach Phonedetails co trong order
 
             return order;
@@ -260,7 +263,7 @@ namespace DAL
             }
             return result;
         }
-        public bool UpdateOrder(OrderEnum.Status orderStatus, Order order)
+         public bool UpdateOrder(OrderEnum.Status orderStatus, Order order)
         {
             try
             {
@@ -271,8 +274,9 @@ namespace DAL
                 MySqlCommand command = new MySqlCommand("", connection);
                 switch (orderStatus)
                 {
-                    case OrderEnum.Status.Pending:
-                        query = @"update orders set accountant_id = @accountantid, order_status = @orderstatus 
+                    case OrderEnum.Status.Confirmed:
+                        query = @"update orders set accountant_id = @accountantid, order_status = @orderstatus, 
+                        update_at = current_timestamp()
                         where order_id = @orderid;";
                         command.CommandText = query;
                         command.Parameters.Clear();
@@ -281,21 +285,22 @@ namespace DAL
                         command.Parameters.AddWithValue("@orderid", order.OrderID);
                         command.ExecuteNonQuery();
                         break;
-                    case OrderEnum.Status.Confirmed:
-                        query = @"update orders set order_status = @orderstatus where order_id = @orderid;";
-                        command.CommandText = query;
-                        command.Parameters.Clear();
-                        command.Parameters.AddWithValue("@orderstatus", (int)OrderEnum.Status.Completed);
-                        command.Parameters.AddWithValue("@orderid", order.OrderID);
-                        command.ExecuteNonQuery();
-                        break;
                     case OrderEnum.Status.Canceled:
-                        query = @"update orders set accountant_id = @accountantid, order_status = @orderstatus 
-                        where order_id = @orderid;";
+                        query = @"update orders set order_status = @orderstatus,update_at = current_timestamp(),
+                        accountant_id = @accountantid where order_id = @orderid;";
                         command.CommandText = query;
                         command.Parameters.Clear();
                         command.Parameters.AddWithValue("@accountantid", order.Accountant.StaffID);
                         command.Parameters.AddWithValue("@orderstatus", (int)OrderEnum.Status.Canceled);
+                        command.Parameters.AddWithValue("@orderid", order.OrderID);
+                        command.ExecuteNonQuery();
+                        break;
+                    case OrderEnum.Status.Completed:
+                        query = @"update orders set order_status = @orderstatus, update_at = current_timestamp() 
+                        where order_id = @orderid;";
+                        command.CommandText = query;
+                        command.Parameters.Clear();
+                        command.Parameters.AddWithValue("@orderstatus", (int)OrderEnum.Status.Completed);
                         command.Parameters.AddWithValue("@orderid", order.OrderID);
                         command.ExecuteNonQuery();
                         break;
@@ -306,6 +311,33 @@ namespace DAL
             catch (MySqlException ex)
             {
                 Console.WriteLine(ex.Message);
+            }
+            if(orderStatus == OrderEnum.Status.Canceled){
+                query = @"update imeis set status = 0 where phone_imei = @phoneimei;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                foreach(var phone in order.PhoneDetails){
+                    Console.WriteLine(phone.Phone.PhoneName);
+                    foreach(var imei in phone.ListImei){
+                        command.Parameters.Clear();
+                        command.Parameters.AddWithValue("@phoneimei", imei.PhoneImei);
+                        command.ExecuteNonQuery();
+                    }
+                }
+                query = @"delete from discountpolicydetails where order_id = @orderid;";
+                command.CommandText = query;
+                command.Parameters.Clear();
+                command.Parameters.AddWithValue("@orderid", order.OrderID);
+                command.ExecuteNonQuery();
+            }
+            if(orderStatus == OrderEnum.Status.Confirmed){
+                query = @"insert into discountpolicydetails(order_id, policy_id) value(@orderid, @policyid);";
+                MySqlCommand command = new MySqlCommand(query,connection);
+                foreach(var dc in order.DiscountPolicies){
+                    command.Parameters.Clear();
+                    command.Parameters.AddWithValue("@orderid", order.OrderID);
+                    command.Parameters.AddWithValue("@policyid", dc.PolicyID);
+                    command.ExecuteNonQuery();
+                }
             }
             if (connection.State == System.Data.ConnectionState.Open)
             {

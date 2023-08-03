@@ -61,7 +61,7 @@ public class PhoneBL
     return false;
     
     }
-    public Dictionary<PhoneDetail, decimal> GetListPhoneDetailHaveDiscountByDiscountPolicy(int policyid){
-        return phoneDetailDAL.GetListPhoneDetailHaveDiscountByDiscountPolicy(policyid);
+    public Dictionary<PhoneDetail, decimal> GetListPhoneDetailHaveDiscountByID(int policyid){
+        return phoneDetailDAL.GetListPhoneDetailHaveDiscountByID(policyid);
     }
 }

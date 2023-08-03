@@ -89,7 +89,7 @@ address VARCHAR(50)
 INSERT INTO customers(name, phone_number, address) VALUE('Yua Mikami', '0254136578', 'Quat Lam');
 INSERT INTO customers(name, phone_number, address) VALUE('Erichio Masharo', '0254136548', 'Quat Lam');
 CREATE TABLE phones(
-phone_id INT AUTO_INCREMENT PRIMARY KEY,
+phone_id INT PRIMARY KEY,
 phone_name VARCHAR(50) UNIQUE,
 brand_id INT NOT NULL,
 camera VARCHAR(500) DEFAULT 'not have',
@@ -109,43 +109,47 @@ create_by INT NOT NULL,
 FOREIGN KEY(brand_id) REFERENCES brands(brand_id),
 FOREIGN KEY(create_by) REFERENCES staffs(staff_id)
 )engine = InnoDB;
-INSERT INTO phones(phone_name, brand_id, weight, battery_capacity, sim_slot,screen, release_date, create_by) VALUE('Nokia 1280', '2', '250g', '1080mAh', '1','500x200', '1998-12-12', '1');
-INSERT INTO phones (phone_name, brand_id, weight, battery_capacity, sim_slot,screen, release_date, create_by)
-VALUE ('Iphone 11', '1', '194 grams', '3,110 mAh', '2', '828 x 1792','2019-09-20', '1');
-INSERT INTO phones (phone_name, brand_id, weight, battery_capacity, sim_slot,screen, release_date, create_by)
-VALUE ('Iphone 12', '1', '194 grams', '3,110 mAh', '2', '1828 x 1792','2019-09-20', '1');
-INSERT INTO phones (phone_name, brand_id, weight, battery_capacity, sim_slot,screen, release_date, create_by)
-VALUE ('Iphone 13', '1', '194 grams', '3,110 mAh', '2', '2828 x 1792','2029-09-20', '1');
-INSERT INTO phones (phone_name, brand_id, weight, battery_capacity, sim_slot,screen, release_date, create_by)
-VALUE ('Iphone 14', '1', '194 grams', '3,110 mAh', '2', '3828 x 1792','2039-09-20', '1');
-INSERT INTO phones (phone_name, brand_id, weight, battery_capacity, sim_slot,screen, release_date, create_by)
-VALUE ('Iphone 15', '1', '194 grams', '3,110 mAh', '2', '4828 x 1792','2049-09-20', '1');
-INSERT INTO phones (phone_name, brand_id, weight, battery_capacity, sim_slot,screen, release_date, create_by)
-VALUE ('Iphone 16', '1', '194 grams', '3,110 mAh', '2', '5828 x 1792','2059-09-20', '1');
-INSERT INTO phones (phone_name, brand_id, weight, battery_capacity, sim_slot,screen, release_date, create_by)
-VALUE ('Iphone 17', '1', '194 grams', '3,110 mAh', '2', '6828 x 1792','2069-09-20', '1');
-INSERT INTO phones (phone_name, brand_id, weight, battery_capacity, sim_slot,screen, release_date, create_by)
-VALUE ('Iphone 18', '1', '194 grams', '3,110 mAh', '2', '7828 x 1792','2079-09-20', '1');
-INSERT INTO phones (phone_name, brand_id, weight, battery_capacity, sim_slot,screen, release_date, create_by)
-VALUE ('Iphone 19', '1', '194 grams', '3,110 mAh', '2', '8828 x 1792','2089-09-20', '1');
-INSERT INTO phones (phone_name, brand_id, weight, battery_capacity, sim_slot,screen, release_date, create_by)
-VALUE ('Iphone XX', '1', '194 grams', '3,110 mAh', '2', '9828 x 1792','2099-09-20', '1');
-INSERT INTO phones (phone_name, brand_id, weight, battery_capacity, sim_slot,screen, release_date, create_by)
-VALUE ('Samsung Note 10', '2', '200 grams', '4,000 mAh', '2', '1828 x 1792','2018-10-15', '1');
-INSERT INTO phones (phone_name, brand_id, weight, battery_capacity, sim_slot,screen, release_date, create_by)
-VALUE ('Samsung Note 11', '2', '200 grams', '4,000 mAh', '2', '2828 x 1792','2019-10-15', '1');
-INSERT INTO phones (phone_name, brand_id, weight, battery_capacity, sim_slot,screen, release_date, create_by)
-VALUE ('Samsung Note 12', '2', '200 grams', '4,000 mAh', '2', '3828 x 1792','2020-10-15', '1');
-INSERT INTO phones (phone_name, brand_id, weight, battery_capacity, sim_slot,screen, release_date, create_by)
-VALUE ('Samsung Note 13', '2', '200 grams', '4,000 mAh', '2', '4828 x 1792','2021-10-15', '1');
-INSERT INTO phones (phone_name, brand_id, weight, battery_capacity, sim_slot,screen, release_date, create_by)
-VALUE ('Samsung Note 14', '2', '200 grams', '4,000 mAh', '2', '5828 x 1792','2022-10-15', '1');
-INSERT INTO phones (phone_name, brand_id, weight, battery_capacity, sim_slot,screen, release_date, create_by)
-VALUE ('Samsung Note 15', '2', '200 grams', '4,000 mAh', '2', '6828 x 1792','2023-10-15', '1');
+
+INSERT INTO phones(phone_id, phone_name, brand_id, weight, battery_capacity, sim_slot,screen, release_date, create_by) 
+VALUE('0','default', '2', 'default', 'default', '1','default', '1998-12-12', '1');
+INSERT INTO phones(phone_id, phone_name, brand_id, weight, battery_capacity, sim_slot,screen, release_date, create_by) 
+VALUE('1','Nokia 1280', '2', '250g', '1080mAh', '1','500x200', '1998-12-12', '1');
+INSERT INTO phones (phone_id, phone_name, brand_id, weight, battery_capacity, sim_slot,screen, release_date, create_by)
+VALUE ('2', 'Iphone 11', '1', '194 grams', '3,110 mAh', '2', '828 x 1792','2019-09-20', '1');
+INSERT INTO phones (phone_id, phone_name, brand_id, weight, battery_capacity, sim_slot,screen, release_date, create_by)
+VALUE ('3', 'Iphone 12', '1', '194 grams', '3,110 mAh', '2', '1828 x 1792','2019-09-20', '1');
+INSERT INTO phones (phone_id, phone_name, brand_id, weight, battery_capacity, sim_slot,screen, release_date, create_by)
+VALUE ('4', 'Iphone 13', '1', '194 grams', '3,110 mAh', '2', '2828 x 1792','2029-09-20', '1');
+INSERT INTO phones (phone_id, phone_name, brand_id, weight, battery_capacity, sim_slot,screen, release_date, create_by)
+VALUE ('5', 'Iphone 14', '1', '194 grams', '3,110 mAh', '2', '3828 x 1792','2039-09-20', '1');
+INSERT INTO phones (phone_id, phone_name, brand_id, weight, battery_capacity, sim_slot,screen, release_date, create_by)
+VALUE ('6', 'Iphone 15', '1', '194 grams', '3,110 mAh', '2', '4828 x 1792','2049-09-20', '1');
+INSERT INTO phones (phone_id, phone_name, brand_id, weight, battery_capacity, sim_slot,screen, release_date, create_by)
+VALUE ('7','Iphone 16', '1', '194 grams', '3,110 mAh', '2', '5828 x 1792','2059-09-20', '1');
+INSERT INTO phones (phone_id, phone_name, brand_id, weight, battery_capacity, sim_slot,screen, release_date, create_by)
+VALUE ('8', 'Iphone 17', '1', '194 grams', '3,110 mAh', '2', '6828 x 1792','2069-09-20', '1');
+INSERT INTO phones (phone_id, phone_name, brand_id, weight, battery_capacity, sim_slot,screen, release_date, create_by)
+VALUE ('9', 'Iphone 18', '1', '194 grams', '3,110 mAh', '2', '7828 x 1792','2079-09-20', '1');
+INSERT INTO phones (phone_id, phone_name, brand_id, weight, battery_capacity, sim_slot,screen, release_date, create_by)
+VALUE ('10','Iphone 19', '1', '194 grams', '3,110 mAh', '2', '8828 x 1792','2089-09-20', '1');
+INSERT INTO phones (phone_id, phone_name, brand_id, weight, battery_capacity, sim_slot,screen, release_date, create_by)
+VALUE ('11','Iphone XX', '1', '194 grams', '3,110 mAh', '2', '9828 x 1792','2099-09-20', '1');
+INSERT INTO phones (phone_id, phone_name, brand_id, weight, battery_capacity, sim_slot,screen, release_date, create_by)
+VALUE ('12', 'Samsung Note 10', '2', '200 grams', '4,000 mAh', '2', '1828 x 1792','2018-10-15', '1');
+INSERT INTO phones (phone_id, phone_name, brand_id, weight, battery_capacity, sim_slot,screen, release_date, create_by)
+VALUE ('13','Samsung Note 11', '2', '200 grams', '4,000 mAh', '2', '2828 x 1792','2019-10-15', '1');
+INSERT INTO phones (phone_id, phone_name, brand_id, weight, battery_capacity, sim_slot,screen, release_date, create_by)
+VALUE ('14','Samsung Note 12', '2', '200 grams', '4,000 mAh', '2', '3828 x 1792','2020-10-15', '1');
+INSERT INTO phones (phone_id, phone_name, brand_id, weight, battery_capacity, sim_slot,screen, release_date, create_by)
+VALUE ('15','Samsung Note 13', '2', '200 grams', '4,000 mAh', '2', '4828 x 1792','2021-10-15', '1');
+INSERT INTO phones (phone_id, phone_name, brand_id, weight, battery_capacity, sim_slot,screen, release_date, create_by)
+VALUE ('16','Samsung Note 14', '2', '200 grams', '4,000 mAh', '2', '5828 x 1792','2022-10-15', '1');
+INSERT INTO phones (phone_id, phone_name, brand_id, weight, battery_capacity, sim_slot,screen, release_date, create_by)
+VALUE ('17','Samsung Note 15', '2', '200 grams', '4,000 mAh', '2', '6828 x 1792','2023-10-15', '1');
 
 
 CREATE TABLE phonedetails(
-phone_detail_id INT AUTO_INCREMENT PRIMARY KEY,
+phone_detail_id INT PRIMARY KEY,
 phone_id INT NOT NULL,
 color_id INT NOT NULL,
 rom_size_id INT,
@@ -170,29 +174,30 @@ END IF;
 END$$
 DELIMITER ;
 
-INSERT INTO phonedetails(phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('1', '1','1', '0', '500000');
-INSERT INTO phonedetails(phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('1', '1','2', '0', '500000');
-INSERT INTO phonedetails(phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('1', '1','3', '0', '500000');
-INSERT INTO phonedetails(phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('1', '2','1', '0', '500000');
-INSERT INTO phonedetails(phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('1', '2','2', '0', '500000');
-INSERT INTO phonedetails(phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('1', '2','3', '0', '500000');
-INSERT INTO phonedetails(phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('1', '3','1', '0', '500000');
-INSERT INTO phonedetails(phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('2', '1','1', '0', '500000');
-INSERT INTO phonedetails(phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('3', '1','1', '0', '500000');
-INSERT INTO phonedetails(phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('4', '1','1', '0', '500000');
-INSERT INTO phonedetails(phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('5', '1','1', '0', '500000');
-INSERT INTO phonedetails(phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('6', '1','1', '0', '500000');
-INSERT INTO phonedetails(phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('7', '1','1', '0', '500000');
-INSERT INTO phonedetails(phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('8', '1','1', '0', '500000');
-INSERT INTO phonedetails(phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('9', '1','1', '0', '500000');
-INSERT INTO phonedetails(phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('10', '1','1', '0', '500000');
-INSERT INTO phonedetails(phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('11', '1','1', '0', '500000');
-INSERT INTO phonedetails(phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('12', '1','1', '0', '500000');
-INSERT INTO phonedetails(phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('13', '1','1', '0', '500000');
-INSERT INTO phonedetails(phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('14', '1','1', '0', '500000');
-INSERT INTO phonedetails(phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('15', '1','1', '0', '500000');
-INSERT INTO phonedetails(phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('16', '1','1', '0', '500000');
-INSERT INTO phonedetails(phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('17', '1','1', '0', '500000');
+INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('0', '0', '1','1', '0', '0');
+INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('1','1', '1','1', '0', '500000');
+INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('2','1', '1','2', '0', '500000');
+INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('3','1', '1','3', '0', '500000');
+INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('4','1', '2','1', '0', '500000');
+INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('5','1', '2','2', '0', '500000');
+INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('6','1', '2','3', '0', '500000');
+INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('7','1', '3','1', '0', '500000');
+INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('8','2', '1','1', '0', '500000');
+INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('9','3', '1','1', '0', '500000');
+INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('10','4', '1','1', '0', '500000');
+INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('11','5', '1','1', '0', '500000');
+INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('12','6', '1','1', '0', '500000');
+INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('13','7', '1','1', '0', '500000');
+INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('14','8', '1','1', '0', '500000');
+INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('15','9', '1','1', '0', '500000');
+INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('16','10', '1','1', '0', '500000');
+INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('17','11', '1','1', '0', '500000');
+INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('18','12', '1','1', '0', '500000');
+INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('19','13', '1','1', '0', '500000');
+INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('20','14', '1','1', '0', '500000');
+INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('21','15', '1','1', '0', '500000');
+INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('22','16', '1','1', '0', '500000');
+INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('23','17', '1','1', '0', '500000');
 
 CREATE TABLE imeis(
 phone_imei VARCHAR(15) PRIMARY KEY,
@@ -257,7 +262,7 @@ order_id INT AUTO_INCREMENT PRIMARY KEY,
 seller_id INT NOT NULL,
 accountant_id INT DEFAULT '2',
 customer_id INT NOT NULL,
-order_status INT DEFAULT '1',
+order_status INT DEFAULT '0',
 create_at DATETIME DEFAULT CURRENT_TIMESTAMP(),
 update_at DATETIME,
 payment_method VARCHAR(30) DEFAULT 'Not Have',
@@ -267,12 +272,14 @@ FOREIGN KEY(customer_id) REFERENCES customers(customer_id)
 )engine = InnoDB;
 
 INSERT INTO Orders(seller_id, customer_id) VALUES (3, 1);
+INSERT INTO Orders(seller_id, customer_id) VALUES (2, 2);
 
 CREATE TABLE orderdetails(
 order_id INT NOT NULL,
 phone_imei VARCHAR(15) NOT NULL,
 FOREIGN KEY (order_id) REFERENCES orders(order_id),
-FOREIGN KEY (phone_imei) REFERENCES imeis(phone_imei)
+FOREIGN KEY (phone_imei) REFERENCES imeis(phone_imei),
+constraint unique(order_id, phone_imei)
 )engine = InnoDB;
 
 
@@ -285,12 +292,31 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE TRIGGER after_update_on_imeis AFTER UPDATE ON imeis
+CREATE TRIGGER after_update_on_imeis_from_notexport_to_export AFTER UPDATE ON imeis
 FOR EACH ROW
 BEGIN
+if(new.status = 1 and new.status!=old.status) then
 UPDATE phonedetails SET quantity = quantity - 1 WHERE phone_detail_id = new.phone_detail_id;
+end if;
 END$$
 DELIMITER ;
+
+delimiter $$
+create trigger after_update_on_imeis_from_export_to_notexport after update on imeis
+for each row
+begin
+declare phoneimei varchar(15);
+
+select i.phone_imei into phoneimei from imeis i
+inner join orderdetails od on i.phone_imei = od.phone_imei 
+where i.phone_imei = new.phone_imei;
+
+if(new.status != old.status and new.status = 0) then 
+update phonedetails set quantity = quantity+1 where phone_detail_id = new.phone_detail_id;
+delete from orderdetails where phone_imei = phoneimei;
+end if;
+end$$
+delimiter ;
 
 INSERT INTO OrderDetails(order_id, phone_imei) VALUES (1, 378541254259880);
 INSERT INTO OrderDetails(order_id, phone_imei) VALUES (1, 378541254259890);
@@ -305,26 +331,28 @@ from_date DATETIME NOT NULL,
 to_date DATETIME NOT NULL,
 -- thong tin cu the ve discount
 -- discount theo payment/ theo order
-payment_method VARCHAR(20),
-maximum_purchase_amount DECIMAL,
-minimun_purchase_amount DECIMAL,
-discount_price DECIMAL,
-discount_rate DECIMAL,
+payment_method VARCHAR(20) default 'Not Have',
+maximum_purchase_amount DECIMAL default 0,
+minimum_purchase_amount DECIMAL default 0,
+discount_price DECIMAL default 0,
+discount_rate DECIMAL default 0,
 -- discount theo chinh sach thu cu
-phone_detail_id INT,
-money_supported DECIMAL,
+phone_detail_id INT default '0',
+money_supported DECIMAL default 0,
 -- cac thong tin con lai
 create_by INT NOT NULL,
 create_at DATETIME DEFAULT CURRENT_TIMESTAMP(),
 update_by INT DEFAULT '1',
 update_at DATETIME DEFAULT CURRENT_TIMESTAMP(),
-description VARCHAR(200),
+description VARCHAR(200) default 'Not Have',
 FOREIGN KEY (phone_detail_id) REFERENCES phonedetails(phone_detail_id),
 FOREIGN KEY (create_by) REFERENCES staffs(staff_id),
 FOREIGN KEY (update_by) REFERENCES staffs(staff_id)
 )engine = InnoDB;
 INSERT INTO discountpolicies(title, from_date, to_date, phone_detail_id, discount_price, create_by) VALUE('Giam gia cho dien thoai Nokia 1280 model 1', '2023-07-07', '2024-07-07', '1', '100000', '2');
 INSERT INTO discountpolicies(title, from_date, to_date, phone_detail_id, discount_price, create_by) VALUE('Giam gia cho dien thoai Nokia 1280 model 2', '2023-07-07', '2024-07-07', '2', '100000', '2');
+INSERT INTO discountpolicies(title, from_date, to_date, minimum_purchase_amount, maximum_purchase_amount, discount_price, create_by) VALUE('Giam gia tong chi tren 500000 cua order', '2023-07-07', '2024-07-07','500000','3500000' , '100000', '2');
+INSERT INTO discountpolicies(title, from_date, to_date, minimum_purchase_amount, maximum_purchase_amount, discount_price,payment_method, create_by) VALUE('Giam gia tong chi tren 500000 cho VNPay loai 1', '2023-07-07', '2024-07-07','500000','3500000' , '100000','VNPay', '2');
 CREATE TABLE discountpolicydetails(
 policy_detail_id INT AUTO_INCREMENT PRIMARY KEY,
 policy_id INT NOT NULL,

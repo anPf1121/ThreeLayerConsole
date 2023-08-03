@@ -202,6 +202,19 @@ namespace Ults
             Console.WriteLine("  {0, 16}   {1, 30}   {2, 15}   {3, 15}   {4, 15}   {5, 15}  ", "", "", "", "", "Total Due:", FormatPrice(ord.GetTotalDue()));
             Console.WriteLine("=============================================================================================================================");
         }
+        public void PrintDiscountPolicyDetail(DiscountPolicy discountPolicy){
+            Console.WriteLine($"Title: {discountPolicy.Title}");
+            Console.WriteLine($"FromDate: {discountPolicy.FromDate}");
+            Console.WriteLine($"ToDate: {discountPolicy.ToDate}");
+            if(discountPolicy.PhoneDetail.PhoneDetailID != 0)Console.WriteLine($"Phone Information: {discountPolicy.PhoneDetail.Phone.PhoneName} {discountPolicy.PhoneDetail.PhoneColor.Color} {discountPolicy.PhoneDetail.ROMSize.ROM}");
+            if(discountPolicy.PaymentMethod !="Not Have")Console.WriteLine($"Apply for Paymentmethod: {discountPolicy.PaymentMethod}");
+            if(discountPolicy.MinimumPurchaseAmount >0 && discountPolicy.MaximumPurchaseAmount >0){
+            Console.WriteLine($"Maximum purchase amount: {discountPolicy.MinimumPurchaseAmount}");
+            Console.WriteLine($"Minimum purchase amount: {discountPolicy.MaximumPurchaseAmount}");
+            }
+            if(discountPolicy.DiscountPrice != 0)Console.WriteLine($"DiscountPrice: {discountPolicy.DiscountPrice}");
+            if(discountPolicy.MoneySupported != 0)Console.WriteLine($"Money supported: {discountPolicy.MoneySupported}");
+        }
         public void PrintPhoneModelInfo(PhoneDetail phoneDetail)
         {
             CultureInfo cultureInfo = new CultureInfo("vi-VN");
@@ -210,28 +223,40 @@ namespace Ults
         public void PrintOrderDetailsInfo(Order order)
         {
             TinyLine();
-            Console.WriteLine("ORDER DETAILS INFOMATION");
+            Console.WriteLine("ORDER DETAIL INFORMATION");
             TinyLine();
-            Console.WriteLine($"Order ID: {order.OrderID}");
-            Console.WriteLine($"Create At: {order.CreateAt}");
-            Console.WriteLine($"Seller: {order.Seller.StaffName}");
-            Console.WriteLine($"Seller id : {order.Seller.StaffID}");
-            Console.WriteLine($"Accountant: {order.Accountant.StaffName}");
-            Console.WriteLine($"Accountant id: {order.Accountant.StaffID}");
-            Console.WriteLine($"Customer: {order.Customer.CustomerName}");
-            Console.WriteLine($"Customer id: {order.Customer.CustomerID}");
-            foreach (PhoneDetail phoneDetail in order.PhoneDetails)
-            {
-                Console.WriteLine("ROM Size: ", phoneDetail.ROMSize.ROM);
-                Console.WriteLine("Phone Color: ", phoneDetail.PhoneColor.Color);
+            Console.WriteLine("👉 Cutomer Information");
+            Console.WriteLine($"- Name: {order.Customer.CustomerName}");
+            Console.WriteLine($"- Address: {order.Customer.Address}");
+            Console.WriteLine($"- PhoneNumber: {order.Customer.PhoneNumber}");
+            Console.WriteLine("👉 Seller Information");
+            Console.WriteLine($"- Name: {order.Seller.StaffName}");
+            Console.WriteLine($"- Address: {order.Seller.Address}");
+            Console.WriteLine($"- PhoneNumber: {order.Seller.PhoneNumber}");
+            Console.WriteLine("👉 Show All Phones in Cart");
+            if(order.PhoneDetails.Count()==0){
+                Console.WriteLine("Doesnt have any phone in cart");
             }
-            Console.WriteLine($"Phone Quantity in order:{order.PhoneDetails.Count()}");
-            Console.WriteLine($"Total Due:{order.GetTotalDue()}");
-            // Phải hiển thị thêm DiscountPolicy các chính sách giảm giá được áp dụng cho order
-            Console.WriteLine($"Status: {order.OrderStatus}");
-            TinyLine();
+            else{
+            Console.WriteLine("===================================================================================================");
+            Console.WriteLine("| {0, 10} | {1, 30} | {2, 15} | {3, 15} | {4, 16}", "PhoneName", "Color", "RomSize", "Quantity", " Unit Price  |");
+            Console.WriteLine("===================================================================================================");
 
+            foreach(var phone in order.PhoneDetails){
+            Console.WriteLine("| {0, 10} | {1, 30} | {2, 15} | {3, 15} | {4, 15}|",  phone.Phone.PhoneName, phone.PhoneColor.Color, phone.ROMSize.ROM, phone.Quantity, phone.Price+" VND");
 
+            }
+            Console.WriteLine("===================================================================================================");
+            Console.WriteLine($"Total Due: {order.TotalDue} VND");
+            if(order.DiscountPolicies.Count() != 0){
+                Console.WriteLine("All DiscountPolicy be apply for this order is: ");
+                foreach(var dp in order.DiscountPolicies){
+                    Console.WriteLine("- "+dp.Title);
+                    order.TotalDue -=dp.DiscountPrice;
+                }
+                Console.WriteLine($"Total Due After discount: {order.TotalDue} VND");
+            }
+        }    
         }
         public static void ClearCurrentConsoleLine()
         {
