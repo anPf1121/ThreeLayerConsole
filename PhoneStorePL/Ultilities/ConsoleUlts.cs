@@ -3,6 +3,7 @@ using GUIEnum;
 using Model;
 using DAL;
 using System.Globalization; // thu vien format tien 
+using BL;
 namespace Ults
 {
     class ConsoleUlts
@@ -186,6 +187,8 @@ namespace Ults
             int printImeiHandle = 0;
             int printImeiHandle2 = 0;
             Console.WriteLine("=============================================================================================================================");
+            Console.WriteLine("                                                  LIST PRODUCT");
+            Console.WriteLine("=============================================================================================================================");
             Console.WriteLine("| {0, 16} | {1, 30} | {2, 15} | {3, 15} | {4, 15} | {5, 15} |", "Phone Detail ID", "Phone Name", "Quantity", "Imei", "Status", "Price");
             Console.WriteLine("=============================================================================================================================");
             foreach (var pd in ord.PhoneDetails)
@@ -202,18 +205,20 @@ namespace Ults
             Console.WriteLine("  {0, 16}   {1, 30}   {2, 15}   {3, 15}   {4, 15}   {5, 15}  ", "", "", "", "", "Total Due:", FormatPrice(ord.GetTotalDue()));
             Console.WriteLine("=============================================================================================================================");
         }
-        public void PrintDiscountPolicyDetail(DiscountPolicy discountPolicy){
+        public void PrintDiscountPolicyDetail(DiscountPolicy discountPolicy)
+        {
             Console.WriteLine($"Title: {discountPolicy.Title}");
             Console.WriteLine($"FromDate: {discountPolicy.FromDate}");
             Console.WriteLine($"ToDate: {discountPolicy.ToDate}");
-            if(discountPolicy.PhoneDetail.PhoneDetailID != 0)Console.WriteLine($"Phone Information: {discountPolicy.PhoneDetail.Phone.PhoneName} {discountPolicy.PhoneDetail.PhoneColor.Color} {discountPolicy.PhoneDetail.ROMSize.ROM}");
-            if(discountPolicy.PaymentMethod !="Not Have")Console.WriteLine($"Apply for Paymentmethod: {discountPolicy.PaymentMethod}");
-            if(discountPolicy.MinimumPurchaseAmount >0 && discountPolicy.MaximumPurchaseAmount >0){
-            Console.WriteLine($"Maximum purchase amount: {discountPolicy.MinimumPurchaseAmount}");
-            Console.WriteLine($"Minimum purchase amount: {discountPolicy.MaximumPurchaseAmount}");
+            if (discountPolicy.PhoneDetail.PhoneDetailID != 0) Console.WriteLine($"Phone Information: {discountPolicy.PhoneDetail.Phone.PhoneName} {discountPolicy.PhoneDetail.PhoneColor.Color} {discountPolicy.PhoneDetail.ROMSize.ROM}");
+            if (discountPolicy.PaymentMethod != "Not Have") Console.WriteLine($"Apply for Paymentmethod: {discountPolicy.PaymentMethod}");
+            if (discountPolicy.MinimumPurchaseAmount > 0 && discountPolicy.MaximumPurchaseAmount > 0)
+            {
+                Console.WriteLine($"Maximum purchase amount: {discountPolicy.MinimumPurchaseAmount}");
+                Console.WriteLine($"Minimum purchase amount: {discountPolicy.MaximumPurchaseAmount}");
             }
-            if(discountPolicy.DiscountPrice != 0)Console.WriteLine($"DiscountPrice: {discountPolicy.DiscountPrice}");
-            if(discountPolicy.MoneySupported != 0)Console.WriteLine($"Money supported: {discountPolicy.MoneySupported}");
+            if (discountPolicy.DiscountPrice != 0) Console.WriteLine($"DiscountPrice: {discountPolicy.DiscountPrice}");
+            if (discountPolicy.MoneySupported != 0) Console.WriteLine($"Money supported: {discountPolicy.MoneySupported}");
         }
         public void PrintPhoneModelInfo(PhoneDetail phoneDetail)
         {
@@ -234,29 +239,34 @@ namespace Ults
             Console.WriteLine($"- Address: {order.Seller.Address}");
             Console.WriteLine($"- PhoneNumber: {order.Seller.PhoneNumber}");
             Console.WriteLine("👉 Show All Phones in Cart");
-            if(order.PhoneDetails.Count()==0){
+            if (order.PhoneDetails.Count() == 0)
+            {
                 Console.WriteLine("Doesnt have any phone in cart");
             }
-            else{
-            Console.WriteLine("===================================================================================================");
-            Console.WriteLine("| {0, 10} | {1, 30} | {2, 15} | {3, 15} | {4, 16}", "PhoneName", "Color", "RomSize", "Quantity", " Unit Price  |");
-            Console.WriteLine("===================================================================================================");
+            else
+            {
+                Console.WriteLine("===================================================================================================");
+                Console.WriteLine("| {0, 10} | {1, 30} | {2, 15} | {3, 15} | {4, 16}", "PhoneName", "Color", "RomSize", "Quantity", " Unit Price  |");
+                Console.WriteLine("===================================================================================================");
 
-            foreach(var phone in order.PhoneDetails){
-            Console.WriteLine("| {0, 10} | {1, 30} | {2, 15} | {3, 15} | {4, 15}|",  phone.Phone.PhoneName, phone.PhoneColor.Color, phone.ROMSize.ROM, phone.Quantity, phone.Price+" VND");
+                foreach (var phone in order.PhoneDetails)
+                {
+                    Console.WriteLine("| {0, 10} | {1, 30} | {2, 15} | {3, 15} | {4, 15}|", phone.Phone.PhoneName, phone.PhoneColor.Color, phone.ROMSize.ROM, phone.Quantity, phone.Price + " VND");
 
-            }
-            Console.WriteLine("===================================================================================================");
-            Console.WriteLine($"Total Due: {order.TotalDue} VND");
-            if(order.DiscountPolicies.Count() != 0){
-                Console.WriteLine("All DiscountPolicy be apply for this order is: ");
-                foreach(var dp in order.DiscountPolicies){
-                    Console.WriteLine("- "+dp.Title);
-                    order.TotalDue -=dp.DiscountPrice;
                 }
-                Console.WriteLine($"Total Due After discount: {order.TotalDue} VND");
+                Console.WriteLine("===================================================================================================");
+                Console.WriteLine($"Total Due: {order.TotalDue} VND");
+                if (order.DiscountPolicies.Count() != 0)
+                {
+                    Console.WriteLine("All DiscountPolicy be apply for this order is: ");
+                    foreach (var dp in order.DiscountPolicies)
+                    {
+                        Console.WriteLine("- " + dp.Title);
+                        order.TotalDue -= dp.DiscountPrice;
+                    }
+                    Console.WriteLine($"Total Due After discount: {order.TotalDue} VND");
+                }
             }
-        }    
         }
         public static void ClearCurrentConsoleLine()
         {
@@ -264,6 +274,112 @@ namespace Ults
             Console.SetCursorPosition(0, Console.CursorTop);
             Console.Write(new string(' ', Console.WindowWidth));
             Console.SetCursorPosition(0, currentLineCursor);
+        }
+        public static string GetUserName()
+        {
+            Console.Write("\n👉 User Name: ");
+            string userName = Console.ReadLine() ?? "";
+            return userName;
+        }
+        public static int GetPhoneModelQuantity()
+        {
+            int quantity = 0;
+            Console.Write("Input Quantity: ");
+            int.TryParse(Console.ReadLine(), out quantity);
+            return quantity;
+        }
+        public static string GetPassword()
+        {
+            Console.Write("\n👉 Password: ");
+            Ultilities ults = new Ultilities();
+            string pass = "";
+            ConsoleKeyInfo key;
+            do
+            {
+                key = Console.ReadKey(true);
+                if (key.Key != ConsoleKey.Backspace)
+                {
+                    pass += key.KeyChar;
+                    if (key.Key != ConsoleKey.Enter) Console.Write("*");
+                }
+                else if (key.Key == ConsoleKey.Backspace && pass.Length > 0)
+                {
+                    // Xóa ký tự cuối cùng trong chuỗi pass khi người dùng nhấn phím Backspace
+                    pass = pass.Substring(0, pass.Length - 1);
+                    Console.Write("\b \b");
+                }
+            }
+            while (key.Key != ConsoleKey.Enter);
+            pass = pass.Substring(0, pass.Length - 1);
+            return pass;
+        }
+        public string GetAppTitle()
+        {
+            return @"
+                              ┌─┐┬ ┬┌─┐┌┐┌┌─┐  ┌─┐┌┬┐┌─┐┬─┐┌─┐
+                              ├─┘├─┤│ ││││├┤   └─┐ │ │ │├┬┘├┤ 
+                              ┴  ┴ ┴└─┘┘└┘└─┘  └─┘ ┴ └─┘┴└─└─┘
+                              ";
+        }
+        public void GetFooterPagination(int currentPage, int countPage)
+        {
+            Console.WriteLine("================================================================================================");
+            Console.WriteLine("{0,45}" + "< " + $"{currentPage}/{countPage}" + " >", " ");
+            Console.WriteLine("================================================================================================");
+            Console.WriteLine("Press 'Left Arrow' To Back Previous Page, 'Right Arror' To Next Page");
+            Console.Write("Press 'Space' To Choose a phone, 'B' To Back Previous Menu");
+        }
+        public string GetSearchANSIText()
+        {
+            string searchANSIText = @"
+                                      ┌─┐┌─┐┌─┐┬─┐┌─┐┬ ┬
+                                      └─┐├┤ ├─┤├┬┘│  ├─┤
+                                      └─┘└─┘┴ ┴┴└─└─┘┴ ┴
+                                      ";
+            return searchANSIText;
+        }
+        public string[] GetMenuItemSearch()
+        {
+            string[] menuItemSearch = { "Search All Phone", "Search Phone By Information", "Back To Previous Menu" };
+            return menuItemSearch;
+        }
+        public string[] GetCreateOrderTimeLine()
+        {
+            string[] listTimeLine = { "Search Phone", "Add Phone To Order", "Add More Phone?", "Enter Customer Info", "Confirm Order" };
+            return listTimeLine;
+        }
+        public int GetPhoneID()
+        {
+            int phoneID = 0;
+            Console.Write("\nEnter Phone ID To View Details: ");
+            int.TryParse(Console.ReadLine(), out phoneID);
+            return phoneID;
+        }
+        public int GetPhoneModelID()
+        {
+            int phoneModelID = 0;
+            Console.Write("Enter Phone Model ID: ");
+            int.TryParse(Console.ReadLine(), out phoneModelID);
+            return phoneModelID;
+        }
+        public string GetCustomerInfoANSITitle()
+        {
+            string title = @"                    
+            ┌─┐┌┐┌┌┬┐┌─┐┬─┐  ┌─┐┬ ┬┌─┐┌┬┐┌─┐┌┬┐┌─┐┬─┐  ┬┌┐┌┌─┐┌─┐┬─┐┌┬┐┌─┐┌┬┐┬┌─┐┌┐┌
+            ├┤ │││ │ ├┤ ├┬┘  │  │ │└─┐ │ │ ││││├┤ ├┬┘  ││││├┤ │ │├┬┘│││├─┤ │ ││ ││││
+            └─┘┘└┘ ┴ └─┘┴└─  └─┘└─┘└─┘ ┴ └─┘┴ ┴└─┘┴└─  ┴┘└┘└  └─┘┴└─┴ ┴┴ ┴ ┴ ┴└─┘┘└┘";
+            return title;
+        }
+        public Customer GetCustomerInfo()
+        {
+            Console.Write(" Customer Name: ");
+            string customerName = Console.ReadLine() ?? "";
+            Console.Write(" Phone Number: ");
+            string phoneNumber = Console.ReadLine() ?? "";
+            Console.Write(" Address: ");
+            string address = Console.ReadLine() ?? "";
+            Customer customer = new Customer(0, customerName, phoneNumber, address);
+            return customer;
         }
     }
 }

@@ -22,15 +22,20 @@ namespace PhoneStoreUI
             bool active = true;
             do
             {
+                Console.Clear();
+                Console.OutputEncoding = System.Text.Encoding.UTF8;
+                Ults.Title(ConsoleUlts.GetAppTitle(), @"                                        ┬  ┌─┐┌─┐┬┌┐┌
+                                        │  │ ││ ┬││││
+                                        ┴─┘└─┘└─┘┴┘└┘");
                 loginAccount = Ults.LoginUlt();
                 if (loginAccount == StaffEnum.Role.Seller)
                 {
-                    Ults.ShowLoginSuccessAlert();
+                    ConsoleUlts.Alert(GUIEnum.ConsoleEnum.Alert.Success, "Login Successfully!");
                     SellerAccount = Ults.SellerMenu();
                 }
                 else if (loginAccount == StaffEnum.Role.Accountant)
                 {
-                    Ults.ShowLoginSuccessAlert();
+                    ConsoleUlts.Alert(GUIEnum.ConsoleEnum.Alert.Success, "Login Successfully!");
                     AccountantAccount = Ults.AccountantMenu();
                 }
                 else
