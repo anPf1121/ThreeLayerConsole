@@ -571,14 +571,22 @@ namespace Ults
                         do
                         {
                             ConsoleUlts.PrintPhoneDetailsInfo(phonedetails);
+
                             Console.Write("Enter Phone Model ID: ");
                             int.TryParse(Console.ReadLine(), out phoneModelID);
+
                             if (listPhoneDetailID.IndexOf(phoneModelID) == -1)
                             {
                                 ConsoleUlts.Alert(GUIEnum.ConsoleEnum.Alert.Error, "Invalid Phone Model ID Please Choice Again");
                                 ConsoleUlts.PrintListPhase(listPhase, count, currentPhase);
                             }
                         } while (listPhoneDetailID.IndexOf(phoneModelID) == -1);
+                        if (phoneBL.GetPhoneDetailByID(phoneModelID).Quantity == 0)
+                        {
+                            currentPhase--;
+                            ConsoleUlts.Alert(GUIEnum.ConsoleEnum.Alert.Warning, "This Phone Model Is Out Of Stock");
+                            break;
+                        }
                         if (PressYesOrNo("Back Previous Phase", "Enter Quantity"))
                             currentPhase--;
                         else
@@ -659,8 +667,20 @@ namespace Ults
                         } while (phaseChoice != 1 && phaseChoice != 2);
                         break;
                     case 5:
+                        bool isDuplicate = false;
                         pDetails.ListImei = imeis;
-                        cart.Add(pDetails);
+                        foreach (PhoneDetail pd in cart)
+                        {
+                            if (pDetails.PhoneDetailID == pd.PhoneDetailID)
+                            {
+                                pd.Quantity += pDetails.Quantity;
+                                pd.ListImei.AddRange(imeis);
+                                isDuplicate = true;
+                            }
+                        }
+                        if (!isDuplicate)
+                            cart.Add(pDetails);
+
                         Order ord = new Order(0, DateTime.Now, orderStaff, new Staff(0, "", "", "", "", "", StaffEnum.Role.Accountant, StaffEnum.Status.Active), new Customer(0, "", "", ""), cart, OrderEnum.Status.Pending, new List<DiscountPolicy>(), "", 0);
                         ConsoleUlts.PrintListPhase(listPhase, count, currentPhase);
                         Console.WriteLine("=======================================================================================================================");
@@ -677,12 +697,15 @@ namespace Ults
                         break;
                     case 6:
                         ConsoleUlts.PrintListPhase(listPhase, count, currentPhase);
-                        Console.WriteLine("--- Enter Customer Information ---");
-                        Console.Write(" - Customer Name: ");
+                        Title(GetAppTitle(), @"                    
+            ┌─┐┌┐┌┌┬┐┌─┐┬─┐  ┌─┐┬ ┬┌─┐┌┬┐┌─┐┌┬┐┌─┐┬─┐  ┬┌┐┌┌─┐┌─┐┬─┐┌┬┐┌─┐┌┬┐┬┌─┐┌┐┌
+            ├┤ │││ │ ├┤ ├┬┘  │  │ │└─┐ │ │ ││││├┤ ├┬┘  ││││├┤ │ │├┬┘│││├─┤ │ ││ ││││
+            └─┘┘└┘ ┴ └─┘┴└─  └─┘└─┘└─┘ ┴ └─┘┴ ┴└─┘┴└─  ┴┘└┘└  └─┘┴└─┴ ┴┴ ┴ ┴ ┴└─┘┘└┘");
+                        Console.Write(" Customer Name: ");
                         string customerName = Console.ReadLine() ?? "";
-                        Console.Write(" - Phone Number: ");
+                        Console.Write(" Phone Number: ");
                         string phoneNumber = Console.ReadLine() ?? "";
-                        Console.Write(" - Address: ");
+                        Console.Write(" Address: ");
                         string address = Console.ReadLine() ?? "";
                         customer = new Customer(0, customerName, phoneNumber, address);
                         if (PressYesOrNo("Back Previous Phase", "Confirm Order"))

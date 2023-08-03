@@ -185,27 +185,27 @@ namespace Ults
             CultureInfo cultureInfo = new CultureInfo("vi-VN");
             int printImeiHandle = 0;
             int printImeiHandle2 = 0;
-            Console.WriteLine("=======================================================================================================================");
-            Console.WriteLine("| {0, 10} | {1, 30} | {2, 15} | {3, 15} | {4, 15} | {5, 15} |", "Phone ID", "Phone Name", "Quantity", "Imei", "Status", "Price");
-            Console.WriteLine("=======================================================================================================================");
+            Console.WriteLine("=============================================================================================================================");
+            Console.WriteLine("| {0, 16} | {1, 30} | {2, 15} | {3, 15} | {4, 15} | {5, 15} |", "Phone Detail ID", "Phone Name", "Quantity", "Imei", "Status", "Price");
+            Console.WriteLine("=============================================================================================================================");
             foreach (var pd in ord.PhoneDetails)
             {
-                printImeiHandle = pd.Phone.PhoneID;
-                Console.WriteLine("-----------------------------------------------------------------------------------------------------------------------");
+                printImeiHandle = pd.PhoneDetailID;
+                Console.WriteLine("-----------------------------------------------------------------------------------------------------------------------------");
                 foreach (var ims in pd.ListImei)
                 {
-                    Console.WriteLine("| {0, 10} | {1, 30} | {2, 15} | {3, 15} | {4, 15} | {5, 15} |", (printImeiHandle != printImeiHandle2) ? pd.Phone.PhoneID : "", (printImeiHandle != printImeiHandle2) ? pd.Phone.PhoneName : "", (printImeiHandle != printImeiHandle2) ? pd.Quantity : "", ims.PhoneImei, (printImeiHandle != printImeiHandle2) ? pd.PhoneStatusType : "", (printImeiHandle != printImeiHandle2) ? FormatPrice(pd.Price) : "");
+                    Console.WriteLine("| {0, 16} | {1, 30} | {2, 15} | {3, 15} | {4, 15} | {5, 15} |", (printImeiHandle != printImeiHandle2) ? pd.PhoneDetailID : "", (printImeiHandle != printImeiHandle2) ? pd.Phone.PhoneName : "", (printImeiHandle != printImeiHandle2) ? pd.Quantity : "", ims.PhoneImei, (printImeiHandle != printImeiHandle2) ? pd.PhoneStatusType : "", (printImeiHandle != printImeiHandle2) ? FormatPrice(pd.Price) : "");
                     printImeiHandle2 = printImeiHandle;
                 }
             }
-            Console.WriteLine("-----------------------------------------------------------------------------------------------------------------------");
-            Console.WriteLine("  {0, 10}   {1, 30}   {2, 15}   {3, 15}   {4, 15}   {5, 15}  ", "", "", "", "", "Total Due:", FormatPrice(ord.GetTotalDue()));
-            Console.WriteLine("=======================================================================================================================");
+            Console.WriteLine("-----------------------------------------------------------------------------------------------------------------------------");
+            Console.WriteLine("  {0, 16}   {1, 30}   {2, 15}   {3, 15}   {4, 15}   {5, 15}  ", "", "", "", "", "Total Due:", FormatPrice(ord.GetTotalDue()));
+            Console.WriteLine("=============================================================================================================================");
         }
         public void PrintPhoneModelInfo(PhoneDetail phoneDetail)
         {
             CultureInfo cultureInfo = new CultureInfo("vi-VN");
-            Console.WriteLine("| {0, 10} | {1, 13} | {2, 15} | {3, 15} | {4, 15} | {5, 14} |", phoneDetail.PhoneDetailID, phoneDetail.PhoneColor.Color, phoneDetail.ROMSize.ROM, string.Format(cultureInfo, "{0:N0} ₫", phoneDetail.Price), phoneDetail.PhoneStatusType, phoneDetail.Quantity);
+            Console.WriteLine("| {0, 10} | {1, 13} | {2, 15} | {3, 15} | {4, 15} | {5, 14} |", phoneDetail.PhoneDetailID, phoneDetail.PhoneColor.Color, phoneDetail.ROMSize.ROM, string.Format(cultureInfo, "{0:N0} ₫", phoneDetail.Price), phoneDetail.PhoneStatusType, (phoneDetail.Quantity != 0) ? phoneDetail.Quantity : "Out Of Stock");
         }
         public void PrintOrderDetailsInfo(Order order)
         {
