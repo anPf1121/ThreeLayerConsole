@@ -408,30 +408,16 @@ namespace Ults
         }
         public void CreateOrder()
         {
-            string searchTitle = ConsoleUlts.GetSearchANSIText();
-            Console.OutputEncoding = System.Text.Encoding.UTF8;
-            List<PhoneDetail> phonesInOrder = new List<PhoneDetail>();
-            string[] menuSearchChoice = ConsoleUlts.GetMenuItemSearch();
-            bool activeSearchPhone = true;
-            string input = "";
-            int phoneId = 0;
-            int phoneModelID = 0;
-            int count = 0;
-            int quantityAfterAddMoreHandle = 0;
-            int searchChoice = 0;
+            string searchTitle = ConsoleUlts.GetSearchANSIText(), input = "";
+            string[] menuSearchChoice = ConsoleUlts.GetMenuItemSearch(), listPhase = ConsoleUlts.GetCreateOrderTimeLine();
+            int phoneId = 0, phoneModelID = 0, count = 0, quantityAfterAddMoreHandle = 0, searchChoice = 0, currentPhase = 1, phaseChoice = 0, quantity = 0, reChooseModelAfterBackPrevPhase = 0;
             List<Imei>? imeis = null;
             List<int>? listAllPhonesID = new List<int>();
-            bool isAddMore = false;
-            bool listPhoneSearch = false;
+            bool isAddMore = false, listPhoneSearch = false, activeSearchPhone = true;
             List<Phone> listTemp = new List<Phone>();
-            List<PhoneDetail> phonedetails = new List<PhoneDetail>();
+            List<PhoneDetail> phonedetails = new List<PhoneDetail>(), phonesInOrder = new List<PhoneDetail>();
             PhoneDetail? pDetails = null;
             Customer? customer = null;
-            int currentPhase = 1;
-            int phaseChoice = 0;
-            int quantity = 0;
-            string[] listPhase = ConsoleUlts.GetCreateOrderTimeLine();
-            int reChooseModelAfterBackPrevPhase = 0;
             //Buoc 1: Tim va chon ra tung dien thoai muon them vao order
             do
             {
@@ -441,22 +427,18 @@ namespace Ults
                         ConsoleUlts.PrintListPhase(listPhase, count, currentPhase);
                         Title(ConsoleUlts.GetAppTitle(), searchTitle);
                         searchChoice = PressCharacterTo("Search All Phone", "Search Phone By Information", "Back To Previous Menu");
-                        switch (searchChoice)
+                        if (searchChoice == 0)
+                            listTemp = phoneBL.GetPhonesByInformation("");
+                        else if (searchChoice == 1)
                         {
-                            case 0:
-                                listTemp = phoneBL.GetPhonesByInformation("");
-                                break;
-                            case 1:
-                                ConsoleUlts.PrintListPhase(listPhase, count, currentPhase);
-                                Title(ConsoleUlts.GetAppTitle(), searchTitle);
-                                Console.Write("👌 Search For A Phone To Add To Order: ");
-                                input = Console.ReadLine() ?? "";
-                                listTemp = phoneBL.GetPhonesByInformation(input);
-                                break;
-                            case 2:
-                                break;
+                            ConsoleUlts.PrintListPhase(listPhase, count, currentPhase);
+                            Title(ConsoleUlts.GetAppTitle(), searchTitle);
+                            Console.Write("👌 Search For A Phone To Add To Order: ");
+                            input = Console.ReadLine() ?? "";
+                            listTemp = phoneBL.GetPhonesByInformation(input);
                         }
-                        if (searchChoice == 2) return;
+                        else if (searchChoice == 2) return;
+
                         if (listTemp.Count() == 0) activeSearchPhone = false;
                         else
                         {
