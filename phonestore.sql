@@ -212,6 +212,7 @@ BEGIN
 UPDATE phonedetails SET quantity = quantity+1 WHERE phone_detail_id = new.phone_detail_id;
 END$$
 DELIMITER ;
+
 INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('388541254259874', '1');
 INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('388541254259875', '1');
 INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('388541254259876', '1');
@@ -219,6 +220,7 @@ INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('388541254259877', '1');
 INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('388541254259878', '1');
 INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('388541254259879', '1');
 INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259880', '1');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259126', '1');
 INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259890', '2');
 INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259891', '2');
 INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259892', '2');
@@ -235,6 +237,7 @@ INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259102', '6');
 INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259103', '7');
 INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259104', '7');
 INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259105', '8');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259125', '8');
 INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259106', '8');
 INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259107', '9');
 INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259108', '9');
@@ -242,20 +245,26 @@ INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259109', '10');
 INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259110', '11');
 INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259111', '12');
 INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259112', '13');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259120', '14');
 INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259113', '14');
 INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259114', '15');
-INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259115', '16');
-INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259116', '17');
-INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259117', '17');
-INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259118', '16');
 INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259119', '15');
-INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259120', '14');
 INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259121', '15');
-INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259122', '16');
-INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259123', '17');
-INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259124', '17');
-INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259125', '8');
-INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259126', '1');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541254259115', '16');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378543434259118', '16');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378541545434122', '16');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378532343259116', '17');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378432344259117', '17');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378543543559123', '17');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378532132329124', '17');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378532132329125', '18');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378532132329127', '19');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378532132329126', '20');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378532132329128', '21');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378532132329323', '22');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378532132329766', '23');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378532132329999', '23');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378532133333333', '23');
 
 CREATE TABLE orders(
 order_id INT AUTO_INCREMENT PRIMARY KEY,

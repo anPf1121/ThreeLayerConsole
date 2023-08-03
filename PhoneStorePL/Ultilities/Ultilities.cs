@@ -36,6 +36,7 @@ namespace Ults
                     for (int i = 0; i < menuItem.Count(); i++)
                         Console.WriteLine(((currentChoice - 1 == i) ? (iconBackhand + " ") : "") + " " + menuItem[i] + $" ({i + 1})");
                     ConsoleUlts.Line();
+
                     keyInfo = Console.ReadKey();
 
                     if (keyInfo.Key == ConsoleKey.Enter)
@@ -313,34 +314,37 @@ namespace Ults
                         Console.WriteLine("================================================================================================");
                         Console.WriteLine("Press 'Left Arrow' To Back Previous Page, 'Right Arror' To Next Page");
                         Console.Write("Press 'Space' To Choose a phone, 'B' To Back Previous Menu");
-                        input = Console.ReadKey();
-                        if (currentPage <= countPage)
+                        do
                         {
-                            if (input.Key == ConsoleKey.RightArrow)
+                            input = Console.ReadKey();
+                            if (currentPage <= countPage)
                             {
-                                if (currentPage <= countPage - 1) currentPage++;
-                                currentPageDetails = currentPage;
-                                Console.Clear();
+                                if (input.Key == ConsoleKey.RightArrow)
+                                {
+                                    if (currentPage <= countPage - 1) currentPage++;
+                                    currentPageDetails = currentPage;
+                                    Console.Clear();
+                                    break;
+                                }
+                                else if (input.Key == ConsoleKey.LeftArrow)
+                                {
+                                    if (currentPage > 1) currentPage--;
+                                    currentPageDetails = currentPage;
+                                    Console.Clear();
+                                    break;
+                                }
+                                else if (input.Key == ConsoleKey.B)
+                                {
+                                    Console.Clear();
+                                    return false;
+                                }
+                                else if (input.Key == ConsoleKey.Spacebar)
+                                {
+                                    return true;
+                                }
                             }
-                            else if (input.Key == ConsoleKey.LeftArrow)
-                            {
-                                if (currentPage > 1) currentPage--;
-                                currentPageDetails = currentPage;
-                                Console.Clear();
-                            }
-                            else if (input.Key == ConsoleKey.B)
-                            {
-                                Console.Clear();
-                                return false;
-                            }
-                            else if (input.Key == ConsoleKey.Spacebar)
-                            {
-                                return true;
-                            }
-                            else Console.Clear();
-                        }
+                        } while (input.Key != ConsoleKey.RightArrow || input.Key != ConsoleKey.LeftArrow || input.Key != ConsoleKey.B || input.Key != ConsoleKey.Spacebar);
                     }
-                    Console.Clear();
                 }
             }
             else
@@ -595,10 +599,10 @@ namespace Ults
                         break;
                     case 3:
                         pDetails = new PhoneBL().GetPhoneDetailByID(phoneModelID);
-                        ConsoleUlts.PrintListPhase(listPhase, count, currentPhase);
                         do
                         {
                             Console.Clear();
+                            ConsoleUlts.PrintListPhase(listPhase, count, currentPhase);
                             ConsoleUlts.PrintPhoneDetailsInfo(phonedetails);
                             Console.WriteLine("Phone Model ID: " + phoneModelID);
                             Console.Write("Input Quantity: ");
@@ -658,6 +662,8 @@ namespace Ults
                                             ConsoleUlts.Alert(GUIEnum.ConsoleEnum.Alert.Error, "Imei Not Found");
                                         else if (isDuplicateImei)
                                             ConsoleUlts.Alert(GUIEnum.ConsoleEnum.Alert.Error, "You Just Entered This Imei Before, Please Re-enter It");
+                                        Console.Clear();
+                                        ConsoleUlts.PrintListPhase(listPhase, count, currentPhase);
                                         ConsoleUlts.PrintPhoneDetailsInfo(phonedetails);
                                         Console.WriteLine("Phone Model ID: " + phoneModelID);
                                         Console.WriteLine("Quantity: " + quantity);
@@ -699,8 +705,8 @@ namespace Ults
 
                         Order ord = new Order(0, DateTime.Now, orderStaff, new Staff(0, "", "", "", "", "", StaffEnum.Role.Accountant, StaffEnum.Status.Active), new Customer(0, "", "", ""), cart, OrderEnum.Status.Pending, new List<DiscountPolicy>(), "", 0);
                         ConsoleUlts.PrintListPhase(listPhase, count, currentPhase);
-                        Console.WriteLine("=======================================================================================================================");
-                        Console.WriteLine("                                               LIST PHONE IN ORDER");
+                        Console.WriteLine("=============================================================================================================================");
+                        Console.WriteLine("                                                 LIST PHONE IN ORDER");
                         ConsoleUlts.PrintOrderDetails(ord);
                         ConsoleUlts.Line();
                         phaseChoice = PressCharacterTo("Back Previous Phase", "Enter Customer Info", "Add More Phone");
@@ -740,7 +746,10 @@ namespace Ults
                             ConsoleUlts.Alert(GUIEnum.ConsoleEnum.Alert.Success, "Create Order Completed!");
                         }
                         else
+                        {
                             ConsoleUlts.Alert(GUIEnum.ConsoleEnum.Alert.Success, "Cancel Order Completed!");
+                            cart = new List<PhoneDetail>();
+                        }
 
                         currentPhase++;
                         break;
