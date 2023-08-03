@@ -46,7 +46,7 @@ namespace Ults
             {
                 PrintPhoneModelInfo(pd);
             }
-            TinyLine();
+            Console.WriteLine("=====================================================================================================");
         }
         public void TinyLine()
         {

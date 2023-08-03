@@ -94,27 +94,27 @@ C:/Users/Acer/OneDrive/Desktop/ThreeLayerConsole/ThreeLayerLibrary/obj/Debug/net
 /Users/macos/Documents/PhoneStoreConsole/ThreeLayerConsole/ThreeLayerLibrary/obj/Debug/net7.0/refint/ThreeLayerLibrary.dll
 /Users/macos/Documents/PhoneStoreConsole/ThreeLayerConsole/ThreeLayerLibrary/obj/Debug/net7.0/ThreeLayerLibrary.pdb
 /Users/macos/Documents/PhoneStoreConsole/ThreeLayerConsole/ThreeLayerLibrary/obj/Debug/net7.0/ref/ThreeLayerLibrary.dll
-C:\Users\anngu\Desktop\ThreeLayerConsole\ThreeLayerLibrary\bin\Debug\net7.0\ThreeLayerLibrary.deps.json
-C:\Users\anngu\Desktop\ThreeLayerConsole\ThreeLayerLibrary\bin\Debug\net7.0\ThreeLayerLibrary.dll
-C:\Users\anngu\Desktop\ThreeLayerConsole\ThreeLayerLibrary\bin\Debug\net7.0\ThreeLayerLibrary.pdb
-C:\Users\anngu\Desktop\ThreeLayerConsole\ThreeLayerLibrary\obj\Debug\net7.0\ThreeLayerLibrary.csproj.AssemblyReference.cache
-C:\Users\anngu\Desktop\ThreeLayerConsole\ThreeLayerLibrary\obj\Debug\net7.0\ThreeLayerLibrary.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\anngu\Desktop\ThreeLayerConsole\ThreeLayerLibrary\obj\Debug\net7.0\ThreeLayerLibrary.AssemblyInfoInputs.cache
-C:\Users\anngu\Desktop\ThreeLayerConsole\ThreeLayerLibrary\obj\Debug\net7.0\ThreeLayerLibrary.AssemblyInfo.cs
-C:\Users\anngu\Desktop\ThreeLayerConsole\ThreeLayerLibrary\obj\Debug\net7.0\ThreeLayerLibrary.csproj.CoreCompileInputs.cache
-C:\Users\anngu\Desktop\ThreeLayerConsole\ThreeLayerLibrary\obj\Debug\net7.0\ThreeLayerLibrary.dll
-C:\Users\anngu\Desktop\ThreeLayerConsole\ThreeLayerLibrary\obj\Debug\net7.0\refint\ThreeLayerLibrary.dll
-C:\Users\anngu\Desktop\ThreeLayerConsole\ThreeLayerLibrary\obj\Debug\net7.0\ThreeLayerLibrary.pdb
-C:\Users\anngu\Desktop\ThreeLayerConsole\ThreeLayerLibrary\obj\Debug\net7.0\ref\ThreeLayerLibrary.dll
-C:\Users\PC\Desktop\New folder (5)\ThreeLayerConsole\ThreeLayerLibrary\bin\Debug\net7.0\ThreeLayerLibrary.deps.json
-C:\Users\PC\Desktop\New folder (5)\ThreeLayerConsole\ThreeLayerLibrary\bin\Debug\net7.0\ThreeLayerLibrary.dll
-C:\Users\PC\Desktop\New folder (5)\ThreeLayerConsole\ThreeLayerLibrary\bin\Debug\net7.0\ThreeLayerLibrary.pdb
-C:\Users\PC\Desktop\New folder (5)\ThreeLayerConsole\ThreeLayerLibrary\obj\Debug\net7.0\ThreeLayerLibrary.csproj.AssemblyReference.cache
-C:\Users\PC\Desktop\New folder (5)\ThreeLayerConsole\ThreeLayerLibrary\obj\Debug\net7.0\ThreeLayerLibrary.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\PC\Desktop\New folder (5)\ThreeLayerConsole\ThreeLayerLibrary\obj\Debug\net7.0\ThreeLayerLibrary.AssemblyInfoInputs.cache
-C:\Users\PC\Desktop\New folder (5)\ThreeLayerConsole\ThreeLayerLibrary\obj\Debug\net7.0\ThreeLayerLibrary.AssemblyInfo.cs
-C:\Users\PC\Desktop\New folder (5)\ThreeLayerConsole\ThreeLayerLibrary\obj\Debug\net7.0\ThreeLayerLibrary.csproj.CoreCompileInputs.cache
-C:\Users\PC\Desktop\New folder (5)\ThreeLayerConsole\ThreeLayerLibrary\obj\Debug\net7.0\ThreeLayerLibrary.dll
-C:\Users\PC\Desktop\New folder (5)\ThreeLayerConsole\ThreeLayerLibrary\obj\Debug\net7.0\refint\ThreeLayerLibrary.dll
-C:\Users\PC\Desktop\New folder (5)\ThreeLayerConsole\ThreeLayerLibrary\obj\Debug\net7.0\ThreeLayerLibrary.pdb
-C:\Users\PC\Desktop\New folder (5)\ThreeLayerConsole\ThreeLayerLibrary\obj\Debug\net7.0\ref\ThreeLayerLibrary.dll
+C:/Users/PC/Desktop/New folder (5)/ThreeLayerConsole/ThreeLayerLibrary/bin/Debug/net7.0/ThreeLayerLibrary.deps.json
+C:/Users/PC/Desktop/New folder (5)/ThreeLayerConsole/ThreeLayerLibrary/bin/Debug/net7.0/ThreeLayerLibrary.dll
+C:/Users/PC/Desktop/New folder (5)/ThreeLayerConsole/ThreeLayerLibrary/bin/Debug/net7.0/ThreeLayerLibrary.pdb
+C:/Users/PC/Desktop/New folder (5)/ThreeLayerConsole/ThreeLayerLibrary/obj/Debug/net7.0/ThreeLayerLibrary.csproj.AssemblyReference.cache
+C:/Users/PC/Desktop/New folder (5)/ThreeLayerConsole/ThreeLayerLibrary/obj/Debug/net7.0/ThreeLayerLibrary.GeneratedMSBuildEditorConfig.editorconfig
+C:/Users/PC/Desktop/New folder (5)/ThreeLayerConsole/ThreeLayerLibrary/obj/Debug/net7.0/ThreeLayerLibrary.AssemblyInfoInputs.cache
+C:/Users/PC/Desktop/New folder (5)/ThreeLayerConsole/ThreeLayerLibrary/obj/Debug/net7.0/ThreeLayerLibrary.AssemblyInfo.cs
+C:/Users/PC/Desktop/New folder (5)/ThreeLayerConsole/ThreeLayerLibrary/obj/Debug/net7.0/ThreeLayerLibrary.csproj.CoreCompileInputs.cache
+C:/Users/PC/Desktop/New folder (5)/ThreeLayerConsole/ThreeLayerLibrary/obj/Debug/net7.0/ThreeLayerLibrary.dll
+C:/Users/PC/Desktop/New folder (5)/ThreeLayerConsole/ThreeLayerLibrary/obj/Debug/net7.0/refint/ThreeLayerLibrary.dll
+C:/Users/PC/Desktop/New folder (5)/ThreeLayerConsole/ThreeLayerLibrary/obj/Debug/net7.0/ThreeLayerLibrary.pdb
+C:/Users/PC/Desktop/New folder (5)/ThreeLayerConsole/ThreeLayerLibrary/obj/Debug/net7.0/ref/ThreeLayerLibrary.dll
+/Users/macos/Documents/ThreeLayerConsole/ThreeLayerConsole/ThreeLayerLibrary/bin/Debug/net7.0/ThreeLayerLibrary.deps.json
+/Users/macos/Documents/ThreeLayerConsole/ThreeLayerConsole/ThreeLayerLibrary/bin/Debug/net7.0/ThreeLayerLibrary.dll
+/Users/macos/Documents/ThreeLayerConsole/ThreeLayerConsole/ThreeLayerLibrary/bin/Debug/net7.0/ThreeLayerLibrary.pdb
+/Users/macos/Documents/ThreeLayerConsole/ThreeLayerConsole/ThreeLayerLibrary/obj/Debug/net7.0/ThreeLayerLibrary.csproj.AssemblyReference.cache
+/Users/macos/Documents/ThreeLayerConsole/ThreeLayerConsole/ThreeLayerLibrary/obj/Debug/net7.0/ThreeLayerLibrary.GeneratedMSBuildEditorConfig.editorconfig
+/Users/macos/Documents/ThreeLayerConsole/ThreeLayerConsole/ThreeLayerLibrary/obj/Debug/net7.0/ThreeLayerLibrary.AssemblyInfoInputs.cache
+/Users/macos/Documents/ThreeLayerConsole/ThreeLayerConsole/ThreeLayerLibrary/obj/Debug/net7.0/ThreeLayerLibrary.AssemblyInfo.cs
+/Users/macos/Documents/ThreeLayerConsole/ThreeLayerConsole/ThreeLayerLibrary/obj/Debug/net7.0/ThreeLayerLibrary.csproj.CoreCompileInputs.cache
+/Users/macos/Documents/ThreeLayerConsole/ThreeLayerConsole/ThreeLayerLibrary/obj/Debug/net7.0/ThreeLayerLibrary.dll
+/Users/macos/Documents/ThreeLayerConsole/ThreeLayerConsole/ThreeLayerLibrary/obj/Debug/net7.0/refint/ThreeLayerLibrary.dll
+/Users/macos/Documents/ThreeLayerConsole/ThreeLayerConsole/ThreeLayerLibrary/obj/Debug/net7.0/ThreeLayerLibrary.pdb
+/Users/macos/Documents/ThreeLayerConsole/ThreeLayerConsole/ThreeLayerLibrary/obj/Debug/net7.0/ref/ThreeLayerLibrary.dll
