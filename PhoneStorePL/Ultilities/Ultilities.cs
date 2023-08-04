@@ -727,7 +727,7 @@ namespace Ults
                 else if (showOrderList == true)
                 {
                     Console.WriteLine();
-                    Console.Write("Choose an order id to Payment: ");
+                    Console.Write("👉 Choose an order id to Payment: ");
                     foreach (var order in ListOrderPending)
                     {
                         choicePattern.Add(order.OrderID);
@@ -740,6 +740,7 @@ namespace Ults
                     }
                     choice = Convert.ToInt32(input);
                     Order orderWantToPayment = new OrderBL().GetOrderById(choice);
+                    orderWantToPayment.Accountant = this.orderStaff;
                     //Wait to display orderdetail
                     ConsoleUlts.PrintOrderDetailsInfo(orderWantToPayment);
                     if (orderWantToPayment.PhoneDetails.Count() == 0)
@@ -767,7 +768,7 @@ namespace Ults
                         {
                             currentPhase = 2;
                             ConsoleUlts.PrintListPhase(listPhase, count, currentPhase);
-                            Console.WriteLine("Choose a payment method");
+                            Console.WriteLine("👉 Choose a payment method");
                             foreach (var payment in ListPaymentMethod)
                             {
                                 Console.WriteLine(payment.Key + ". " + payment.Value);
@@ -805,7 +806,7 @@ namespace Ults
                                     Console.WriteLine();
                                     currentPhase = 3;
                                     ConsoleUlts.PrintListPhase(listPhase, count, currentPhase);
-                                    Console.WriteLine("Choose discount policy for PaymentMethod");
+                                    Console.WriteLine("👉 Choose discount policy for PaymentMethod");
                                     foreach (var discount in ListDiscountPolicyValidToOrder)
                                     {
                                         if (orderWantToPayment.PaymentMethod.Equals(discount.PaymentMethod))
@@ -825,7 +826,7 @@ namespace Ults
                                             input = Console.ReadLine() ?? "";
                                         }
                                         choice = Convert.ToInt32(input);
-                                        Console.WriteLine("Show Discount Policy Detail");
+                                        Console.WriteLine("✅ Show Discount Policy Detail");
                                         ConsoleUlts.PrintDiscountPolicyDetail(new DiscountPolicyBL().GetDiscountPolicyByID(choice));
                                     }
                                     else
@@ -851,7 +852,7 @@ namespace Ults
                                         {
                                             currentPhase = 4;
                                             ConsoleUlts.PrintListPhase(listPhase, count, currentPhase);
-                                            Console.WriteLine("Choose discount Policy for order");
+                                            Console.WriteLine("👉 Choose discount Policy for order");
                                             foreach (var discount in ListDiscountPolicyValidToOrder)
                                             {
                                                 if (discount.MinimumPurchaseAmount > 0)
@@ -873,7 +874,7 @@ namespace Ults
                                                     input = Console.ReadLine() ?? "";
                                                 }
                                                 choice = Convert.ToInt32(input);
-                                                Console.WriteLine("Show Discount Policy Detail");
+                                                Console.WriteLine("✅ Show Discount Policy Detail");
                                                 ConsoleUlts.PrintDiscountPolicyDetail(new DiscountPolicyBL().GetDiscountPolicyByID(choice));
                                                 orderWantToPayment.DiscountPolicies.Add(new DiscountPolicyBL().GetDiscountPolicyByID(choice));
                                             }
@@ -894,11 +895,12 @@ namespace Ults
                                             {
                                                 currentPhase = 5;
                                                 ConsoleUlts.PrintListPhase(listPhase, count, currentPhase);
+                                                orderWantToPayment.Accountant = this.orderStaff;
                                                 ConsoleUlts.PrintOrderDetailsInfo(orderWantToPayment);
                                                 Console.WriteLine("Press Enter to Confirm order OR Any key to Cancel order.");
                                                 if (keyInfo.Key == ConsoleKey.Enter)
                                                 {
-                                                    orderWantToPayment.Accountant = this.orderStaff;
+                                                    
                                                     orderBL.Payment(orderWantToPayment);
                                                     Console.WriteLine("Executing Payment...");
                                                     System.Threading.Thread.Sleep(3000);
@@ -908,7 +910,7 @@ namespace Ults
                                                 }
                                                 else
                                                 {
-                                                    orderWantToPayment.Accountant = this.orderStaff;
+                                                    
                                                     orderBL.CancelPayment(orderWantToPayment);
                                                     Console.WriteLine("Executing...");
                                                     System.Threading.Thread.Sleep(3000);

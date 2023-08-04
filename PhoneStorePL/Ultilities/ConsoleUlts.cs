@@ -176,6 +176,20 @@ namespace Ults
             Console.WriteLine("Phone Number: " + ord.Customer.PhoneNumber);
             PrintOrderDetails(ord);
         }
+        public void PrintAccountantOrder(Order ord){
+            Console.WriteLine("\n=======================================================================================================================");
+            Console.WriteLine("--------------------------------------------------- VTC Mobile --------------------------------------------------------");
+            Console.WriteLine("=======================================================================================================================");
+            Console.WriteLine("Website: https://vtc.edu.vn/");
+            Console.WriteLine("Address: 18 Tam Trinh, Quận Hai Bà Trưng, Thành Phố Hà Nội");
+            Console.WriteLine("=======================================================================================================================");
+            Console.WriteLine("Accountant: " + ord.Accountant.StaffName + " - ID: " + ord.Accountant.StaffID);
+            Console.WriteLine("=======================================================================================================================");
+            Console.WriteLine("Customer: " + ord.Customer.CustomerName);
+            Console.WriteLine("Address: " + ord.Customer.Address);
+            Console.WriteLine("Phone Number: " + ord.Customer.PhoneNumber);
+            PrintOrderDetailsInfo(ord);
+        }
         public string FormatPrice(decimal price)
         {
             CultureInfo cultureInfo = new CultureInfo("vi-VN");
@@ -227,17 +241,28 @@ namespace Ults
         }
         public void PrintOrderDetailsInfo(Order order)
         {
-            TinyLine();
+             Console.WriteLine("\n=======================================================================================================================");
+            Console.WriteLine("--------------------------------------------------- VTC Mobile --------------------------------------------------------");
+            Console.WriteLine("=======================================================================================================================");
+            Console.WriteLine("Website: https://vtc.edu.vn/");
+            Console.WriteLine("Address: 18 Tam Trinh, Quận Hai Bà Trưng, Thành Phố Hà Nội");
+            Console.WriteLine("=======================================================================================================================");
             Console.WriteLine("ORDER DETAIL INFORMATION");
-            TinyLine();
+            Console.WriteLine("=======================================================================================================================");
             Console.WriteLine("👉 Cutomer Information");
             Console.WriteLine($"- Name: {order.Customer.CustomerName}");
             Console.WriteLine($"- Address: {order.Customer.Address}");
             Console.WriteLine($"- PhoneNumber: {order.Customer.PhoneNumber}");
             Console.WriteLine("👉 Seller Information");
+            Console.WriteLine($"- SellerID: {order.Seller.StaffID}");
             Console.WriteLine($"- Name: {order.Seller.StaffName}");
             Console.WriteLine($"- Address: {order.Seller.Address}");
             Console.WriteLine($"- PhoneNumber: {order.Seller.PhoneNumber}");
+            Console.WriteLine("👉 Accountant Information");
+            Console.WriteLine($"- AccountantID: {order.Accountant.StaffID}");
+            Console.WriteLine($"- Name: {order.Accountant.StaffName}");
+            Console.WriteLine($"- Address: {order.Accountant.Address}");
+            Console.WriteLine($"- PhoneNumber: {order.Accountant.PhoneNumber}");
             Console.WriteLine("👉 Show All Phones in Cart");
             if (order.PhoneDetails.Count() == 0)
             {
@@ -251,20 +276,20 @@ namespace Ults
 
                 foreach (var phone in order.PhoneDetails)
                 {
-                    Console.WriteLine("| {0, 10} | {1, 30} | {2, 15} | {3, 15} | {4, 15}|", phone.Phone.PhoneName, phone.PhoneColor.Color, phone.ROMSize.ROM, phone.Quantity, phone.Price + " VND");
+                    Console.WriteLine("| {0, 10} | {1, 30} | {2, 15} | {3, 15} | {4, 15}|", phone.Phone.PhoneName, phone.PhoneColor.Color, phone.ROMSize.ROM, phone.Quantity, FormatPrice(phone.Price));
 
                 }
                 Console.WriteLine("===================================================================================================");
-                Console.WriteLine($"Total Due: {order.TotalDue} VND");
+                Console.WriteLine($"✅ Total Due: {FormatPrice(order.TotalDue)} VND");
                 if (order.DiscountPolicies.Count() != 0)
                 {
-                    Console.WriteLine("All DiscountPolicy be apply for this order is: ");
+                    Console.WriteLine("👉 All DiscountPolicy be apply for this order is: ");
                     foreach (var dp in order.DiscountPolicies)
                     {
                         Console.WriteLine("- " + dp.Title);
                         order.TotalDue -= dp.DiscountPrice;
                     }
-                    Console.WriteLine($"Total Due After discount: {order.TotalDue} VND");
+                    Console.WriteLine($"✅ Total Due After discount: {FormatPrice(order.TotalDue)}");
                 }
             }
         }

@@ -82,7 +82,6 @@ namespace DAL
             foreach(var phone in order.PhoneDetails){
                 order.TotalDue += (phone.Price - phoneDetailsDAL.GetPhoneDiscountPrice(phone.PhoneDetailID))*phone.Quantity;
             }
-            Console.WriteLine(order.TotalDue);
             //Lay danh sach Phonedetails co trong order
 
             return order;
@@ -316,7 +315,6 @@ namespace DAL
                 query = @"update imeis set status = 0 where phone_imei = @phoneimei;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 foreach(var phone in order.PhoneDetails){
-                    Console.WriteLine(phone.Phone.PhoneName);
                     foreach(var imei in phone.ListImei){
                         command.Parameters.Clear();
                         command.Parameters.AddWithValue("@phoneimei", imei.PhoneImei);
