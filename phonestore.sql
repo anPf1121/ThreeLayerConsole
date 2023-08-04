@@ -267,7 +267,7 @@ INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378532132329999', '23');
 INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378532133333333', '23');
 
 CREATE TABLE orders(
-order_id INT AUTO_INCREMENT PRIMARY KEY,
+order_id VARCHAR(15) PRIMARY KEY NOT NULL,
 seller_id INT NOT NULL,
 accountant_id INT DEFAULT '2',
 customer_id INT NOT NULL,
@@ -280,11 +280,11 @@ FOREIGN KEY(accountant_id) REFERENCES staffs(staff_id),
 FOREIGN KEY(customer_id) REFERENCES customers(customer_id)
 )engine = InnoDB;
 
-INSERT INTO Orders(seller_id, customer_id) VALUES (3, 1);
-INSERT INTO Orders(seller_id, customer_id) VALUES (2, 2);
+INSERT INTO Orders(order_id, seller_id, customer_id) VALUES ('A798EC16225E', 3, 1);
+INSERT INTO Orders(order_id, seller_id, customer_id) VALUES ('D2BD913A83B4', 2, 2);
 
 CREATE TABLE orderdetails(
-order_id INT NOT NULL,
+order_id VARCHAR(15) NOT NULL,
 phone_imei VARCHAR(15) NOT NULL,
 FOREIGN KEY (order_id) REFERENCES orders(order_id),
 FOREIGN KEY (phone_imei) REFERENCES imeis(phone_imei),
@@ -327,8 +327,8 @@ end if;
 end$$
 delimiter ;
 
-INSERT INTO OrderDetails(order_id, phone_imei) VALUES (1, 378541254259880);
-INSERT INTO OrderDetails(order_id, phone_imei) VALUES (1, 378541254259890);
+INSERT INTO OrderDetails(order_id, phone_imei) VALUES ('A798EC16225E', 378541254259880);
+INSERT INTO OrderDetails(order_id, phone_imei) VALUES ('D2BD913A83B4', 378541254259890);
 
 
 
@@ -365,7 +365,7 @@ INSERT INTO discountpolicies(title, from_date, to_date, minimum_purchase_amount,
 CREATE TABLE discountpolicydetails(
 policy_detail_id INT AUTO_INCREMENT PRIMARY KEY,
 policy_id INT NOT NULL,
-order_id INT NOT NULL,
+order_id VARCHAR(15) NOT NULL,
 FOREIGN KEY (policy_id) REFERENCES discountpolicies(policy_id),
 FOREIGN KEY (order_id) REFERENCES orders(order_id)
 )engine = InnoDB;

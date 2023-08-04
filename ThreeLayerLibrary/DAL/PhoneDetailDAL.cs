@@ -241,7 +241,7 @@ namespace DAL
             }
             return imeis;
         }
-        public List<Imei> GetListImeisInOrder(int phonedetailid, int orderid)
+        public List<Imei> GetListImeisInOrder(int phonedetailid, string orderid)
         {
             List<Imei> output = new List<Imei>();
             try
@@ -270,7 +270,7 @@ namespace DAL
             }
             return output;
         }
-        public List<PhoneDetail> GetListPhoneDetailInOrder(int orderid)
+        public List<PhoneDetail> GetListPhoneDetailInOrder(string orderid)
         { // Ham nay lay ra list<phonedetail> co trong order chi tiet den ca quantity 
             List<PhoneDetail> lst = new List<PhoneDetail>();
             try

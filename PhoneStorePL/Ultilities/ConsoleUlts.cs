@@ -166,7 +166,7 @@ namespace Ults
             Console.WriteLine("\n=======================================================================================================================");
             Console.WriteLine("--------------------------------------------------- VTC Mobile --------------------------------------------------------");
             Console.WriteLine("=======================================================================================================================");
-            Console.WriteLine("                                            Order ID: " + "H171110361");
+            Console.WriteLine("                                          Order ID: " + ord.OrderID);
             Console.WriteLine("Website: https://vtc.edu.vn/");
             Console.WriteLine("Address: 18 Tam Trinh, Quận Hai Bà Trưng, Thành Phố Hà Nội");
             Console.WriteLine("Phone Number: 0999999999");

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\anngu\\Desktop\\ThreeLayerConsole\\ThreeLayerLibrary\\ThreeLayerLibrary.csproj": {}
+    "C:\\Users\\anngu\\Desktop\\ThreeLayerConsole\\ThreeLayerConsole.csproj": {}
   },
   "projects": {
-    "C:\\Users\\anngu\\Desktop\\ThreeLayerConsole\\ThreeLayerLibrary\\ThreeLayerLibrary.csproj": {
+    "C:\\Users\\anngu\\Desktop\\ThreeLayerConsole\\ThreeLayerConsole.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\anngu\\Desktop\\ThreeLayerConsole\\ThreeLayerLibrary\\ThreeLayerLibrary.csproj",
-        "projectName": "ThreeLayerLibrary",
-        "projectPath": "C:\\Users\\anngu\\Desktop\\ThreeLayerConsole\\ThreeLayerLibrary\\ThreeLayerLibrary.csproj",
+        "projectUniqueName": "C:\\Users\\anngu\\Desktop\\ThreeLayerConsole\\ThreeLayerConsole.csproj",
+        "projectName": "ThreeLayerConsole",
+        "projectPath": "C:\\Users\\anngu\\Desktop\\ThreeLayerConsole\\ThreeLayerConsole.csproj",
         "packagesPath": "C:\\Users\\anngu\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\anngu\\Desktop\\ThreeLayerConsole\\ThreeLayerLibrary\\obj\\",
+        "outputPath": "C:\\Users\\anngu\\Desktop\\ThreeLayerConsole\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\anngu\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -40,9 +40,25 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "dependencies": {
-            "MySqlConnector": {
+            "Microsoft.NET.Test.Sdk": {
               "target": "Package",
-              "version": "[2.2.6, )"
+              "version": "[17.3.2, )"
+            },
+            "coverlet.collector": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.1.2, )"
+            },
+            "xunit": {
+              "target": "Package",
+              "version": "[2.4.2, )"
+            },
+            "xunit.runner.visualstudio": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.4.5, )"
             }
           },
           "imports": [

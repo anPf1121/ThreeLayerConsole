@@ -6,7 +6,7 @@ using BusinessEnum;
 public class OrderBL
 {
     private OrderDAL orderDAL = new OrderDAL();
-    public Order GetOrderById(int orderID)
+    public Order GetOrderById(string orderID)
     {
         Order order = orderDAL.GetOrderByID(orderID);
         return order;
@@ -35,7 +35,6 @@ public class OrderBL
     {
         return orderDAL.UpdateOrder(BusinessEnum.OrderEnum.Status.Confirmed, order);
     }
-
     public bool CancelPayment(Order order)
     {
         return orderDAL.UpdateOrder(BusinessEnum.OrderEnum.Status.Canceled, order);

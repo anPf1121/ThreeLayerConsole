@@ -24,7 +24,7 @@ namespace DAL
             StaffDAL staffDAL = new StaffDAL();
             CustomerDAL customerDAL = new CustomerDAL();
             Order order = new Order(
-                reader.GetInt32("Order_ID"),
+                reader.GetString("order_id"),
                 reader.GetDateTime("Create_At"),
                 new Staff(reader.GetInt32("seller_id"), "", "", "", "", "", StaffEnum.Role.Seller, StaffEnum.Status.Active),
                 new Staff(reader.GetInt32("accountant_id"), "", "", "", "", "", StaffEnum.Role.Accountant, StaffEnum.Status.Active),
@@ -38,12 +38,12 @@ namespace DAL
             return order;
         }
         // + lay id cua staff cho order tu phuong thuc GetOrderByID(int id)
-        public Order GetOrderByID(int id)
+        public Order GetOrderByID(string id)
         {
             StaffDAL staffDAL = new StaffDAL();
             CustomerDAL customerDAL = new CustomerDAL();
             PhoneDetailsDAL phoneDetailsDAL = new PhoneDetailsDAL();
-            Order order = new Order(0, new DateTime(), new Staff(0, "", "", "", "", "", StaffEnum.Role.Seller, StaffEnum.Status.Active), new Staff(0, "", "", "", "", "", StaffEnum.Role.Accountant, StaffEnum.Status.Active), new Customer(0, "", "", ""), new List<PhoneDetail>(), OrderEnum.Status.Pending, new List<DiscountPolicy>(), "", 0);
+            Order order = new Order("", new DateTime(), new Staff(0, "", "", "", "", "", StaffEnum.Role.Seller, StaffEnum.Status.Active), new Staff(0, "", "", "", "", "", StaffEnum.Role.Accountant, StaffEnum.Status.Active), new Customer(0, "", "", ""), new List<PhoneDetail>(), OrderEnum.Status.Pending, new List<DiscountPolicy>(), "", 0);
 
             // Dau tien lay ra thong tin cua Customer, Seller, Accountant theo order id
             try
@@ -179,21 +179,15 @@ namespace DAL
                     }
                     else return false;
                 }
-                query = @"insert into orders(customer_id, seller_id) 
-        value (@cusid, @sellerid);";
+                query = @"insert into orders(customer_id, seller_id, order_id) 
+        value (@cusid, @sellerid, @orderid);";
                 command.CommandText = query;
                 command.Parameters.Clear();
                 command.Parameters.AddWithValue("@cusid", order.Customer.CustomerID);
                 command.Parameters.AddWithValue("@sellerid", order.Seller.StaffID);
+                command.Parameters.AddWithValue("@orderid", order.OrderID);
                 command.ExecuteNonQuery();
-                query = @"select Order_ID from orders order by Order_ID desc limit 1; ";
-                command.CommandText = query;
-                reader = command.ExecuteReader();
-                if (reader.Read())
-                {
-                    order.OrderID = reader.GetInt32("Order_ID");
-                }
-                reader.Close();
+                
                 foreach (var phone in order.PhoneDetails)
                 {
                     int quantity = 0;
