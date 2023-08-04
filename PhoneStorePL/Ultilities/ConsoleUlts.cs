@@ -166,17 +166,82 @@ namespace Ults
             Console.WriteLine("\n=======================================================================================================================");
             Console.WriteLine("--------------------------------------------------- VTC Mobile --------------------------------------------------------");
             Console.WriteLine("=======================================================================================================================");
+            Console.WriteLine("                                            Order ID: " + "H171110361");
             Console.WriteLine("Website: https://vtc.edu.vn/");
             Console.WriteLine("Address: 18 Tam Trinh, Quận Hai Bà Trưng, Thành Phố Hà Nội");
+            Console.WriteLine("Phone Number: 0999999999");
             Console.WriteLine("=======================================================================================================================");
             Console.WriteLine("Seller: " + ord.Seller.StaffName + " - ID: " + ord.Seller.StaffID);
             Console.WriteLine("=======================================================================================================================");
+            Console.WriteLine("Order Create Time: " + DateTime.Now);
             Console.WriteLine("Customer: " + ord.Customer.CustomerName);
             Console.WriteLine("Address: " + ord.Customer.Address);
             Console.WriteLine("Phone Number: " + ord.Customer.PhoneNumber);
             PrintOrderDetails(ord);
+            Console.WriteLine("                             Customer                                               Seller                             ");
+            Console.WriteLine("                      (Signature, Full Name)                               (Signature, Full Name)                      ");
+            Console.WriteLine("                                                                                                                       ");
+            Console.WriteLine("                                                                                                                       ");
+            Console.WriteLine("                                                                                                                       ");
         }
-        public void PrintAccountantOrder(Order ord){
+        private string[] ones = { "", "một", "hai", "ba", "bốn", "năm", "sáu", "bảy", "tám", "chín" };
+        private string[] teens = { "mười", "mười một", "mười hai", "mười ba", "mười bốn", "mười lăm", "mười sáu", "mười bảy", "mười tám", "mười chín" };
+        private string[] tens = { "", "", "hai mươi", "ba mươi", "bốn mươi", "năm mươi", "sáu mươi", "bảy mươi", "tám mươi", "chín mươi" };
+
+        public string ConvertNumberToWords(decimal number)
+        {
+            if (number == 0)
+                return "không đồng";
+
+            // Tách phần nguyên và phần thập phân
+            long nguyen = (long)Math.Truncate(number);
+            int thapPhan = (int)((number - nguyen) * 100);
+
+            string result = ConvertToWords(nguyen) + " đồng";
+
+            if (thapPhan > 0)
+            {
+                result += " và " + ConvertToWords(thapPhan) + " Hào";
+            }
+
+            return result;
+        }
+
+        public string ConvertToWords(long number)
+        {
+            if (number < 10)
+            {
+                return ones[number];
+            }
+            else if (number < 20)
+            {
+                return teens[number - 10];
+            }
+            else if (number < 100)
+            {
+                return tens[number / 10] + (number % 10 > 0 ? " " + ones[number % 10] : "");
+            }
+            else if (number < 1000)
+            {
+                return ones[number / 100] + " trăm" + (number % 100 > 0 ? " " + ConvertToWords(number % 100) : "");
+            }
+            else if (number < 1000000)
+            {
+                return ConvertToWords(number / 1000) + " nghìn" + (number % 1000 > 0 ? " " + ConvertToWords(number % 1000) : "");
+            }
+            else if (number < 1000000000)
+            {
+                return ConvertToWords(number / 1000000) + " triệu" + (number % 1000000 > 0 ? " " + ConvertToWords(number % 1000000) : "");
+            }
+            else
+            {
+                throw new ArgumentException("Out of range: " + number);
+            }
+        }
+
+
+        public void PrintAccountantOrder(Order ord)
+        {
             Console.WriteLine("\n=======================================================================================================================");
             Console.WriteLine("--------------------------------------------------- VTC Mobile --------------------------------------------------------");
             Console.WriteLine("=======================================================================================================================");
@@ -216,7 +281,8 @@ namespace Ults
                 }
             }
             Console.WriteLine("-----------------------------------------------------------------------------------------------------------------------------");
-            Console.WriteLine("  {0, 16}   {1, 30}   {2, 15}   {3, 15}   {4, 15}   {5, 15}  ", "", "", "", "", "Total Due:", FormatPrice(ord.GetTotalDue()));
+            Console.WriteLine("  {0, 16}   {1, 20}   {2, 5}   {3, 5}   {4, 15}   {5, 15}  ", "", "", "", "", "Total Due:", FormatPrice(ord.GetTotalDue()));
+            Console.WriteLine("  {0, 16}   {1, 20}   {2, 5}   {3, 5}   {4, 15}   {5, 15}", "", "", "", "", "To String:", ConvertNumberToWords(ord.GetTotalDue()));
             Console.WriteLine("=============================================================================================================================");
         }
         public void PrintDiscountPolicyDetail(DiscountPolicy discountPolicy)
@@ -241,7 +307,7 @@ namespace Ults
         }
         public void PrintOrderDetailsInfo(Order order)
         {
-             Console.WriteLine("\n=======================================================================================================================");
+            Console.WriteLine("\n=======================================================================================================================");
             Console.WriteLine("--------------------------------------------------- VTC Mobile --------------------------------------------------------");
             Console.WriteLine("=======================================================================================================================");
             Console.WriteLine("Website: https://vtc.edu.vn/");

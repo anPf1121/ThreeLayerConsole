@@ -900,7 +900,7 @@ namespace Ults
                                                 Console.WriteLine("Press Enter to Confirm order OR Any key to Cancel order.");
                                                 if (keyInfo.Key == ConsoleKey.Enter)
                                                 {
-                                                    
+
                                                     orderBL.Payment(orderWantToPayment);
                                                     Console.WriteLine("Executing Payment...");
                                                     System.Threading.Thread.Sleep(3000);
@@ -910,7 +910,7 @@ namespace Ults
                                                 }
                                                 else
                                                 {
-                                                    
+
                                                     orderBL.CancelPayment(orderWantToPayment);
                                                     Console.WriteLine("Executing...");
                                                     System.Threading.Thread.Sleep(3000);
@@ -1039,7 +1039,7 @@ namespace Ults
                             else if (input.Key == ConsoleKey.Y)
                             {
                                 // đổi trạng thái Order thành completed
-                                if (orderBL.UpdateOrder(OrderEnum.Status.Confirmed, orderdetails) == true)
+                                if (orderBL.UpdateOrder(OrderEnum.Status.Completed, orderdetails) == true)
                                 {
                                     currentPhase++;
                                     return 1;
