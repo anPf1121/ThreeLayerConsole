@@ -44,7 +44,7 @@ namespace PhoneStoreUI
                                     Ults.CreateOrder();
                                     break;
                                 case 2:
-                                    // HandleResult = HandleOrder();
+                                    HandleResult = Ults.HandleOrder();
                                     if (HandleResult == -1)
                                         ConsoleUlts.Alert(GUIEnum.ConsoleEnum.Alert.Error, "No Order exist");
                                     else if (HandleResult == 0)
@@ -72,7 +72,7 @@ namespace PhoneStoreUI
                             switch (Ults.MenuHandle(ConsoleUlts.GetAppTitle(), null, menuItem))
                             {
                                 case 1:
-                                    // Payment();
+                                    Ults.Payment();
                                     break;
                                 case 2:
                                     break;
