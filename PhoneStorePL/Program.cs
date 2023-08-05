@@ -40,10 +40,10 @@ namespace PhoneStoreUI
                     if (staffBL.LoggedInStaff.Role == StaffEnum.Role.Seller)
                     {
                         int result = 0;
-                        active = true;
+                        bool activeSellerMenu = true;
                         string[] menuItem = { "Create Order", "Handle Order", "Log Out" };
                         int HandleResult = 0;
-                        while (active)
+                        while (activeSellerMenu)
                         {
                             switch (Ults.MenuHandle(ConsoleUlts.GetAppTitle(), null, menuItem))
                             {
@@ -69,7 +69,7 @@ namespace PhoneStoreUI
                                         );
                                     break;
                                 case 3:
-                                    active = false;
+                                    activeSellerMenu = false;
                                     result = 1;
                                     staffBL.Logout();
                                     break;
@@ -81,9 +81,9 @@ namespace PhoneStoreUI
                     else if (staffBL.LoggedInStaff.Role == StaffEnum.Role.Accountant)
                     {
                         int result = 0;
-                        active = true;
+                        bool activeAccountantMenu = true;
                         string[] menuItem = { "Payment", "Revenue Report", "Log Out" };
-                        while (active)
+                        while (activeAccountantMenu)
                         {
                             switch (Ults.MenuHandle(ConsoleUlts.GetAppTitle(), null, menuItem))
                             {
@@ -93,7 +93,7 @@ namespace PhoneStoreUI
                                 case 2:
                                     break;
                                 case 3:
-                                    active = false;
+                                    activeAccountantMenu = false;
                                     result = 1;
                                     staffBL.Logout();
                                     break;
