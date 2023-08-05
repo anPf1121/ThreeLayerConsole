@@ -86,7 +86,7 @@ namespace Ults
         {
             if (action != null)
             {
-                Console.Write($"\n👉 {SetTextBolder("Press Enter To {action}...")}");
+                Console.Write($"\n👉 {SetTextBolder($"Press Enter To {action}...")}");
             }
             ConsoleKeyInfo key = Console.ReadKey();
             if (key.Key == ConsoleKey.Enter)
@@ -399,7 +399,7 @@ namespace Ults
 
         public string GetUserName()
         {
-            string userName = GetInputString("User Name");
+            string userName = GetInputString("👉 User Name");
             return userName;
         }
 
@@ -445,17 +445,13 @@ namespace Ults
             if (title != null)
             {
                 Line();
-                ConsoleForegroundColor(ConsoleEnum.Color.Red);
                 Console.WriteLine(title);
-                ConsoleForegroundColor(ConsoleEnum.Color.White);
                 Line();
             }
             if (subTitle != null)
             {
                 Line();
-                ConsoleForegroundColor(ConsoleEnum.Color.Blue);
                 Console.WriteLine(subTitle);
-                ConsoleForegroundColor(ConsoleEnum.Color.White);
                 Line();
             }
             if (staffLoggedIn != null)
@@ -554,7 +550,7 @@ namespace Ults
             string str = "";
             do
             {
-                Console.Write(requestToEnter + ": ");
+                Console.Write(" " + requestToEnter + ": ");
                 str = Console.ReadLine() ?? "";
                 if (str == "")
                 {
@@ -569,7 +565,7 @@ namespace Ults
             bool isValidInput = false;
             do
             {
-                Console.Write(requestToEnter + ": ");
+                Console.Write(" " + requestToEnter + ": ");
                 isValidInput = int.TryParse(Console.ReadLine(), out intValue);
                 if (!isValidInput)
                 {

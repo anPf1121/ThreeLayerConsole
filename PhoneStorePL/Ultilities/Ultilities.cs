@@ -42,7 +42,7 @@ namespace Ults
                 if (currentChoice <= (menuItem.Count() + 1) && currentChoice >= 1)
                 {
                     for (int i = 0; i < menuItem.Count(); i++)
-                        Console.WriteLine(((currentChoice - 1 == i) ? (iconBackhand + " ") : "") + " " + ConsoleUlts.SetTextBolder(menuItem[i]) + $" ({i + 1})");
+                        Console.WriteLine("| {0, 50} |", (((currentChoice - 1 == i) ? (iconBackhand + " ") : "") + " " + ConsoleUlts.SetTextBolder(menuItem[i]) + $" ({i + 1})").PadRight(98));
                     ConsoleUlts.Line();
 
                     keyInfo = Console.ReadKey();

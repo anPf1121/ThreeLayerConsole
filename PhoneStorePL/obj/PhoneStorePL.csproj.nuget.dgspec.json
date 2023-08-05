@@ -1,33 +1,35 @@
 {
   "format": 1,
   "restore": {
-    "/Users/macos/Documents/ThreeLayerConsole/ThreeLayerConsole/PhoneStorePL/PhoneStorePL.csproj": {}
+    "C:\\Users\\anngu\\Desktop\\ThreeLayerConsole\\PhoneStorePL\\PhoneStorePL.csproj": {}
   },
   "projects": {
-    "/Users/macos/Documents/ThreeLayerConsole/ThreeLayerConsole/PhoneStorePL/PhoneStorePL.csproj": {
+    "C:\\Users\\anngu\\Desktop\\ThreeLayerConsole\\PhoneStorePL\\PhoneStorePL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/macos/Documents/ThreeLayerConsole/ThreeLayerConsole/PhoneStorePL/PhoneStorePL.csproj",
+        "projectUniqueName": "C:\\Users\\anngu\\Desktop\\ThreeLayerConsole\\PhoneStorePL\\PhoneStorePL.csproj",
         "projectName": "PhoneStorePL",
-        "projectPath": "/Users/macos/Documents/ThreeLayerConsole/ThreeLayerConsole/PhoneStorePL/PhoneStorePL.csproj",
-        "packagesPath": "/Users/macos/.nuget/packages/",
-        "outputPath": "/Users/macos/Documents/ThreeLayerConsole/ThreeLayerConsole/PhoneStorePL/obj/",
+        "projectPath": "C:\\Users\\anngu\\Desktop\\ThreeLayerConsole\\PhoneStorePL\\PhoneStorePL.csproj",
+        "packagesPath": "C:\\Users\\anngu\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\anngu\\Desktop\\ThreeLayerConsole\\PhoneStorePL\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/macos/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\anngu\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "/Users/macos/Documents/ThreeLayerConsole/ThreeLayerConsole/ThreeLayerLibrary/ThreeLayerLibrary.csproj": {
-                "projectPath": "/Users/macos/Documents/ThreeLayerConsole/ThreeLayerConsole/ThreeLayerLibrary/ThreeLayerLibrary.csproj"
+              "C:\\Users\\anngu\\Desktop\\ThreeLayerConsole\\ThreeLayerLibrary\\ThreeLayerLibrary.csproj": {
+                "projectPath": "C:\\Users\\anngu\\Desktop\\ThreeLayerConsole\\ThreeLayerLibrary\\ThreeLayerLibrary.csproj"
               }
             }
           }
@@ -57,26 +59,28 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.202/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.306\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "/Users/macos/Documents/ThreeLayerConsole/ThreeLayerConsole/ThreeLayerLibrary/ThreeLayerLibrary.csproj": {
+    "C:\\Users\\anngu\\Desktop\\ThreeLayerConsole\\ThreeLayerLibrary\\ThreeLayerLibrary.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/macos/Documents/ThreeLayerConsole/ThreeLayerConsole/ThreeLayerLibrary/ThreeLayerLibrary.csproj",
+        "projectUniqueName": "C:\\Users\\anngu\\Desktop\\ThreeLayerConsole\\ThreeLayerLibrary\\ThreeLayerLibrary.csproj",
         "projectName": "ThreeLayerLibrary",
-        "projectPath": "/Users/macos/Documents/ThreeLayerConsole/ThreeLayerConsole/ThreeLayerLibrary/ThreeLayerLibrary.csproj",
-        "packagesPath": "/Users/macos/.nuget/packages/",
-        "outputPath": "/Users/macos/Documents/ThreeLayerConsole/ThreeLayerConsole/ThreeLayerLibrary/obj/",
+        "projectPath": "C:\\Users\\anngu\\Desktop\\ThreeLayerConsole\\ThreeLayerLibrary\\ThreeLayerLibrary.csproj",
+        "packagesPath": "C:\\Users\\anngu\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\anngu\\Desktop\\ThreeLayerConsole\\ThreeLayerLibrary\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/macos/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\anngu\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -116,7 +120,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.202/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.306\\RuntimeIdentifierGraph.json"
         }
       }
     }
