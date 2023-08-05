@@ -36,7 +36,7 @@ namespace Ults
 
         public void Line()
         {
-            Console.WriteLine(@"----------------------------------------------------------------------------------------------");
+            Console.WriteLine(@"|--------------------------------------------------------------------------------------------|");
         }
 
         public void PrintPhoneDetailsInfo(List<PhoneDetail> phoneDetails)
@@ -65,15 +65,15 @@ namespace Ults
             {
                 case ConsoleEnum.Alert.Success:
                     ConsoleForegroundColor(ConsoleEnum.Color.Green);
-                    Console.WriteLine("\n" + "✅ " + msg.ToUpper());
+                    Console.WriteLine("\n" + "✅ " + SetTextBolder(msg.ToUpper()));
                     break;
                 case ConsoleEnum.Alert.Warning:
                     ConsoleForegroundColor(ConsoleEnum.Color.Yellow);
-                    Console.WriteLine("\n" + "⚠️  " + msg.ToUpper());
+                    Console.WriteLine("\n" + "⚠️  " + SetTextBolder(msg.ToUpper()));
                     break;
                 case ConsoleEnum.Alert.Error:
                     ConsoleForegroundColor(ConsoleEnum.Color.Red);
-                    Console.WriteLine("\n" + "❌ " + msg.ToUpper());
+                    Console.WriteLine("\n" + "❌ " + SetTextBolder(msg.ToUpper()));
                     break;
                 default:
                     break;
@@ -86,7 +86,7 @@ namespace Ults
         {
             if (action != null)
             {
-                Console.Write($"\n👉 Press Enter To {action}...");
+                Console.Write($"\n👉 {SetTextBolder("Press Enter To {action}...")}");
             }
             ConsoleKeyInfo key = Console.ReadKey();
             if (key.Key == ConsoleKey.Enter)
@@ -100,35 +100,35 @@ namespace Ults
 
         public void PrintPhoneBorderLine()
         {
-            Console.WriteLine("================================================================================================");
-            Console.WriteLine("| {0, 10} | {1, 30} | {2, 15} | {3, 15} |","ID","Phone Name","Brand", "OS");
-            Console.WriteLine("================================================================================================");
+            Console.WriteLine("|============================================================================================|");
+            Console.WriteLine("| {0, -10} | {1, -30} | {2, -15} | {3, -15} |", "ID", "Phone Name", "Brand", "OS");
+            Console.WriteLine("|============================================================================================|");
         }
 
         public void PrintOrderBorderLine()
         {
-            Console.WriteLine("========================================================================================================================");
-            Console.WriteLine("| {0, 10} | {1, 30} | {2, 35} | {3, 32} |","ID","Customer Name","Order Date","Status");
-            Console.WriteLine("========================================================================================================================");
+            Console.WriteLine("|======================================================================================================================|");
+            Console.WriteLine("| {0, -10} | {1, -30} | {2, -35} | {3, -32} |", "ID", "Customer Name", "Order Date", "Status");
+            Console.WriteLine("|======================================================================================================================|");
         }
 
         public void PrintPhoneInfo(Phone phone)
         {
-            Console.WriteLine("| {0, 10} | {1, 30} | {2, 15} | {3, 15} |",phone.PhoneID,phone.PhoneName,phone.Brand.BrandName,phone.OS);
+            Console.WriteLine("| {0, -10} | {1, -30} | {2, -15} | {3, -15} |", phone.PhoneID, phone.PhoneName, phone.Brand.BrandName, phone.OS);
         }
 
         public void PrintOrderInfo(Order order)
         {
-            Console.WriteLine("| {0, 10} | {1, 30} | {2, 35} | {3, 32} |",order.OrderID, order.Customer.CustomerName,order.CreateAt,order.OrderStatus);
+            Console.WriteLine("| {0, -10} | {1, -30} | {2, -35} | {3, -32} |", order.OrderID, order.Customer.CustomerName, order.CreateAt, order.OrderStatus);
         }
 
         public void PrintPhoneModelTitle()
         {
-            Console.WriteLine("=====================================================================================================");
+            Console.WriteLine("|===================================================================================================|");
             Console.WriteLine("| PHONE MODEL                                                                                       |");
-            Console.WriteLine("=====================================================================================================");
-            Console.WriteLine("| {0, 10} | {1, 13} | {2, 15} | {3, 15} | {4, 15} | {5, 14} |","Detail ID","Phone Color", "ROM Size","Price", "Phone Status","Quantity");
-            Console.WriteLine("=====================================================================================================");
+            Console.WriteLine("====================================================================================================|");
+            Console.WriteLine("| {0, -10} | {1, -13} | {2, -15} | {3, -15} | {4, -15} | {5, -14} |", "Detail ID", "Phone Color", "ROM Size", "Price", "Phone Status", "Quantity");
+            Console.WriteLine("|===================================================================================================|");
         }
 
         public void PrintPhoneDetailsInfo(PhoneDetail phoneDetail)
@@ -162,12 +162,12 @@ namespace Ults
                 if (itemCount == currentPhase)
                 {
                     ConsoleForegroundColor(ConsoleEnum.Color.Green);
-                    Console.Write(((itemCount == currentPhase) ? " 👉 " + item : " > " + item));
+                    Console.Write(((itemCount == currentPhase) ? " 👉 " + SetTextBolder(item) : " > " + item));
                     ConsoleForegroundColor(ConsoleEnum.Color.White);
                 }
                 else
                 {
-                    Console.Write(((itemCount == currentPhase) ? " 👉 " + item : " > " + item));
+                    Console.Write(((itemCount == currentPhase) ? " 👉 " + SetTextBolder(item) : " > " + item));
                 }
                 if (itemCount == phase.Length)
                     Console.Write("\n");
@@ -175,32 +175,37 @@ namespace Ults
             TinyLine();
             itemCount = 0;
         }
-
+        public string SetTextBolder(string text)
+        {
+            return $"\x1b[1m{text}\x1b[0m";
+        }
         public void PrintSellerOrder(Order ord)
         {
             int totalQuantity = 0;
-            Console.WriteLine("\n=======================================================================================================================");
-            Console.WriteLine( "--------------------------------------------------- VTC Mobile --------------------------------------------------------");
-            Console.WriteLine("=======================================================================================================================");
-            Console.WriteLine("                                          Order ID: " + ord.OrderID);
-            Console.WriteLine("Website: https://vtc.edu.vn/");
-            Console.WriteLine("Address: 18 Tam Trinh, Quận Hai Bà Trưng, Thành Phố Hà Nội");
-            Console.WriteLine("Phone Number: 0999999999");
-            Console.WriteLine("=======================================================================================================================");
-            Console.WriteLine("Seller: " + ord.Seller.StaffName + " - ID: " + ord.Seller.StaffID);
-            Console.WriteLine("=======================================================================================================================");
-            Console.WriteLine("Order Create Time: " + DateTime.Now);
-            Console.WriteLine("Customer: " + ord.Customer.CustomerName);
-            Console.WriteLine("Address: " + ord.Customer.Address);
-            Console.WriteLine("Phone Number: " + ord.Customer.PhoneNumber);
+            Console.WriteLine("\n|===========================================================================================================================|");
+            Console.WriteLine("|------------------------------------------------------- \x1b[1mVTC Mobile\x1b[0m --------------------------------------------------------|");
+            Console.WriteLine("|===========================================================================================================================|");
+            Console.WriteLine("|                                                   Order ID: " + ord.OrderID + "                                                  |");
+            Console.WriteLine("|===========================================================================================================================|");
+            Console.WriteLine("| Website: https://vtc.edu.vn/                                                                                              |");
+            Console.WriteLine("| Address: 18 Tam Trinh, Quận Hai Bà Trưng, Thành Phố Hà Nội                                                                |");
+            Console.WriteLine("| Phone Number: 0999999999                                                                                                  |");
+            Console.WriteLine("|===========================================================================================================================|");
+            Console.WriteLine("| {0, -30}{1, -10}|", "Seller: " + ord.Seller.StaffName, (" - ID: " + ord.Seller.StaffID).PadRight(92));
+            Console.WriteLine("|===========================================================================================================================|");
+            Console.WriteLine("| Order Create Time: {0, -30}|", DateTime.Now.ToString().PadRight(103));
+            Console.WriteLine("| Customer: {0, -30}|", ord.Customer.CustomerName.PadRight(112));
+            Console.WriteLine("| Address: {0, -50}|", ord.Customer.Address.PadRight(113));
+            Console.WriteLine("| Phone Number: {0, -12}|", ord.Customer.PhoneNumber.PadRight(108));
+            Console.WriteLine("|---------------------------------------------------------------------------------------------------------------------------|");
             PrintOrderDetails(ord);
-            Console.WriteLine(@"{0, 35} {1, 60}", "Customer", "Seller");
-            Console.WriteLine(@"{0, 38} {1, 60}", ord.Customer.CustomerName, ord.Seller.StaffName);
-            Console.WriteLine("                                                                                                                       ");
+            Console.WriteLine("| {0, 30}{1, -35} {2, 20}{3, 36}|", " ", "Customer", "Seller", " ");
+            Console.WriteLine("| {0, 30}{1, -35} {2, 20}{3, 36}|", " ", ord.Customer.CustomerName, ord.Seller.StaffName, " ");
+            Console.WriteLine("|===========================================================================================================================|");
         }
 
-        private string[] ones = {"","một","hai","ba","bốn","năm","sáu","bảy","tám","chín"};
-        private string[] teens = {"mười","mười một","mười hai","mười ba","mười bốn","mười lăm","mười sáu","mười bảy","mười tám","mười chín"};
+        private string[] ones = { "", "một", "hai", "ba", "bốn", "năm", "sáu", "bảy", "tám", "chín" };
+        private string[] teens = { "mười", "mười một", "mười hai", "mười ba", "mười bốn", "mười lăm", "mười sáu", "mười bảy", "mười tám", "mười chín" };
         private string[] tens = { "", "", "hai mươi", "ba mươi", "bốn mươi", "năm mươi", "sáu mươi", "bảy mươi", "tám mươi", "chín mươi" };
 
         public string ConvertNumberToWords(decimal number)
@@ -261,17 +266,17 @@ namespace Ults
 
         public void PrintAccountantOrder(Order ord)
         {
-            Console.WriteLine("\n=======================================================================================================================");
-            Console.WriteLine("--------------------------------------------------- VTC Mobile --------------------------------------------------------");
-            Console.WriteLine("=======================================================================================================================");
-            Console.WriteLine("Website: https://vtc.edu.vn/");
-            Console.WriteLine("Address: 18 Tam Trinh, Quận Hai Bà Trưng, Thành Phố Hà Nội");
-            Console.WriteLine("=======================================================================================================================");
-            Console.WriteLine("Accountant: " + ord.Accountant.StaffName + " - ID: " + ord.Accountant.StaffID );
-            Console.WriteLine("=======================================================================================================================");
-            Console.WriteLine("Customer: " + ord.Customer.CustomerName);
-            Console.WriteLine("Address: " + ord.Customer.Address);
-            Console.WriteLine("Phone Number: " + ord.Customer.PhoneNumber);
+            Console.WriteLine("\n=============================================================================================================================");
+            Console.WriteLine("|-------------------------------------------------------- VTC Mobile --------------------------------------------------------|");
+            Console.WriteLine("=============================================================================================================================");
+            Console.WriteLine("| Website: https://vtc.edu.vn/                                                                                               |");
+            Console.WriteLine("| Address: 18 Tam Trinh, Quận Hai Bà Trưng, Thành Phố Hà Nội                                                                 |");
+            Console.WriteLine("=============================================================================================================================");
+            Console.WriteLine("| Accountant: {0, 30}" + ord.Accountant.StaffName + " - ID: {0, 10}" + ord.Accountant.StaffID + "                         |");
+            Console.WriteLine("=============================================================================================================================");
+            Console.WriteLine("| Customer: {0, 30}" + ord.Customer.CustomerName);
+            Console.WriteLine("| Address: {0, 50}" + ord.Customer.Address);
+            Console.WriteLine("| Phone Number: {0, 15}" + ord.Customer.PhoneNumber);
             PrintOrderDetailsInfo(ord);
         }
 
@@ -286,25 +291,22 @@ namespace Ults
             CultureInfo cultureInfo = new CultureInfo("vi-VN");
             int printImeiHandle = 0;
             int printImeiHandle2 = 0;
-            Console.WriteLine("=============================================================================================================================");
-            Console.WriteLine("                                                  LIST PRODUCT");
-            Console.WriteLine( "=============================================================================================================================");
-            Console.WriteLine("| {0, 16} | {1, 30} | {2, 15} | {3, 15} | {4, 15} | {5, 15} |", "Phone Detail ID","Phone Name", "Quantity", "Imei","Status", "Price");
-            Console.WriteLine("=============================================================================================================================" );
+            Console.WriteLine("| {0, -16} | {1, -30} | {2, -15} | {3, -15} | {4, -15} | {5, -15} |", "Phone Detail ID", "Phone Name", "Quantity", "Imei", "Status", "Price");
+            Console.WriteLine("|===========================================================================================================================|");
             foreach (var pd in ord.PhoneDetails)
             {
                 printImeiHandle = pd.PhoneDetailID;
-                Console.WriteLine("-----------------------------------------------------------------------------------------------------------------------------");
+                Console.WriteLine("|---------------------------------------------------------------------------------------------------------------------------|");
                 foreach (var ims in pd.ListImei)
                 {
-                    Console.WriteLine("| {0, 16} | {1, 30} | {2, 15} | {3, 15} | {4, 15} | {5, 15} |",(printImeiHandle != printImeiHandle2) ? pd.PhoneDetailID : "",(printImeiHandle != printImeiHandle2) ? pd.Phone.PhoneName : "", (printImeiHandle != printImeiHandle2) ? pd.Quantity : "", ims.PhoneImei, (printImeiHandle != printImeiHandle2) ? pd.PhoneStatusType : "", (printImeiHandle != printImeiHandle2) ? FormatPrice(pd.Price) : "" );
+                    Console.WriteLine("| {0, -16} | {1, -30} | {2, -15} | {3, -15} | {4, -15} | {5, 15} |", (printImeiHandle != printImeiHandle2) ? pd.PhoneDetailID : "", (printImeiHandle != printImeiHandle2) ? pd.Phone.PhoneName : "", (printImeiHandle != printImeiHandle2) ? pd.Quantity : "", ims.PhoneImei, (printImeiHandle != printImeiHandle2) ? pd.PhoneStatusType : "", (printImeiHandle != printImeiHandle2) ? FormatPrice(pd.Price) : "");
                     printImeiHandle2 = printImeiHandle;
                 }
             }
-            Console.WriteLine("-----------------------------------------------------------------------------------------------------------------------------" );
-            Console.WriteLine( "  {0, 16}   {1, 20}   {2, 5}   {3, 5}   {4, 15}   {5, 15}  ", "", "", "", "", "Total Due:", FormatPrice(ord.GetTotalDue()));
-            Console.WriteLine( "  {0, 16}   {1, 20}   {2, 5}   {3, 5}   {4, 15}   {5, 15}", "", "", "", "", "To String:", ConvertNumberToWords(ord.GetTotalDue()));
-            Console.WriteLine("=============================================================================================================================");
+            Console.WriteLine("|---------------------------------------------------------------------------------------------------------------------------|");
+            Console.WriteLine("| {0, 40}{1, 15}{2, -15}|", "", "Total Due: ", SetTextBolder(FormatPrice(ord.GetTotalDue()).PadRight(67)));
+            Console.WriteLine("| {0, 40}{1, 15}{2, -60}|", "", "To String: ", SetTextBolder(ConvertNumberToWords(ord.GetTotalDue()).PadRight(67)));
+            Console.WriteLine("|===========================================================================================================================|");
         }
 
         public void PrintDiscountPolicyDetail(DiscountPolicy discountPolicy)
@@ -313,13 +315,13 @@ namespace Ults
             Console.WriteLine($"FromDate: {discountPolicy.FromDate}");
             Console.WriteLine($"ToDate: {discountPolicy.ToDate}");
             if (discountPolicy.PhoneDetail.PhoneDetailID != 0)
-                Console.WriteLine( $"Phone Information: {discountPolicy.PhoneDetail.Phone.PhoneName} {discountPolicy.PhoneDetail.PhoneColor.Color} {discountPolicy.PhoneDetail.ROMSize.ROM}" );
+                Console.WriteLine($"Phone Information: {discountPolicy.PhoneDetail.Phone.PhoneName} {discountPolicy.PhoneDetail.PhoneColor.Color} {discountPolicy.PhoneDetail.ROMSize.ROM}");
             if (discountPolicy.PaymentMethod != "Not Have")
                 Console.WriteLine($"Apply for Paymentmethod: {discountPolicy.PaymentMethod}");
-            if ( discountPolicy.MinimumPurchaseAmount > 0 && discountPolicy.MaximumPurchaseAmount > 0)
+            if (discountPolicy.MinimumPurchaseAmount > 0 && discountPolicy.MaximumPurchaseAmount > 0)
             {
-                Console.WriteLine( $"Maximum purchase amount: {discountPolicy.MinimumPurchaseAmount}");
-                Console.WriteLine( $"Minimum purchase amount: {discountPolicy.MaximumPurchaseAmount}" );
+                Console.WriteLine($"Maximum purchase amount: {discountPolicy.MinimumPurchaseAmount}");
+                Console.WriteLine($"Minimum purchase amount: {discountPolicy.MaximumPurchaseAmount}");
             }
             if (discountPolicy.DiscountPrice != 0)
                 Console.WriteLine($"DiscountPrice: {discountPolicy.DiscountPrice}");
@@ -330,7 +332,7 @@ namespace Ults
         public void PrintPhoneModelInfo(PhoneDetail phoneDetail)
         {
             CultureInfo cultureInfo = new CultureInfo("vi-VN");
-            Console.WriteLine("| {0, 10} | {1, 13} | {2, 15} | {3, 15} | {4, 15} | {5, 14} |",phoneDetail.PhoneDetailID,phoneDetail.PhoneColor.Color, phoneDetail.ROMSize.ROM, string.Format(cultureInfo, "{0:N0} ₫", phoneDetail.Price), phoneDetail.PhoneStatusType,(phoneDetail.Quantity != 0) ? phoneDetail.Quantity : "Out Of Stock");
+            Console.WriteLine("| {0, -10} | {1, -13} | {2, -15} | {3, -15} | {4, -15} | {5, -14} |", phoneDetail.PhoneDetailID, phoneDetail.PhoneColor.Color, phoneDetail.ROMSize.ROM, string.Format(cultureInfo, "{0:N0} ₫", phoneDetail.Price), phoneDetail.PhoneStatusType, (phoneDetail.Quantity != 0) ? phoneDetail.Quantity : "Out Of Stock");
         }
 
         public void PrintOrderDetailsInfo(Order order)
@@ -343,37 +345,37 @@ namespace Ults
             Console.WriteLine("=======================================================================================================================");
             Console.WriteLine("ORDER DETAIL INFORMATION");
             Console.WriteLine("=======================================================================================================================");
-            Console.WriteLine("👉 Cutomer Information");
+            Console.WriteLine(" Customer Information");
             Console.WriteLine($"- Name: {order.Customer.CustomerName}");
             Console.WriteLine($"- Address: {order.Customer.Address}");
             Console.WriteLine($"- PhoneNumber: {order.Customer.PhoneNumber}");
-            Console.WriteLine("👉 Seller Information");
+            Console.WriteLine(" Seller Information");
             Console.WriteLine($"- SellerID: {order.Seller.StaffID}");
             Console.WriteLine($"- Name: {order.Seller.StaffName}");
             Console.WriteLine($"- Address: {order.Seller.Address}");
             Console.WriteLine($"- PhoneNumber: {order.Seller.PhoneNumber}");
-            Console.WriteLine("👉 Accountant Information");
+            Console.WriteLine(" Accountant Information");
             Console.WriteLine($"- AccountantID: {order.Accountant.StaffID}");
             Console.WriteLine($"- Name: {order.Accountant.StaffName}");
             Console.WriteLine($"- Address: {order.Accountant.Address}");
             Console.WriteLine($"- PhoneNumber: {order.Accountant.PhoneNumber}");
-            Console.WriteLine("👉 Show All Phones in Cart");
+            Console.WriteLine(" Show All Phones in Cart");
             if (order.PhoneDetails.Count() == 0)
             {
                 Console.WriteLine("Doesnt have any phone in cart");
             }
             else
             {
-                Console.WriteLine( "===================================================================================================");
-                Console.WriteLine( "| {0, 10} | {1, 30} | {2, 15} | {3, 15} | {4, 16}", "PhoneName", "Color", "RomSize", "Quantity", " Unit Price  |" );
-                Console.WriteLine( "===================================================================================================" );
+                Console.WriteLine("|=================================================================================================|");
+                Console.WriteLine("| {0, -11} | {1, -29} | {2, -15} | {3, -15} | {4, -16}", "Phone Name", "Color", "RomSize", "Quantity", " Unit Price  |");
+                Console.WriteLine("|=================================================================================================|");
 
                 foreach (var phone in order.PhoneDetails)
                 {
-                    Console.WriteLine("| {0, 10} | {1, 30} | {2, 15} | {3, 15} | {4, 15}|",phone.Phone.PhoneName, phone.PhoneColor.Color,phone.ROMSize.ROM, phone.Quantity, FormatPrice(phone.Price));
+                    Console.WriteLine("| {0, -10} | {1, -30} | {2, -15} | {3, -15} | {4, -15}|", phone.Phone.PhoneName, phone.PhoneColor.Color, phone.ROMSize.ROM, phone.Quantity, SetTextBolder(FormatPrice(phone.Price)));
                 }
-                Console.WriteLine( "===================================================================================================" );
-                Console.WriteLine($"✅ Total Due: {FormatPrice(order.TotalDue)} VND");
+                Console.WriteLine("|=================================================================================================|");
+                Console.WriteLine($"✅ Total Due: {SetTextBolder(FormatPrice(order.TotalDue))}");
                 if (order.DiscountPolicies.Count() != 0)
                 {
                     Console.WriteLine("👉 All DiscountPolicy be apply for this order is: ");
@@ -382,7 +384,7 @@ namespace Ults
                         Console.WriteLine("- " + dp.Title);
                         order.TotalDue -= dp.DiscountPrice;
                     }
-                    Console.WriteLine($"✅ Total Due After discount: {FormatPrice(order.TotalDue)}");
+                    Console.WriteLine($"✅ Total Due After discount: {SetTextBolder(FormatPrice(order.TotalDue))}");
                 }
             }
         }
@@ -397,8 +399,7 @@ namespace Ults
 
         public string GetUserName()
         {
-            Console.Write("\n👉 User Name: ");
-            string userName = Console.ReadLine() ?? "";
+            string userName = GetInputString("User Name");
             return userName;
         }
 
@@ -412,25 +413,29 @@ namespace Ults
 
         public string GetPassword()
         {
-            Console.Write("\n👉 Password: ");
             string pass = "";
-            ConsoleKeyInfo key;
             do
             {
-                key = Console.ReadKey(true);
-                if (key.Key != ConsoleKey.Backspace)
+                Console.Write("\n👉 Password: ");
+                ConsoleKeyInfo key;
+                do
                 {
-                    pass += key.KeyChar;
-                    if (key.Key != ConsoleKey.Enter)
-                        Console.Write("*");
-                }
-                else if (key.Key == ConsoleKey.Backspace && pass.Length > 0)
-                {
-                    // Xóa ký tự cuối cùng trong chuỗi pass khi người dùng nhấn phím Backspace
-                    pass = pass.Substring(0, pass.Length - 1);
-                    Console.Write("\b \b");
-                }
-            } while (key.Key != ConsoleKey.Enter);
+                    key = Console.ReadKey(true);
+                    if (key.Key != ConsoleKey.Backspace)
+                    {
+                        pass += key.KeyChar;
+                        if (key.Key != ConsoleKey.Enter)
+                            Console.Write("*");
+                    }
+                    else if (key.Key == ConsoleKey.Backspace && pass.Length > 0)
+                    {
+                        // Xóa ký tự cuối cùng trong chuỗi pass khi người dùng nhấn phím Backspace
+                        pass = pass.Substring(0, pass.Length - 1);
+                        Console.Write("\b \b");
+                    }
+                } while (key.Key != ConsoleKey.Enter);
+                if (pass == "") Alert(ConsoleEnum.Alert.Error, "Password Can't Empty");
+            } while (pass == "");
             pass = pass.Substring(0, pass.Length - 1);
             return pass;
         }
@@ -453,94 +458,121 @@ namespace Ults
                 ConsoleForegroundColor(ConsoleEnum.Color.White);
                 Line();
             }
-            if(staffLoggedIn != null)
+            if (staffLoggedIn != null)
             {
                 ConsoleForegroundColor(ConsoleEnum.Color.Green);
-                Console.WriteLine("                                                              " + ((staffLoggedIn.Role == StaffEnum.Role.Accountant)? "Accountant: ": "Seller: " )+ staffLoggedIn.StaffName + " - ID: " + staffLoggedIn.StaffID );
+                Console.WriteLine("|                                                             " + ((staffLoggedIn.Role == StaffEnum.Role.Accountant) ? "Accountant: " : "Seller: ") + staffLoggedIn.StaffName + " - ID: " + staffLoggedIn.StaffID);
                 ConsoleForegroundColor(ConsoleEnum.Color.White);
             }
             Line();
         }
         public string GetAppTitle()
         {
-            return @"
-                              ┌─┐┬ ┬┌─┐┌┐┌┌─┐  ┌─┐┌┬┐┌─┐┬─┐┌─┐
-                              ├─┘├─┤│ ││││├┤   └─┐ │ │ │├┬┘├┤ 
-                              ┴  ┴ ┴└─┘┘└┘└─┘  └─┘ ┴ └─┘┴└─└─┘
-                              ";
+            return @"|                                                                                            |
+|                             ┌─┐┬ ┬┌─┐┌┐┌┌─┐  ┌─┐┌┬┐┌─┐┬─┐┌─┐                               |
+|                             ├─┘├─┤│ ││││├┤   └─┐ │ │ │├┬┘├┤                                |
+|                             ┴  ┴ ┴└─┘┘└┘└─┘  └─┘ ┴ └─┘┴└─└─┘                               |
+|                                                                                            |";
         }
 
         public void GetFooterPagination(int currentPage, int countPage)
         {
-            Console.WriteLine( "================================================================================================");
-            Console.WriteLine("{0,45}" + "< " + $"{currentPage}/{countPage}" + " >", " ");
-            Console.WriteLine( "================================================================================================");
-            Console.WriteLine( "Press 'Left Arrow' To Back Previous Page, 'Right Arror' To Next Page");
-            Console.WriteLine("Press 'Space' To Choose a phone, 'B' To Back Previous Menu");
+            Console.WriteLine("|============================================================================================|");
+            Console.WriteLine("| {0,42}" + "< " + $"{currentPage}/{countPage}" + " >".PadRight(44) + "|", " ");
+            Console.WriteLine("|============================================================================================|");
+            Console.WriteLine("| Press 'Left Arrow' To Back Previous Page, 'Right Arror' To Next Page                       |");
+            Console.WriteLine("| Press 'Space' To Choose a phone, 'B' To Back Previous Menu                                 |");
         }
 
         public string GetSearchANSIText()
         {
-            string searchANSIText = @"
-                                      ┌─┐┌─┐┌─┐┬─┐┌─┐┬ ┬
-                                      └─┐├┤ ├─┤├┬┘│  ├─┤
-                                      └─┘└─┘┴ ┴┴└─└─┘┴ ┴
-                                      ";
-            return searchANSIText;
+            return @"|                                                                                            |
+|                                     ┌─┐┌─┐┌─┐┬─┐┌─┐┬ ┬                                     |
+|                                     └─┐├┤ ├─┤├┬┘│  ├─┤                                     |
+|                                     └─┘└─┘┴ ┴┴└─└─┘┴ ┴                                     |
+|                                                                                            |";
         }
 
         public string[] GetMenuItemSearch()
         {
-            return new string[] {"Search All Phone","Search Phone By Information", "Back To Previous Menu"};
+            return new string[] { "Search All Phone", "Search Phone By Information", "Back To Previous Menu" };
         }
 
         public string[] GetCreateOrderTimeLine()
         {
-            return new string[] { "Search Phone", "Add Phone To Order", "Add More Phone?", "Enter Customer Info", "Confirm Order"};
+            return new string[] { "Search Phone", "Add Phone To Order", "Add More Phone?", "Enter Customer Info", "Confirm Order" };
         }
 
         public string GetCustomerInfoANSITitle()
         {
             string title =
-                @"                    
-            ┌─┐┌┐┌┌┬┐┌─┐┬─┐  ┌─┐┬ ┬┌─┐┌┬┐┌─┐┌┬┐┌─┐┬─┐  ┬┌┐┌┌─┐┌─┐┬─┐┌┬┐┌─┐┌┬┐┬┌─┐┌┐┌
-            ├┤ │││ │ ├┤ ├┬┘  │  │ │└─┐ │ │ ││││├┤ ├┬┘  ││││├┤ │ │├┬┘│││├─┤ │ ││ ││││
-            └─┘┘└┘ ┴ └─┘┴└─  └─┘└─┘└─┘ ┴ └─┘┴ ┴└─┘┴└─  ┴┘└┘└  └─┘┴└─┴ ┴┴ ┴ ┴ ┴└─┘┘└┘";
+                @"|                                                                                              |                                                                      
+|           ┌─┐┌┐┌┌┬┐┌─┐┬─┐  ┌─┐┬ ┬┌─┐┌┬┐┌─┐┌┬┐┌─┐┬─┐  ┬┌┐┌┌─┐┌─┐┬─┐┌┬┐┌─┐┌┬┐┬┌─┐┌┐┌           |
+|           ├┤ │││ │ ├┤ ├┬┘  │  │ │└─┐ │ │ ││││├┤ ├┬┘  ││││├┤ │ │├┬┘│││├─┤ │ ││ ││││           |
+|           └─┘┘└┘ ┴ └─┘┴└─  └─┘└─┘└─┘ ┴ └─┘┴ ┴└─┘┴└─  ┴┘└┘└  └─┘┴└─┴ ┴┴ ┴ ┴ ┴└─┘┘└┘           |
+|                                                           ";
             return title;
+        }
+
+        public string GetAddPhoneToOrderANSITitle()
+        {
+            return
+            @"|                                                                                            |
+|                    ┌─┐┌┬┐┌┬┐  ┌─┐┬ ┬┌─┐┌┐┌┌─┐  ┌┬┐┌─┐  ┌─┐┬─┐┌┬┐┌─┐┬─┐                     |
+|                    ├─┤ ││ ││  ├─┘├─┤│ ││││├┤    │ │ │  │ │├┬┘ ││├┤ ├┬┘                     |
+|                    ┴ ┴─┴┘─┴┘  ┴  ┴ ┴└─┘┘└┘└─┘   ┴ └─┘  └─┘┴└──┴┘└─┘┴└─                     |
+|                                                                                            |";
+        }
+        public string GetAllOrderANSITitle()
+        {
+            return @"|                                                                                  |
+|                           ┌─┐┬  ┬    ┌─┐┬─┐┌┬┐┌─┐┬─┐┌─┐                           |
+|                           ├─┤│  │    │ │├┬┘ ││├┤ ├┬┘└─┐                           |
+|                           ┴ ┴┴─┘┴─┘  └─┘┴└──┴┘└─┘┴└─└─┘                           |
+|                                                                                   |";
+        }
+        public string GetLoginANSITitle()
+        {
+            return @"|                                                                                            |
+|                                       ┬  ┌─┐┌─┐┬┌┐┌                                        |
+|                                       │  │ ││ ┬││││                                        |
+|                                       ┴─┘└─┘└─┘┴┘└┘                                        |
+|                                                                                            |";
         }
 
         public Customer GetCustomerInfo()
         {
-            Console.Write(" Customer Name: ");
-            string customerName = Console.ReadLine() ?? "";
-            Console.Write(" Phone Number: ");
-            string phoneNumber = Console.ReadLine() ?? "";
-            Console.Write(" Address: ");
-            string address = Console.ReadLine() ?? "";
+            string customerName = GetInputString("Customer Name");
+            string phoneNumber = GetInputString("Phone Number");
+            string address = GetInputString("Address");
             Customer customer = new Customer(0, customerName, phoneNumber, address);
             return customer;
         }
 
-        public string GetInputString(string requestToEnter) {
+        public string GetInputString(string requestToEnter)
+        {
             string str = "";
             do
             {
                 Console.Write(requestToEnter + ": ");
                 str = Console.ReadLine() ?? "";
-                if(str == "") {
+                if (str == "")
+                {
                     Alert(GUIEnum.ConsoleEnum.Alert.Error, "You Haven't Entered Anything Yet");
                 }
             } while (str == "");
             return str;
         }
-        public int GetInputInt(string requestToEnter) {
+        public int GetInputInt(string requestToEnter)
+        {
             int intValue = 0;
             bool isValidInput = false;
             do
             {
                 Console.Write(requestToEnter + ": ");
                 isValidInput = int.TryParse(Console.ReadLine(), out intValue);
-                if(!isValidInput) {
+                if (!isValidInput)
+                {
                     Alert(GUIEnum.ConsoleEnum.Alert.Error, "Can't Enter A String");
                 }
             } while (!isValidInput);

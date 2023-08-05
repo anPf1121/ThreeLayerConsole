@@ -20,19 +20,12 @@ namespace PhoneStoreUI
             ConsoleUlts ConsoleUlts = new ConsoleUlts();
             StaffEnum.Role? loginAccount = null;
             bool active = true;
-            int mainChoice = 0,
-                SellerAccount = 0,
-                AccountantAccount = 0;
+            int mainChoice = 0, SellerAccount = 0, AccountantAccount = 0;
             do
             {
                 Console.Clear();
                 Console.OutputEncoding = System.Text.Encoding.UTF8;
-                ConsoleUlts.Title(
-                    ConsoleUlts.GetAppTitle(),
-                    @"                                        ┬  ┌─┐┌─┐┬┌┐┌
-                                        │  │ ││ ┬││││
-                                        ┴─┘└─┘└─┘┴┘└┘",
-                staffBL.LoggedInStaff);
+                ConsoleUlts.Title(ConsoleUlts.GetAppTitle(), ConsoleUlts.GetLoginANSITitle(), staffBL.LoggedInStaff);
                 bool isSuccess = staffBL.Login(ConsoleUlts.GetUserName(), ConsoleUlts.GetPassword());
                 if (isSuccess)
                 {
@@ -53,20 +46,11 @@ namespace PhoneStoreUI
                                 case 2:
                                     // HandleResult = HandleOrder();
                                     if (HandleResult == -1)
-                                        ConsoleUlts.Alert(
-                                            GUIEnum.ConsoleEnum.Alert.Error,
-                                            "No Order exist"
-                                        );
+                                        ConsoleUlts.Alert(GUIEnum.ConsoleEnum.Alert.Error, "No Order exist");
                                     else if (HandleResult == 0)
-                                        ConsoleUlts.Alert(
-                                            GUIEnum.ConsoleEnum.Alert.Warning,
-                                            "Cancel Order Completed"
-                                        );
+                                        ConsoleUlts.Alert(GUIEnum.ConsoleEnum.Alert.Warning,"Cancel Order Completed");
                                     else if (HandleResult == 1)
-                                        ConsoleUlts.Alert(
-                                            GUIEnum.ConsoleEnum.Alert.Success,
-                                            "Handle Order Completed"
-                                        );
+                                        ConsoleUlts.Alert(GUIEnum.ConsoleEnum.Alert.Success,"Handle Order Completed");
                                     break;
                                 case 3:
                                     activeSellerMenu = false;
@@ -105,7 +89,6 @@ namespace PhoneStoreUI
                 }
                 else
                 {
-                    Console.WriteLine();
                     ConsoleUlts.Alert(ConsoleEnum.Alert.Error, "Invalid Username Or Password");
                     Main();
                 }

@@ -42,12 +42,7 @@ namespace Ults
                 if (currentChoice <= (menuItem.Count() + 1) && currentChoice >= 1)
                 {
                     for (int i = 0; i < menuItem.Count(); i++)
-                        Console.WriteLine(
-                            ((currentChoice - 1 == i) ? (iconBackhand + " ") : "")
-                                + " "
-                                + menuItem[i]
-                                + $" ({i + 1})"
-                        );
+                        Console.WriteLine(((currentChoice - 1 == i) ? (iconBackhand + " ") : "") + " " + ConsoleUlts.SetTextBolder(menuItem[i]) + $" ({i + 1})");
                     ConsoleUlts.Line();
 
                     keyInfo = Console.ReadKey();
@@ -58,11 +53,7 @@ namespace Ults
                         return currentChoice;
                     }
 
-                    if (
-                        keyInfo.Key == ConsoleKey.DownArrow
-                        || keyInfo.Key == ConsoleKey.UpArrow
-                        || keyInfo.Key == ConsoleKey.Enter
-                    )
+                    if (keyInfo.Key == ConsoleKey.DownArrow || keyInfo.Key == ConsoleKey.UpArrow || keyInfo.Key == ConsoleKey.Enter)
                     {
                         if (currentChoice >= 1 && currentChoice <= menuItem.Count())
                             if (keyInfo.Key == ConsoleKey.DownArrow)
@@ -87,7 +78,7 @@ namespace Ults
             ConsoleKeyInfo input = new ConsoleKeyInfo();
             bool active = true;
             char ch = 'c';
-            Console.Write($"Press 'Y' To {yesAction} Or 'N' To {noAction}");
+            Console.Write($"Press {ConsoleUlts.SetTextBolder("Y")} To {yesAction} Or {ConsoleUlts.SetTextBolder("N")} To {noAction}");
             do
             {
                 input = Console.ReadKey(true);
@@ -111,11 +102,9 @@ namespace Ults
             bool active = true;
             char ch = 'c';
             if (thirdAction != null)
-                Console.Write(
-                    $" - Press 'Q' To {firstAction}\n - Press 'W' To {secondAction}\n - Press 'E' To {thirdAction}"
-                );
+                Console.Write($" Press {ConsoleUlts.SetTextBolder("Q")} To {firstAction}\n Press {ConsoleUlts.SetTextBolder("W")} To {secondAction}\n Press {ConsoleUlts.SetTextBolder("E")} To {thirdAction}");
             else
-                Console.Write($" - Press 'Q' To {firstAction}\n - Press 'W' To {secondAction}");
+                Console.Write($" Press {ConsoleUlts.SetTextBolder("Q")} To {firstAction}\n Press {ConsoleUlts.SetTextBolder("W")} To {secondAction}");
             do
             {
                 input = Console.ReadKey(true);
@@ -137,40 +126,16 @@ namespace Ults
             } while (active);
             return 0;
         }
-
-        public bool Login()
+        public bool ListPhonePagination(List<Phone> listPhone,string[] phases,int itemCount,int currentPhase)
         {
-            bool isSuccess = StaffBL.Login(ConsoleUlts.GetUserName(), ConsoleUlts.GetPassword());
-            if (isSuccess)
-            {
-                return true;
-            }
-            else
-                return false;
-        }
-
-
-        public bool ListPhonePagination(
-            List<Phone> listPhone,
-            string[] phases,
-            int itemCount,
-            int currentPhase
-        )
-        {
-            string title =
-                @"
-                        ┌─┐┌┬┐┌┬┐  ┌─┐┬ ┬┌─┐┌┐┌┌─┐  ┌┬┐┌─┐  ┌─┐┬─┐┌┬┐┌─┐┬─┐
-                        ├─┤ ││ ││  ├─┘├─┤│ ││││├┤    │ │ │  │ │├┬┘ ││├┤ ├┬┘
-                        ┴ ┴─┴┘─┴┘  ┴  ┴ ┴└─┘┘└┘└─┘   ┴ └─┘  └─┘┴└──┴┘└─┘┴└─
-                        ";
+            string title = ConsoleUlts.GetAddPhoneToOrderANSITitle();
             if (listPhone != null)
             {
                 bool active = true;
                 Dictionary<int, List<Phone>> phones = new Dictionary<int, List<Phone>>();
                 phones = PhoneMenuPaginationHandle(listPhone);
                 listAllPhones = phones;
-                int countPage = phones.Count(),
-                    currentPage = 1;
+                int countPage = phones.Count(), currentPage = 1;
                 ConsoleKeyInfo input = new ConsoleKeyInfo();
                 while (true)
                 {
@@ -193,8 +158,7 @@ namespace Ults
                             {
                                 if (input.Key == ConsoleKey.RightArrow)
                                 {
-                                    if (currentPage <= countPage - 1)
-                                        currentPage++;
+                                    if (currentPage <= countPage - 1) currentPage++;
                                     currentPageDetails = currentPage;
                                     Console.Clear();
                                     break;
@@ -217,12 +181,7 @@ namespace Ults
                                     return true;
                                 }
                             }
-                        } while (
-                            input.Key != ConsoleKey.RightArrow
-                            || input.Key != ConsoleKey.LeftArrow
-                            || input.Key != ConsoleKey.B
-                            || input.Key != ConsoleKey.Spacebar
-                        );
+                        } while (input.Key != ConsoleKey.RightArrow|| input.Key != ConsoleKey.LeftArrow|| input.Key != ConsoleKey.B|| input.Key != ConsoleKey.Spacebar);
                     }
                 }
             }
@@ -234,23 +193,13 @@ namespace Ults
             return false;
         }
 
-        public string GenerateID()
-        {
-            DateTime now = DateTime.Now;
-            string uniqueId = Guid.NewGuid().ToString("N").Substring(0, 12).ToUpper();
-            return uniqueId;
-        }
+        public string GenerateID() => Guid.NewGuid().ToString("N").Substring(0, 12).ToUpper();
 
         public bool? ListOrderPagination(List<Order> listOrder,string[] phases,int itemCount,int currentPhase)
         {
             if (listOrder != null)
             {
-                string title =
-                    @"
-                            ┌─┐┬  ┬    ┌─┐┬─┐┌┬┐┌─┐┬─┐┌─┐
-                            ├─┤│  │    │ │├┬┘ ││├┤ ├┬┘└─┐
-                            ┴ ┴┴─┘┴─┘  └─┘┴└──┴┘└─┘┴└─└─┘
-                            ";
+                string title = ConsoleUlts.GetAllOrderANSITitle();
                 bool active = true;
                 Dictionary<int, List<Order>> orders = new Dictionary<int, List<Order>>();
                 orders = OrderMenuPaginationHandle(listOrder);
@@ -304,12 +253,7 @@ namespace Ults
                                         return true;
                                     }
                                 }
-                            } while (
-                                input.Key != ConsoleKey.RightArrow
-                                || input.Key != ConsoleKey.LeftArrow
-                                || input.Key != ConsoleKey.B
-                                || input.Key != ConsoleKey.Spacebar
-                            );
+                            } while (input.Key != ConsoleKey.RightArrow|| input.Key != ConsoleKey.LeftArrow|| input.Key != ConsoleKey.B|| input.Key != ConsoleKey.Spacebar);
                         }
                     }
                 }
@@ -321,17 +265,7 @@ namespace Ults
         {
             List<Phone> sList = new List<Phone>();
             Dictionary<int, List<Phone>> menuTab = new Dictionary<int, List<Phone>>();
-            int phoneQuantity = phoneList.Count(),
-                itemInTab = 4,
-                numberOfTab = 0,
-                count = 1,
-                secondCount = 1,
-                idTab = 0;
-
-            if (phoneQuantity % itemInTab != 0)
-                numberOfTab = (phoneQuantity / itemInTab) + 1;
-            else
-                numberOfTab = phoneQuantity / itemInTab;
+            int phoneQuantity = phoneList.Count(), itemInTab = 4, count = 1, secondCount = 1, idTab = 0;
 
             foreach (Phone phone in phoneList)
             {
@@ -361,17 +295,7 @@ namespace Ults
         {
             List<Order> sList = new List<Order>();
             Dictionary<int, List<Order>> menuTab = new Dictionary<int, List<Order>>();
-            int orderQuantity = orderList.Count(),
-                itemInTab = 4,
-                numberOfTab = 0,
-                count = 1,
-                secondCount = 1,
-                idTab = 0;
-
-            if (orderQuantity % itemInTab != 0)
-                numberOfTab = (orderQuantity / itemInTab) + 1;
-            else
-                numberOfTab = orderQuantity / itemInTab;
+            int orderQuantity = orderList.Count(), itemInTab = 4, count = 1, secondCount = 1, idTab = 0;
 
             foreach (Order order in orderList)
             {
@@ -423,18 +347,16 @@ namespace Ults
             List<PhoneDetail> phonedetails = new List<PhoneDetail>(), phonesInOrder = new List<PhoneDetail>();
             PhoneDetail? pDetails = null;
             Customer? customer = null;
-            //Buoc 1: Tim va chon ra tung dien thoai muon them vao order
             do
             {
                 switch (currentPhase)
                 {
                     case 1:
                         ConsoleUlts.PrintListPhase(listPhase, count, currentPhase);
-                        ConsoleUlts.Title(ConsoleUlts.GetAppTitle(), searchTitle, loginManager.LoggedInStaff);
+                        ConsoleUlts.Title(ConsoleUlts.GetAppTitle(), ConsoleUlts.GetSearchANSIText(), loginManager.LoggedInStaff);
                         searchChoice = PressCharacterTo("Search All Phone", "Search Phone By Information", "Back To Previous Menu");
 
-                        if (searchChoice == 0)
-                            listTemp = phoneBL.GetAllPhone();
+                        if (searchChoice == 0) listTemp = phoneBL.GetAllPhone();
 
                         else if (searchChoice == 1)
                         {
@@ -444,22 +366,18 @@ namespace Ults
                             listTemp = phoneBL.GetPhonesByInformation(phoneInfoToSearch);
                         }
 
-                        else if (searchChoice == 2)
-                            return;
+                        else if (searchChoice == 2) return;
 
-                        if (listTemp.Count() == 0)
-                            activeSearchPhone = false;
+                        if (listTemp.Count() == 0) activeSearchPhone = false;
                         else
                         {
                             listPhoneSearch = ListPhonePagination(listTemp, listPhase, count, currentPhase);
                             phoneId = InputIDValidation(phoneBL.GetAllPhone().Count(), "Enter Phone ID", "Invalid Phone ID");
                         }
 
-                        if (!listPhoneSearch)
-                            break;
+                        if (!listPhoneSearch) break;
                             
-                        if (!PressYesOrNo("Back Previous Phase", "Choose Phone Model"))
-                            currentPhase++;
+                        if (!PressYesOrNo("Back Previous Phase", "Choose Phone Model")) currentPhase++;
                         break;
                     case 2:
                         phonedetails = phoneBL.GetPhoneDetailsByPhoneID(phoneId);
@@ -517,8 +435,7 @@ namespace Ults
                                             reEnterPhoneModelID = false;
                                             break;
                                         }
-                                        else if (reChooseModelAfterBackPrevPhase == 2)
-                                            break;
+                                        else if (reChooseModelAfterBackPrevPhase == 2) break;
                                     }
                                     else
                                     {
@@ -531,8 +448,7 @@ namespace Ults
                                     if (listPhoneDetailID.Count() > 1)
                                     {
                                         reEnterPhoneModelID = PressYesOrNo("Choose Another Phone Model", "Back Previous Phase");
-                                        if (!reEnterPhoneModelID)
-                                            break;
+                                        if (!reEnterPhoneModelID) break;
                                     }
                                     else
                                     {
@@ -541,8 +457,7 @@ namespace Ults
                                     }
                                 }
                             }
-                            else
-                                break;
+                            else break;
                         } while (reEnterPhoneModelID);
                         if (!reEnterPhoneModelID)
                         {
@@ -565,8 +480,7 @@ namespace Ults
                                 else 
                                     phoneDetailQuantity = pDetails.Quantity;
                         }
-                        else
-                            phoneDetailQuantity = pDetails.Quantity;
+                        else phoneDetailQuantity = pDetails.Quantity;
 
                         Console.Clear();
                         ConsoleUlts.PrintListPhase(listPhase, count, currentPhase);
@@ -646,8 +560,7 @@ namespace Ults
                                     pd.ListImei.AddRange(imeis);
                                     isDuplicate = true;
                                 }
-                            if (!isDuplicate)
-                                phonesInOrder.Add(pDetails);
+                            if (!isDuplicate) phonesInOrder.Add(pDetails);
                         }
                         Order ord = new Order("",DateTime.Now,orderStaff,new Staff(0, "","","","","",StaffEnum.Role.Accountant,StaffEnum.Status.Active),new Customer(0, "", "", ""),phonesInOrder,OrderEnum.Status.Pending,new List<DiscountPolicy>(),"", 0);
                         ConsoleUlts.PrintListPhase(listPhase, count, currentPhase);
@@ -663,8 +576,7 @@ namespace Ults
                                     pd.Quantity -= pDetails.Quantity;
                             currentPhase--;
                         }
-                        else if (phaseChoice == 1)
-                            currentPhase++;
+                        else if (phaseChoice == 1) currentPhase++;
                         else
                         {
                             currentPhase = 1;
