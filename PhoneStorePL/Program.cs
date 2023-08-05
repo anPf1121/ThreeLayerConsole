@@ -15,28 +15,93 @@ namespace PhoneStoreUI
         {
             // DbConfig.CreateDefaultDb();
             Console.OutputEncoding = System.Text.Encoding.UTF8;
-            Ultilities Ults = new Ultilities();
+            StaffBL staffBL = new StaffBL();
+            Ultilities Ults = new Ultilities(staffBL);
             ConsoleUlts ConsoleUlts = new ConsoleUlts();
             StaffEnum.Role? loginAccount = null;
-            int mainChoice = 0, SellerAccount = 0, AccountantAccount = 0;
             bool active = true;
+            int mainChoice = 0,
+                SellerAccount = 0,
+                AccountantAccount = 0;
             do
             {
                 Console.Clear();
                 Console.OutputEncoding = System.Text.Encoding.UTF8;
-                Ults.Title(ConsoleUlts.GetAppTitle(), @"                                        ┬  ┌─┐┌─┐┬┌┐┌
+                ConsoleUlts.Title(
+                    ConsoleUlts.GetAppTitle(),
+                    @"                                        ┬  ┌─┐┌─┐┬┌┐┌
                                         │  │ ││ ┬││││
-                                        ┴─┘└─┘└─┘┴┘└┘");
-                loginAccount = Ults.LoginUlt();
-                if (loginAccount == StaffEnum.Role.Seller)
+                                        ┴─┘└─┘└─┘┴┘└┘",
+                staffBL.LoggedInStaff);
+                bool isSuccess = staffBL.Login(ConsoleUlts.GetUserName(), ConsoleUlts.GetPassword());
+                if (isSuccess)
                 {
                     ConsoleUlts.Alert(GUIEnum.ConsoleEnum.Alert.Success, "Login Successfully!");
-                    SellerAccount = Ults.SellerMenu();
-                }
-                else if (loginAccount == StaffEnum.Role.Accountant)
-                {
-                    ConsoleUlts.Alert(GUIEnum.ConsoleEnum.Alert.Success, "Login Successfully!");
-                    AccountantAccount = Ults.AccountantMenu();
+                    if (staffBL.LoggedInStaff.Role == StaffEnum.Role.Seller)
+                    {
+                        int result = 0;
+                        active = true;
+                        string[] menuItem = { "Create Order", "Handle Order", "Log Out" };
+                        int HandleResult = 0;
+                        while (active)
+                        {
+                            switch (Ults.MenuHandle(ConsoleUlts.GetAppTitle(), null, menuItem))
+                            {
+                                case 1:
+                                    Ults.CreateOrder();
+                                    break;
+                                case 2:
+                                    // HandleResult = HandleOrder();
+                                    if (HandleResult == -1)
+                                        ConsoleUlts.Alert(
+                                            GUIEnum.ConsoleEnum.Alert.Error,
+                                            "No Order exist"
+                                        );
+                                    else if (HandleResult == 0)
+                                        ConsoleUlts.Alert(
+                                            GUIEnum.ConsoleEnum.Alert.Warning,
+                                            "Cancel Order Completed"
+                                        );
+                                    else if (HandleResult == 1)
+                                        ConsoleUlts.Alert(
+                                            GUIEnum.ConsoleEnum.Alert.Success,
+                                            "Handle Order Completed"
+                                        );
+                                    break;
+                                case 3:
+                                    active = false;
+                                    result = 1;
+                                    staffBL.Logout();
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                    }
+                    else if (staffBL.LoggedInStaff.Role == StaffEnum.Role.Accountant)
+                    {
+                        int result = 0;
+                        active = true;
+                        string[] menuItem = { "Payment", "Revenue Report", "Log Out" };
+                        while (active)
+                        {
+                            switch (Ults.MenuHandle(ConsoleUlts.GetAppTitle(), null, menuItem))
+                            {
+                                case 1:
+                                    // Payment();
+                                    break;
+                                case 2:
+                                    break;
+                                case 3:
+                                    active = false;
+                                    result = 1;
+                                    staffBL.Logout();
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                    }
                 }
                 else
                 {

@@ -2,8 +2,10 @@ using System;
 using GUIEnum;
 using Model;
 using DAL;
-using System.Globalization; // thu vien format tien 
+using BusinessEnum;
+using System.Globalization; // thu vien format tien
 using BL;
+
 namespace Ults
 {
     class ConsoleUlts
@@ -31,10 +33,12 @@ namespace Ults
                     break;
             }
         }
+
         public void Line()
         {
             Console.WriteLine(@"----------------------------------------------------------------------------------------------");
         }
+
         public void PrintPhoneDetailsInfo(List<PhoneDetail> phoneDetails)
         {
             foreach (PhoneDetail pd in phoneDetails)
@@ -49,13 +53,14 @@ namespace Ults
             }
             Console.WriteLine("=====================================================================================================");
         }
+
         public void TinyLine()
         {
             Console.WriteLine("----------------------------------------------------------------------------------------------");
         }
+
         public void Alert(ConsoleEnum.Alert alertType, string msg)
         {
-            Ultilities Ultilities = new Ultilities();
             switch (alertType)
             {
                 case ConsoleEnum.Alert.Success:
@@ -76,6 +81,7 @@ namespace Ults
             ConsoleForegroundColor(ConsoleEnum.Color.White);
             PressEnterTo("Continue");
         }
+
         public void PressEnterTo(string? action)
         {
             if (action != null)
@@ -88,36 +94,43 @@ namespace Ults
                 ClearCurrentConsoleLine();
                 return;
             }
-            else PressEnterTo(null);
+            else
+                PressEnterTo(null);
         }
+
         public void PrintPhoneBorderLine()
         {
             Console.WriteLine("================================================================================================");
-            Console.WriteLine("| {0, 10} | {1, 30} | {2, 15} | {3, 15} |", "ID", "Phone Name", "Brand", "OS");
+            Console.WriteLine("| {0, 10} | {1, 30} | {2, 15} | {3, 15} |","ID","Phone Name","Brand", "OS");
             Console.WriteLine("================================================================================================");
         }
+
         public void PrintOrderBorderLine()
         {
             Console.WriteLine("========================================================================================================================");
-            Console.WriteLine("| {0, 10} | {1, 30} | {2, 35} | {3, 32} |", "ID", "Customer Name", "Order Date", "Status");
+            Console.WriteLine("| {0, 10} | {1, 30} | {2, 35} | {3, 32} |","ID","Customer Name","Order Date","Status");
             Console.WriteLine("========================================================================================================================");
         }
+
         public void PrintPhoneInfo(Phone phone)
         {
-            Console.WriteLine("| {0, 10} | {1, 30} | {2, 15} | {3, 15} |", phone.PhoneID, phone.PhoneName, phone.Brand.BrandName, phone.OS);
+            Console.WriteLine("| {0, 10} | {1, 30} | {2, 15} | {3, 15} |",phone.PhoneID,phone.PhoneName,phone.Brand.BrandName,phone.OS);
         }
+
         public void PrintOrderInfo(Order order)
         {
-            Console.WriteLine("| {0, 10} | {1, 30} | {2, 35} | {3, 32} |", order.OrderID, order.Customer.CustomerName, order.CreateAt, order.OrderStatus);
+            Console.WriteLine("| {0, 10} | {1, 30} | {2, 35} | {3, 32} |",order.OrderID, order.Customer.CustomerName,order.CreateAt,order.OrderStatus);
         }
+
         public void PrintPhoneModelTitle()
         {
             Console.WriteLine("=====================================================================================================");
             Console.WriteLine("| PHONE MODEL                                                                                       |");
             Console.WriteLine("=====================================================================================================");
-            Console.WriteLine("| {0, 10} | {1, 13} | {2, 15} | {3, 15} | {4, 15} | {5, 14} |", "Detail ID", "Phone Color", "ROM Size", "Price", "Phone Status", "Quantity");
+            Console.WriteLine("| {0, 10} | {1, 13} | {2, 15} | {3, 15} | {4, 15} | {5, 14} |","Detail ID","Phone Color", "ROM Size","Price", "Phone Status","Quantity");
             Console.WriteLine("=====================================================================================================");
         }
+
         public void PrintPhoneDetailsInfo(PhoneDetail phoneDetail)
         {
             TinyLine();
@@ -138,6 +151,7 @@ namespace Ults
             Console.WriteLine("Release Date: {0}", phoneDetail.Phone.ReleaseDate);
             Console.WriteLine("Description: {0}", phoneDetail.Phone.Description);
         }
+
         public void PrintListPhase(string[] phase, int itemCount, int currentPhase)
         {
             Console.Clear();
@@ -155,16 +169,18 @@ namespace Ults
                 {
                     Console.Write(((itemCount == currentPhase) ? " 👉 " + item : " > " + item));
                 }
-                if (itemCount == phase.Length) Console.Write("\n");
+                if (itemCount == phase.Length)
+                    Console.Write("\n");
             }
             TinyLine();
             itemCount = 0;
         }
+
         public void PrintSellerOrder(Order ord)
         {
             int totalQuantity = 0;
             Console.WriteLine("\n=======================================================================================================================");
-            Console.WriteLine("--------------------------------------------------- VTC Mobile --------------------------------------------------------");
+            Console.WriteLine( "--------------------------------------------------- VTC Mobile --------------------------------------------------------");
             Console.WriteLine("=======================================================================================================================");
             Console.WriteLine("                                          Order ID: " + ord.OrderID);
             Console.WriteLine("Website: https://vtc.edu.vn/");
@@ -178,14 +194,13 @@ namespace Ults
             Console.WriteLine("Address: " + ord.Customer.Address);
             Console.WriteLine("Phone Number: " + ord.Customer.PhoneNumber);
             PrintOrderDetails(ord);
-            Console.WriteLine("                             Customer                                               Seller                             ");
-            Console.WriteLine("                      (Signature, Full Name)                               (Signature, Full Name)                      ");
-            Console.WriteLine("                                                                                                                       ");
-            Console.WriteLine("                                                                                                                       ");
+            Console.WriteLine(@"{0, 35} {1, 60}", "Customer", "Seller");
+            Console.WriteLine(@"{0, 38} {1, 60}", ord.Customer.CustomerName, ord.Seller.StaffName);
             Console.WriteLine("                                                                                                                       ");
         }
-        private string[] ones = { "", "một", "hai", "ba", "bốn", "năm", "sáu", "bảy", "tám", "chín" };
-        private string[] teens = { "mười", "mười một", "mười hai", "mười ba", "mười bốn", "mười lăm", "mười sáu", "mười bảy", "mười tám", "mười chín" };
+
+        private string[] ones = {"","một","hai","ba","bốn","năm","sáu","bảy","tám","chín"};
+        private string[] teens = {"mười","mười một","mười hai","mười ba","mười bốn","mười lăm","mười sáu","mười bảy","mười tám","mười chín"};
         private string[] tens = { "", "", "hai mươi", "ba mươi", "bốn mươi", "năm mươi", "sáu mươi", "bảy mươi", "tám mươi", "chín mươi" };
 
         public string ConvertNumberToWords(decimal number)
@@ -193,7 +208,6 @@ namespace Ults
             if (number == 0)
                 return "không đồng";
 
-            // Tách phần nguyên và phần thập phân
             long nguyen = (long)Math.Truncate(number);
             int thapPhan = (int)((number - nguyen) * 100);
 
@@ -223,22 +237,27 @@ namespace Ults
             }
             else if (number < 1000)
             {
-                return ones[number / 100] + " trăm" + (number % 100 > 0 ? " " + ConvertToWords(number % 100) : "");
+                return ones[number / 100]
+                    + " trăm"
+                    + (number % 100 > 0 ? " " + ConvertToWords(number % 100) : "");
             }
             else if (number < 1000000)
             {
-                return ConvertToWords(number / 1000) + " nghìn" + (number % 1000 > 0 ? " " + ConvertToWords(number % 1000) : "");
+                return ConvertToWords(number / 1000)
+                    + " nghìn"
+                    + (number % 1000 > 0 ? " " + ConvertToWords(number % 1000) : "");
             }
             else if (number < 1000000000)
             {
-                return ConvertToWords(number / 1000000) + " triệu" + (number % 1000000 > 0 ? " " + ConvertToWords(number % 1000000) : "");
+                return ConvertToWords(number / 1000000)
+                    + " triệu"
+                    + (number % 1000000 > 0 ? " " + ConvertToWords(number % 1000000) : "");
             }
             else
             {
                 throw new ArgumentException("Out of range: " + number);
             }
         }
-
 
         public void PrintAccountantOrder(Order ord)
         {
@@ -248,18 +267,20 @@ namespace Ults
             Console.WriteLine("Website: https://vtc.edu.vn/");
             Console.WriteLine("Address: 18 Tam Trinh, Quận Hai Bà Trưng, Thành Phố Hà Nội");
             Console.WriteLine("=======================================================================================================================");
-            Console.WriteLine("Accountant: " + ord.Accountant.StaffName + " - ID: " + ord.Accountant.StaffID);
+            Console.WriteLine("Accountant: " + ord.Accountant.StaffName + " - ID: " + ord.Accountant.StaffID );
             Console.WriteLine("=======================================================================================================================");
             Console.WriteLine("Customer: " + ord.Customer.CustomerName);
             Console.WriteLine("Address: " + ord.Customer.Address);
             Console.WriteLine("Phone Number: " + ord.Customer.PhoneNumber);
             PrintOrderDetailsInfo(ord);
         }
+
         public string FormatPrice(decimal price)
         {
             CultureInfo cultureInfo = new CultureInfo("vi-VN");
             return string.Format(cultureInfo, "{0:N0} ₫", price);
         }
+
         public void PrintOrderDetails(Order ord)
         {
             CultureInfo cultureInfo = new CultureInfo("vi-VN");
@@ -267,44 +288,51 @@ namespace Ults
             int printImeiHandle2 = 0;
             Console.WriteLine("=============================================================================================================================");
             Console.WriteLine("                                                  LIST PRODUCT");
-            Console.WriteLine("=============================================================================================================================");
-            Console.WriteLine("| {0, 16} | {1, 30} | {2, 15} | {3, 15} | {4, 15} | {5, 15} |", "Phone Detail ID", "Phone Name", "Quantity", "Imei", "Status", "Price");
-            Console.WriteLine("=============================================================================================================================");
+            Console.WriteLine( "=============================================================================================================================");
+            Console.WriteLine("| {0, 16} | {1, 30} | {2, 15} | {3, 15} | {4, 15} | {5, 15} |", "Phone Detail ID","Phone Name", "Quantity", "Imei","Status", "Price");
+            Console.WriteLine("=============================================================================================================================" );
             foreach (var pd in ord.PhoneDetails)
             {
                 printImeiHandle = pd.PhoneDetailID;
                 Console.WriteLine("-----------------------------------------------------------------------------------------------------------------------------");
                 foreach (var ims in pd.ListImei)
                 {
-                    Console.WriteLine("| {0, 16} | {1, 30} | {2, 15} | {3, 15} | {4, 15} | {5, 15} |", (printImeiHandle != printImeiHandle2) ? pd.PhoneDetailID : "", (printImeiHandle != printImeiHandle2) ? pd.Phone.PhoneName : "", (printImeiHandle != printImeiHandle2) ? pd.Quantity : "", ims.PhoneImei, (printImeiHandle != printImeiHandle2) ? pd.PhoneStatusType : "", (printImeiHandle != printImeiHandle2) ? FormatPrice(pd.Price) : "");
+                    Console.WriteLine("| {0, 16} | {1, 30} | {2, 15} | {3, 15} | {4, 15} | {5, 15} |",(printImeiHandle != printImeiHandle2) ? pd.PhoneDetailID : "",(printImeiHandle != printImeiHandle2) ? pd.Phone.PhoneName : "", (printImeiHandle != printImeiHandle2) ? pd.Quantity : "", ims.PhoneImei, (printImeiHandle != printImeiHandle2) ? pd.PhoneStatusType : "", (printImeiHandle != printImeiHandle2) ? FormatPrice(pd.Price) : "" );
                     printImeiHandle2 = printImeiHandle;
                 }
             }
-            Console.WriteLine("-----------------------------------------------------------------------------------------------------------------------------");
-            Console.WriteLine("  {0, 16}   {1, 20}   {2, 5}   {3, 5}   {4, 15}   {5, 15}  ", "", "", "", "", "Total Due:", FormatPrice(ord.GetTotalDue()));
-            Console.WriteLine("  {0, 16}   {1, 20}   {2, 5}   {3, 5}   {4, 15}   {5, 15}", "", "", "", "", "To String:", ConvertNumberToWords(ord.GetTotalDue()));
+            Console.WriteLine("-----------------------------------------------------------------------------------------------------------------------------" );
+            Console.WriteLine( "  {0, 16}   {1, 20}   {2, 5}   {3, 5}   {4, 15}   {5, 15}  ", "", "", "", "", "Total Due:", FormatPrice(ord.GetTotalDue()));
+            Console.WriteLine( "  {0, 16}   {1, 20}   {2, 5}   {3, 5}   {4, 15}   {5, 15}", "", "", "", "", "To String:", ConvertNumberToWords(ord.GetTotalDue()));
             Console.WriteLine("=============================================================================================================================");
         }
+
         public void PrintDiscountPolicyDetail(DiscountPolicy discountPolicy)
         {
             Console.WriteLine($"Title: {discountPolicy.Title}");
             Console.WriteLine($"FromDate: {discountPolicy.FromDate}");
             Console.WriteLine($"ToDate: {discountPolicy.ToDate}");
-            if (discountPolicy.PhoneDetail.PhoneDetailID != 0) Console.WriteLine($"Phone Information: {discountPolicy.PhoneDetail.Phone.PhoneName} {discountPolicy.PhoneDetail.PhoneColor.Color} {discountPolicy.PhoneDetail.ROMSize.ROM}");
-            if (discountPolicy.PaymentMethod != "Not Have") Console.WriteLine($"Apply for Paymentmethod: {discountPolicy.PaymentMethod}");
-            if (discountPolicy.MinimumPurchaseAmount > 0 && discountPolicy.MaximumPurchaseAmount > 0)
+            if (discountPolicy.PhoneDetail.PhoneDetailID != 0)
+                Console.WriteLine( $"Phone Information: {discountPolicy.PhoneDetail.Phone.PhoneName} {discountPolicy.PhoneDetail.PhoneColor.Color} {discountPolicy.PhoneDetail.ROMSize.ROM}" );
+            if (discountPolicy.PaymentMethod != "Not Have")
+                Console.WriteLine($"Apply for Paymentmethod: {discountPolicy.PaymentMethod}");
+            if ( discountPolicy.MinimumPurchaseAmount > 0 && discountPolicy.MaximumPurchaseAmount > 0)
             {
-                Console.WriteLine($"Maximum purchase amount: {discountPolicy.MinimumPurchaseAmount}");
-                Console.WriteLine($"Minimum purchase amount: {discountPolicy.MaximumPurchaseAmount}");
+                Console.WriteLine( $"Maximum purchase amount: {discountPolicy.MinimumPurchaseAmount}");
+                Console.WriteLine( $"Minimum purchase amount: {discountPolicy.MaximumPurchaseAmount}" );
             }
-            if (discountPolicy.DiscountPrice != 0) Console.WriteLine($"DiscountPrice: {discountPolicy.DiscountPrice}");
-            if (discountPolicy.MoneySupported != 0) Console.WriteLine($"Money supported: {discountPolicy.MoneySupported}");
+            if (discountPolicy.DiscountPrice != 0)
+                Console.WriteLine($"DiscountPrice: {discountPolicy.DiscountPrice}");
+            if (discountPolicy.MoneySupported != 0)
+                Console.WriteLine($"Money supported: {discountPolicy.MoneySupported}");
         }
+
         public void PrintPhoneModelInfo(PhoneDetail phoneDetail)
         {
             CultureInfo cultureInfo = new CultureInfo("vi-VN");
-            Console.WriteLine("| {0, 10} | {1, 13} | {2, 15} | {3, 15} | {4, 15} | {5, 14} |", phoneDetail.PhoneDetailID, phoneDetail.PhoneColor.Color, phoneDetail.ROMSize.ROM, string.Format(cultureInfo, "{0:N0} ₫", phoneDetail.Price), phoneDetail.PhoneStatusType, (phoneDetail.Quantity != 0) ? phoneDetail.Quantity : "Out Of Stock");
+            Console.WriteLine("| {0, 10} | {1, 13} | {2, 15} | {3, 15} | {4, 15} | {5, 14} |",phoneDetail.PhoneDetailID,phoneDetail.PhoneColor.Color, phoneDetail.ROMSize.ROM, string.Format(cultureInfo, "{0:N0} ₫", phoneDetail.Price), phoneDetail.PhoneStatusType,(phoneDetail.Quantity != 0) ? phoneDetail.Quantity : "Out Of Stock");
         }
+
         public void PrintOrderDetailsInfo(Order order)
         {
             Console.WriteLine("\n=======================================================================================================================");
@@ -336,16 +364,15 @@ namespace Ults
             }
             else
             {
-                Console.WriteLine("===================================================================================================");
-                Console.WriteLine("| {0, 10} | {1, 30} | {2, 15} | {3, 15} | {4, 16}", "PhoneName", "Color", "RomSize", "Quantity", " Unit Price  |");
-                Console.WriteLine("===================================================================================================");
+                Console.WriteLine( "===================================================================================================");
+                Console.WriteLine( "| {0, 10} | {1, 30} | {2, 15} | {3, 15} | {4, 16}", "PhoneName", "Color", "RomSize", "Quantity", " Unit Price  |" );
+                Console.WriteLine( "===================================================================================================" );
 
                 foreach (var phone in order.PhoneDetails)
                 {
-                    Console.WriteLine("| {0, 10} | {1, 30} | {2, 15} | {3, 15} | {4, 15}|", phone.Phone.PhoneName, phone.PhoneColor.Color, phone.ROMSize.ROM, phone.Quantity, FormatPrice(phone.Price));
-
+                    Console.WriteLine("| {0, 10} | {1, 30} | {2, 15} | {3, 15} | {4, 15}|",phone.Phone.PhoneName, phone.PhoneColor.Color,phone.ROMSize.ROM, phone.Quantity, FormatPrice(phone.Price));
                 }
-                Console.WriteLine("===================================================================================================");
+                Console.WriteLine( "===================================================================================================" );
                 Console.WriteLine($"✅ Total Due: {FormatPrice(order.TotalDue)} VND");
                 if (order.DiscountPolicies.Count() != 0)
                 {
@@ -359,30 +386,33 @@ namespace Ults
                 }
             }
         }
-        public static void ClearCurrentConsoleLine()
+
+        public void ClearCurrentConsoleLine()
         {
             int currentLineCursor = Console.CursorTop;
             Console.SetCursorPosition(0, Console.CursorTop);
             Console.Write(new string(' ', Console.WindowWidth));
             Console.SetCursorPosition(0, currentLineCursor);
         }
-        public static string GetUserName()
+
+        public string GetUserName()
         {
             Console.Write("\n👉 User Name: ");
             string userName = Console.ReadLine() ?? "";
             return userName;
         }
-        public static int GetPhoneModelQuantity()
+
+        public int GetPhoneModelQuantity()
         {
             int quantity = 0;
             Console.Write("Input Quantity: ");
             int.TryParse(Console.ReadLine(), out quantity);
             return quantity;
         }
-        public static string GetPassword()
+
+        public string GetPassword()
         {
             Console.Write("\n👉 Password: ");
-            Ultilities ults = new Ultilities();
             string pass = "";
             ConsoleKeyInfo key;
             do
@@ -391,7 +421,8 @@ namespace Ults
                 if (key.Key != ConsoleKey.Backspace)
                 {
                     pass += key.KeyChar;
-                    if (key.Key != ConsoleKey.Enter) Console.Write("*");
+                    if (key.Key != ConsoleKey.Enter)
+                        Console.Write("*");
                 }
                 else if (key.Key == ConsoleKey.Backspace && pass.Length > 0)
                 {
@@ -399,10 +430,36 @@ namespace Ults
                     pass = pass.Substring(0, pass.Length - 1);
                     Console.Write("\b \b");
                 }
-            }
-            while (key.Key != ConsoleKey.Enter);
+            } while (key.Key != ConsoleKey.Enter);
             pass = pass.Substring(0, pass.Length - 1);
             return pass;
+        }
+
+        public void Title(string? title, string? subTitle, Staff? staffLoggedIn)
+        {
+            if (title != null)
+            {
+                Line();
+                ConsoleForegroundColor(ConsoleEnum.Color.Red);
+                Console.WriteLine(title);
+                ConsoleForegroundColor(ConsoleEnum.Color.White);
+                Line();
+            }
+            if (subTitle != null)
+            {
+                Line();
+                ConsoleForegroundColor(ConsoleEnum.Color.Blue);
+                Console.WriteLine(subTitle);
+                ConsoleForegroundColor(ConsoleEnum.Color.White);
+                Line();
+            }
+            if(staffLoggedIn != null)
+            {
+                ConsoleForegroundColor(ConsoleEnum.Color.Green);
+                Console.WriteLine("                                                              " + ((staffLoggedIn.Role == StaffEnum.Role.Accountant)? "Accountant: ": "Seller: " )+ staffLoggedIn.StaffName + " - ID: " + staffLoggedIn.StaffID );
+                ConsoleForegroundColor(ConsoleEnum.Color.White);
+            }
+            Line();
         }
         public string GetAppTitle()
         {
@@ -412,14 +469,16 @@ namespace Ults
                               ┴  ┴ ┴└─┘┘└┘└─┘  └─┘ ┴ └─┘┴└─└─┘
                               ";
         }
+
         public void GetFooterPagination(int currentPage, int countPage)
         {
-            Console.WriteLine("================================================================================================");
+            Console.WriteLine( "================================================================================================");
             Console.WriteLine("{0,45}" + "< " + $"{currentPage}/{countPage}" + " >", " ");
-            Console.WriteLine("================================================================================================");
-            Console.WriteLine("Press 'Left Arrow' To Back Previous Page, 'Right Arror' To Next Page");
-            Console.Write("Press 'Space' To Choose a phone, 'B' To Back Previous Menu");
+            Console.WriteLine( "================================================================================================");
+            Console.WriteLine( "Press 'Left Arrow' To Back Previous Page, 'Right Arror' To Next Page");
+            Console.WriteLine("Press 'Space' To Choose a phone, 'B' To Back Previous Menu");
         }
+
         public string GetSearchANSIText()
         {
             string searchANSIText = @"
@@ -429,38 +488,27 @@ namespace Ults
                                       ";
             return searchANSIText;
         }
+
         public string[] GetMenuItemSearch()
         {
-            string[] menuItemSearch = { "Search All Phone", "Search Phone By Information", "Back To Previous Menu" };
-            return menuItemSearch;
+            return new string[] {"Search All Phone","Search Phone By Information", "Back To Previous Menu"};
         }
+
         public string[] GetCreateOrderTimeLine()
         {
-            string[] listTimeLine = { "Search Phone", "Add Phone To Order", "Add More Phone?", "Enter Customer Info", "Confirm Order" };
-            return listTimeLine;
+            return new string[] { "Search Phone", "Add Phone To Order", "Add More Phone?", "Enter Customer Info", "Confirm Order"};
         }
-        public int GetPhoneID()
-        {
-            int phoneID = 0;
-            Console.Write("\nEnter Phone ID To View Details: ");
-            int.TryParse(Console.ReadLine(), out phoneID);
-            return phoneID;
-        }
-        public int GetPhoneModelID()
-        {
-            int phoneModelID = 0;
-            Console.Write("Enter Phone Model ID: ");
-            int.TryParse(Console.ReadLine(), out phoneModelID);
-            return phoneModelID;
-        }
+
         public string GetCustomerInfoANSITitle()
         {
-            string title = @"                    
+            string title =
+                @"                    
             ┌─┐┌┐┌┌┬┐┌─┐┬─┐  ┌─┐┬ ┬┌─┐┌┬┐┌─┐┌┬┐┌─┐┬─┐  ┬┌┐┌┌─┐┌─┐┬─┐┌┬┐┌─┐┌┬┐┬┌─┐┌┐┌
             ├┤ │││ │ ├┤ ├┬┘  │  │ │└─┐ │ │ ││││├┤ ├┬┘  ││││├┤ │ │├┬┘│││├─┤ │ ││ ││││
             └─┘┘└┘ ┴ └─┘┴└─  └─┘└─┘└─┘ ┴ └─┘┴ ┴└─┘┴└─  ┴┘└┘└  └─┘┴└─┴ ┴┴ ┴ ┴ ┴└─┘┘└┘";
             return title;
         }
+
         public Customer GetCustomerInfo()
         {
             Console.Write(" Customer Name: ");
@@ -471,6 +519,32 @@ namespace Ults
             string address = Console.ReadLine() ?? "";
             Customer customer = new Customer(0, customerName, phoneNumber, address);
             return customer;
+        }
+
+        public string GetInputString(string requestToEnter) {
+            string str = "";
+            do
+            {
+                Console.Write(requestToEnter + ": ");
+                str = Console.ReadLine() ?? "";
+                if(str == "") {
+                    Alert(GUIEnum.ConsoleEnum.Alert.Error, "You Haven't Entered Anything Yet");
+                }
+            } while (str == "");
+            return str;
+        }
+        public int GetInputInt(string requestToEnter) {
+            int intValue = 0;
+            bool isValidInput = false;
+            do
+            {
+                Console.Write(requestToEnter + ": ");
+                isValidInput = int.TryParse(Console.ReadLine(), out intValue);
+                if(!isValidInput) {
+                    Alert(GUIEnum.ConsoleEnum.Alert.Error, "Can't Enter A String");
+                }
+            } while (!isValidInput);
+            return intValue;
         }
     }
 }

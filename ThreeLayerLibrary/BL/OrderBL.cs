@@ -13,7 +13,7 @@ public class OrderBL
     }
     public bool CreateOrder(Order order)
     {
-        return orderDAL.InsertOrder(order);
+        return orderDAL.SaveOrder(order);
     }
     public List<Order>? GetOrdersInDay(OrderEnum.Status status)
     {

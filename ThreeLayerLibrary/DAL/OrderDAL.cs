@@ -137,7 +137,7 @@ namespace DAL
             }
             return output;
         }
-        public bool InsertOrder(Order order)
+        public bool SaveOrder(Order order)
         {
             bool result = false;
             int countphone = 0;

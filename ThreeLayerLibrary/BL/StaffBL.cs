@@ -1,30 +1,37 @@
 using System.Collections.Generic;
+using Interface;
 using BusinessEnum;
 using Model;
 using DAL;
 
 namespace BL;
-public class StaffBL
+
+public class StaffBL : IStaffBL
 {
+    public Staff LoggedInStaff { get; private set; }
+    private Staff loggedInStaff;
     private StaffDAL idal = new StaffDAL();
-    public Staff? Authenticate(string username, string password)
+
+    public bool Login(string username, string password)
     {
         Staff? staff = null;
-        
         staff = idal.GetAccountByUsername(username);
         if (staff != null)
         {
             string hashedInputPassword = idal.CreateMD5(password);
             if (hashedInputPassword.Equals(staff.Password))
             {
-                if (staff.Role == StaffEnum.Role.Seller || staff.Role == StaffEnum.Role.Accountant)
-                    return staff;
-
-                else
-                    return null;
+                LoggedInStaff = staff;
+                loggedInStaff = staff;
+                return true;
             }
-            else return null;
         }
-        else return null;
+        return false;
+    }
+
+    public void Logout()
+    {
+        LoggedInStaff = null;
+        loggedInStaff = null;   
     }
 }
