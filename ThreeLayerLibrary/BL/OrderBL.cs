@@ -17,7 +17,7 @@ public class OrderBL
     }
     public List<Order>? GetOrdersInDay(OrderEnum.Status status)
     {
-        List<Order> orders = orderDAL.GetOrdersInDay(status);
+        List<Order> orders = orderDAL.GetOrders(status);
         if (orders == null) return null;
         else
             return orders;
@@ -28,7 +28,7 @@ public class OrderBL
     }
     public List<Order> GetOrdersPendingInday()
     {
-        return orderDAL.GetOrdersInDay(BusinessEnum.OrderEnum.Status.Pending);
+        return orderDAL.GetOrders(BusinessEnum.OrderEnum.Status.Pending);
     }
     public bool Payment(Order order)
     {
@@ -37,5 +37,37 @@ public class OrderBL
     public bool CancelPayment(Order order)
     {
         return orderDAL.UpdateOrder(BusinessEnum.OrderEnum.Status.Canceled, order);
+    }
+    public List<Order>? GetOrdersCompletedInMonth()
+    {
+        return orderDAL.GetOrders(OrderEnum.Status.Completed);
+    }
+    public decimal CalculateTotalRevenueInMonth()
+    {
+        List<Order>? ordersCompleted = GetOrdersCompletedInMonth();
+        if(ordersCompleted == null || ordersCompleted.Count() == 0) return 0;  
+        decimal totalRevenue = 0;
+        foreach (var order in ordersCompleted)
+        {
+            foreach (var phoneDetail in order.PhoneDetails)
+            {
+                totalRevenue += phoneDetail.Quantity * phoneDetail.Price;
+            }
+        }
+        return totalRevenue;
+    }
+    public List<PhoneDetail>? GetPhoneDetailInOrder()
+    {
+        List<Order>? ordersCompleted = GetOrdersCompletedInMonth();
+        if(ordersCompleted == null || ordersCompleted.Count() == 0) return null;  
+        List<PhoneDetail> phoneDetail = new List<PhoneDetail>();
+        foreach (var order in ordersCompleted)
+        {
+            foreach (var pd in order.PhoneDetails)
+            {
+                phoneDetail.Add(pd);
+            }
+        }
+        return phoneDetail;
     }
 }

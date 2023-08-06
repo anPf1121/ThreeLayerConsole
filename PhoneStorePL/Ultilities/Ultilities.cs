@@ -370,7 +370,6 @@ namespace Ults
                         }
                         else orderWantToPayment.Accountant = this.loginManager.LoggedInStaff;
                     } while (orderWantToPayment.OrderID == "");
-
                     //Wait to display orderdetail
                     ConsoleUlts.PrintOrderDetailsInfo(orderWantToPayment);
                     if (orderWantToPayment.PhoneDetails.Count() == 0)

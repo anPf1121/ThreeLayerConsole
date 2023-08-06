@@ -87,7 +87,7 @@ namespace DAL
             return order;
         }
 
-        public List<Order> GetOrdersInDay(OrderEnum.Status status)
+        public List<Order> GetOrders(OrderEnum.Status status)
         {
             PhoneDetailsDAL phoneDetailsDAL = new PhoneDetailsDAL();
             PhoneDAL phoneDAL = new PhoneDAL();
@@ -114,7 +114,7 @@ namespace DAL
                         break;
                     case OrderEnum.Status.Completed:
                         query = @"select * from orders
-                        where order_status = 3 and date(create_at) = date(current_time());";
+                        where order_status = 3 and MONTH(create_at) = MONTH(CURDATE()) AND YEAR(create_at) = YEAR(CURDATE());";
                         break;
                     default: break;
                 }

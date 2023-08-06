@@ -1,0 +1,12 @@
+C:\Users\anngu\Desktop\ThreeLayerConsole\ThreeLayerLibrary\bin\-c\net7.0\ThreeLayerLibrary.deps.json
+C:\Users\anngu\Desktop\ThreeLayerConsole\ThreeLayerLibrary\bin\-c\net7.0\ThreeLayerLibrary.dll
+C:\Users\anngu\Desktop\ThreeLayerConsole\ThreeLayerLibrary\bin\-c\net7.0\ThreeLayerLibrary.pdb
+C:\Users\anngu\Desktop\ThreeLayerConsole\ThreeLayerLibrary\obj\-c\net7.0\ThreeLayerLibrary.csproj.AssemblyReference.cache
+C:\Users\anngu\Desktop\ThreeLayerConsole\ThreeLayerLibrary\obj\-c\net7.0\ThreeLayerLibrary.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\anngu\Desktop\ThreeLayerConsole\ThreeLayerLibrary\obj\-c\net7.0\ThreeLayerLibrary.AssemblyInfoInputs.cache
+C:\Users\anngu\Desktop\ThreeLayerConsole\ThreeLayerLibrary\obj\-c\net7.0\ThreeLayerLibrary.AssemblyInfo.cs
+C:\Users\anngu\Desktop\ThreeLayerConsole\ThreeLayerLibrary\obj\-c\net7.0\ThreeLayerLibrary.csproj.CoreCompileInputs.cache
+C:\Users\anngu\Desktop\ThreeLayerConsole\ThreeLayerLibrary\obj\-c\net7.0\ThreeLayerLibrary.dll
+C:\Users\anngu\Desktop\ThreeLayerConsole\ThreeLayerLibrary\obj\-c\net7.0\refint\ThreeLayerLibrary.dll
+C:\Users\anngu\Desktop\ThreeLayerConsole\ThreeLayerLibrary\obj\-c\net7.0\ThreeLayerLibrary.pdb
+C:\Users\anngu\Desktop\ThreeLayerConsole\ThreeLayerLibrary\obj\-c\net7.0\ref\ThreeLayerLibrary.dll

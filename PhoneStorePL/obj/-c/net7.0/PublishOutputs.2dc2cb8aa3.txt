@@ -1,0 +1,8 @@
+C:\Users\anngu\Desktop\ThreeLayerConsole\PhoneStorePL\bin\-c\net7.0\publish\PhoneStorePL.exe
+C:\Users\anngu\Desktop\ThreeLayerConsole\PhoneStorePL\bin\-c\net7.0\publish\PhoneStorePL.dll
+C:\Users\anngu\Desktop\ThreeLayerConsole\PhoneStorePL\bin\-c\net7.0\publish\PhoneStorePL.deps.json
+C:\Users\anngu\Desktop\ThreeLayerConsole\PhoneStorePL\bin\-c\net7.0\publish\PhoneStorePL.runtimeconfig.json
+C:\Users\anngu\Desktop\ThreeLayerConsole\PhoneStorePL\bin\-c\net7.0\publish\PhoneStorePL.pdb
+C:\Users\anngu\Desktop\ThreeLayerConsole\PhoneStorePL\bin\-c\net7.0\publish\MySqlConnector.dll
+C:\Users\anngu\Desktop\ThreeLayerConsole\PhoneStorePL\bin\-c\net7.0\publish\ThreeLayerLibrary.dll
+C:\Users\anngu\Desktop\ThreeLayerConsole\PhoneStorePL\bin\-c\net7.0\publish\ThreeLayerLibrary.pdb
