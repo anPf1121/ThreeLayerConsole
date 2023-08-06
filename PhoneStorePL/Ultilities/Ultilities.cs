@@ -340,7 +340,7 @@ namespace Ults
             string searchTitle = ConsoleUlts.GetSearchANSIText(),phoneInfoToSearch = "",input = "";
             string[] menuSearchChoice = ConsoleUlts.GetMenuItemSearch(),listPhase = ConsoleUlts.GetCreateOrderTimeLine();
             int phoneId = 0,phoneModelID = 0,count = 0,quantityAfterAddMoreHandle = 0,searchChoice = 0,currentPhase = 1,phaseChoice = 0,quantity = 0,reChooseModelAfterBackPrevPhase = 0;
-            List<Imei> imeis = new List<Imei>();
+            List<Imei>? imeis = null;
             List<int>? listAllPhonesID = new List<int>();
             bool isAddMore = false, listPhoneSearch = false, activeSearchPhone = true;
             List<Phone> listTemp = new List<Phone>();
@@ -490,6 +490,7 @@ namespace Ults
                         quantity = InputIDValidation(phoneDetailQuantity, "Enter Phone Model Quantity", "Invalid Phone Model Quantity");
                         ConsoleUlts.Alert(ConsoleEnum.Alert.Success, "Quantity Successfully Added");
                         pDetails.Quantity = quantity;
+                        imeis = new List<Imei>();
                         bool isDuplicateImei = false;
                         do
                         {
@@ -512,7 +513,7 @@ namespace Ults
                                     imei.PhoneImei = ConsoleUlts.GetInputString($"Enter Imei {i + 1}");
                                     foreach (PhoneDetail item in phonesInOrder)
                                     {
-                                        isDuplicateImei = phoneBL.CheckImeiIsDuplicateInOrder(imei, imeis);
+                                        isDuplicateImei = phoneBL.CheckImeiIsDuplicateInOrder(imei, item.ListImei);
                                     }
                                     if (!phoneBL.CheckImeiExist(imei, phoneModelID) || isDuplicateImei)
                                     {

@@ -79,7 +79,7 @@ public class PhoneBL
         bool isDuplicate = false;
         foreach (Imei j in imeis)
         {
-            if (j == imei)
+            if (j.PhoneImei == imei.PhoneImei)
             {
                 isDuplicate = true;
             }
