@@ -45,6 +45,10 @@ namespace Ults
 
         public void CreateOrder()
         {
+            int centeredPosition = (Console.WindowWidth - "|--------------------------------------------------------------------------------------------|".Length) / 2;
+            string spaces = new string(' ', centeredPosition);
+            int secondcenteredPosition = (Console.WindowWidth - "|===================================================================================================|".Length) / 2;
+            string secondspaces = new string(' ', secondcenteredPosition);
             string searchTitle = ConsoleUlts.GetSearchANSIText(), phoneInfoToSearch = "", input = "";
             string[] menuSearchChoice = ConsoleUlts.GetMenuItemSearch(), listPhase = ConsoleUlts.GetCreateOrderTimeLine();
             int phoneId = 0, phoneModelID = 0, count = 0, quantityAfterAddMoreHandle = 0, searchChoice = 0, currentPhase = 1, phaseChoice = 0, quantity = 0, reChooseModelAfterBackPrevPhase = 0;
@@ -60,8 +64,7 @@ namespace Ults
                 switch (currentPhase)
                 {
                     case 1:
-
-                        ConsoleUlts.PrintListPhase(listPhase, count, currentPhase);
+                        ConsoleUlts.PrintTimeLine(listPhase, count, currentPhase);
                         ConsoleUlts.Title(ConsoleUlts.GetAppTitle(), ConsoleUlts.GetSearchANSIText(), loginManager.LoggedInStaff);
                         searchChoice = ConsoleUlts.PressCharacterTo("Search All Phone", "Search Phone By Information", "Back To Previous Menu");
 
@@ -69,9 +72,9 @@ namespace Ults
 
                         else if (searchChoice == 1)
                         {
-                            ConsoleUlts.PrintListPhase(listPhase, count, currentPhase);
+                            ConsoleUlts.PrintTimeLine(listPhase, count, currentPhase);
                             ConsoleUlts.Title(ConsoleUlts.GetAppTitle(), searchTitle, loginManager.LoggedInStaff);
-                            phoneInfoToSearch = ConsoleUlts.GetInputString("Enter Phone Information To Search");
+                            phoneInfoToSearch = ConsoleUlts.GetInputString($"{spaces}Enter Phone Information To Search");
                             listTemp = phoneBL.GetPhonesByInformation(phoneInfoToSearch);
                         }
 
@@ -81,7 +84,7 @@ namespace Ults
                         else
                         {
                             listPhoneSearch = ConsoleUlts.ListPhonePagination(listTemp, listPhase, count, currentPhase, loginManager.LoggedInStaff);
-                            phoneId = InputIDValidation(phoneBL.GetAllPhone().Count(), "Enter Phone ID", "Invalid Phone ID");
+                            phoneId = InputIDValidation(phoneBL.GetAllPhone().Count(), $"{spaces}Enter Phone ID", "Invalid Phone ID");
                         }
 
                         if (!listPhoneSearch) break;
@@ -90,7 +93,7 @@ namespace Ults
                         break;
                     case 2:
                         phonedetails = phoneBL.GetPhoneDetailsByPhoneID(phoneId);
-                        ConsoleUlts.PrintListPhase(listPhase, count, currentPhase);
+                        ConsoleUlts.PrintTimeLine(listPhase, count, currentPhase);
                         if (phonesInOrder.Count() != 0 || phonesInOrder != null)
                         {
                             Dictionary<int, int> phoneDetailsIDWithQtt = new Dictionary<int, int>();
@@ -116,11 +119,11 @@ namespace Ults
                             do
                             {
                                 ConsoleUlts.PrintPhoneDetailsInfo(phonedetails);
-                                phoneModelID = ConsoleUlts.GetInputInt("Enter Phone Model ID");
+                                phoneModelID = ConsoleUlts.GetInputInt($"{secondspaces}Enter Phone Model ID");
                                 if (listPhoneDetailID.IndexOf(phoneModelID) == -1)
                                 {
                                     ConsoleUlts.Alert(ConsoleEnum.Alert.Error, "Invalid Phone Model ID Please Choice Again");
-                                    ConsoleUlts.PrintListPhase(listPhase, count, currentPhase);
+                                    ConsoleUlts.PrintTimeLine(listPhase, count, currentPhase);
                                 }
                             } while (listPhoneDetailID.IndexOf(phoneModelID) == -1);
 
@@ -192,24 +195,24 @@ namespace Ults
                         else phoneDetailQuantity = pDetails.Quantity;
 
                         Console.Clear();
-                        ConsoleUlts.PrintListPhase(listPhase, count, currentPhase);
+                        ConsoleUlts.PrintTimeLine(listPhase, count, currentPhase);
                         ConsoleUlts.PrintPhoneDetailsInfo(phonedetails);
-                        Console.WriteLine("Phone Model ID: " + phoneModelID);
-                        quantity = InputIDValidation(phoneDetailQuantity, "Enter Phone Model Quantity", "Invalid Phone Model Quantity");
+                        Console.WriteLine($"{secondspaces}Phone Model ID: " + phoneModelID);
+                        quantity = InputIDValidation(phoneDetailQuantity, $"{secondspaces}Enter Phone Model Quantity", "Invalid Phone Model Quantity");
                         ConsoleUlts.Alert(ConsoleEnum.Alert.Success, "Quantity Successfully Added");
                         pDetails.Quantity = quantity;
                         imeis = new List<Imei>();
                         bool isDuplicateImei = false;
                         do
                         {
-                            ConsoleUlts.PrintListPhase(listPhase, count, currentPhase);
+                            ConsoleUlts.PrintTimeLine(listPhase, count, currentPhase);
                             int idImei = 1;
                             ConsoleUlts.PrintPhoneDetailsInfo(phonedetails);
-                            Console.WriteLine("Phone Model ID: " + phoneModelID);
-                            Console.WriteLine("Quantity: " + quantity);
+                            Console.WriteLine($"{secondspaces}Phone Model ID: " + phoneModelID);
+                            Console.WriteLine($"{secondspaces}Quantity: " + quantity);
                             foreach (var item in imeis)
                             {
-                                Console.WriteLine("Imei " + (idImei) + ": " + item.PhoneImei);
+                                Console.WriteLine($"{secondspaces}Imei " + (idImei) + ": " + item.PhoneImei);
                                 idImei++;
                             }
                             for (int i = 0; i < quantity; i++)
@@ -218,7 +221,7 @@ namespace Ults
                                 do
                                 {
                                     isDuplicateImei = false;
-                                    imei.PhoneImei = ConsoleUlts.GetInputString($"Enter Imei {i + 1}");
+                                    imei.PhoneImei = ConsoleUlts.GetInputString($"{secondspaces}Enter Imei {i + 1}");
                                     foreach (PhoneDetail item in phonesInOrder)
                                     {
                                         isDuplicateImei = phoneBL.CheckImeiIsDuplicateInOrder(imei, item.ListImei);
@@ -230,7 +233,7 @@ namespace Ults
                                         else if (isDuplicateImei)
                                             ConsoleUlts.Alert(ConsoleEnum.Alert.Error, "You Just Entered This Imei Before, Please Re-enter It");
                                         Console.Clear();
-                                        ConsoleUlts.PrintListPhase(listPhase, count, currentPhase);
+                                        ConsoleUlts.PrintTimeLine(listPhase, count, currentPhase);
                                         ConsoleUlts.PrintPhoneDetailsInfo(phonedetails);
                                         Console.WriteLine("Phone Model ID: " + phoneModelID);
                                         Console.WriteLine("Quantity: " + quantity);
@@ -272,7 +275,7 @@ namespace Ults
                             if (!isDuplicate) phonesInOrder.Add(pDetails);
                         }
                         Order ord = new Order("", DateTime.Now, orderStaff, new Staff(0, "", "", "", "", "", StaffEnum.Role.Accountant, StaffEnum.Status.Active), new Customer(0, "", "", ""), phonesInOrder, OrderEnum.Status.Pending, new List<DiscountPolicy>(), "", 0);
-                        ConsoleUlts.PrintListPhase(listPhase, count, currentPhase);
+                        ConsoleUlts.PrintTimeLine(listPhase, count, currentPhase);
                         ConsoleUlts.PrintOrderDetails(ord);
                         ConsoleUlts.Line();
                         phaseChoice = ConsoleUlts.PressCharacterTo("Back Previous Phase", "Enter Customer Info", "Add More Phone");
@@ -293,7 +296,7 @@ namespace Ults
                         }
                         break;
                     case 4:
-                        ConsoleUlts.PrintListPhase(listPhase, count, currentPhase);
+                        ConsoleUlts.PrintTimeLine(listPhase, count, currentPhase);
                         ConsoleUlts.Title(ConsoleUlts.GetAppTitle(), ConsoleUlts.GetCustomerInfoANSITitle(), loginManager.LoggedInStaff);
                         customer = ConsoleUlts.GetCustomerInfo();
 
@@ -303,7 +306,7 @@ namespace Ults
 
                         break;
                     case 5:
-                        ConsoleUlts.PrintListPhase(listPhase, count, currentPhase);
+                        ConsoleUlts.PrintTimeLine(listPhase, count, currentPhase);
                         Order order = new Order(GenerateID(), DateTime.Now, loginManager.LoggedInStaff, new Staff(0, "", "", "", "", "", StaffEnum.Role.Accountant, StaffEnum.Status.Active), customer, phonesInOrder, OrderEnum.Status.Pending, new List<DiscountPolicy>(), "", 0);
                         ConsoleUlts.PrintSellerOrder(order);
                         if (ConsoleUlts.PressYesOrNo("Create Order", "Cancel Order"))
@@ -323,6 +326,10 @@ namespace Ults
         }
         public void Payment()
         {
+            int centeredPosition = (Console.WindowWidth - "|--------------------------------------------------------------------------------------------|".Length) / 2;
+            string spaces = new string(' ', centeredPosition);
+            int secondcenteredPosition = (Console.WindowWidth - "|===================================================================================================|".Length) / 2;
+            string secondspaces = new string(' ', secondcenteredPosition);
             List<Order> ListOrderPending = new OrderBL().GetOrdersPendingInday();
             string input = "";
             int count = 0;
@@ -355,7 +362,7 @@ namespace Ults
                     Console.WriteLine();
                     do
                     {
-                        orderID = ConsoleUlts.GetInputString("Choose An Order ID To Payment").ToUpper();
+                        orderID = ConsoleUlts.GetInputString($"{spaces}Choose An Order ID To Payment").ToUpper();
                         orderWantToPayment = new OrderBL().GetOrderById(orderID) ?? null;
                         if (orderWantToPayment.OrderID == "")
                         {
@@ -373,7 +380,7 @@ namespace Ults
                         Console.ReadKey();
                         break;
                     }
-                    Console.Write("Press Enter to keep doing payment OR Any Key to choose order again.");
+                    Console.Write($"{secondspaces}Press Enter to keep doing payment OR Any Key to choose order again.");
                     keyInfo = Console.ReadKey(true);
                     if (keyInfo.Key == ConsoleKey.Enter)
                     {
@@ -390,7 +397,7 @@ namespace Ults
                         do
                         {
                             currentPhase = 2;
-                            ConsoleUlts.PrintListPhase(listPhase, count, currentPhase);
+                            ConsoleUlts.PrintTimeLine(listPhase, count, currentPhase);
                             Console.WriteLine("👉 Choose a payment method");
                             foreach (var payment in ListPaymentMethod)
                             {
@@ -428,7 +435,7 @@ namespace Ults
                                 {
                                     Console.WriteLine();
                                     currentPhase = 3;
-                                    ConsoleUlts.PrintListPhase(listPhase, count, currentPhase);
+                                    ConsoleUlts.PrintTimeLine(listPhase, count, currentPhase);
                                     Console.WriteLine("👉 Choose discount policy for PaymentMethod");
                                     foreach (var discount in ListDiscountPolicyValidToOrder)
                                     {
@@ -473,7 +480,7 @@ namespace Ults
                                         do
                                         {
                                             currentPhase = 4;
-                                            ConsoleUlts.PrintListPhase(listPhase, count, currentPhase);
+                                            ConsoleUlts.PrintTimeLine(listPhase, count, currentPhase);
                                             Console.WriteLine("👉 Choose discount Policy for order");
                                             foreach (var discount in ListDiscountPolicyValidToOrder)
                                             {
@@ -516,7 +523,7 @@ namespace Ults
                                             if (dontKnowHowtoCall4 == true)
                                             {
                                                 currentPhase = 5;
-                                                ConsoleUlts.PrintListPhase(listPhase, count, currentPhase);
+                                                ConsoleUlts.PrintTimeLine(listPhase, count, currentPhase);
                                                 ConsoleUlts.PrintSellerOrder(orderWantToPayment);
                                                 Console.WriteLine("Press Enter to Confirm order OR Any key to Cancel order.");
                                                 if (keyInfo.Key == ConsoleKey.Enter)
@@ -551,6 +558,10 @@ namespace Ults
         }
         public int HandleOrder()
         {
+            int centeredPosition = (Console.WindowWidth - "|--------------------------------------------------------------------------------------------|".Length) / 2;
+            string spaces = new string(' ', centeredPosition);
+            int secondcenteredPosition = (Console.WindowWidth - "|===================================================================================================|".Length) / 2;
+            string secondspaces = new string(' ', secondcenteredPosition);
             Console.OutputEncoding = System.Text.Encoding.UTF8;
             string handleTitle = ConsoleUlts.GetHandleOrderANSIText();
             string[] listPhase = { "Show orders", "Show order details", "Confirm Handle" };
@@ -575,7 +586,7 @@ namespace Ults
                 switch (currentPhase)
                 {
                     case 1:
-                        ConsoleUlts.PrintListPhase(listPhase, count, currentPhase);
+                        ConsoleUlts.PrintTimeLine(listPhase, count, currentPhase);
                         ConsoleUlts.Title(ConsoleUlts.GetAppTitle(), handleTitle, loginManager.LoggedInStaff);
                         handleChoice = ConsoleUlts.PressCharacterTo("Show orders have confirmed status in day", "Back To Previous Menu", null);
                         switch (handleChoice)
@@ -588,14 +599,14 @@ namespace Ults
                         }
                         if (handleChoice == 1) return 2;
 
-                        ConsoleUlts.PrintListPhase(listPhase, count, currentPhase);
+                        ConsoleUlts.PrintTimeLine(listPhase, count, currentPhase);
                         temp = ConsoleUlts.ListOrderPagination(listOrderTemp, listPhase, count, currentPhase, loginManager.LoggedInStaff);
                         if (temp == true)
                         {
                             // nhập Id order để xem
                             do
                             {
-                                orderId = ConsoleUlts.GetInputString("Enter Order ID").ToUpper();
+                                orderId = ConsoleUlts.GetInputString($"{spaces}Enter Order ID").ToUpper();
                                 // lấy ra order bằng order ID
                                 orderTemp = orderBL.GetOrderById(orderId);
                                 if (orderTemp.OrderID == "")
@@ -617,7 +628,7 @@ namespace Ults
                         break;
                     case 2:
                         if (order == null) { }
-                        ConsoleUlts.PrintListPhase(listPhase, count, currentPhase);
+                        ConsoleUlts.PrintTimeLine(listPhase, count, currentPhase);
                         ConsoleUlts.PrintOrderDetailsInfo(order);
 
                         if (!ConsoleUlts.PressYesOrNo("Continue", "Back Previous Phase"))
@@ -629,7 +640,7 @@ namespace Ults
 
                         break;
                     case 3:
-                        ConsoleUlts.PrintListPhase(listPhase, count, currentPhase);
+                        ConsoleUlts.PrintTimeLine(listPhase, count, currentPhase);
                         ConsoleUlts.PrintSellerOrder(order);
                         if (!ConsoleUlts.PressYesOrNo("Confirm Product", "Cancel Order"))
                         {

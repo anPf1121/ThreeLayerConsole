@@ -38,7 +38,7 @@ namespace Ults
 
         public bool PressYesOrNo(string yesAction, string noAction)
         {
-            string str = $"Press {SetTextBolder("Y")} To {yesAction} Or {SetTextBolder("N")} To {noAction}";
+            string str = $"Press 'Y' To {yesAction} Or 'N' To {noAction}";
             int centeredPosition = (Console.WindowWidth - str.Length) / 2;
             string spaces = new string(' ', centeredPosition);
 
@@ -65,8 +65,8 @@ namespace Ults
 
         public int PressCharacterTo(string firstAction, string? secondAction, string? thirdAction)
         {
-            string firstStr = $"Press {SetTextBolder("Q")} To {firstAction} - Press {SetTextBolder("W")} To {secondAction} - Press {SetTextBolder("E")} To {thirdAction}";
-            string secondStr = $"Press {SetTextBolder("Q")} To {firstAction} - Press {SetTextBolder("W")} To {secondAction}";
+            string firstStr = $"Press 'Q' To {firstAction} - Press 'W' To {secondAction} - Press 'E' To {thirdAction}";
+            string secondStr = $"Press 'Q' To {firstAction} - Press 'W' To {secondAction}";
             int centeredPosition = (Console.WindowWidth - firstStr.Length) / 2;
             int secondCenteredPosition = (Console.WindowWidth - secondStr.Length) / 2;
             string firstSpaces = new string(' ', centeredPosition);
@@ -173,7 +173,7 @@ namespace Ults
                         Title(GetAppTitle(), title, staff);
                         while (active)
                         {
-                            PrintListPhase(phases, itemCount, currentPhase);
+                            PrintTimeLine(phases, itemCount, currentPhase);
                             Title(GetAppTitle(), title, staff);
                             PrintOrderBorderLine();
                             foreach (Order order in orders[currentPage])
@@ -296,7 +296,7 @@ namespace Ults
                     while (active)
                     {
                         Console.Clear();
-                        PrintListPhase(phases, itemCount, currentPhase);
+                        PrintTimeLine(phases, itemCount, currentPhase);
                         Title(GetAppTitle(), title, loggedInStaff);
                         PrintPhoneBorderLine();
                         foreach (Phone phone in phones[currentPage])
@@ -375,15 +375,15 @@ namespace Ults
             {
                 case ConsoleEnum.Alert.Success:
                     ConsoleForegroundColor(ConsoleEnum.Color.Green);
-                    Console.WriteLine("\n" + spaces + "✅ " + SetTextBolder(msg.ToUpper()));
+                    Console.WriteLine(spaces + msg.ToUpper());
                     break;
                 case ConsoleEnum.Alert.Warning:
                     ConsoleForegroundColor(ConsoleEnum.Color.Yellow);
-                    Console.WriteLine("\n" + spaces + "⚠️  " + SetTextBolder(msg.ToUpper()));
+                    Console.WriteLine(spaces + msg.ToUpper());
                     break;
                 case ConsoleEnum.Alert.Error:
                     ConsoleForegroundColor(ConsoleEnum.Color.Red);
-                    Console.WriteLine("\n" + spaces + "❌ " + SetTextBolder(msg.ToUpper()));
+                    Console.WriteLine(spaces + msg.ToUpper());
                     break;
                 default:
                     break;
@@ -394,11 +394,12 @@ namespace Ults
 
         public void PressEnterTo(string? action)
         {
-            int centeredPosition = (Console.WindowWidth - action.Length) / 2;
+            string str = $"👉 Press Enter To {action}...";
+            int centeredPosition = (Console.WindowWidth - str.Length) / 2;
             string spaces = new string(' ', centeredPosition);
             if (action != null)
             {
-                Console.Write("\n" + spaces + $"👉 Press Enter To {SetTextBolder(action)}...");
+                Console.Write("\n" + spaces + str);
             }
             ConsoleKeyInfo key = Console.ReadKey();
             if (key.Key == ConsoleKey.Enter)
@@ -475,7 +476,7 @@ namespace Ults
             Console.WriteLine(spaces + "| Description: {0, -50} |", phoneDetail.Phone.Description.PadRight(84));
         }
 
-        public void PrintListPhase(string[] phase, int itemCount, int currentPhase)
+        public void PrintTimeLine(string[] phase, int itemCount, int currentPhase)
         {
             Console.Clear();
             FullWidthTinyLine();
@@ -506,8 +507,7 @@ namespace Ults
         {
             int centeredPosition = (Console.WindowWidth - "|===========================================================================================================================|".Length) / 2;
             string spaces = new string(' ', centeredPosition);
-            int totalQuantity = 0;
-            Console.WriteLine(spaces + "\n|===========================================================================================================================|");
+            Console.WriteLine("\n" + spaces + "|===========================================================================================================================|");
             Console.WriteLine(spaces + "|------------------------------------------------------- \x1b[1mVTC Mobile\x1b[0m --------------------------------------------------------|");
             Console.WriteLine(spaces + "|===========================================================================================================================|");
             Console.WriteLine(spaces + "|                                                   Order ID: " + ord.OrderID + "                                                  |");
@@ -520,7 +520,7 @@ namespace Ults
             Console.WriteLine(spaces + "| Customer: {0, -30}|", ord.Customer.CustomerName.PadRight(112));
             Console.WriteLine(spaces + "| Address: {0, -50}|", ord.Customer.Address.PadRight(113));
             Console.WriteLine(spaces + "| Phone Number: {0, -12}|", ord.Customer.PhoneNumber.PadRight(108));
-            Console.WriteLine((ord.Accountant.StaffID != 0) ? "| Payment Method: {0, 35} |" : "", "Chua xu ly".PadRight(105));
+            Console.Write((ord.Accountant.StaffID != 0) ? (spaces + "| Payment Method: {0, 35} |" + "\n") : "", "Chua xu ly".PadRight(105));
             Console.WriteLine(spaces + "|===========================================================================================================================|");
             PrintOrderDetails(ord);
             Console.WriteLine(spaces + "|===========================================================================================================================|");
@@ -550,9 +550,6 @@ namespace Ults
             Console.WriteLine(spaces + "|===========================================================================================================================|");
         }
 
-        private string[] ones = { "", "một", "hai", "ba", "bốn", "năm", "sáu", "bảy", "tám", "chín" };
-        private string[] teens = { "mười", "mười một", "mười hai", "mười ba", "mười bốn", "mười lăm", "mười sáu", "mười bảy", "mười tám", "mười chín" };
-        private string[] tens = { "", "", "hai mươi", "ba mươi", "bốn mươi", "năm mươi", "sáu mươi", "bảy mươi", "tám mươi", "chín mươi" };
 
         public string ConvertNumberToWords(decimal number)
         {
@@ -574,6 +571,9 @@ namespace Ults
 
         public string ConvertToWords(long number)
         {
+            string[] ones = { "", "một", "hai", "ba", "bốn", "năm", "sáu", "bảy", "tám", "chín" };
+            string[] teens = { "mười", "mười một", "mười hai", "mười ba", "mười bốn", "mười lăm", "mười sáu", "mười bảy", "mười tám", "mười chín" };
+            string[] tens = { "", "", "hai mươi", "ba mươi", "bốn mươi", "năm mươi", "sáu mươi", "bảy mươi", "tám mươi", "chín mươi" };
             if (number < 10)
             {
                 return ones[number];
@@ -714,7 +714,7 @@ namespace Ults
             string pass = "";
             do
             {
-                Console.Write("\n" + spaces + " 👉 Password: ");
+                Console.Write("\n" + spaces + "👉 Password: ");
                 ConsoleKeyInfo key;
                 do
                 {
@@ -801,11 +801,11 @@ namespace Ults
         {
             int centeredPosition = (Console.WindowWidth - "|--------------------------------------------------------------------------------------------|".Length) / 2;
             string spaces = new string(' ', centeredPosition);
-            return $@"{spaces}|                                                                                           |
-{spaces}|                          ┬ ┬┌─┐┌┐┌┌┬┐┬  ┌─┐  ┌─┐┬─┐┌┬┐┌─┐┬─┐┌─┐                           |
-{spaces}|                          ├─┤├─┤│││ │││  ├┤   │ │├┬┘ ││├┤ ├┬┘└─┐                           |
-{spaces}|                          ┴ ┴┴ ┴┘└┘─┴┘┴─┘└─┘  └─┘┴└──┴┘└─┘┴└─└─┘                           |
-{spaces}|                                                                                           |";
+            return $@"{spaces}|                                                                                            |
+{spaces}|                          ┬ ┬┌─┐┌┐┌┌┬┐┬  ┌─┐  ┌─┐┬─┐┌┬┐┌─┐┬─┐┌─┐                            |
+{spaces}|                          ├─┤├─┤│││ │││  ├┤   │ │├┬┘ ││├┤ ├┬┘└─┐                            |
+{spaces}|                          ┴ ┴┴ ┴┘└┘─┴┘┴─┘└─┘  └─┘┴└──┴┘└─┘┴└─└─┘                            |
+{spaces}|                                                                                            |";
         }
 
         public string[] GetMenuItemSearch()
@@ -865,9 +865,11 @@ namespace Ults
 
         public Customer GetCustomerInfo()
         {
-            string customerName = GetInputString("Customer Name");
-            string phoneNumber = GetInputString("Phone Number");
-            string address = GetInputString("Address");
+            int centeredPosition = (Console.WindowWidth - "|--------------------------------------------------------------------------------------------|".Length) / 2;
+            string spaces = new string(' ', centeredPosition);
+            string customerName = GetInputString($"{spaces}Customer Name");
+            string phoneNumber = GetInputString($"{spaces}Phone Number");
+            string address = GetInputString($"{spaces}Address");
             Customer customer = new Customer(0, customerName, phoneNumber, address);
             return customer;
         }
@@ -877,7 +879,7 @@ namespace Ults
             string str = "";
             do
             {
-                Console.Write(" " + requestToEnter + ": ");
+                Console.Write(requestToEnter + ": ");
                 str = Console.ReadLine() ?? "";
                 if (str == "")
                 {
@@ -892,7 +894,7 @@ namespace Ults
             bool isValidInput = false;
             do
             {
-                Console.Write(" " + requestToEnter + ": ");
+                Console.Write(requestToEnter + ": ");
                 isValidInput = int.TryParse(Console.ReadLine(), out intValue);
                 if (!isValidInput)
                 {
