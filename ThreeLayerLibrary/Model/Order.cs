@@ -36,4 +36,12 @@ public class Order
         }
         return totalDue;
     }
+    public decimal GetTotalDueForEachPhone() {
+        decimal totalDue = 0;
+        foreach (var item in PhoneDetails)
+        {
+            totalDue = item.Quantity * item.Price;
+        }
+        return totalDue;
+    }
 }

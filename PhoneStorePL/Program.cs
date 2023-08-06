@@ -38,7 +38,7 @@ namespace PhoneStoreUI
                         int HandleResult = 0;
                         while (activeSellerMenu)
                         {
-                            switch (Ults.MenuHandle(ConsoleUlts.GetAppTitle(), null, menuItem))
+                            switch (ConsoleUlts.MenuHandle(ConsoleUlts.GetAppTitle(), null, menuItem, staffBL.LoggedInStaff))
                             {
                                 case 1:
                                     Ults.CreateOrder();
@@ -69,7 +69,7 @@ namespace PhoneStoreUI
                         string[] menuItem = { "Payment", "Revenue Report", "Log Out" };
                         while (activeAccountantMenu)
                         {
-                            switch (Ults.MenuHandle(ConsoleUlts.GetAppTitle(), null, menuItem))
+                            switch (ConsoleUlts.MenuHandle(ConsoleUlts.GetAppTitle(), null, menuItem, staffBL.LoggedInStaff))
                             {
                                 case 1:
                                     Ults.Payment();

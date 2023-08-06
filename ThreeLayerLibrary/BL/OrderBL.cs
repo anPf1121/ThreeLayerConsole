@@ -22,7 +22,6 @@ public class OrderBL
         else
             return orders;
     }
-
     public bool UpdateOrder(OrderEnum.Status orderStatus, Order order)
     {
         return orderDAL.UpdateOrder(orderStatus, order);

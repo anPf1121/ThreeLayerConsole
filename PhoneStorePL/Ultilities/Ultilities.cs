@@ -13,7 +13,8 @@ namespace Ults
     class Ultilities
     {
         private IStaffBL loginManager;
-        public Ultilities(IStaffBL loginManager) {
+        public Ultilities(IStaffBL loginManager)
+        {
             this.loginManager = loginManager;
         }
 
@@ -24,302 +25,9 @@ namespace Ults
         // private CustomerBL customerBL = new CustomerBL();
         private OrderBL orderBL = new OrderBL();
         public Staff? orderStaff = null;
-        public Dictionary<int, List<Phone>> listAllPhones = null;
-        int currentPageDetails = 1;
 
-        public int MenuHandle(string? title, string? subTitle, string[] menuItem)
-        {
-            Console.Clear();
-            Console.OutputEncoding = System.Text.Encoding.UTF8;
-            ConsoleKeyInfo keyInfo;
-            string iconBackhand = "👉";
-            bool activeSelectedMenu = true;
-            int currentChoice = 1;
-            while (activeSelectedMenu)
-            {
-                if (title != null || subTitle != null)
-                    ConsoleUlts.Title(title, subTitle, loginManager.LoggedInStaff);
-                if (currentChoice <= (menuItem.Count() + 1) && currentChoice >= 1)
-                {
-                    for (int i = 0; i < menuItem.Count(); i++)
-                        Console.WriteLine("| {0, 50} |", (((currentChoice - 1 == i) ? (iconBackhand + " ") : "") + " " + ConsoleUlts.SetTextBolder(menuItem[i]) + $" ({i + 1})").PadRight(98));
-                    ConsoleUlts.Line();
-
-                    keyInfo = Console.ReadKey();
-
-                    if (keyInfo.Key == ConsoleKey.Enter)
-                    {
-                        Console.Clear();
-                        return currentChoice;
-                    }
-
-                    if (keyInfo.Key == ConsoleKey.DownArrow || keyInfo.Key == ConsoleKey.UpArrow || keyInfo.Key == ConsoleKey.Enter)
-                    {
-                        if (currentChoice >= 1 && currentChoice <= menuItem.Count())
-                            if (keyInfo.Key == ConsoleKey.DownArrow)
-                                currentChoice++;
-                            else if (keyInfo.Key == ConsoleKey.UpArrow)
-                                currentChoice--;
-
-                        if (currentChoice == (menuItem.Count() + 1))
-                            currentChoice = 1;
-                        else if (currentChoice == 0)
-                            currentChoice = menuItem.Count();
-                        Console.Clear();
-                    }
-                    Console.Clear();
-                }
-            }
-            return currentChoice;
-        }
-
-        public bool PressYesOrNo(string yesAction, string noAction)
-        {
-            ConsoleKeyInfo input = new ConsoleKeyInfo();
-            bool active = true;
-            char ch = 'c';
-            Console.Write($"Press {ConsoleUlts.SetTextBolder("Y")} To {yesAction} Or {ConsoleUlts.SetTextBolder("N")} To {noAction}");
-            do
-            {
-                input = Console.ReadKey(true);
-                if (input.Key == ConsoleKey.N)
-                {
-                    Console.Clear();
-                    return false;
-                }
-                else if (input.Key == ConsoleKey.Y)
-                {
-                    Console.Clear();
-                    return true;
-                }
-            } while (active);
-            return false;
-        }
-
-        public int PressCharacterTo(string firstAction, string? secondAction, string? thirdAction)
-        {
-            ConsoleKeyInfo input = new ConsoleKeyInfo();
-            bool active = true;
-            char ch = 'c';
-            if (thirdAction != null)
-                Console.Write($" Press {ConsoleUlts.SetTextBolder("Q")} To {firstAction}\n Press {ConsoleUlts.SetTextBolder("W")} To {secondAction}\n Press {ConsoleUlts.SetTextBolder("E")} To {thirdAction}");
-            else
-                Console.Write($" Press {ConsoleUlts.SetTextBolder("Q")} To {firstAction}\n Press {ConsoleUlts.SetTextBolder("W")} To {secondAction}");
-            do
-            {
-                input = Console.ReadKey(true);
-                if (input.Key == ConsoleKey.Q)
-                {
-                    Console.Clear();
-                    return 0;
-                }
-                else if (input.Key == ConsoleKey.W)
-                {
-                    Console.Clear();
-                    return 1;
-                }
-                else if (input.Key == ConsoleKey.E && thirdAction != null)
-                {
-                    Console.Clear();
-                    return 2;
-                }
-            } while (active);
-            return 0;
-        }
-        public bool ListPhonePagination(List<Phone> listPhone,string[] phases,int itemCount,int currentPhase)
-        {
-            string title = ConsoleUlts.GetAddPhoneToOrderANSITitle();
-            if (listPhone != null)
-            {
-                bool active = true;
-                Dictionary<int, List<Phone>> phones = new Dictionary<int, List<Phone>>();
-                phones = PhoneMenuPaginationHandle(listPhone);
-                listAllPhones = phones;
-                int countPage = phones.Count(), currentPage = 1;
-                ConsoleKeyInfo input = new ConsoleKeyInfo();
-                while (true)
-                {
-                    ConsoleUlts.Title(ConsoleUlts.GetAppTitle(), title, loginManager.LoggedInStaff);
-                    while (active)
-                    {
-                        Console.Clear();
-                        ConsoleUlts.PrintListPhase(phases, itemCount, currentPhase);
-                        ConsoleUlts.Title(ConsoleUlts.GetAppTitle(), title, loginManager.LoggedInStaff);
-                        ConsoleUlts.PrintPhoneBorderLine();
-                        foreach (Phone phone in phones[currentPage])
-                        {
-                            ConsoleUlts.PrintPhoneInfo(phone);
-                        }
-                        ConsoleUlts.GetFooterPagination(currentPage, countPage);
-                        do
-                        {
-                            input = Console.ReadKey();
-                            if (currentPage <= countPage)
-                            {
-                                if (input.Key == ConsoleKey.RightArrow)
-                                {
-                                    if (currentPage <= countPage - 1) currentPage++;
-                                    currentPageDetails = currentPage;
-                                    Console.Clear();
-                                    break;
-                                }
-                                else if (input.Key == ConsoleKey.LeftArrow)
-                                {
-                                    if (currentPage > 1)
-                                        currentPage--;
-                                    currentPageDetails = currentPage;
-                                    Console.Clear();
-                                    break;
-                                }
-                                else if (input.Key == ConsoleKey.B)
-                                {
-                                    Console.Clear();
-                                    return false;
-                                }
-                                else if (input.Key == ConsoleKey.Spacebar)
-                                {
-                                    return true;
-                                }
-                            }
-                        } while (input.Key != ConsoleKey.RightArrow|| input.Key != ConsoleKey.LeftArrow|| input.Key != ConsoleKey.B|| input.Key != ConsoleKey.Spacebar);
-                    }
-                }
-            }
-            else
-            {
-                ConsoleUlts.Alert(ConsoleEnum.Alert.Warning, "Phone Not Found");
-                ConsoleUlts.PressEnterTo("Back To Previous Menu");
-            }
-            return false;
-        }
 
         public string GenerateID() => Guid.NewGuid().ToString("N").Substring(0, 12).ToUpper();
-
-        public bool? ListOrderPagination(List<Order> listOrder,string[] phases,int itemCount,int currentPhase)
-        {
-            if (listOrder != null)
-            {
-                string title = ConsoleUlts.GetAllOrderANSITitle();
-                bool active = true;
-                Dictionary<int, List<Order>> orders = new Dictionary<int, List<Order>>();
-                orders = OrderMenuPaginationHandle(listOrder);
-                if (orders != null && orders.Count > 0)
-                {
-                    int countPage = orders.Count(),
-                        currentPage = 1;
-                    ConsoleKeyInfo input = new ConsoleKeyInfo();
-                    while (true)
-                    {
-                        Console.Clear();
-                        ConsoleUlts.Title(ConsoleUlts.GetAppTitle(), title, loginManager.LoggedInStaff);
-                        while (active)
-                        {
-                            ConsoleUlts.PrintListPhase(phases, itemCount, currentPhase);
-                            ConsoleUlts.Title(ConsoleUlts.GetAppTitle(), title, loginManager.LoggedInStaff);
-                            ConsoleUlts.PrintOrderBorderLine();
-                            foreach (Order order in orders[currentPage])
-                            {
-                                ConsoleUlts.PrintOrderInfo(order);
-                            }
-                            ConsoleUlts.GetFooterPagination(currentPage, countPage);
-                            do
-                            {
-                                input = Console.ReadKey();
-                                if (currentPage <= countPage)
-                                {
-                                    if (input.Key == ConsoleKey.RightArrow)
-                                    {
-                                        if (currentPage <= countPage - 1)
-                                            currentPage++;
-                                        currentPageDetails = currentPage;
-                                        Console.Clear();
-                                        break;
-                                    }
-                                    else if (input.Key == ConsoleKey.LeftArrow)
-                                    {
-                                        if (currentPage > 1)
-                                            currentPage--;
-                                        currentPageDetails = currentPage;
-                                        Console.Clear();
-                                        break;
-                                    }
-                                    else if (input.Key == ConsoleKey.B)
-                                    {
-                                        Console.Clear();
-                                        return false;
-                                    }
-                                    else if (input.Key == ConsoleKey.Spacebar)
-                                    {
-                                        return true;
-                                    }
-                                }
-                            } while (input.Key != ConsoleKey.RightArrow|| input.Key != ConsoleKey.LeftArrow|| input.Key != ConsoleKey.B|| input.Key != ConsoleKey.Spacebar);
-                        }
-                    }
-                }
-            }
-            return null;
-        }
-
-        public Dictionary<int, List<Phone>> PhoneMenuPaginationHandle(List<Phone> phoneList)
-        {
-            List<Phone> sList = new List<Phone>();
-            Dictionary<int, List<Phone>> menuTab = new Dictionary<int, List<Phone>>();
-            int phoneQuantity = phoneList.Count(), itemInTab = 4, count = 1, secondCount = 1, idTab = 0;
-
-            foreach (Phone phone in phoneList)
-            {
-                if ((count - 1) == itemInTab)
-                {
-                    sList = new List<Phone>();
-                    count = 1;
-                }
-                sList.Add(phone);
-                if (sList.Count() == itemInTab)
-                {
-                    idTab++;
-                    menuTab.Add(idTab, sList);
-                }
-                else if (sList.Count() < itemInTab && secondCount == phoneQuantity)
-                {
-                    idTab++;
-                    menuTab.Add(idTab, sList);
-                }
-                secondCount++;
-                count++;
-            }
-            return menuTab;
-        }
-
-        public Dictionary<int, List<Order>> OrderMenuPaginationHandle(List<Order> orderList)
-        {
-            List<Order> sList = new List<Order>();
-            Dictionary<int, List<Order>> menuTab = new Dictionary<int, List<Order>>();
-            int orderQuantity = orderList.Count(), itemInTab = 4, count = 1, secondCount = 1, idTab = 0;
-
-            foreach (Order order in orderList)
-            {
-                if ((count - 1) == itemInTab)
-                {
-                    sList = new List<Order>();
-                    count = 1;
-                }
-                sList.Add(order);
-                if (sList.Count() == itemInTab)
-                {
-                    idTab++;
-                    menuTab.Add(idTab, sList);
-                }
-                else if (sList.Count() < itemInTab && secondCount == orderQuantity)
-                {
-                    idTab++;
-                    menuTab.Add(idTab, sList);
-                }
-                secondCount++;
-                count++;
-            }
-            return menuTab;
-        }
 
         public int InputIDValidation(int maximumValue, string requestToEnter, string errorMessage)
         {
@@ -337,9 +45,9 @@ namespace Ults
 
         public void CreateOrder()
         {
-            string searchTitle = ConsoleUlts.GetSearchANSIText(),phoneInfoToSearch = "",input = "";
-            string[] menuSearchChoice = ConsoleUlts.GetMenuItemSearch(),listPhase = ConsoleUlts.GetCreateOrderTimeLine();
-            int phoneId = 0,phoneModelID = 0,count = 0,quantityAfterAddMoreHandle = 0,searchChoice = 0,currentPhase = 1,phaseChoice = 0,quantity = 0,reChooseModelAfterBackPrevPhase = 0;
+            string searchTitle = ConsoleUlts.GetSearchANSIText(), phoneInfoToSearch = "", input = "";
+            string[] menuSearchChoice = ConsoleUlts.GetMenuItemSearch(), listPhase = ConsoleUlts.GetCreateOrderTimeLine();
+            int phoneId = 0, phoneModelID = 0, count = 0, quantityAfterAddMoreHandle = 0, searchChoice = 0, currentPhase = 1, phaseChoice = 0, quantity = 0, reChooseModelAfterBackPrevPhase = 0;
             List<Imei>? imeis = null;
             List<int>? listAllPhonesID = new List<int>();
             bool isAddMore = false, listPhoneSearch = false, activeSearchPhone = true;
@@ -352,10 +60,10 @@ namespace Ults
                 switch (currentPhase)
                 {
                     case 1:
-                       
+
                         ConsoleUlts.PrintListPhase(listPhase, count, currentPhase);
                         ConsoleUlts.Title(ConsoleUlts.GetAppTitle(), ConsoleUlts.GetSearchANSIText(), loginManager.LoggedInStaff);
-                        searchChoice = PressCharacterTo("Search All Phone", "Search Phone By Information", "Back To Previous Menu");
+                        searchChoice = ConsoleUlts.PressCharacterTo("Search All Phone", "Search Phone By Information", "Back To Previous Menu");
 
                         if (searchChoice == 0) listTemp = phoneBL.GetAllPhone();
 
@@ -372,13 +80,13 @@ namespace Ults
                         if (listTemp.Count() == 0) activeSearchPhone = false;
                         else
                         {
-                            listPhoneSearch = ListPhonePagination(listTemp, listPhase, count, currentPhase);
+                            listPhoneSearch = ConsoleUlts.ListPhonePagination(listTemp, listPhase, count, currentPhase, loginManager.LoggedInStaff);
                             phoneId = InputIDValidation(phoneBL.GetAllPhone().Count(), "Enter Phone ID", "Invalid Phone ID");
                         }
 
                         if (!listPhoneSearch) break;
-                            
-                        if (!PressYesOrNo("Back Previous Phase", "Choose Phone Model")) currentPhase++;
+
+                        if (!ConsoleUlts.PressYesOrNo("Back Previous Phase", "Choose Phone Model")) currentPhase++;
                         break;
                     case 2:
                         phonedetails = phoneBL.GetPhoneDetailsByPhoneID(phoneId);
@@ -386,7 +94,7 @@ namespace Ults
                         if (phonesInOrder.Count() != 0 || phonesInOrder != null)
                         {
                             Dictionary<int, int> phoneDetailsIDWithQtt = new Dictionary<int, int>();
-                            
+
                             foreach (PhoneDetail item in phonesInOrder)
                                 phoneDetailsIDWithQtt.Add(item.PhoneDetailID, item.Quantity);
 
@@ -430,7 +138,7 @@ namespace Ults
                                 {
                                     if (listPhoneDetailID.Count() > 1)
                                     {
-                                        reChooseModelAfterBackPrevPhase = PressCharacterTo("Choose Another Phone Model", "Back Previous Phase", "Continue To Create Order");
+                                        reChooseModelAfterBackPrevPhase = ConsoleUlts.PressCharacterTo("Choose Another Phone Model", "Back Previous Phase", "Continue To Create Order");
                                         if (reChooseModelAfterBackPrevPhase == 1)
                                         {
                                             reEnterPhoneModelID = false;
@@ -448,7 +156,7 @@ namespace Ults
                                 {
                                     if (listPhoneDetailID.Count() > 1)
                                     {
-                                        reEnterPhoneModelID = PressYesOrNo("Choose Another Phone Model", "Back Previous Phase");
+                                        reEnterPhoneModelID = ConsoleUlts.PressYesOrNo("Choose Another Phone Model", "Back Previous Phase");
                                         if (!reEnterPhoneModelID) break;
                                     }
                                     else
@@ -478,7 +186,7 @@ namespace Ults
                             foreach (PhoneDetail pd in phonesInOrder)
                                 if (pd.PhoneDetailID == phoneModelID)
                                     phoneDetailQuantity = pDetails.Quantity - pd.Quantity;
-                                else 
+                                else
                                     phoneDetailQuantity = pDetails.Quantity;
                         }
                         else phoneDetailQuantity = pDetails.Quantity;
@@ -506,7 +214,7 @@ namespace Ults
                             }
                             for (int i = 0; i < quantity; i++)
                             {
-                                Imei imei = new Imei( "", BusinessEnum.PhoneEnum.ImeiStatus.NotExport );
+                                Imei imei = new Imei("", BusinessEnum.PhoneEnum.ImeiStatus.NotExport);
                                 do
                                 {
                                     isDuplicateImei = false;
@@ -540,7 +248,7 @@ namespace Ults
                                     }
                                 } while (!phoneBL.CheckImeiExist(imei, phoneModelID) || isDuplicateImei);
                             }
-                            if (PressYesOrNo("Back Previous Phase", "Continue"))
+                            if (ConsoleUlts.PressYesOrNo("Back Previous Phase", "Continue"))
                             {
                                 imeis = new List<Imei>();
                                 currentPhase--;
@@ -563,11 +271,11 @@ namespace Ults
                                 }
                             if (!isDuplicate) phonesInOrder.Add(pDetails);
                         }
-                        Order ord = new Order("",DateTime.Now,orderStaff,new Staff(0, "","","","","",StaffEnum.Role.Accountant,StaffEnum.Status.Active),new Customer(0, "", "", ""),phonesInOrder,OrderEnum.Status.Pending,new List<DiscountPolicy>(),"", 0);
+                        Order ord = new Order("", DateTime.Now, orderStaff, new Staff(0, "", "", "", "", "", StaffEnum.Role.Accountant, StaffEnum.Status.Active), new Customer(0, "", "", ""), phonesInOrder, OrderEnum.Status.Pending, new List<DiscountPolicy>(), "", 0);
                         ConsoleUlts.PrintListPhase(listPhase, count, currentPhase);
                         ConsoleUlts.PrintOrderDetails(ord);
                         ConsoleUlts.Line();
-                        phaseChoice = PressCharacterTo("Back Previous Phase", "Enter Customer Info", "Add More Phone");
+                        phaseChoice = ConsoleUlts.PressCharacterTo("Back Previous Phase", "Enter Customer Info", "Add More Phone");
                         if (phaseChoice == 0)
                         {
                             for (var i = 0; i < phonesInOrder.Count(); i++)
@@ -589,22 +297,23 @@ namespace Ults
                         ConsoleUlts.Title(ConsoleUlts.GetAppTitle(), ConsoleUlts.GetCustomerInfoANSITitle(), loginManager.LoggedInStaff);
                         customer = ConsoleUlts.GetCustomerInfo();
 
-                        if (PressYesOrNo("Back Previous Phase", "Confirm Order")) currentPhase--;
+                        if (ConsoleUlts.PressYesOrNo("Back Previous Phase", "Confirm Order")) currentPhase--;
 
                         else currentPhase++;
 
                         break;
                     case 5:
                         ConsoleUlts.PrintListPhase(listPhase, count, currentPhase);
-                        Order order = new Order(GenerateID(),DateTime.Now,loginManager.LoggedInStaff,new Staff(0,"","","","","",StaffEnum.Role.Accountant,StaffEnum.Status.Active),customer,phonesInOrder,OrderEnum.Status.Pending,new List<DiscountPolicy>(),"",0);
+                        Order order = new Order(GenerateID(), DateTime.Now, loginManager.LoggedInStaff, new Staff(0, "", "", "", "", "", StaffEnum.Role.Accountant, StaffEnum.Status.Active), customer, phonesInOrder, OrderEnum.Status.Pending, new List<DiscountPolicy>(), "", 0);
                         ConsoleUlts.PrintSellerOrder(order);
-                        if (PressYesOrNo("Create Order", "Cancel Order")) {
+                        if (ConsoleUlts.PressYesOrNo("Create Order", "Cancel Order"))
+                        {
                             bool isCreateOrder = orderBL.CreateOrder(order);
                             ConsoleUlts.Alert(isCreateOrder ? ConsoleEnum.Alert.Success : ConsoleEnum.Alert.Error, isCreateOrder ? "Create Order Completed" : "Create Order Failed");
                         }
                         else
                         {
-                            ConsoleUlts.Alert(ConsoleEnum.Alert.Success,"Cancel Order Completed!");
+                            ConsoleUlts.Alert(ConsoleEnum.Alert.Success, "Cancel Order Completed!");
                             phonesInOrder = new List<PhoneDetail>();
                         }
                         currentPhase++;
@@ -612,7 +321,7 @@ namespace Ults
                 }
             } while (currentPhase != 6);
         }
-                public void Payment()
+        public void Payment()
         {
             List<Order> ListOrderPending = new OrderBL().GetOrdersPendingInday();
             string input = "";
@@ -634,8 +343,7 @@ namespace Ults
             {
                 currentPhase = 1;
                 bool dontKnowHowtoCall1 = false;
-                bool? showOrderList = ListOrderPagination(ListOrderPending, listPhase, count, currentPhase);
-                Console.WriteLine(showOrderList);
+                bool? showOrderList = ConsoleUlts.ListOrderPagination(ListOrderPending, listPhase, count, currentPhase, loginManager.LoggedInStaff);
                 if (showOrderList == null)
                 {
                     ConsoleUlts.Alert(ConsoleEnum.Alert.Error, "NO ORDER EXIST");
@@ -649,11 +357,13 @@ namespace Ults
                     {
                         orderID = ConsoleUlts.GetInputString("Choose An Order ID To Payment").ToUpper();
                         orderWantToPayment = new OrderBL().GetOrderById(orderID) ?? null;
-                        if(orderWantToPayment.OrderID == "") {
+                        if (orderWantToPayment.OrderID == "")
+                        {
                             ConsoleUlts.Alert(ConsoleEnum.Alert.Error, "Invalid Order ID");
-                        } else orderWantToPayment.Accountant = this.loginManager.LoggedInStaff;
+                        }
+                        else orderWantToPayment.Accountant = this.loginManager.LoggedInStaff;
                     } while (orderWantToPayment.OrderID == "");
-                    
+
                     //Wait to display orderdetail
                     ConsoleUlts.PrintOrderDetailsInfo(orderWantToPayment);
                     if (orderWantToPayment.PhoneDetails.Count() == 0)
@@ -667,7 +377,7 @@ namespace Ults
                     keyInfo = Console.ReadKey(true);
                     if (keyInfo.Key == ConsoleKey.Enter)
                     {
-                    dontKnowHowtoCall1 = true;
+                        dontKnowHowtoCall1 = true;
                     }
                     else
                     {
@@ -766,7 +476,7 @@ namespace Ults
                                             ConsoleUlts.PrintListPhase(listPhase, count, currentPhase);
                                             Console.WriteLine("👉 Choose discount Policy for order");
                                             foreach (var discount in ListDiscountPolicyValidToOrder)
-{
+                                            {
                                                 if (discount.MinimumPurchaseAmount > 0)
                                                 {
                                                     if (orderWantToPayment.TotalDue > discount.MinimumPurchaseAmount && discount.PaymentMethod == "Not Have")
@@ -807,7 +517,7 @@ namespace Ults
                                             {
                                                 currentPhase = 5;
                                                 ConsoleUlts.PrintListPhase(listPhase, count, currentPhase);
-                                                ConsoleUlts.PrintOrderDetailsInfo(orderWantToPayment);
+                                                ConsoleUlts.PrintSellerOrder(orderWantToPayment);
                                                 Console.WriteLine("Press Enter to Confirm order OR Any key to Cancel order.");
                                                 if (keyInfo.Key == ConsoleKey.Enter)
                                                 {
@@ -839,14 +549,10 @@ namespace Ults
                 else break;
             } while (dontKnowHowtoCall == false);
         }
-      public int HandleOrder()
+        public int HandleOrder()
         {
             Console.OutputEncoding = System.Text.Encoding.UTF8;
-            string handleTitle = @"
-                                    ┬ ┬┌─┐┌┐┌┌┬┐┬  ┌─┐  ┌─┐┬─┐┌┬┐┌─┐┬─┐┌─┐
-                                    ├─┤├─┤│││ │││  ├┤   │ │├┬┘ ││├┤ ├┬┘└─┐
-                                    ┴ ┴┴ ┴┘└┘─┴┘┴─┘└─┘  └─┘┴└──┴┘└─┘┴└─└─┘
-        ";
+            string handleTitle = ConsoleUlts.GetHandleOrderANSIText();
             string[] listPhase = { "Show orders", "Show order details", "Confirm Handle" };
             int currentPhase = 1;
             int phaseChoice = 0;
@@ -871,7 +577,7 @@ namespace Ults
                     case 1:
                         ConsoleUlts.PrintListPhase(listPhase, count, currentPhase);
                         ConsoleUlts.Title(ConsoleUlts.GetAppTitle(), handleTitle, loginManager.LoggedInStaff);
-                        handleChoice = PressCharacterTo("Show orders have confirmed status in day", "Back To Previous Menu", null);
+                        handleChoice = ConsoleUlts.PressCharacterTo("Show orders have confirmed status in day", "Back To Previous Menu", null);
                         switch (handleChoice)
                         {
                             case 0:
@@ -883,7 +589,7 @@ namespace Ults
                         if (handleChoice == 1) return 2;
 
                         ConsoleUlts.PrintListPhase(listPhase, count, currentPhase);
-                        temp = ListOrderPagination(listOrderTemp, listPhase, count, currentPhase);
+                        temp = ConsoleUlts.ListOrderPagination(listOrderTemp, listPhase, count, currentPhase, loginManager.LoggedInStaff);
                         if (temp == true)
                         {
                             // nhập Id order để xem
@@ -891,7 +597,7 @@ namespace Ults
                             {
                                 orderId = ConsoleUlts.GetInputString("Enter Order ID").ToUpper();
                                 // lấy ra order bằng order ID
-                            orderTemp = orderBL.GetOrderById(orderId);
+                                orderTemp = orderBL.GetOrderById(orderId);
                                 if (orderTemp.OrderID == "")
                                 {
                                     ConsoleUlts.Alert(ConsoleEnum.Alert.Error, "Invalid Order ID Please Try Again");
@@ -914,7 +620,7 @@ namespace Ults
                         ConsoleUlts.PrintListPhase(listPhase, count, currentPhase);
                         ConsoleUlts.PrintOrderDetailsInfo(order);
 
-                        if (!PressYesOrNo("Continue", "Back Previous Phase"))
+                        if (!ConsoleUlts.PressYesOrNo("Continue", "Back Previous Phase"))
                         {
                             currentPhase--;
                             break;
@@ -925,7 +631,7 @@ namespace Ults
                     case 3:
                         ConsoleUlts.PrintListPhase(listPhase, count, currentPhase);
                         ConsoleUlts.PrintSellerOrder(order);
-                        if (!PressYesOrNo("Confirm Product", "Cancel Order"))
+                        if (!ConsoleUlts.PressYesOrNo("Confirm Product", "Cancel Order"))
                         {
                             if (orderBL.UpdateOrder(OrderEnum.Status.Canceled, order) == true)
                             {
@@ -946,34 +652,34 @@ namespace Ults
             } while (currentPhase != 4);
             return 1;
         }
-                public bool CheckInputIDValid(string inputId, List<int> IDPattern)
-                { // Ham nay de loc input xem co dung kieu va gia tri co trong list(list order, list phonedetail, list imei ..vv.)
-                    string listofid = "";
-                    foreach (var ID in IDPattern)
-                    {
-                        listofid += (ID + " ");
-                    }
-                    int id;
-                    bool IsIntType = int.TryParse(inputId, out id);
-                    if (IsIntType == true)
-                    {
-                        int count = 0;
-                        foreach (var i in IDPattern)
-                        {
-                            if (id == i) count++;
-                        }
-                        if (count != 0) return true;
-                        else
-                        {
-                            Console.WriteLine($"Please choose an id in list {listofid}");
-                            return false;
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine("Invalid input! Please input a number!");
-                        return false;
-                    }
+        public bool CheckInputIDValid(string inputId, List<int> IDPattern)
+        { // Ham nay de loc input xem co dung kieu va gia tri co trong list(list order, list phonedetail, list imei ..vv.)
+            string listofid = "";
+            foreach (var ID in IDPattern)
+            {
+                listofid += (ID + " ");
+            }
+            int id;
+            bool IsIntType = int.TryParse(inputId, out id);
+            if (IsIntType == true)
+            {
+                int count = 0;
+                foreach (var i in IDPattern)
+                {
+                    if (id == i) count++;
                 }
+                if (count != 0) return true;
+                else
+                {
+                    Console.WriteLine($"Please choose an id in list {listofid}");
+                    return false;
+                }
+            }
+            else
+            {
+                Console.WriteLine("Invalid input! Please input a number!");
+                return false;
+            }
+        }
     }
 }
