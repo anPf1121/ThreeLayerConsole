@@ -337,6 +337,7 @@ namespace Ults
             string[] listPhase = { "Choose an Order", "Choose Paymentmethod", "Choose DiscountPolicy for Paymentmethod", "Choose DiscountPolicy for Order", "Confirm or Cancel Payment" };
             List<DiscountPolicy> ListDiscountPolicyValidToOrder = new List<DiscountPolicy>();
             List<int> choicePattern = new List<int>();
+            List<string>orderChoicePattern = new List<string>();
             Dictionary<int, string> ListPaymentMethod = new Dictionary<int, string>();
             ListPaymentMethod.Add(1, "VNPay");
             ListPaymentMethod.Add(2, "Banking");
@@ -416,6 +417,7 @@ namespace Ults
                                 if (payment.Key == choice) orderWantToPayment.PaymentMethod = payment.Value;
                             }
                             ListDiscountPolicyValidToOrder = new DiscountPolicyBL().GetDiscountValidToOrder(orderWantToPayment);
+                            
                             Console.Write("Press Enter to finish choose PaymentMethod OR Any Key to choose PaymentMethod again.");
                             keyInfo = Console.ReadKey(true);
                             if (keyInfo.Key == ConsoleKey.Enter)
@@ -459,7 +461,8 @@ namespace Ults
                                     }
                                     else
                                     {
-                                        Console.WriteLine("Doesnt have any discount policy valid to this Payment method !");
+                                        Console.WriteLine(" - Doesnt have any discount policy valid to this Payment method !");
+                                        Console.WriteLine(" - Or Your Order are not eligible to apply any discountpolicy !");
                                     }
                                     Console.WriteLine("Press Enter to finish choose discount policy OR Any key to choose again.");
                                     keyInfo = Console.ReadKey(true);
@@ -524,7 +527,8 @@ namespace Ults
                                                 currentPhase = 5;
                                                 ConsoleUlts.PrintTimeLine(listPhase, count, currentPhase);
                                                 ConsoleUlts.PrintSellerOrder(orderWantToPayment);
-                                                Console.WriteLine("Press Enter to Confirm order OR Any key to Cancel order.");
+                                                Console.WriteLine("Press Enter to Confirm order - OR - ESC to Cancel order - OR - Any key for not do anything.");
+                                                keyInfo = Console.ReadKey();
                                                 if (keyInfo.Key == ConsoleKey.Enter)
                                                 {
 
@@ -535,12 +539,17 @@ namespace Ults
                                                     Console.ReadKey();
 
                                                 }
-                                                else
+                                                else if(keyInfo.Key == ConsoleKey.Escape)
                                                 {
                                                     orderBL.CancelPayment(orderWantToPayment);
                                                     Console.WriteLine("Executing...");
                                                     System.Threading.Thread.Sleep(3000);
-                                                    Console.WriteLine("Cancel Completed !Press Any Key to Back to previous Menu");
+                                                    Console.WriteLine("Cancel Completed !Press Any Key to Back to Previous Menu");
+                                                    Console.ReadKey();
+                                                }
+                                                else{
+                                                    Console.WriteLine("Doesn't do anything to this order ! Press Any Key to Back to Previous Menu");
+                                                    ConsoleUlts.ClearCurrentConsoleLine();
                                                     Console.ReadKey();
                                                 }
                                             }

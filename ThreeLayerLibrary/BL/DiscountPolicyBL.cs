@@ -33,6 +33,9 @@ public class DiscountPolicyBL{
             }
             if(count == 0)output.Add(dc);
         }
+        foreach(var v in output){
+            Console.WriteLine(v.Title);
+        }
         return output;
     }
     public DiscountPolicy GetDiscountPolicyByID(int discountid){

@@ -520,7 +520,7 @@ namespace Ults
             Console.WriteLine(spaces + "| Customer: {0, -30}|", ord.Customer.CustomerName.PadRight(112));
             Console.WriteLine(spaces + "| Address: {0, -50}|", ord.Customer.Address.PadRight(113));
             Console.WriteLine(spaces + "| Phone Number: {0, -12}|", ord.Customer.PhoneNumber.PadRight(108));
-            Console.Write((ord.Accountant.StaffID != 0) ? (spaces + "| Payment Method: {0, 35} |" + "\n") : "", "Chua xu ly".PadRight(105));
+            Console.Write((ord.Accountant.StaffID != 0) ? (spaces + "| Payment Method: {0, 35} |" + "\n") : "", ord.PaymentMethod.PadRight(105));
             Console.WriteLine(spaces + "|===========================================================================================================================|");
             PrintOrderDetails(ord);
             Console.WriteLine(spaces + "|===========================================================================================================================|");
