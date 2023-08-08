@@ -8,7 +8,10 @@ namespace BusinessEnum
             Pending,
             Confirmed,
             Canceled,
-            Completed
+            CompletedInDay,
+            CompletedInWeek,
+            CompletedInMonth,
+            CompletedAllTime,
         }
     }
 }

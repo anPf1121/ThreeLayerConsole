@@ -495,6 +495,66 @@ namespace Ults
             }
         }
         public string GenerateID() => Guid.NewGuid().ToString("N").Substring(0, 12).ToUpper();
+
+        public DateTime GetDate(string requestToEnter)
+        {
+            Console.Write(requestToEnter + ": ");
+            DateTime dateTime;
+            while (!DateTime.TryParseExact(Console.ReadLine(), "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out dateTime))
+            {
+                Console.Write("Invalid Date Format, Please Re-enter (yyyy-MM-dd): ");
+            }
+            return dateTime;
+        }
+        public void PrintColumnChart(Dictionary<int, decimal> data)
+        {
+            Console.WriteLine();
+            int centeredPosition = (Console.WindowWidth - "|==================================================================================================================================================|".Length) / 2;
+            string spaces = new string(' ', centeredPosition);
+            PhoneBL phoneBL = new PhoneBL();
+            decimal maxValue = data.Values.Max();
+            foreach (var value in data)
+            {
+                for (int i = 0; i < value.Value / maxValue * 100; i++)
+                {
+                    if (i == 0)
+                    {
+                        Console.Write(spaces + "    {0, -20} | ", phoneBL.GetPhoneDetailByID(value.Key).Phone.PhoneName + " " + phoneBL.GetPhoneDetailByID(value.Key).PhoneColor.Color + " " + phoneBL.GetPhoneDetailByID(value.Key).ROMSize.ROM);
+                    }
+                    else
+                    {
+                        Console.Write("█");
+                    }
+                    if (i >= value.Value / maxValue * 100 - 1)
+                    {
+                        Console.Write(" | {0, -15}", consoleUI.FormatPrice(value.Value));
+                    }
+                }
+                Console.WriteLine("\n");
+            }
+        }
+        public Dictionary<int, decimal> DataToPrintChartHandle(List<Order> orders)
+        {
+            Dictionary<int, decimal> phoneIdToTotalSold = new Dictionary<int, decimal>();
+
+            foreach (var order in orders)
+            {
+                foreach (var phone in order.PhoneDetails)
+                {
+                    if(phoneIdToTotalSold.Count() == 5) return phoneIdToTotalSold;
+                    if (phoneIdToTotalSold.ContainsKey(phone.PhoneDetailID))
+                    {
+                        phoneIdToTotalSold[phone.PhoneDetailID] += phone.Quantity * phone.Price;
+                    }
+                    else
+                    {
+                        phoneIdToTotalSold[phone.PhoneDetailID] = phone.Quantity * phone.Price;
+                    }
+
+                }
+            }
+            return phoneIdToTotalSold;
+        }
     }
 
 }

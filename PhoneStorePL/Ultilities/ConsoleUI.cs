@@ -302,6 +302,15 @@ class ConsoleUI
         Console.WriteLine(spaces + "|============================================================================================|");
 
     }
+    public string GetReportANSIText() {
+            int secondCenteredPosition = (Console.WindowWidth - "|==================================================================================================================================================|".Length) / 2;
+            string secondSpaces = new string(' ', secondCenteredPosition);
+        return $@"{secondSpaces}|                                                                                                                                                  |                                  
+{secondSpaces}|                                                           ┬─┐┌─┐┌─┐┌─┐┬─┐┌┬┐                                                                     |
+{secondSpaces}|                                                           ├┬┘├┤ ├─┘│ │├┬┘ │                                                                      |
+{secondSpaces}|                                                           ┴└─└─┘┴  └─┘┴└─ ┴                                                                      |
+{secondSpaces}|                                                                                                                                                  |";
+    }
     public string GetSearchANSIText()
     {
         int centeredPosition = (Console.WindowWidth - "|--------------------------------------------------------------------------------------------|".Length) / 2;
@@ -325,6 +334,16 @@ class ConsoleUI
     public string[] GetMenuItemSearch()
     {
         return new string[] { "Search All Phone", "Search Phone By Information", "Back To Previous Menu" };
+    }
+    public string GetCreateReportANSIText()
+    {
+        int centeredPosition = (Console.WindowWidth - "|--------------------------------------------------------------------------------------------|".Length) / 2;
+        string spaces = new string(' ', centeredPosition);
+        return $@"{spaces}|                                                                                            |
+{spaces}|                           ┌─┐┬─┐┌─┐┌─┐┌┬┐┌─┐  ┬─┐┌─┐┌─┐┌─┐┬─┐┌┬┐                           |
+{spaces}|                           │  ├┬┘├┤ ├─┤ │ ├┤   ├┬┘├┤ ├─┘│ │├┬┘ │                            |
+{spaces}|                           └─┘┴└─└─┘┴ ┴ ┴ └─┘  ┴└─└─┘┴  └─┘┴└─ ┴                            |
+{spaces}|                                                                                            | ";
     }
     public string[] GetCreateOrderTimeLine()
     {
@@ -442,5 +461,9 @@ class ConsoleUI
         }
 
         return result;
+    }
+    public string[] GetCreateReportTimeLine()
+    {
+        return new string[] { "Enter DateTime", "Confirm Report" };
     }
 }

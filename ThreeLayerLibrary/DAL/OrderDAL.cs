@@ -112,13 +112,50 @@ namespace DAL
                         query = @"select * from orders
                         where order_status = 2 and date(create_at) = date(current_time());";
                         break;
-                    case OrderEnum.Status.Completed:
+                    case OrderEnum.Status.CompletedInDay:
                         query = @"select * from orders
                         where order_status = 3 and MONTH(create_at) = MONTH(CURDATE()) AND YEAR(create_at) = YEAR(CURDATE());";
                         break;
                     default: break;
                 }
                 MySqlCommand command = new MySqlCommand(query, connection);
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    orders.Add(GetOrder(reader));
+                }
+                reader.Close();
+            }
+            catch (MySqlException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            List<Order> output = new List<Order>();
+            foreach (var o in orders)
+            {
+                output.Add(GetOrderByID(o.OrderID));
+            }
+            return output;
+        }
+        
+        public List<Order> GetOrdersByDateTime(DateTime startDate, DateTime endDate)
+        {
+            PhoneDetailsDAL phoneDetailsDAL = new PhoneDetailsDAL();
+            PhoneDAL phoneDAL = new PhoneDAL();
+            List<Order> orders = new List<Order>();
+            try
+            {
+                if (connection.State == System.Data.ConnectionState.Closed)
+                {
+                    connection.Open();
+                }
+                query = @"select * from orders
+                        where order_status = 3 and date(create_at) >= date(@startdate) AND date(create_at) <= date(@endDate);";
+
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.Clear();
+                command.Parameters.AddWithValue("@startdate", startDate);
+                command.Parameters.AddWithValue("@enddate", endDate);
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
@@ -288,12 +325,12 @@ namespace DAL
                         command.Parameters.AddWithValue("@orderid", order.OrderID);
                         command.ExecuteNonQuery();
                         break;
-                    case OrderEnum.Status.Completed:
+                    case OrderEnum.Status.CompletedInDay:
                         query = @"update orders set order_status = @orderstatus, update_at = current_timestamp() 
                         where order_id = @orderid;";
                         command.CommandText = query;
                         command.Parameters.Clear();
-                        command.Parameters.AddWithValue("@orderstatus", (int)OrderEnum.Status.Completed);
+                        command.Parameters.AddWithValue("@orderstatus", (int)OrderEnum.Status.CompletedInDay);
                         command.Parameters.AddWithValue("@orderid", order.OrderID);
                         command.ExecuteNonQuery();
                         break;

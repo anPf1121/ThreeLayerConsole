@@ -40,26 +40,26 @@ public class OrderBL
     }
     public List<Order>? GetOrdersCompletedInMonth()
     {
-        return orderDAL.GetOrders(OrderEnum.Status.Completed);
+        return orderDAL.GetOrders(OrderEnum.Status.CompletedInMonth);
     }
-    public decimal CalculateTotalRevenueInMonth()
+    public decimal CalculateTotalRevenue(List<Order> ordersCompleted)
     {
-        List<Order>? ordersCompleted = GetOrdersCompletedInMonth();
         if(ordersCompleted == null || ordersCompleted.Count() == 0) return 0;  
         decimal totalRevenue = 0;
         foreach (var order in ordersCompleted)
         {
             foreach (var phoneDetail in order.PhoneDetails)
             {
-                totalRevenue += phoneDetail.Quantity * phoneDetail.Price;
+                totalRevenue += CalculateTotalRevenueOnModel(phoneDetail);
             }
         }
         return totalRevenue;
     }
-    public List<PhoneDetail>? GetPhoneDetailInOrder()
+    public decimal CalculateTotalRevenueOnModel(PhoneDetail phoneDetail) {
+        return phoneDetail.Quantity * phoneDetail.Price;
+    }
+    public List<PhoneDetail> GetPhoneDetailInOrder(List<Order> ordersCompleted)
     {
-        List<Order>? ordersCompleted = GetOrdersCompletedInMonth();
-        if(ordersCompleted == null || ordersCompleted.Count() == 0) return null;  
         List<PhoneDetail> phoneDetail = new List<PhoneDetail>();
         foreach (var order in ordersCompleted)
         {
@@ -69,5 +69,8 @@ public class OrderBL
             }
         }
         return phoneDetail;
+    }
+    public List<Order> GetCompletedOrderByDate(DateTime startDate, DateTime endDate) {
+        return orderDAL.GetOrdersByDateTime(startDate, endDate);
     }
 }

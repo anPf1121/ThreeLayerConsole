@@ -340,11 +340,11 @@ from_date DATETIME NOT NULL,
 to_date DATETIME NOT NULL,
 -- thong tin cu the ve discount
 -- discount theo payment/ theo order
-payment_method VARCHAR(20) default 'Not Have',
+payment_method VARCHAR(20) default 'Not Have', -- should be updated later
 maximum_purchase_amount DECIMAL default 0,
 minimum_purchase_amount DECIMAL default 0,
 discount_price DECIMAL default 0,
-discount_rate DECIMAL default 0,
+discount_rate DECIMAL default 0, 
 -- discount theo chinh sach thu cu
 phone_detail_id INT default '0',
 money_supported DECIMAL default 0,

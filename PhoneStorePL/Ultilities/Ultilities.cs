@@ -644,7 +644,7 @@ namespace Ults
                         else
                         {
                             // đổi trạng thái Order thành completed
-                            if (orderBL.UpdateOrder(OrderEnum.Status.Completed, order) == true)
+                            if (orderBL.UpdateOrder(OrderEnum.Status.CompletedInDay, order) == true)
                             {
                                 return 1;
                             }
@@ -656,5 +656,82 @@ namespace Ults
             return 1;
         }
 
+        public void CreateReport()
+        {
+            int count = 0, centeredPosition = (Console.WindowWidth - "|--------------------------------------------------------------------------------------------|".Length) / 2;
+            string spaces = new string(' ', centeredPosition);
+            int secondCenteredPosition = (Console.WindowWidth - "|==================================================================================================================================================|".Length) / 2;
+            string secondSpaces = new string(' ', secondCenteredPosition);
+            string[] timeLine = consoleUI.GetCreateReportTimeLine();
+            string revenueTitle = consoleUI.GetSearchANSIText();
+            string[] revenueItem = { "Revenue On Phone Model In Month", "Revenue On Phone Model In Week", "Revenue On Phone Model In Day", "Back To Previous Menu" };
+            List<PhoneDetail> phoneDetails = new List<PhoneDetail>();
+            int phoneDetailCount = 0;
+            List<Order>? orders = null;
+            bool isContinue = false;
+            int choice = 0, currentPhase = 1;
+            DateTime startDate = new DateTime(), endDate = new DateTime();
+            do
+            {
+                switch (currentPhase)
+                {
+                    case 1:
+                        consoleUI.PrintTimeLine(timeLine, count, currentPhase);
+                        consoleUI.PrintTitle(consoleUI.GetAppANSIText(), null, loginManager.LoggedInStaff);
+                        startDate = ConsoleUlts.GetDate(spaces + "Enter Start Date (YYYY-MM-DD)");
+                        endDate = ConsoleUlts.GetDate(spaces + "Enter End Date (YYYY-MM-DD)");
+                        orders = orderBL.GetCompletedOrderByDate(startDate, endDate);
+                        // orders = orderBL.GetOrdersCompletedInMonth();
+                        if (orders == null || orders.Count() == 0)
+                        {
+                            ConsoleUlts.Alert(ConsoleEnum.Alert.Warning, "Don't Have Revenue In This Month");
+                            break;
+                        }
+                        else
+                        {
+                            if (ConsoleUlts.PressYesOrNo("Back Previous Phase", "Continue"))
+                            {
+                                currentPhase = timeLine.Count() + 1;
+                                break;
+                            }
+                            else currentPhase++;
+                        }
+                        break;
+                    case 2:
+                        consoleUI.PrintTimeLine(timeLine, count, currentPhase);
+                        consoleUI.PrintTitle(consoleUI.GetAppANSIText(), consoleUI.GetCreateReportANSIText(), loginManager.LoggedInStaff);
+                        foreach (var ord in orders)
+                        {
+                            foreach (var item in ord.PhoneDetails)
+                            {
+                                phoneDetailCount++;
+                            }
+                        }
+                        Console.WriteLine(secondSpaces + "|==================================================================================================================================================|");
+                        Console.WriteLine(consoleUI.GetReportANSIText());
+                        Console.WriteLine(secondSpaces + "|==================================================================================================================================================|");
+                        Console.WriteLine(secondSpaces + "| Phone Solded Quantity: {0, -20} |", phoneDetailCount.ToString().PadRight(121));
+                        Console.WriteLine(secondSpaces + "| Total Orders Quantity: {0, -20} |", orders!.Count().ToString().PadRight(121));
+                        Console.WriteLine(secondSpaces + "|==================================================================================================================================================|");
+                        Console.WriteLine(secondSpaces + "| Total revenue from {0} to {1}: {2} |", startDate.ToString("yyyy-MM-dd"), endDate.ToString("yyyy-MM-dd"), consoleUI.FormatPrice(orderBL.CalculateTotalRevenue(orders!)).PadRight(99));
+                        Console.WriteLine(secondSpaces + "| To String: {0, 50} |", consoleUI.ConvertNumberToWords(orderBL.CalculateTotalRevenue(orders)).PadRight(133));
+                        Console.WriteLine(secondSpaces + "|==================================================================================================================================================|");
+                        Console.WriteLine(secondSpaces + "|-------------------------------------------------------------- Top 5 Best Seller -----------------------------------------------------------------|");
+                        Console.WriteLine(secondSpaces + "|==================================================================================================================================================|");
+                        ConsoleUlts.PrintColumnChart(ConsoleUlts.DataToPrintChartHandle(orders));
+                        Console.WriteLine(secondSpaces + "|==================================================================================================================================================|");
+
+                        int reportChoice = ConsoleUlts.PressCharacterTo("Back Previous Phase", "Cancel Report", "Confirm Report");
+                        if (reportChoice == 0) currentPhase--;
+                        else if (reportChoice == 1) currentPhase = timeLine.Count() + 1;
+                        else if (reportChoice == 2)
+                        {
+                            currentPhase++;
+                        }
+                        break;
+
+                }
+            } while (currentPhase != timeLine.Count() + 1);
+        }
     }
 }
