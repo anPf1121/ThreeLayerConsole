@@ -6,6 +6,7 @@ using BusinessEnum;
 using GUIEnum;
 using BL;
 using DAL;
+using UI;
 
 namespace PhoneStoreUI
 {
@@ -13,11 +14,11 @@ namespace PhoneStoreUI
     {
         static void Main()
         {
-            // DbConfig.CreateDefaultDb();
             Console.OutputEncoding = System.Text.Encoding.UTF8;
             StaffBL staffBL = new StaffBL();
             Ultilities Ults = new Ultilities(staffBL);
-            ConsoleUlts ConsoleUlts = new ConsoleUlts();
+            ConsoleUlts consoleUlts = new ConsoleUlts();
+            ConsoleUI consoleUI = new ConsoleUI();
             StaffEnum.Role? loginAccount = null;
             bool active = true;
             int mainChoice = 0, SellerAccount = 0, AccountantAccount = 0;
@@ -25,11 +26,11 @@ namespace PhoneStoreUI
             {
                 Console.Clear();
                 Console.OutputEncoding = System.Text.Encoding.UTF8;
-                ConsoleUlts.Title(ConsoleUlts.GetAppTitle(), ConsoleUlts.GetLoginANSITitle(), staffBL.LoggedInStaff);
-                bool isSuccess = staffBL.Login(ConsoleUlts.GetUserName(), ConsoleUlts.GetPassword());
+                consoleUI.PrintTitle(consoleUI.GetAppANSIText(), consoleUI.GetLoginANSIText(), staffBL.LoggedInStaff);
+                bool isSuccess = staffBL.Login(consoleUlts.GetUserName(), consoleUlts.GetPassword());
                 if (isSuccess)
                 {
-                    ConsoleUlts.Alert(GUIEnum.ConsoleEnum.Alert.Success, "Login Successfully!");
+                    consoleUlts.Alert(GUIEnum.ConsoleEnum.Alert.Success, "Login Successfully!");
                     if (staffBL.LoggedInStaff.Role == StaffEnum.Role.Seller)
                     {
                         int result = 0;
@@ -38,7 +39,7 @@ namespace PhoneStoreUI
                         int HandleResult = 0;
                         while (activeSellerMenu)
                         {
-                            switch (ConsoleUlts.MenuHandle(ConsoleUlts.GetAppTitle(), null, menuItem, staffBL.LoggedInStaff))
+                            switch (consoleUlts.MenuHandle(consoleUI.GetAppANSIText(), null, menuItem, staffBL.LoggedInStaff))
                             {
                                 case 1:
                                     Ults.CreateOrder();
@@ -46,11 +47,11 @@ namespace PhoneStoreUI
                                 case 2:
                                     HandleResult = Ults.HandleOrder();
                                     if (HandleResult == -1)
-                                        ConsoleUlts.Alert(GUIEnum.ConsoleEnum.Alert.Error, "No Order exist");
+                                        consoleUlts.Alert(GUIEnum.ConsoleEnum.Alert.Error, "No Order exist");
                                     else if (HandleResult == 0)
-                                        ConsoleUlts.Alert(GUIEnum.ConsoleEnum.Alert.Warning,"Cancel Order Completed");
+                                        consoleUlts.Alert(GUIEnum.ConsoleEnum.Alert.Warning, "Cancel Order Completed");
                                     else if (HandleResult == 1)
-                                        ConsoleUlts.Alert(GUIEnum.ConsoleEnum.Alert.Success,"Handle Order Completed");
+                                        consoleUlts.Alert(GUIEnum.ConsoleEnum.Alert.Success, "Handle Order Completed");
                                     break;
                                 case 3:
                                     activeSellerMenu = false;
@@ -69,7 +70,7 @@ namespace PhoneStoreUI
                         string[] menuItem = { "Payment", "Revenue Report", "Log Out" };
                         while (activeAccountantMenu)
                         {
-                            switch (ConsoleUlts.MenuHandle(ConsoleUlts.GetAppTitle(), null, menuItem, staffBL.LoggedInStaff))
+                            switch (consoleUlts.MenuHandle(consoleUI.GetAppANSIText(), null, menuItem, staffBL.LoggedInStaff))
                             {
                                 case 1:
                                     Ults.Payment();
@@ -89,10 +90,11 @@ namespace PhoneStoreUI
                 }
                 else
                 {
-                    ConsoleUlts.Alert(ConsoleEnum.Alert.Error, "Invalid Username Or Password");
+                    consoleUlts.Alert(ConsoleEnum.Alert.Error, "Invalid Username Or Password");
                     Main();
                 }
             } while (active);
         }
     }
 }
+
