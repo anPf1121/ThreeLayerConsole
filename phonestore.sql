@@ -375,3 +375,6 @@ FOREIGN KEY (order_id) REFERENCES orders(order_id)
 --                 INNER JOIN imeis I ON I.phone_imei = OD.phone_imei
 --                 INNER JOIN phonedetails PD ON I.phone_detail_id = PD.phone_detail_id
 --                 INNER JOIN phones P ON PD.phone_id = P.phone_id
+
+CREATE USER IF NOT EXISTS 'accountant'@'localhost' IDENTIFIED BY '123456'
+GRANT ALL PRIVILEGES ON phonestore.* IO 'accountant'@'localhost' WITH GRANT OPTION;

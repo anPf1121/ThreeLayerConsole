@@ -76,7 +76,7 @@ namespace PhoneStoreUI
                                     Ults.Payment();
                                     break;
                                 case 2:
-                                Ults.CreateReport();
+                                    Ults.CreateReport();
                                     break;
                                 case 3:
                                     activeAccountantMenu = false;

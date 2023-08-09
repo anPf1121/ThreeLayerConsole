@@ -509,7 +509,7 @@ namespace Ults
                                             {
                                                 currentPhase = 5;
                                                 consoleUI.PrintTimeLine(listPhase, count, currentPhase);
-                                                consoleUI.PrintSellerOrderAfterPayment(orderWantToPayment);
+                                                consoleUI.PrintOrderInfor(orderWantToPayment);
                                                 Console.WriteLine("Press Enter to Confirm order - OR - ESC to Cancel order - OR - Any key for not do anything.");
                                                 keyInfo = Console.ReadKey();
                                                 if (keyInfo.Key == ConsoleKey.Enter)
@@ -607,6 +607,7 @@ namespace Ults
                                 }
                             } while (orderTemp.OrderID == "");
                             order = orderTemp;
+                            order.Seller = loginManager.LoggedInStaff;
                             currentPhase++;
                         }
                         else if (temp == false)
@@ -621,7 +622,7 @@ namespace Ults
                     case 2:
                         if (order == null) { }
                         consoleUI.PrintTimeLine(listPhase, count, currentPhase);
-                        consoleUI.PrintSellerOrderAfterPayment(order);
+                        consoleUI.PrintOrderInfor(order);
 
                         if (!ConsoleUlts.PressYesOrNo("Continue", "Back Previous Phase"))
                         {
@@ -633,7 +634,7 @@ namespace Ults
                         break;
                     case 3:
                         consoleUI.PrintTimeLine(listPhase, count, currentPhase);
-                        consoleUI.PrintSellerOrderAfterPayment(order);
+                        consoleUI.PrintOrderInfor(order);
                         if (!ConsoleUlts.PressYesOrNo("Confirm Product", "Cancel Order"))
                         {
                             if (orderBL.UpdateOrder(OrderEnum.Status.Canceled, order) == true)
@@ -710,11 +711,12 @@ namespace Ults
                         Console.WriteLine(secondSpaces + "|==================================================================================================================================================|");
                         Console.WriteLine(consoleUI.GetReportANSIText());
                         Console.WriteLine(secondSpaces + "|==================================================================================================================================================|");
+                        Console.WriteLine(secondSpaces + "| Total Revenue From {0} to {1}: {2} |", startDate.ToString("yyyy-MM-dd"), endDate.ToString("yyyy-MM-dd"), consoleUI.FormatPrice(orderBL.CalculateTotalRevenue(orders!)).PadRight(99));
+                        Console.WriteLine(secondSpaces + "| To String: {0, 50} |", consoleUI.ConvertNumberToWords(orderBL.CalculateTotalRevenue(orders)).PadRight(133));
+                        Console.WriteLine(secondSpaces + "|==================================================================================================================================================|");
                         Console.WriteLine(secondSpaces + "| Phone Solded Quantity: {0, -20} |", phoneDetailCount.ToString().PadRight(121));
                         Console.WriteLine(secondSpaces + "| Total Orders Quantity: {0, -20} |", orders!.Count().ToString().PadRight(121));
-                        Console.WriteLine(secondSpaces + "|==================================================================================================================================================|");
-                        Console.WriteLine(secondSpaces + "| Total revenue from {0} to {1}: {2} |", startDate.ToString("yyyy-MM-dd"), endDate.ToString("yyyy-MM-dd"), consoleUI.FormatPrice(orderBL.CalculateTotalRevenue(orders!)).PadRight(99));
-                        Console.WriteLine(secondSpaces + "| To String: {0, 50} |", consoleUI.ConvertNumberToWords(orderBL.CalculateTotalRevenue(orders)).PadRight(133));
+                        Console.WriteLine(secondSpaces + "| Repeat Customer Quantity: {0, -20} |", orderBL.GetCustomersRepeatTime(orders).ToString().PadRight(118));
                         Console.WriteLine(secondSpaces + "|==================================================================================================================================================|");
                         Console.WriteLine(secondSpaces + "|-------------------------------------------------------------- Top 5 Best Seller -----------------------------------------------------------------|");
                         Console.WriteLine(secondSpaces + "|==================================================================================================================================================|");

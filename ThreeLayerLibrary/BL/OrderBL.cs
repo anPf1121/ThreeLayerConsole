@@ -73,4 +73,23 @@ public class OrderBL
     public List<Order> GetCompletedOrderByDate(DateTime startDate, DateTime endDate) {
         return orderDAL.GetOrdersByDateTime(startDate, endDate);
     }
+    public int GetCustomersRepeatTime(List<Order> orders) {
+        Dictionary<int, int> customerIDWithRepeatTime = new Dictionary<int, int>();
+        int count = 0;
+        foreach (var item in orders)
+        {
+            if(customerIDWithRepeatTime.ContainsKey(item.Customer.CustomerID)) {
+                customerIDWithRepeatTime[item.Customer.CustomerID]++;
+                Console.WriteLine("bp bl" + item.Customer.CustomerID);
+                Console.ReadLine();
+            } else {
+                customerIDWithRepeatTime[item.Customer.CustomerID] = 1;
+            }
+        }
+        foreach (var item in customerIDWithRepeatTime)
+        {
+            if(item.Value > 1) count++;
+        }
+        return count;
+    }
 }

@@ -139,7 +139,7 @@ class ConsoleUI
         FullWidthTinyLine();
         itemCount = 0;
     }
-    public void PrintSellerOrderAfterPayment(Order ord)
+    public void PrintOrderInfor(Order ord)
     {
         int centeredPosition = (Console.WindowWidth - "|===========================================================================================================================|".Length) / 2;
         string spaces = new string(' ', centeredPosition);
@@ -165,7 +165,7 @@ class ConsoleUI
                 Console.WriteLine(spaces + "| {0, 46}                                                                            |", SetTextBolder("All DiscountPolicy Be Apply For This Order Is "));
                 foreach (var dp in ord.DiscountPolicies)
                 {
-                    Console.WriteLine(spaces + "| - {0, -100}         |", (dp.Title+": "+SetTextBolder(FormatPrice(dp.DiscountPrice).ToString().PadRight(57))).PadRight(119));
+                    Console.WriteLine(spaces + "| - {0, -100}         |", (dp.Title + ": " + SetTextBolder(FormatPrice(dp.DiscountPrice).ToString().PadRight(57))).PadRight(119));
                     if(ord.OrderStatus == OrderEnum.Status.Pending)ord.TotalDue -= dp.DiscountPrice;
                 }
             }
@@ -187,7 +187,7 @@ class ConsoleUI
         int centeredPosition = (Console.WindowWidth - "|===========================================================================================================================|".Length) / 2;
         string spaces = new string(' ', centeredPosition);
         Console.WriteLine("\n" + spaces + "|===========================================================================================================================|");
-        Console.WriteLine(spaces + "|------------------------------------------------------- \x1b[1mVTC Mobile\x1b[0m --------------------------------------------------------|");
+        Console.WriteLine(spaces + "|------------------------------------------------------- VTC Mobile --------------------------------------------------------|");
         Console.WriteLine(spaces + "|===========================================================================================================================|");
         Console.WriteLine(spaces + "|                                                   Order ID: " + ord.OrderID + "                                                  |");
         Console.WriteLine(spaces + "|===========================================================================================================================|");

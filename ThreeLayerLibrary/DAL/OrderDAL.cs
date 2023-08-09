@@ -231,7 +231,7 @@ namespace DAL
                 }
                 else
                 {
-                    query = @"select customer_id where Phone_Number = @phonenumber;";
+                    query = @"select customer_id from customers where Phone_Number = @phonenumber;";
                     command.CommandText = query;
                     command.Parameters.Clear();
                     command.Parameters.AddWithValue("@phonenumber", order.Customer.PhoneNumber);
