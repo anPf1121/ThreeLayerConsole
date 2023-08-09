@@ -290,7 +290,7 @@ namespace Ults
                     case 5:
                         consoleUI.PrintTimeLine(listPhase, count, currentPhase);
                         Order order = new Order(ConsoleUlts.GenerateID(), DateTime.Now, loginManager.LoggedInStaff, new Staff(0, "", "", "", "", "", StaffEnum.Role.Accountant, StaffEnum.Status.Active), customer, phonesInOrder, OrderEnum.Status.Pending, new List<DiscountPolicy>(), "", 0);
-                        consoleUI.PrintSellerOrder(order);
+                        consoleUI.PrintSellerOrderBeforePayment(order);
                         if (ConsoleUlts.PressYesOrNo("Create Order", "Cancel Order"))
                         {
                             bool isCreateOrder = orderBL.CreateOrder(order);
@@ -355,7 +355,7 @@ namespace Ults
                         else orderWantToPayment.Accountant = this.loginManager.LoggedInStaff;
                     } while (orderWantToPayment.OrderID == "");
                     //Wait to display orderdetail
-                    consoleUI.PrintOrderDetailsInfo(orderWantToPayment);
+                    consoleUI.PrintSellerOrderBeforePayment(orderWantToPayment);
                     if (orderWantToPayment.PhoneDetails.Count() == 0)
                     {
                         Console.WriteLine("Cant Payment! This Order doesnt have any phone!");
@@ -452,6 +452,7 @@ namespace Ults
                                     if (keyInfo.Key == ConsoleKey.Enter)
                                     {
                                         dontKnowHowtoCall3 = true;
+                                        orderWantToPayment.DiscountPolicies.Add(new DiscountPolicyBL().GetDiscountPolicyByID(choice));
                                     }
                                     else
                                     {
@@ -459,7 +460,6 @@ namespace Ults
                                     }
                                     if (dontKnowHowtoCall3 == true)
                                     {
-                                        orderWantToPayment.DiscountPolicies.Add(new DiscountPolicyBL().GetDiscountPolicyByID(choice));
                                         choicePattern = new List<int>();
                                         bool dontKnowHowtoCall4 = false;
                                         do
@@ -471,7 +471,7 @@ namespace Ults
                                             {
                                                 if (discount.MinimumPurchaseAmount > 0)
                                                 {
-                                                    if (orderWantToPayment.TotalDue > discount.MinimumPurchaseAmount && discount.PaymentMethod == "Not Have")
+                                                    if (orderWantToPayment.TotalDue >= discount.MinimumPurchaseAmount && discount.PaymentMethod == "Not Have")
                                                     {
                                                         Console.WriteLine(discount.PolicyID + ". " + discount.Title);
                                                         choicePattern.Add(discount.PolicyID);
@@ -509,7 +509,7 @@ namespace Ults
                                             {
                                                 currentPhase = 5;
                                                 consoleUI.PrintTimeLine(listPhase, count, currentPhase);
-                                                consoleUI.PrintSellerOrder(orderWantToPayment);
+                                                consoleUI.PrintSellerOrderAfterPayment(orderWantToPayment);
                                                 Console.WriteLine("Press Enter to Confirm order - OR - ESC to Cancel order - OR - Any key for not do anything.");
                                                 keyInfo = Console.ReadKey();
                                                 if (keyInfo.Key == ConsoleKey.Enter)
@@ -621,7 +621,7 @@ namespace Ults
                     case 2:
                         if (order == null) { }
                         consoleUI.PrintTimeLine(listPhase, count, currentPhase);
-                        consoleUI.PrintOrderDetailsInfo(order);
+                        consoleUI.PrintSellerOrderAfterPayment(order);
 
                         if (!ConsoleUlts.PressYesOrNo("Continue", "Back Previous Phase"))
                         {
@@ -633,7 +633,7 @@ namespace Ults
                         break;
                     case 3:
                         consoleUI.PrintTimeLine(listPhase, count, currentPhase);
-                        consoleUI.PrintSellerOrder(order);
+                        consoleUI.PrintSellerOrderAfterPayment(order);
                         if (!ConsoleUlts.PressYesOrNo("Confirm Product", "Cancel Order"))
                         {
                             if (orderBL.UpdateOrder(OrderEnum.Status.Canceled, order) == true)

@@ -79,11 +79,40 @@ namespace DAL
             order.Seller = staffDAL.GetStaffByID(order.Seller.StaffID);
             order.Customer = customerDAL.GetCustomerByID(order.Customer.CustomerID);
             order.PhoneDetails = phoneDetailsDAL.GetListPhoneDetailInOrder(order.OrderID);
-            foreach(var phone in order.PhoneDetails){
-                order.TotalDue += (phone.Price - phoneDetailsDAL.GetPhoneDiscountPrice(phone.PhoneDetailID))*phone.Quantity;
-            }
-            //Lay danh sach Phonedetails co trong order
 
+            //Xet trang thai cua order la truoc hay sau khi Payment
+            if(order.OrderStatus != OrderEnum.Status.Pending && order.OrderStatus != OrderEnum.Status.Canceled){
+                order.TotalDue = order.GetTotalDue();
+                try{
+                    if (connection.State == System.Data.ConnectionState.Closed)
+                {
+                    connection.Open();
+                }
+                query = @"select dp.* from discountpolicies dp
+                inner join discountpolicydetails dpd on dp.policy_id = dpd.policy_id
+                where dpd.order_id = @orderid;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.Clear();
+                command.Parameters.AddWithValue("@orderid", order.OrderID);
+                MySqlDataReader reader = command.ExecuteReader();
+                while(reader.Read()){
+                    order.DiscountPolicies.Add(new DiscountPolicyDAL().GetDiscountPolicy(reader));
+                }
+                reader.Close();
+                }catch(MySqlException ex){
+                    Console.WriteLine(ex.Message);
+                }
+                if (connection.State == System.Data.ConnectionState.Open)
+                {
+                    connection.Close();
+                }
+                foreach(DiscountPolicy discount in order.DiscountPolicies){
+                    order.TotalDue -= discount.DiscountPrice;
+                }
+            }
+            else if(order.OrderStatus == OrderEnum.Status.Pending){
+                order.TotalDue = order.GetTotalDue();
+            }
             return order;
         }
 
