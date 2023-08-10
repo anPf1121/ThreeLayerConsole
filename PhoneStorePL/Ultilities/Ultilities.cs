@@ -14,10 +14,10 @@ namespace Ults
     class Ultilities
     {
         private IStaffBL loginManager;
-        // public Ultilities(IStaffBL loginManager)
-        // {
-        //     this.loginManager = loginManager;
-        // }
+        public Ultilities(IStaffBL loginManager)
+        {
+            this.loginManager = loginManager;
+        }
         private PhoneBL phoneBL = new PhoneBL();
         private ConsoleUlts ConsoleUlts = new ConsoleUlts();
         private ConsoleUI consoleUI = new ConsoleUI();
@@ -28,9 +28,9 @@ namespace Ults
         public void CreateOrder()
         {
             int centeredPosition = (Console.WindowWidth - "|--------------------------------------------------------------------------------------------|".Length) / 2;
-            string spaces = new string(' ', centeredPosition);
+            string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
             int secondcenteredPosition = (Console.WindowWidth - "|===================================================================================================|".Length) / 2;
-            string secondspaces = new string(' ', secondcenteredPosition);
+            string secondspaces = secondcenteredPosition > 0 ? new string(' ', secondcenteredPosition) : "";
 
             string searchTitle = consoleUI.GetSearchANSIText(), phoneInfoToSearch = "", input = "";
             string[] menuSearchChoice = consoleUI.GetMenuItemSearch(), listPhase = consoleUI.GetCreateOrderTimeLine();
@@ -306,254 +306,12 @@ namespace Ults
                 }
             } while (currentPhase != 6);
         }
-        public void Payment()
-        {
-            int centeredPosition = (Console.WindowWidth - "|--------------------------------------------------------------------------------------------|".Length) / 2;
-            string spaces = new string(' ', centeredPosition);
-            int secondcenteredPosition = (Console.WindowWidth - "|===================================================================================================|".Length) / 2;
-            string secondspaces = new string(' ', secondcenteredPosition);
-
-            string[] listPhase = consoleUI.GetPaymentTimeLine();
-            string input = "";
-            int count = 0;
-            int currentPhase = 1;
-            List<Order> ListOrderPending = new OrderBL().GetOrdersPendingInday();
-            List<DiscountPolicy> ListDiscountPolicyValidToOrder = new List<DiscountPolicy>();
-            List<int> choicePattern = new List<int>();
-            List<string> orderChoicePattern = new List<string>();
-            Dictionary<int, string> ListPaymentMethod = new Dictionary<int, string>();
-            ListPaymentMethod.Add(1, "VNPay");
-            ListPaymentMethod.Add(2, "Banking");
-            ListPaymentMethod.Add(3, "Cash");
-            int choice = 0;
-            string orderID = "";
-            ConsoleKeyInfo keyInfo = new ConsoleKeyInfo();
-            Order? orderWantToPayment = new Order("", new DateTime(), new Staff(0, "", "", "", "", "", StaffEnum.Role.Seller, StaffEnum.Status.Active), new Staff(0, "", "", "", "", "", StaffEnum.Role.Accountant, StaffEnum.Status.Active), new Customer(0, "", "", ""), new List<PhoneDetail>(), OrderEnum.Status.Pending, new List<DiscountPolicy>(), "", 0);
-            bool dontKnowHowtoCall = true;
-            do
-            {
-                currentPhase = 1;
-                bool dontKnowHowtoCall1 = false;
-                bool? showOrderList = ConsoleUlts.ListOrderPagination(ListOrderPending, listPhase, count, currentPhase, loginManager.LoggedInStaff);
-                if (showOrderList == null)
-                {
-                    ConsoleUlts.Alert(ConsoleEnum.Alert.Error, "NO ORDER EXIST");
-                    Console.ReadKey();
-                    break;
-                }
-                else if (showOrderList == true)
-                {
-                    Console.WriteLine();
-                    do
-                    {
-                        orderID = ConsoleUlts.GetInputString($"{spaces}Choose An Order ID To Payment").ToUpper();
-                        orderWantToPayment = new OrderBL().GetOrderById(orderID) ?? null;
-                        if (orderWantToPayment.OrderID == "")
-                        {
-                            ConsoleUlts.Alert(ConsoleEnum.Alert.Error, "Invalid Order ID");
-                        }
-                        else orderWantToPayment.Accountant = this.loginManager.LoggedInStaff;
-                    } while (orderWantToPayment.OrderID == "");
-                    //Wait to display orderdetail
-                    consoleUI.PrintSellerOrderBeforePayment(orderWantToPayment);
-                    if (orderWantToPayment.PhoneDetails.Count() == 0)
-                    {
-                        Console.WriteLine("Cant Payment! This Order doesnt have any phone!");
-                        Console.WriteLine("Press any key to back to previous menu");
-                        Console.ReadKey();
-                        break;
-                    }
-                    Console.Write($"{secondspaces}Press Enter to keep doing payment OR Any Key to choose order again.");
-                    keyInfo = Console.ReadKey(true);
-                    if (keyInfo.Key == ConsoleKey.Enter)
-                    {
-                        dontKnowHowtoCall1 = true;
-                    }
-                    else
-                    {
-                        continue;
-                    }
-                    if (dontKnowHowtoCall1 == true)
-                    {
-                        choicePattern = new List<int>();
-                        bool dontKnowHowtoCall2 = false;
-                        do
-                        {
-                            currentPhase = 2;
-                            consoleUI.PrintTimeLine(listPhase, count, currentPhase);
-                            Console.WriteLine("👉 Choose a payment method");
-                            foreach (var payment in ListPaymentMethod)
-                            {
-                                Console.WriteLine(payment.Key + ". " + payment.Value);
-                                choicePattern.Add(payment.Key);
-                            }
-                            Console.Write("Your choice: ");
-                            input = Console.ReadLine() ?? "";
-                            while (!ConsoleUlts.CheckInputIDValid(input, choicePattern))
-                            {
-                                Console.Write("Choose again: ");
-                                input = Console.ReadLine() ?? "";
-                            }
-                            choice = Convert.ToInt32(input);
-                            foreach (var payment in ListPaymentMethod)
-                            {
-                                if (payment.Key == choice) orderWantToPayment.PaymentMethod = payment.Value;
-                            }
-                            ListDiscountPolicyValidToOrder = new DiscountPolicyBL().GetDiscountValidToOrder(orderWantToPayment);
-
-                            Console.Write("Press Enter to finish choose PaymentMethod OR Any Key to choose PaymentMethod again.");
-                            keyInfo = Console.ReadKey(true);
-                            if (keyInfo.Key == ConsoleKey.Enter)
-                            {
-                                dontKnowHowtoCall2 = true;
-                            }
-                            else
-                            {
-                                continue;
-                            }
-                            if (dontKnowHowtoCall2 == true)
-                            {
-                                choicePattern = new List<int>();
-                                bool dontKnowHowtoCall3 = false;
-                                do
-                                {
-                                    Console.WriteLine();
-                                    currentPhase = 3;
-                                    consoleUI.PrintTimeLine(listPhase, count, currentPhase);
-                                    Console.WriteLine("👉 Choose discount policy for PaymentMethod");
-                                    foreach (var discount in ListDiscountPolicyValidToOrder)
-                                    {
-                                        if (orderWantToPayment.PaymentMethod.Equals(discount.PaymentMethod))
-                                        {
-                                            choicePattern.Add(discount.PolicyID);
-                                            Console.WriteLine(discount.PolicyID + ". " + discount.Title);
-                                        }
-                                    }
-                                    if (choicePattern.Count() != 0)
-                                    {
-                                        Console.Write("Your choice: ");
-                                        input = Console.ReadLine() ?? "";
-                                        while (!ConsoleUlts.CheckInputIDValid(input, choicePattern))
-                                        {
-                                            Console.Write("Choose again: ");
-                                            input = Console.ReadLine() ?? "";
-                                        }
-                                        choice = Convert.ToInt32(input);
-                                        Console.WriteLine("✅ Show Discount Policy Detail");
-                                        consoleUI.PrintDiscountPolicyDetail(new DiscountPolicyBL().GetDiscountPolicyByID(choice));
-                                    }
-                                    else
-                                    {
-                                        Console.WriteLine(" - Doesnt have any discount policy valid to this Payment method !");
-                                        Console.WriteLine(" - Or Your Order are not eligible to apply any discountpolicy !");
-                                    }
-                                    Console.WriteLine("Press Enter to finish choose discount policy OR Any key to choose again.");
-                                    keyInfo = Console.ReadKey(true);
-                                    if (keyInfo.Key == ConsoleKey.Enter)
-                                    {
-                                        dontKnowHowtoCall3 = true;
-                                        orderWantToPayment.DiscountPolicies.Add(new DiscountPolicyBL().GetDiscountPolicyByID(choice));
-                                    }
-                                    else
-                                    {
-                                        continue;
-                                    }
-                                    if (dontKnowHowtoCall3 == true)
-                                    {
-                                        choicePattern = new List<int>();
-                                        bool dontKnowHowtoCall4 = false;
-                                        do
-                                        {
-                                            currentPhase = 4;
-                                            consoleUI.PrintTimeLine(listPhase, count, currentPhase);
-                                            Console.WriteLine("👉 Choose discount Policy for order");
-                                            foreach (var discount in ListDiscountPolicyValidToOrder)
-                                            {
-                                                if (discount.MinimumPurchaseAmount > 0)
-                                                {
-                                                    if (orderWantToPayment.TotalDue >= discount.MinimumPurchaseAmount && discount.PaymentMethod == "Not Have")
-                                                    {
-                                                        Console.WriteLine(discount.PolicyID + ". " + discount.Title);
-                                                        choicePattern.Add(discount.PolicyID);
-                                                    }
-                                                }
-                                            }
-                                            if (choicePattern.Count() != 0)
-                                            {
-                                                Console.Write("Your choice: ");
-                                                input = Console.ReadLine() ?? "";
-                                                while (!ConsoleUlts.CheckInputIDValid(input, choicePattern))
-                                                {
-                                                    Console.Write("Choose again: ");
-                                                    input = Console.ReadLine() ?? "";
-                                                }
-                                                choice = Convert.ToInt32(input);
-                                                Console.WriteLine("✅ Show Discount Policy Detail");
-                                                consoleUI.PrintDiscountPolicyDetail(new DiscountPolicyBL().GetDiscountPolicyByID(choice));
-                                                orderWantToPayment.DiscountPolicies.Add(new DiscountPolicyBL().GetDiscountPolicyByID(choice));
-                                            }
-                                            else
-                                            {
-                                                Console.WriteLine("Doesnt have any discount policy valid to this order !");
-                                            }
-                                            Console.WriteLine("Press Enter to finish choose discount policy OR Any key to choose again.");
-                                            if (keyInfo.Key == ConsoleKey.Enter)
-                                            {
-                                                dontKnowHowtoCall4 = true;
-                                            }
-                                            else
-                                            {
-                                                continue;
-                                            }
-                                            if (dontKnowHowtoCall4 == true)
-                                            {
-                                                currentPhase = 5;
-                                                consoleUI.PrintTimeLine(listPhase, count, currentPhase);
-                                                consoleUI.PrintOrderInfor(orderWantToPayment);
-                                                Console.WriteLine("Press Enter to Confirm order - OR - ESC to Cancel order - OR - Any key for not do anything.");
-                                                keyInfo = Console.ReadKey();
-                                                if (keyInfo.Key == ConsoleKey.Enter)
-                                                {
-
-                                                    orderBL.Payment(orderWantToPayment);
-                                                    Console.WriteLine("Executing Payment...");
-                                                    System.Threading.Thread.Sleep(3000);
-                                                    Console.WriteLine("Payment Completed! Press Any Key to Back to previous Menu");
-                                                    Console.ReadKey();
-
-                                                }
-                                                else if (keyInfo.Key == ConsoleKey.Escape)
-                                                {
-                                                    orderBL.CancelPayment(orderWantToPayment);
-                                                    Console.WriteLine("Executing...");
-                                                    System.Threading.Thread.Sleep(3000);
-                                                    Console.WriteLine("Cancel Completed !Press Any Key to Back to Previous Menu");
-                                                    Console.ReadKey();
-                                                }
-                                                else
-                                                {
-                                                    Console.WriteLine("Doesn't do anything to this order ! Press Any Key to Back to Previous Menu");
-                                                    ConsoleUlts.ClearCurrentConsoleLine();
-                                                    Console.ReadKey();
-                                                }
-                                            }
-                                        } while (dontKnowHowtoCall4 == false);
-                                    }
-                                } while (dontKnowHowtoCall3 == false);
-
-                            }
-                        } while (dontKnowHowtoCall2 == false);
-                    }
-                }
-                else break;
-            } while (dontKnowHowtoCall == false);
-        }
         public int HandleOrder()
         {
             int centeredPosition = (Console.WindowWidth - "|--------------------------------------------------------------------------------------------|".Length) / 2;
-            string spaces = new string(' ', centeredPosition);
+            string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
             int secondcenteredPosition = (Console.WindowWidth - "|===================================================================================================|".Length) / 2;
-            string secondspaces = new string(' ', secondcenteredPosition);
+            string secondspaces = secondcenteredPosition > 0 ? new string(' ', secondcenteredPosition) : "";
             Console.OutputEncoding = System.Text.Encoding.UTF8;
             string handleTitle = consoleUI.GetHandleOrderANSIText();
             string[] listPhase = { "Show orders", "Show order details", "Confirm Handle" };
@@ -660,9 +418,9 @@ namespace Ults
         public void CreateReport()
         {
             int count = 0, centeredPosition = (Console.WindowWidth - "|--------------------------------------------------------------------------------------------|".Length) / 2;
-            string spaces = new string(' ', centeredPosition);
+            string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
             int secondCenteredPosition = (Console.WindowWidth - "|==================================================================================================================================================|".Length) / 2;
-            string secondSpaces = new string(' ', secondCenteredPosition);
+            string secondSpaces = secondCenteredPosition > 0 ? new string(' ', secondCenteredPosition) : "";
             string[] timeLine = consoleUI.GetCreateReportTimeLine();
             string revenueTitle = consoleUI.GetSearchANSIText();
             string[] revenueItem = { "Revenue On Phone Model In Month", "Revenue On Phone Model In Week", "Revenue On Phone Model In Day", "Back To Previous Menu" };
@@ -735,48 +493,269 @@ namespace Ults
                 }
             } while (currentPhase != timeLine.Count() + 1);
         }
-        public void TradeIn(){
+        public void TradeIn()
+        {
             int centeredPosition = (Console.WindowWidth - "|========================================================================================================|".Length) / 2;
-            string spaces = new string(' ', centeredPosition);
+            string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
             string[] tradeInItems = { "Show Tradein Table Details", "Check Customer's Phone", "Phone Quotes", "Choose a New Phone for Tradein" };
             bool activeShowtable = true;
             ConsoleKeyInfo keyInfo = new ConsoleKeyInfo();
-            do{
+            do
+            {
                 consoleUI.PrintTimeLine(tradeInItems, 0, 1);
-                Console.WriteLine(spaces+"Show Tradein Table Details: ");
+                Console.WriteLine(spaces + "Show Tradein Table Details: ");
                 consoleUI.PrintTradeInTable();
-                Console.WriteLine(spaces+"Show Completed! Press Any Key to continue...");
+                Console.WriteLine(spaces + "Show Completed! Press Any Key to continue...");
                 Console.ReadKey();
                 bool activeCheckPhone = false;
-                do{
+                do
+                {
                     consoleUI.PrintTimeLine(tradeInItems, 0, 2);
-                    Console.Write(spaces+"Input Customer's Phone Information: ");
-                    string phoneinfo = Console.ReadLine()??"";
+                    Console.Write(spaces + "Input Customer's Phone Information: ");
+                    string phoneinfo = Console.ReadLine() ?? "";
                     List<Phone> phonesResult = phoneBL.GetPhonesByInformation(phoneinfo);
                     bool showListPhone = ConsoleUlts.ListPhonePaginationForTradeIn(phonesResult, tradeInItems, 0, 2, this.orderStaff);
-                    if(phonesResult.Count() == 0){
-                        Console.WriteLine(spaces+$"Doesnt have any result for '{phoneinfo}' !");
-                        Console.WriteLine(spaces+"Press 'ESC' to Back to Previous Menu || Press 'Enter' to Input again.");
+                    if (phonesResult.Count() == 0)
+                    {
+                        Console.WriteLine(spaces + $"Doesnt have any result for '{phoneinfo}' !");
+                        Console.WriteLine(spaces + "Press 'ESC' to Back to Previous Menu || Press 'Enter' to Input again.");
                         keyInfo = Console.ReadKey();
-                        if(keyInfo.Key == ConsoleKey.Escape){
-                            Console.WriteLine(spaces+"Back to Previous Menu.");
-                            Console.WriteLine(spaces+"Press Any Key to continue...");
+                        if (keyInfo.Key == ConsoleKey.Escape)
+                        {
+                            Console.WriteLine(spaces + "Back to Previous Menu.");
+                            Console.WriteLine(spaces + "Press Any Key to continue...");
                             ConsoleUlts.ClearCurrentConsoleLine();
                             Console.ReadKey();
                             break;
                         }
-                        else if(keyInfo.Key == ConsoleKey.Enter){
-                            Console.WriteLine(spaces+"Re-Input Customer's Phone Information...");
+                        else if (keyInfo.Key == ConsoleKey.Enter)
+                        {
+                            Console.WriteLine(spaces + "Re-Input Customer's Phone Information...");
                             ConsoleUlts.ClearCurrentConsoleLine();
                             continue;
                         }
                     }
-                    else{
+                    else
+                    {
 
                     }
 
-                }while(activeCheckPhone == false);
-            }while(activeShowtable == false);
+                } while (activeCheckPhone == false);
+            } while (activeShowtable == false);
+        }
+        public void Payment()
+        {
+            int centeredPosition = (Console.WindowWidth - "|--------------------------------------------------------------------------------------------|".Length) / 2;
+            string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
+            int secondcenteredPosition = (Console.WindowWidth - "|===================================================================================================|".Length) / 2;
+            string secondspaces = secondcenteredPosition > 0 ? new string(' ', secondcenteredPosition) : "";
+
+            string[] listPhase = consoleUI.GetPaymentTimeLine();
+            string input = "";
+            int count = 0;
+            int currentPhase = 1;
+            List<Order> ListOrderPending = new OrderBL().GetOrdersPendingInday();
+            List<DiscountPolicy> ListDiscountPolicyValidToOrder = new List<DiscountPolicy>();
+            List<int> choicePattern = new List<int>();
+            List<string> orderChoicePattern = new List<string>();
+            Dictionary<int, string> ListPaymentMethod = new Dictionary<int, string>();
+            ListPaymentMethod.Add(1, "VNPay");
+            ListPaymentMethod.Add(2, "Banking");
+            ListPaymentMethod.Add(3, "Cash");
+            int choice = 0;
+            string orderID = "";
+            ConsoleKeyInfo keyInfo = new ConsoleKeyInfo();
+            Order? orderWantToPayment = new Order("", new DateTime(), new Staff(0, "", "", "", "", "", StaffEnum.Role.Seller, StaffEnum.Status.Active), new Staff(0, "", "", "", "", "", StaffEnum.Role.Accountant, StaffEnum.Status.Active), new Customer(0, "", "", ""), new List<PhoneDetail>(), OrderEnum.Status.Pending, new List<DiscountPolicy>(), "", 0);
+            bool activePayment = true;
+            do
+            {
+                currentPhase = 1;
+                bool dontKnowHowtoCall1 = false;
+                bool? showOrderList = ConsoleUlts.ListOrderPagination(ListOrderPending, listPhase, count, currentPhase, loginManager.LoggedInStaff);
+                if (showOrderList == null)
+                {
+                    ConsoleUlts.Alert(ConsoleEnum.Alert.Error, "NO ORDER EXIST");
+                    Console.ReadKey();
+                    break;
+                }
+                else if (showOrderList == true)
+                {
+                    do
+                    {
+                        orderID = ConsoleUlts.GetInputString($"{spaces}Choose An Order ID To Payment").ToUpper();
+                        orderWantToPayment = new OrderBL().GetOrderById(orderID) ?? null;
+                        if (orderWantToPayment.OrderID == "")
+                        {
+                            ConsoleUlts.Alert(ConsoleEnum.Alert.Error, "Invalid Order ID");
+                        }
+                        else orderWantToPayment.Accountant = this.loginManager.LoggedInStaff;
+                    } while (orderWantToPayment.OrderID == "");
+
+                    //Wait to display orderdetail
+                    consoleUI.PrintSellerOrderBeforePayment(orderWantToPayment);
+                    if (orderWantToPayment.PhoneDetails.Count() == 0)
+                    {
+                        ConsoleUlts.Alert(ConsoleEnum.Alert.Error, "Order doesn't have any phone!");
+                        break;
+                    }
+                    bool resultContinueOrChooseAgain = ConsoleUlts.PressYesOrNo("Continue Payment", "Choose Order Again");
+                    if (resultContinueOrChooseAgain == true)
+                    {
+                        choicePattern = new List<int>();
+                        bool activeChoosePaymentMethod = false;
+                        do
+                        {
+                            int inputPaymentMethodChoice = 0;
+                            currentPhase = 2;
+                            consoleUI.PrintTimeLine(listPhase, count, currentPhase);
+                            // hiển thị các Payment Method (phương thức thanh toán)
+                            foreach (var payment in ListPaymentMethod)
+                            {
+                                Console.WriteLine(payment.Key + ". " + payment.Value);
+                            }
+                            do
+                            {
+                                inputPaymentMethodChoice = ConsoleUlts.GetInputInt("Choose a Payment Method");
+                                if (inputPaymentMethodChoice <= 0 || inputPaymentMethodChoice > ListPaymentMethod.Count())
+                                {
+                                    ConsoleUlts.Alert(ConsoleEnum.Alert.Error, "Invalid Payment Method");
+                                }
+                            } while (inputPaymentMethodChoice <= 0 || inputPaymentMethodChoice > ListPaymentMethod.Count());
+
+                            foreach (var payment in ListPaymentMethod)
+                            {
+                                if (payment.Key == inputPaymentMethodChoice) orderWantToPayment.PaymentMethod = payment.Value;
+                            }
+                            ListDiscountPolicyValidToOrder = new DiscountPolicyBL().GetDiscountValidToOrder(orderWantToPayment);
+
+                            bool resultContinueOrChooseMethodAgain = ConsoleUlts.PressYesOrNo("Continue", "Choose Payment Method Again");
+                            if (resultContinueOrChooseMethodAgain == true)
+                            {
+                                activeChoosePaymentMethod = true;
+                                choicePattern = new List<int>();
+                                bool activeDiscountForPayment = false;
+                                do
+                                {
+                                    currentPhase = 3;
+                                    consoleUI.PrintTimeLine(listPhase, count, currentPhase);
+                                    Console.WriteLine($"{spaces}👉 Choose discount policy for Payment Method");
+                                    foreach (var discount in ListDiscountPolicyValidToOrder)
+                                    {
+                                        if (orderWantToPayment.PaymentMethod.Equals(discount.PaymentMethod))
+                                        {
+                                            choicePattern.Add(discount.PolicyID);
+                                            Console.WriteLine($"{spaces}" + discount.PolicyID + ". " + discount.Title);
+                                        }
+                                    }
+                                    if (choicePattern.Count() != 0)
+                                    {
+                                        string ChoiceDiscountPayment = "";
+                                        do
+                                        {
+                                            ChoiceDiscountPayment = ConsoleUlts.GetInputString($"{spaces}Choose discount policy for Payment Method");
+                                        } while (!ConsoleUlts.CheckInputIDValid(ChoiceDiscountPayment, choicePattern));
+                                        choice = Convert.ToInt32(ChoiceDiscountPayment);
+                                        consoleUI.PrintTitle(consoleUI.GetDiscountPolicyDetailText(), null, loginManager.LoggedInStaff);
+                                        consoleUI.PrintDiscountPolicyDetail(new DiscountPolicyBL().GetDiscountPolicyByID(choice));
+                                    }
+                                    else
+                                    {
+                                        ConsoleUlts.Alert(ConsoleEnum.Alert.Error, "No Discount Policy Valid To This Payment Method");
+                                        Console.WriteLine(" - Or Your Order are not eligible to apply any discountpolicy !");
+                                    }
+                                    bool resultDiscount = ConsoleUlts.PressYesOrNo("Continue", "Choose Discount Policy for Payment Method Again");
+                                    // if (keyInfo.Key == ConsoleKey.Enter)
+                                    // {
+                                    //     dontKnowHowtoCall3 = true;
+                                    //     orderWantToPayment.DiscountPolicies.Add(new DiscountPolicyBL().GetDiscountPolicyByID(choice));
+                                    // }
+                                    // else
+                                    // {
+                                    //     continue;
+                                    // }
+                                    if (resultDiscount == true)
+                                    {
+                                        activeDiscountForPayment = true;
+                                        orderWantToPayment.DiscountPolicies.Add(new DiscountPolicyBL().GetDiscountPolicyByID(choice));
+                                        choicePattern = new List<int>();
+                                        bool activeConfirmOrCancel = false;
+                                        do
+                                        {
+                                            currentPhase = 4;
+                                            consoleUI.PrintTimeLine(listPhase, count, currentPhase);
+                                            Console.WriteLine($"{spaces}👉 Choose discount Policy for Order");
+                                            foreach (var discount in ListDiscountPolicyValidToOrder)
+                                            {
+                                                if (discount.MinimumPurchaseAmount > 0)
+                                                {
+                                                    if (orderWantToPayment.TotalDue >= discount.MinimumPurchaseAmount && discount.PaymentMethod == "Not Have")
+                                                    {
+                                                        Console.WriteLine($"{spaces}" + discount.PolicyID + ". " + discount.Title);
+                                                        choicePattern.Add(discount.PolicyID);
+                                                    }
+                                                }
+                                            }
+                                            if (choicePattern.Count() != 0)
+                                            {
+                                                string choiceDiscountOrder = "";
+                                                do
+                                                {
+                                                    choiceDiscountOrder = ConsoleUlts.GetInputString($"{spaces} Choose Discount Policy for Order:");
+                                                } while (!ConsoleUlts.CheckInputIDValid(choiceDiscountOrder, choicePattern));
+                                                choice = Convert.ToInt32(choiceDiscountOrder);
+                                                Console.WriteLine($"{spaces}✅ Show Discount Policy Detail");
+                                                consoleUI.PrintTitle(consoleUI.GetDiscountPolicyDetailText(), null, loginManager.LoggedInStaff);
+                                                consoleUI.PrintDiscountPolicyDetail(new DiscountPolicyBL().GetDiscountPolicyByID(choice));
+                                                orderWantToPayment.DiscountPolicies.Add(new DiscountPolicyBL().GetDiscountPolicyByID(choice));
+                                            }
+                                            else
+                                            {
+                                                ConsoleUlts.Alert(ConsoleEnum.Alert.Error, "No Discount Policy valid to this order");
+                                            }
+                                            resultDiscount = ConsoleUlts.PressYesOrNo("Continue", "Choose Discount Policy for Order Again");
+                                            // if (keyInfo.Key == ConsoleKey.Enter)
+                                            // {
+                                            //     dontKnowHowtoCall4 = true;
+                                            // }
+                                            // else
+                                            // {
+                                            //     continue;
+                                            // }
+                                            if (resultDiscount == true)
+                                            {
+                                                activeConfirmOrCancel = true;
+                                                bool choiceFinishPayment = false;
+                                                currentPhase = 5;
+                                                consoleUI.PrintTimeLine(listPhase, count, currentPhase);
+                                                consoleUI.PrintOrderInfor(orderWantToPayment); // edit here
+                                                choiceFinishPayment = ConsoleUlts.PressYesOrNo("Confirm Order", "Cancel Order");
+                                                if (choiceFinishPayment == true)
+                                                {
+                                                    orderBL.Payment(orderWantToPayment);
+                                                    Console.WriteLine($"{spaces}Executing Payment...");
+                                                    System.Threading.Thread.Sleep(1000);
+                                                    ConsoleUlts.Alert(ConsoleEnum.Alert.Success, "Payment Completed");
+
+                                                }
+                                                else if (keyInfo.Key == ConsoleKey.Escape)
+                                                {
+                                                    orderBL.CancelPayment(orderWantToPayment);
+                                                    Console.WriteLine($"{spaces}Executing Cancel...");
+                                                    System.Threading.Thread.Sleep(1000);
+                                                    ConsoleUlts.Alert(ConsoleEnum.Alert.Success, "Cancel Order Completed");
+
+                                                }
+                                            }
+                                        } while (activeDiscountForPayment == false);
+                                    }
+                                } while (activeDiscountForPayment == false);
+
+                            }
+                        } while (activeChoosePaymentMethod == false);
+                    }
+                }
+                else break;
+            } while (activePayment == false);
         }
     }
 }

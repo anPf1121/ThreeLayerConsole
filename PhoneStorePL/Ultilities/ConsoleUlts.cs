@@ -19,7 +19,7 @@ namespace Ults
         {
             string str = $"Press 'Y' To {yesAction} Or 'N' To {noAction}";
             int centeredPosition = (Console.WindowWidth - str.Length) / 2;
-            string spaces = new string(' ', centeredPosition);
+            string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
 
             ConsoleKeyInfo input = new ConsoleKeyInfo();
             bool active = true;
@@ -48,8 +48,8 @@ namespace Ults
             string secondStr = $"Press 'Q' To {firstAction} - Press 'W' To {secondAction}";
             int centeredPosition = (Console.WindowWidth - firstStr.Length) / 2;
             int secondCenteredPosition = (Console.WindowWidth - secondStr.Length) / 2;
-            string firstSpaces = new string(' ', centeredPosition);
-            string secondSpaces = new string(' ', secondCenteredPosition);
+            string firstSpaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
+            string secondSpaces = secondCenteredPosition > 0 ? new string(' ', secondCenteredPosition) : "";
             ConsoleKeyInfo input = new ConsoleKeyInfo();
             bool active = true;
             char ch = 'c';
@@ -82,7 +82,7 @@ namespace Ults
         public int MenuHandle(string? title, string? subTitle, string[] menuItem, Staff loginStaff)
         {
             int centeredPosition = (Console.WindowWidth - "|--------------------------------------------------------------------------------------------|".Length) / 2;
-            string spaces = new string(' ', centeredPosition);
+            string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
             Console.Clear();
             Console.OutputEncoding = System.Text.Encoding.UTF8;
             ConsoleKeyInfo keyInfo;
@@ -388,7 +388,7 @@ namespace Ults
         public void Alert(ConsoleEnum.Alert alertType, string msg)
         {
             int centeredPosition = (Console.WindowWidth - msg.Length) / 2;
-            string spaces = new string(' ', centeredPosition);
+            string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
             switch (alertType)
             {
                 case ConsoleEnum.Alert.Success:
@@ -414,7 +414,7 @@ namespace Ults
         {
             string str = $"👉 Press Enter To {action}...";
             int centeredPosition = (Console.WindowWidth - str.Length) / 2;
-            string spaces = new string(' ', centeredPosition);
+            string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
             if (action != null)
             {
                 Console.Write("\n" + spaces + str);
@@ -440,7 +440,7 @@ namespace Ults
         public string GetUserName()
         {
             int centeredPosition = (Console.WindowWidth - "|--------------------------------------------------------------------------------------------|".Length) / 2;
-            string spaces = new string(' ', centeredPosition);
+            string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
             string userName = GetInputString(spaces + "👉 User Name");
             return userName;
         }
@@ -448,7 +448,7 @@ namespace Ults
         public string GetPassword()
         {
             int centeredPosition = (Console.WindowWidth - "|--------------------------------------------------------------------------------------------|".Length) / 2;
-            string spaces = new string(' ', centeredPosition);
+            string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
             string pass = "";
             do
             {
@@ -480,7 +480,7 @@ namespace Ults
         public Customer GetCustomerInfo()
         {
             int centeredPosition = (Console.WindowWidth - "|--------------------------------------------------------------------------------------------|".Length) / 2;
-            string spaces = new string(' ', centeredPosition);
+            string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
             string customerName = GetInputString($"{spaces}Customer Name");
             string phoneNumber = GetInputString($"{spaces}Phone Number");
             string address = GetInputString($"{spaces}Address");
@@ -575,7 +575,7 @@ namespace Ults
         {
             Console.WriteLine();
             int centeredPosition = (Console.WindowWidth - "|==================================================================================================================================================|".Length) / 2;
-            string spaces = new string(' ', centeredPosition);
+            string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
             PhoneBL phoneBL = new PhoneBL();
             decimal maxValue = data.Values.Max();
             foreach (var value in data)

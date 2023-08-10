@@ -33,13 +33,13 @@ class ConsoleUI
     public void PrintLine()
     {
         int centeredPosition = (Console.WindowWidth - "|--------------------------------------------------------------------------------------------|".Length) / 2;
-        string spaces = new string(' ', centeredPosition);
+        string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
         Console.WriteLine(spaces + @"|--------------------------------------------------------------------------------------------|");
     }
     public void PrintPhoneDetailsInfo(List<PhoneDetail> phoneDetails)
     {
         int centeredPosition = (Console.WindowWidth - "|===================================================================================================|".Length) / 2;
-        string spaces = new string(' ', centeredPosition);
+        string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
         foreach (PhoneDetail pd in phoneDetails)
         {
             PrintPhoneDetailsInfo(pd);
@@ -59,7 +59,7 @@ class ConsoleUI
     public void PrintPhoneBorderLine()
     {
         int centeredPosition = (Console.WindowWidth - "|============================================================================================|".Length) / 2;
-        string spaces = new string(' ', centeredPosition);
+        string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
         Console.WriteLine(spaces + "|============================================================================================|");
         Console.WriteLine(spaces + "| {0, -10} | {1, -25} | {2, -13} | {3, -13} | {4, -17} |", "ID", "Phone Name", "Brand", "OS", "Mobile Network");
         Console.WriteLine(spaces + "|============================================================================================|");
@@ -67,7 +67,7 @@ class ConsoleUI
     public void PrintOrderBorderLine()
     {
         int centeredPosition = (Console.WindowWidth - "|============================================================================================|".Length) / 2;
-        string spaces = new string(' ', centeredPosition);
+        string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
         Console.WriteLine(spaces + "|============================================================================================|");
         Console.WriteLine(spaces + "| {0, -13} | {1, -25} | {2, -23} | {3, -20} |", "ID", "Customer Name", "Order Date", "Status");
         Console.WriteLine(spaces + "|============================================================================================|");
@@ -75,19 +75,19 @@ class ConsoleUI
     public void PrintPhoneInfo(Phone phone)
     {
         int centeredPosition = (Console.WindowWidth - "|============================================================================================|".Length) / 2;
-        string spaces = new string(' ', centeredPosition);
+        string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
         Console.WriteLine(spaces + "| {0, -10} | {1, -25} | {2, -13} | {3, -13} | {4, -17} |", phone.PhoneID, phone.PhoneName, phone.Brand.BrandName, phone.OS, phone.Connection);
     }
     public void PrintOrderInfo(Order order)
     {
         int centeredPosition = (Console.WindowWidth - "|--------------------------------------------------------------------------------------------|".Length) / 2;
-        string spaces = new string(' ', centeredPosition);
+        string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
         Console.WriteLine(spaces + "| {0, -13} | {1, -25} | {2, -23} | {3, -20} |", order.OrderID, order.Customer.CustomerName, order.CreateAt, order.OrderStatus);
     }
     public void PrintPhoneModelTitle()
     {
         int centeredPosition = (Console.WindowWidth - "|===================================================================================================|".Length) / 2;
-        string spaces = new string(' ', centeredPosition);
+        string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
         Console.WriteLine(spaces + "|===================================================================================================|");
         Console.WriteLine(spaces + "| PHONE MODEL                                                                                       |");
         Console.WriteLine(spaces + "====================================================================================================|");
@@ -97,7 +97,7 @@ class ConsoleUI
     public void PrintPhoneDetailsInfo(PhoneDetail phoneDetail)
     {
         int centeredPosition = (Console.WindowWidth - "|===================================================================================================|".Length) / 2;
-        string spaces = new string(' ', centeredPosition);
+        string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
         Console.WriteLine(spaces + "|===================================================================================================|");
         Console.WriteLine(spaces + "| PHONE DETAILS INFOMATION                                                                          |");
         Console.WriteLine(spaces + "|===================================================================================================|");
@@ -142,7 +142,7 @@ class ConsoleUI
     public void PrintOrderInfor(Order ord)
     {
         int centeredPosition = (Console.WindowWidth - "|===========================================================================================================================|".Length) / 2;
-        string spaces = new string(' ', centeredPosition);
+        string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
         Console.WriteLine("\n" + spaces + "|===========================================================================================================================|");
         Console.WriteLine(spaces + "|------------------------------------------------------- \x1b[1mVTC Mobile\x1b[0m --------------------------------------------------------|");
         Console.WriteLine(spaces + "|===========================================================================================================================|");
@@ -160,15 +160,15 @@ class ConsoleUI
         Console.WriteLine(spaces + "|===========================================================================================================================|");
         PrintOrderDetails(ord);
         Console.WriteLine(spaces + "|===========================================================================================================================|");
-            if (ord.DiscountPolicies.Count() != 0)
+        if (ord.DiscountPolicies.Count() != 0)
+        {
+            Console.WriteLine(spaces + "| {0, 46}                                                                            |", SetTextBolder("All DiscountPolicy Be Apply For This Order Is "));
+            foreach (var dp in ord.DiscountPolicies)
             {
-                Console.WriteLine(spaces + "| {0, 46}                                                                            |", SetTextBolder("All DiscountPolicy Be Apply For This Order Is "));
-                foreach (var dp in ord.DiscountPolicies)
-                {
-                    Console.WriteLine(spaces + "| - {0, -100}         |", (dp.Title + ": " + SetTextBolder(FormatPrice(dp.DiscountPrice).ToString().PadRight(57))).PadRight(119));
-                    if(ord.OrderStatus == OrderEnum.Status.Pending)ord.TotalDue -= dp.DiscountPrice;
-                }
+                Console.WriteLine(spaces + "| - {0, -100}         |", (dp.Title + ": " + SetTextBolder(FormatPrice(dp.DiscountPrice).ToString().PadRight(57))).PadRight(119));
+                if (ord.OrderStatus == OrderEnum.Status.Pending) ord.TotalDue -= dp.DiscountPrice;
             }
+        }
         Console.WriteLine(spaces + "|---------------------------------------------------------------------------------------------------------------------------|");
         Console.WriteLine(spaces + "| {0, 40}{1, -26}{2, 15}|", "", "Total Due: ", SetTextBolder(FormatPrice(ord.GetTotalDue()).PadRight(56)));
         if (ord.Accountant.StaffID != 0)
@@ -185,7 +185,7 @@ class ConsoleUI
     public void PrintSellerOrderBeforePayment(Order ord)
     {
         int centeredPosition = (Console.WindowWidth - "|===========================================================================================================================|".Length) / 2;
-        string spaces = new string(' ', centeredPosition);
+        string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
         Console.WriteLine("\n" + spaces + "|===========================================================================================================================|");
         Console.WriteLine(spaces + "|------------------------------------------------------- VTC Mobile --------------------------------------------------------|");
         Console.WriteLine(spaces + "|===========================================================================================================================|");
@@ -200,7 +200,7 @@ class ConsoleUI
         Console.WriteLine(spaces + "| Address: {0, -50}|", ord.Customer.Address.PadRight(113));
         Console.WriteLine(spaces + "| Phone Number: {0, -12}|", ord.Customer.PhoneNumber.PadRight(108));
         PrintOrderDetailsInfo(ord);
-        
+
         Console.WriteLine(spaces + "| {0, 40}{1, -26}{2, 15}|", "", "Total Due: ", SetTextBolder(FormatPrice(ord.GetTotalDue()).PadRight(56)));
         Console.WriteLine(spaces + "| {0, 40}{1, -26}{2, 49}|", "", "To String: ", SetTextBolder(ConvertNumberToWords(ord.GetTotalDue()).PadRight(56)));
         Console.WriteLine(spaces + "|---------------------------------------------------------------------------------------------------------------------------|");
@@ -208,7 +208,7 @@ class ConsoleUI
     public void PrintOrderDetails(Order ord)
     {
         int centeredPosition = (Console.WindowWidth - "|===========================================================================================================================|".Length) / 2;
-        string spaces = new string(' ', centeredPosition);
+        string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
         CultureInfo cultureInfo = new CultureInfo("vi-VN");
         int printImeiHandle = 0;
         int printImeiHandle2 = 0;
@@ -247,15 +247,15 @@ class ConsoleUI
     public void PrintPhoneModelInfo(PhoneDetail phoneDetail)
     {
         int centeredPosition = (Console.WindowWidth - "|===================================================================================================|".Length) / 2;
-        string spaces = new string(' ', centeredPosition);
+        string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
         CultureInfo cultureInfo = new CultureInfo("vi-VN");
         Console.WriteLine(spaces + "| {0, -10} | {1, -13} | {2, -15} | {3, -15} | {4, -15} | {5, -14} |", phoneDetail.PhoneDetailID, phoneDetail.PhoneColor.Color, phoneDetail.ROMSize.ROM, string.Format(cultureInfo, "{0:N0} ₫", phoneDetail.Price), phoneDetail.PhoneStatusType, (phoneDetail.Quantity != 0) ? phoneDetail.Quantity : "Out Of Stock");
     }
     public void PrintOrderDetailsInfo(Order order)
     {
         int centeredPosition = (Console.WindowWidth - "|===========================================================================================================================|".Length) / 2;
-        string spaces = new string(' ', centeredPosition);
-        
+        string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
+
         if (order.PhoneDetails.Count() == 0)
         {
             Console.WriteLine(spaces + "|===========================================================================================================================|");
@@ -275,73 +275,85 @@ class ConsoleUI
             Console.WriteLine(spaces + "|===========================================================================================================================|");
         }
     }
-    public void PrintTradeInTable(){
+    public void PrintTradeInTable()
+    {
         int centeredPosition = (Console.WindowWidth - "|========================================================================================================|".Length) / 2;
-        string spaces = new string(' ', centeredPosition);
+        string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
         int centeredPosition2 = 0;
-        string spaces2 = new string(' ', 10);
+        string spaces2 = centeredPosition2 > 0 ? new string(' ', 10) : "";
         Dictionary<PhoneDetail, Dictionary<PhoneEnum.Status, decimal>> TradeInTable = new Ults.ConsoleUlts().GetListPhoneTradeIn();
-        Console.WriteLine(spaces +"      |============================================================================================|");
+        Console.WriteLine(spaces + "      |============================================================================================|");
         Console.WriteLine(GetAppANSIText());
-        Console.WriteLine(spaces +"|=========================================================================================================|");
+        Console.WriteLine(spaces + "|=========================================================================================================|");
         Console.WriteLine(GetShowTradeInDetailsANSIText());
-        Console.WriteLine(spaces +"|=========================================================================================================|");
+        Console.WriteLine(spaces + "|=========================================================================================================|");
         Console.WriteLine(spaces + "| {0, -15} | {1, -13} | {2, -15} | {3, -15} | {4, -15} | {5, -15} |", "Model", "ROMSize", "Type 1", "Type 2", "Type 3", "Type 4");
-        Console.WriteLine(spaces +"|=========================================================================================================|");
-        foreach(var t in TradeInTable){
+        Console.WriteLine(spaces + "|=========================================================================================================|");
+        foreach (var t in TradeInTable)
+        {
             int count = 0;
-            Console.Write(spaces + "| {0, -15} | {1, -13} ",t.Key.Phone.PhoneName, t.Key.ROMSize.ROM);
-            foreach(var type in t.Value){
+            Console.Write(spaces + "| {0, -15} | {1, -13} ", t.Key.Phone.PhoneName, t.Key.ROMSize.ROM);
+            foreach (var type in t.Value)
+            {
 
-                Console.Write("|"+" "+type.Value);
-                int numSpace = 16-type.Value.ToString().Length;
-                while(numSpace>0){
+                Console.Write("|" + " " + type.Value);
+                int numSpace = 16 - type.Value.ToString().Length;
+                while (numSpace > 0)
+                {
                     Console.Write(" ");
                     numSpace--;
                 }
                 count++;
             }
-            if(count == 4)Console.Write("|");
-            else if(count == 3){
-                Console.Write("|"+" "+"-");
+            if (count == 4) Console.Write("|");
+            else if (count == 3)
+            {
+                Console.Write("|" + " " + "-");
                 int numSpace = 15;
-                while(numSpace>0){
+                while (numSpace > 0)
+                {
                     Console.Write(" ");
                     numSpace--;
                 }
                 Console.Write("|");
             }
-            else if(count == 2){
-                for(int i = 0;i<2;i++){
-                    Console.Write("|"+" "+"-");
-                int numSpace = 15;
-                while(numSpace>0){
-                    Console.Write(" ");
-                    numSpace--;
-                }
+            else if (count == 2)
+            {
+                for (int i = 0; i < 2; i++)
+                {
+                    Console.Write("|" + " " + "-");
+                    int numSpace = 15;
+                    while (numSpace > 0)
+                    {
+                        Console.Write(" ");
+                        numSpace--;
+                    }
                 }
                 Console.Write("|");
             }
-            else if(count ==1){
-                for(int i = 0;i<3;i++){
-                    Console.Write("|"+" "+"-");
-                int numSpace = 15;
-                while(numSpace>0){
-                    Console.Write(" ");
-                    numSpace--;
-                }
+            else if (count == 1)
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    Console.Write("|" + " " + "-");
+                    int numSpace = 15;
+                    while (numSpace > 0)
+                    {
+                        Console.Write(" ");
+                        numSpace--;
+                    }
                 }
                 Console.Write("|");
             }
             Console.WriteLine();
         }
-        Console.WriteLine(spaces +"|=========================================================================================================|");
+        Console.WriteLine(spaces + "|=========================================================================================================|");
         // Console.WriteLine(spaces + "| {0, -10} | {1, -13} | {2, -15} | {3, -15} | {4, -15} | {5, -14} |", phoneDetail.PhoneDetailID, phoneDetail.PhoneColor.Color, phoneDetail.ROMSize.ROM, string.Format(cultureInfo, "{0:N0} ₫", phoneDetail.Price), phoneDetail.PhoneStatusType, (phoneDetail.Quantity != 0) ? phoneDetail.Quantity : "Out Of Stock");
     }
     public void PrintTitle(string? title, string? subTitle, Staff? staffLoggedIn)
     {
         int centeredPosition = (Console.WindowWidth - "|--------------------------------------------------------------------------------------------|".Length) / 2;
-        string spaces = new string(' ', centeredPosition);
+        string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
         if (title != null)
         {
             PrintLine();
@@ -362,10 +374,20 @@ class ConsoleUI
         }
         PrintLine();
     }
+    public string GetDiscountPolicyDetailText()
+    {
+        int centeredPosition = (Console.WindowWidth - "|--------------------------------------------------------------------------------------------|".Length) / 2;
+        string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
+        return $@"{spaces}|                                                                                            |
+{spaces}|                  ┌┬┐┬┌─┐┌─┐┌─┐┬ ┬┌┐┌┌┬┐  ┌─┐┌─┐┬  ┬┌─┐┬ ┬  ┌┬┐┌─┐┌┬┐┌─┐┬┬                  |
+{spaces}|                   │││└─┐│  │ ││ ││││ │   ├─┘│ ││  ││  └┬┘   ││├┤  │ ├─┤││                  |
+{spaces}|                  ─┴┘┴└─┘└─┘└─┘└─┘┘└┘ ┴   ┴  └─┘┴─┘┴└─┘ ┴   ─┴┘└─┘ ┴ ┴ ┴┴┴─┘                |
+{spaces}|                                                                                            |";
+    }
     public string GetAppANSIText()
     {
         int centeredPosition = (Console.WindowWidth - "|--------------------------------------------------------------------------------------------|".Length) / 2;
-        string spaces = new string(' ', centeredPosition);
+        string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
         return $@"{spaces}|                                                                                            |
 {spaces}|                             ┌─┐┬ ┬┌─┐┌┐┌┌─┐  ┌─┐┌┬┐┌─┐┬─┐┌─┐                               |
 {spaces}|                             ├─┘├─┤│ ││││├┤   └─┐ │ │ │├┬┘├┤                                |
@@ -375,7 +397,7 @@ class ConsoleUI
     public void GetFooterPagination(int currentPage, int countPage)
     {
         int centeredPosition = (Console.WindowWidth - "|============================================================================================|".Length) / 2;
-        string spaces = new string(' ', centeredPosition);
+        string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
         Console.WriteLine(spaces + "|============================================================================================|");
         Console.WriteLine(spaces + "| {0,42}" + "< " + $"{currentPage}/{countPage}" + " >".PadRight(44) + "|", " ");
         Console.WriteLine(spaces + "|============================================================================================|");
@@ -384,9 +406,10 @@ class ConsoleUI
         Console.WriteLine(spaces + "|============================================================================================|");
 
     }
-    public string GetReportANSIText() {
-            int secondCenteredPosition = (Console.WindowWidth - "|==================================================================================================================================================|".Length) / 2;
-            string secondSpaces = new string(' ', secondCenteredPosition);
+    public string GetReportANSIText()
+    {
+        int secondCenteredPosition = (Console.WindowWidth - "|==================================================================================================================================================|".Length) / 2;
+        string secondSpaces = secondCenteredPosition > 0 ? new string(' ', secondCenteredPosition) : "";
         return $@"{secondSpaces}|                                                                                                                                                  |                                  
 {secondSpaces}|                                                           ┬─┐┌─┐┌─┐┌─┐┬─┐┌┬┐                                                                     |
 {secondSpaces}|                                                           ├┬┘├┤ ├─┘│ │├┬┘ │                                                                      |
@@ -396,7 +419,7 @@ class ConsoleUI
     public string GetSearchANSIText()
     {
         int centeredPosition = (Console.WindowWidth - "|--------------------------------------------------------------------------------------------|".Length) / 2;
-        string spaces = new string(' ', centeredPosition);
+        string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
         return $@"{spaces}|                                                                                            |
 {spaces}|                                     ┌─┐┌─┐┌─┐┬─┐┌─┐┬ ┬                                     |
 {spaces}|                                     └─┐├┤ ├─┤├┬┘│  ├─┤                                     |
@@ -406,7 +429,7 @@ class ConsoleUI
     public string GetHandleOrderANSIText()
     {
         int centeredPosition = (Console.WindowWidth - "|--------------------------------------------------------------------------------------------|".Length) / 2;
-        string spaces = new string(' ', centeredPosition);
+        string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
         return $@"{spaces}|                                                                                            |
 {spaces}|                          ┬ ┬┌─┐┌┐┌┌┬┐┬  ┌─┐  ┌─┐┬─┐┌┬┐┌─┐┬─┐┌─┐                            |
 {spaces}|                          ├─┤├─┤│││ │││  ├┤   │ │├┬┘ ││├┤ ├┬┘└─┐                            |
@@ -420,7 +443,7 @@ class ConsoleUI
     public string GetCreateReportANSIText()
     {
         int centeredPosition = (Console.WindowWidth - "|--------------------------------------------------------------------------------------------|".Length) / 2;
-        string spaces = new string(' ', centeredPosition);
+        string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
         return $@"{spaces}|                                                                                            |
 {spaces}|                           ┌─┐┬─┐┌─┐┌─┐┌┬┐┌─┐  ┬─┐┌─┐┌─┐┌─┐┬─┐┌┬┐                           |
 {spaces}|                           │  ├┬┘├┤ ├─┤ │ ├┤   ├┬┘├┤ ├─┘│ │├┬┘ │                            |
@@ -438,7 +461,7 @@ class ConsoleUI
     public string GetCustomerInfoANSIText()
     {
         int centeredPosition = (Console.WindowWidth - "|--------------------------------------------------------------------------------------------|".Length) / 2;
-        string spaces = new string(' ', centeredPosition);
+        string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
         string title =
             $@"{spaces}|                                                                                            |                                                                      
 {spaces}|          ┌─┐┌┐┌┌┬┐┌─┐┬─┐  ┌─┐┬ ┬┌─┐┌┬┐┌─┐┌┬┐┌─┐┬─┐  ┬┌┐┌┌─┐┌─┐┬─┐┌┬┐┌─┐┌┬┐┬┌─┐┌┐┌          |
@@ -450,7 +473,7 @@ class ConsoleUI
     public string GetAddPhoneToOrderANSIText()
     {
         int centeredPosition = (Console.WindowWidth - "|--------------------------------------------------------------------------------------------|".Length) / 2;
-        string spaces = new string(' ', centeredPosition);
+        string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
         return
         $@"{spaces}|                                                                                            |
 {spaces}|                    ┌─┐┌┬┐┌┬┐  ┌─┐┬ ┬┌─┐┌┐┌┌─┐  ┌┬┐┌─┐  ┌─┐┬─┐┌┬┐┌─┐┬─┐                     |
@@ -458,11 +481,12 @@ class ConsoleUI
 {spaces}|                    ┴ ┴─┴┘─┴┘  ┴  ┴ ┴└─┘┘└┘└─┘   ┴ └─┘  └─┘┴└──┴┘└─┘┴└─                     |
 {spaces}|                                                                                            |";
     }
-    public string GetCheckCustomerPhoneANSIText(){
+    public string GetCheckCustomerPhoneANSIText()
+    {
         int centeredPosition = (Console.WindowWidth - "|--------------------------------------------------------------------------------------------|".Length) / 2;
-        string spaces = new string(' ', centeredPosition);
-        int centeredPosition2 = centeredPosition -9;
-        string spaces2 = new string(' ', centeredPosition2);
+        string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
+        int centeredPosition2 = centeredPosition - 9;
+        string spaces2 = centeredPosition2 > 0 ? new string(' ', centeredPosition2) : "";
         return
         $@"{spaces}|                                                                                            |
 {spaces}|{spaces2}╔═╗┬ ┬┌─┐┌─┐┬┌─  ╔═╗┬ ┬┌─┐┌┬┐┌─┐┌┬┐┌─┐┬─┐┌─┐  ╔═╗┬ ┬┌─┐┌┐┌┌─┐             |
@@ -470,11 +494,12 @@ class ConsoleUI
 {spaces}|{spaces2}╚═╝┴ ┴└─┘└─┘┴ ┴  ╚═╝└─┘└─┘ ┴ └─┘┴ ┴└─┘┴└─└─┘  ╩  ┴ ┴└─┘┘└┘└─┘             |
 {spaces}|                                                                                            |";
     }
-    public string GetShowTradeInDetailsANSIText(){
+    public string GetShowTradeInDetailsANSIText()
+    {
         int centeredPosition = (Console.WindowWidth - "|--------------------------------------------------------------------------------------------------------|".Length) / 2;
-        string spaces = new string(' ', centeredPosition);
-        int centeredPosition2 = centeredPosition -3;
-        string spaces2 = new string(' ', centeredPosition2);
+        string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
+        int centeredPosition2 = centeredPosition - 3;
+        string spaces2 = centeredPosition2 > 0 ? new string(' ', centeredPosition2) : "";
         return
         $@"{spaces}|                                                                                                         |
 {spaces}|{spaces2}╔═╗┬ ┬┌─┐┬ ┬  ╔╦╗┬─┐┌─┐┌┬┐┌─┐┬┌┐┌  ╔╦╗┌─┐┌┐ ┬  ┌─┐  ╔╦╗┌─┐┌┬┐┌─┐┬┬  ┌─┐                |
@@ -485,7 +510,7 @@ class ConsoleUI
     public string GetAllOrderANSIText()
     {
         int centeredPosition = (Console.WindowWidth - "|--------------------------------------------------------------------------------------------|".Length) / 2;
-        string spaces = new string(' ', centeredPosition);
+        string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
         return $@"{spaces}|                                                                                            |
 {spaces}|                                ┌─┐┬  ┬    ┌─┐┬─┐┌┬┐┌─┐┬─┐┌─┐                               |
 {spaces}|                                ├─┤│  │    │ │├┬┘ ││├┤ ├┬┘└─┐                               |
@@ -495,7 +520,7 @@ class ConsoleUI
     public string GetLoginANSIText()
     {
         int centeredPosition = (Console.WindowWidth - "|--------------------------------------------------------------------------------------------|".Length) / 2;
-        string spaces = new string(' ', centeredPosition);
+        string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
         return $@"{spaces}|                                                                                            |
 {spaces}|                                       ┬  ┌─┐┌─┐┬┌┐┌                                        |
 {spaces}|                                       │  │ ││ ┬││││                                        |

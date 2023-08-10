@@ -174,10 +174,6 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "dependencies": {
-            "MySqlConnection": {
-              "target": "Package",
-              "version": "[1.0.1, )"
-            },
             "MySqlConnector": {
               "target": "Package",
               "version": "[2.2.6, )"
