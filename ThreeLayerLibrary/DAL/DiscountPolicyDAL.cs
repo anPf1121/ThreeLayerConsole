@@ -93,6 +93,31 @@ namespace DAL
             }
             return output;
         }
+        public DiscountPolicy GetDiscountPolicyForPhoneTradeIn(PhoneDetail phone){
+        DiscountPolicy output = new DiscountPolicy(0, "", new DateTime(), new DateTime(), new Staff(0, "", "", "", "", "", StaffEnum.Role.Accountant, StaffEnum.Status.Active), new DateTime(), 0, 0, 0, "", new PhoneDetail(0, new Phone(0, "", new Brand(0, "", ""), "", "", "", "", "", "", "", "", "",  new DateTime(), "",new Staff(0, "", "", "", "", "", StaffEnum.Role.Seller, StaffEnum.Status.Active), new DateTime(), ""), new ROMSize(0, ""), new PhoneColor(0, ""), 0, 0, PhoneEnum.Status.Type1, new List<Imei>(), new Staff(0, "", "", "", "", "", StaffEnum.Role.Accountant, StaffEnum.Status.Active), new DateTime()), new DateTime(), new Staff(0, "", "", "", "", "", StaffEnum.Role.Accountant, StaffEnum.Status.Active), 0, "");
+        try{
+            if (connection.State == System.Data.ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+            query = @"select * from discountpolicies where phone_detail_id = @phonedt and money_supported !=0;";
+            MySqlCommand command = new MySqlCommand(query, connection);
+            command.Parameters.Clear();
+            command.Parameters.AddWithValue("@phonedt", phone.PhoneDetailID);
+            MySqlDataReader reader = command.ExecuteReader();
+            if(reader.Read()){
+                output = GetDiscountPolicy(reader);
+            }
+            reader.Close();
+        }catch(MySqlException ex){
+            Console.WriteLine(ex.Message);
+        }
+        if (connection.State == System.Data.ConnectionState.Open)
+            {
+                connection.Close();
+            }
+        return output;
+    }
 
     }
 }

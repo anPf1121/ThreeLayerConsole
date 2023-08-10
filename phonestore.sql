@@ -372,6 +372,14 @@ INSERT INTO discountpolicies(title, from_date, to_date, phone_detail_id, discoun
 INSERT INTO discountpolicies(title, from_date, to_date, phone_detail_id, discount_price, create_by) VALUE('Giam gia cho dien thoai Nokia 1280 model 2', '2023-07-07', '2024-07-07', '2', '100000', '2');
 INSERT INTO discountpolicies(title, from_date, to_date, minimum_purchase_amount, maximum_purchase_amount, discount_price, create_by) VALUE('Giam gia tong chi tren 500000 cua order', '2023-07-07', '2024-07-07','500000','3500000' , '100000', '2');
 INSERT INTO discountpolicies(title, from_date, to_date, minimum_purchase_amount, maximum_purchase_amount, discount_price,payment_method, create_by) VALUE('Giam gia tong chi tren 500000 cho VNPay loai 1', '2023-07-07', '2024-07-07','500000','3500000' , '100000','VNPay', '2');
+INSERT INTO discountpolicies(title, from_date, to_date, phone_detail_id, money_supported, create_by) VALUE('Ho tro thu cu dien thoai Nokia 1280 16GB', '2023-07-07', '2024-07-07', '2', '100000', '2');
+INSERT INTO discountpolicies(title, from_date, to_date, phone_detail_id, money_supported, create_by) VALUE('Ho tro thu cu dien thoai Nokia 1280 16GB', '2023-07-07', '2024-07-07', '3', '100000', '2');
+INSERT INTO discountpolicies(title, from_date, to_date, phone_detail_id, money_supported, create_by) VALUE('Ho tro thu cu dien thoai Nokia 1280 16GB', '2023-07-07', '2024-07-07', '4', '100000', '2');
+INSERT INTO discountpolicies(title, from_date, to_date, phone_detail_id, money_supported, create_by) VALUE('Ho tro thu cu dien thoai Nokia 1280 16GB', '2023-07-07', '2024-07-07', '5', '100000', '2');
+INSERT INTO discountpolicies(title, from_date, to_date, phone_detail_id, money_supported, create_by) VALUE('Ho tro thu cu dien thoai Nokia 1280 32GB', '2023-07-07', '2024-07-07', '7', '100000', '2');
+INSERT INTO discountpolicies(title, from_date, to_date, phone_detail_id, money_supported, create_by) VALUE('Ho tro thu cu dien thoai Nokia 1280 32GB', '2023-07-07', '2024-07-07', '8', '100000', '2');
+INSERT INTO discountpolicies(title, from_date, to_date, phone_detail_id, money_supported, create_by) VALUE('Ho tro thu cu dien thoai Nokia 1280 32GB', '2023-07-07', '2024-07-07', '9', '100000', '2');
+INSERT INTO discountpolicies(title, from_date, to_date, phone_detail_id, money_supported, create_by) VALUE('Ho tro thu cu dien thoai Nokia 1280 32GB', '2023-07-07', '2024-07-07', '10', '100000', '2');
 CREATE TABLE discountpolicydetails(
 policy_detail_id INT AUTO_INCREMENT PRIMARY KEY,
 policy_id INT NOT NULL,

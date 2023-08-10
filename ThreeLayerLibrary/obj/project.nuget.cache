@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "10pbrb7Ibdr2vzhXekHscSJf2p1onReNy69xoyZ1Lhle5Z8lw/1On6lvOON7FhWJKlfJMynWkarIWO+VCx7v1g==",
+  "dgSpecHash": "68EYcWZr53+UUe8MlPjaoXHTFI2A4UXGFQUOV1OEyQPpSm2097NpVIlx2ylaa0ky08AlM2KRNBvRirUMcklA1g==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Acer\\OneDrive\\Desktop\\ThreeLayerConsole\\ThreeLayerLibrary\\ThreeLayerLibrary.csproj",
+  "projectFilePath": "C:\\Users\\PC\\Desktop\\New folder (7)\\ThreeLayerConsole\\ThreeLayerLibrary\\ThreeLayerLibrary.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Acer\\.nuget\\packages\\mysqlconnector\\2.2.6\\mysqlconnector.2.2.6.nupkg.sha512"
+    "C:\\Users\\PC\\.nuget\\packages\\mysqlconnector\\2.2.6\\mysqlconnector.2.2.6.nupkg.sha512"
   ],
   "logs": []
 }
