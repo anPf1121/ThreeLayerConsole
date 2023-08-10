@@ -30,6 +30,46 @@ class ConsoleUI
                 break;
         }
     }
+    public void PrintReportRevenue(DateTime startDate, DateTime endDate, decimal totalRevenue, int phoneSoldedQuantity, int totalOrderQuantity, Dictionary<int, decimal> dataToPrintChart, List<int> phoneDetailsIDToReport)
+    {
+        Ults.ConsoleUlts consoleUlts = new Ults.ConsoleUlts();
+        BL.PhoneBL phoneBL = new BL.PhoneBL();
+        int secondCenteredPosition = (Console.WindowWidth - "|==================================================================================================================================================|".Length) / 2;
+        string secondSpaces = secondCenteredPosition > 0 ? new string(' ', secondCenteredPosition) : "";
+        Console.WriteLine(secondSpaces + "|==================================================================================================================================================|");
+        Console.WriteLine(GetReportANSIText());
+        Console.WriteLine(secondSpaces + "|==================================================================================================================================================|");
+        Console.WriteLine(secondSpaces + "|                                                  REVENUE REPORT FROM {0} TO {1}                                                    |", startDate.ToString("yyyy-MM-dd"), endDate.ToString("yyyy-MM-dd"));
+        Console.WriteLine(secondSpaces + "|==================================================================================================================================================|");
+        Console.WriteLine(secondSpaces + "| Total Revenue: {0} |", FormatPrice(totalRevenue).PadRight(129));
+        Console.WriteLine(secondSpaces + "| To String: {0, 50} |", ConvertNumberToWords(totalRevenue).PadRight(133));
+        Console.WriteLine(secondSpaces + "|==================================================================================================================================================|");
+        if (phoneDetailsIDToReport.Count() != 0 || phoneDetailsIDToReport != null)
+        {
+            Console.WriteLine(secondSpaces + "|                                                              PHONE MODEL                                                                         |");
+            Console.WriteLine(secondSpaces + "|==================================================================================================================================================|");
+            foreach (var item in dataToPrintChart)
+            {
+                if (phoneDetailsIDToReport.IndexOf(item.Key) != -1)
+                {
+                    PhoneDetail phoneDetail = phoneBL.GetPhoneDetailByID(item.Key);
+                    Console.WriteLine(secondSpaces + "| {0, -80}              |", (phoneDetail.Phone.PhoneName + "(" + phoneDetail.PhoneColor.Color + "/" + phoneDetail.ROMSize.ROM + ")" + " - Total Revenue: " + FormatPrice(item.Value)).PadRight(131));
+                }
+            }
+            Console.WriteLine(secondSpaces + "|==================================================================================================================================================|");
+
+        }
+        Console.WriteLine(secondSpaces + "|                                                               MORE INFORMATION                                                                   |");
+        Console.WriteLine(secondSpaces + "|==================================================================================================================================================|");
+
+        Console.WriteLine(secondSpaces + "| Phone Solded Quantity: {0, -20} |", phoneSoldedQuantity.ToString().PadRight(121));
+        Console.WriteLine(secondSpaces + "| Total Orders Quantity: {0, -20} |", totalOrderQuantity.ToString().PadRight(121));
+        Console.WriteLine(secondSpaces + "|==================================================================================================================================================|");
+        Console.WriteLine(secondSpaces + "|-------------------------------------------------------------- Top 5 Best Seller -----------------------------------------------------------------|");
+        Console.WriteLine(secondSpaces + "|==================================================================================================================================================|");
+        consoleUlts.PrintColumnChart(dataToPrintChart);
+        Console.WriteLine(secondSpaces + "|==================================================================================================================================================|");
+    }
     public void PrintLine()
     {
         int centeredPosition = (Console.WindowWidth - "|--------------------------------------------------------------------------------------------|".Length) / 2;
@@ -440,6 +480,10 @@ class ConsoleUI
     {
         return new string[] { "Search All Phone", "Search Phone By Information", "Back To Previous Menu" };
     }
+    // public string[] GetMenuReportItem()
+    // {
+    //     return new string[] { "Add Phone Model To Report", "Add Revenue Growth Rate To Report", "Back To Previous Menu" };
+    // }
     public string GetCreateReportANSIText()
     {
         int centeredPosition = (Console.WindowWidth - "|--------------------------------------------------------------------------------------------|".Length) / 2;
@@ -595,6 +639,6 @@ class ConsoleUI
     }
     public string[] GetCreateReportTimeLine()
     {
-        return new string[] { "Enter DateTime", "Confirm Report" };
+        return new string[] { "Enter DateTime", "Confirm Report", "Add More Information To Report" };
     }
 }

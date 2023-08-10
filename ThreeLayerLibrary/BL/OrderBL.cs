@@ -92,4 +92,41 @@ public class OrderBL
         }
         return count;
     }
+    public double CalculateRevenueGrowthRate(DateTime startDate, DateTime endDate) {
+        List<Order> orders = orderDAL.GetOrdersByDateTime(startDate, endDate);
+        foreach (var order in orders)
+        {
+            startDate = order.CreateAt;
+            break;
+        }
+        for (int i = 0; i < orders.Count(); i++)
+        {
+            if(i == orders.Count() - 1) {
+                endDate = orders[i].CreateAt;
+                break;
+            }
+        }
+        List<Order> ordersInFirstDay = orderDAL.GetOrdersByDateTime(startDate, startDate);
+        List<Order> ordersInLastDay = orderDAL.GetOrdersByDateTime(endDate, endDate);
+        decimal firstDayRevenue = 0;
+        decimal lastDayRevenue = 0;
+        foreach (var order in ordersInFirstDay)
+        {
+            foreach (var phoneDetail in order.PhoneDetails)
+            {
+                firstDayRevenue += phoneDetail.Quantity * phoneDetail.Price;
+                break;
+            }
+        }
+        foreach (var order in ordersInLastDay)
+        {
+            foreach (var phoneDetail in order.PhoneDetails)
+            {
+                lastDayRevenue += phoneDetail.Quantity * phoneDetail.Price;
+                break;
+            }
+        }
+        decimal revenueGrowthRate = ((lastDayRevenue - firstDayRevenue) / firstDayRevenue) * 100;
+        return (double)revenueGrowthRate;
+    }  
 }

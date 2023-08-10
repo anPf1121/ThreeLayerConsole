@@ -331,7 +331,7 @@ namespace Ults
                 ConsoleKeyInfo input = new ConsoleKeyInfo();
                 while (true)
                 {
-                    
+
                     while (active)
                     {
                         Console.Clear();
@@ -578,8 +578,10 @@ namespace Ults
             string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
             PhoneBL phoneBL = new PhoneBL();
             decimal maxValue = data.Values.Max();
+            int count = 0;
             foreach (var value in data)
             {
+                count++;
                 for (int i = 0; i < value.Value / maxValue * 100; i++)
                 {
                     if (i == 0)
@@ -596,48 +598,59 @@ namespace Ults
                     }
                 }
                 Console.WriteLine("\n");
+                if (count == 5) break;
             }
         }
         public Dictionary<int, decimal> DataToPrintChartHandle(List<Order> orders)
         {
-            Dictionary<int, decimal> phoneIdToTotalSold = new Dictionary<int, decimal>();
+            Dictionary<int, decimal> phoneIdWithPrice = new Dictionary<int, decimal>();
 
             foreach (var order in orders)
             {
                 foreach (var phone in order.PhoneDetails)
                 {
-                    if(phoneIdToTotalSold.Count() == 5) return phoneIdToTotalSold;
-                    if (phoneIdToTotalSold.ContainsKey(phone.PhoneDetailID))
+                    if (phoneIdWithPrice.ContainsKey(phone.PhoneDetailID))
                     {
-                        phoneIdToTotalSold[phone.PhoneDetailID] += phone.Quantity * phone.Price;
+                        phoneIdWithPrice[phone.PhoneDetailID] += phone.Quantity * phone.Price;
                     }
                     else
                     {
-                        phoneIdToTotalSold[phone.PhoneDetailID] = phone.Quantity * phone.Price;
+                        phoneIdWithPrice[phone.PhoneDetailID] = phone.Quantity * phone.Price;
                     }
-
                 }
             }
-            return phoneIdToTotalSold;
+            Dictionary<int, decimal> sortedDictionary = new Dictionary<int, decimal>();
+            List<KeyValuePair<int, decimal>> sortedList = new List<KeyValuePair<int, decimal>>(phoneIdWithPrice);
+            sortedList.Sort((pair1, pair2) => pair2.Value.CompareTo(pair1.Value));
+            foreach (var pair in sortedList)
+            {
+                sortedDictionary.Add(pair.Key, pair.Value);
+            }
+            return sortedDictionary;
         }
-        public Dictionary<PhoneDetail, Dictionary<PhoneEnum.Status, decimal>> GetListPhoneTradeIn(){
+        public Dictionary<PhoneDetail, Dictionary<PhoneEnum.Status, decimal>> GetListPhoneTradeIn()
+        {
             List<PhoneDetail> ps = new PhoneBL().GetPhonesCanTradeIn();
             Dictionary<PhoneDetail, Dictionary<PhoneEnum.Status, decimal>> a = new Dictionary<PhoneDetail, Dictionary<PhoneEnum.Status, decimal>>();
             List<PhoneDetail> listcheck = new List<PhoneDetail>();
-            foreach(var p in ps ){
+            foreach (var p in ps)
+            {
                 int count = 0;
-                foreach(var l in listcheck){
-                    if(l.Phone.PhoneName == p.Phone.PhoneName && l.ROMSize.ROM == p.ROMSize.ROM && l.PhoneColor.Color == p.PhoneColor.Color)count++;
-                }   
-                if(count == 0)listcheck.Add(p);
+                foreach (var l in listcheck)
+                {
+                    if (l.Phone.PhoneName == p.Phone.PhoneName && l.ROMSize.ROM == p.ROMSize.ROM && l.PhoneColor.Color == p.PhoneColor.Color) count++;
+                }
+                if (count == 0) listcheck.Add(p);
             }
 
-            foreach(var l in listcheck){
+            foreach (var l in listcheck)
+            {
                 Dictionary<PhoneEnum.Status, decimal> phonestatus = new Dictionary<PhoneEnum.Status, decimal>();
-                foreach(var p in ps){
-                    if(l.Phone.PhoneName == p.Phone.PhoneName && l.ROMSize.ROM == p.ROMSize.ROM && l.PhoneColor.Color == p.PhoneColor.Color)phonestatus.Add(p.PhoneStatusType, p.Price);
+                foreach (var p in ps)
+                {
+                    if (l.Phone.PhoneName == p.Phone.PhoneName && l.ROMSize.ROM == p.ROMSize.ROM && l.PhoneColor.Color == p.PhoneColor.Color) phonestatus.Add(p.PhoneStatusType, p.Price);
                 }
-            a.Add(l, phonestatus);
+                a.Add(l, phonestatus);
             }
             return a;
         }

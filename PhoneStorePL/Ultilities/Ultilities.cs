@@ -14,10 +14,10 @@ namespace Ults
     class Ultilities
     {
         private IStaffBL loginManager;
-        // public Ultilities(IStaffBL loginManager)
-        // {
-        //     this.loginManager = loginManager;
-        // }
+        public Ultilities(IStaffBL loginManager)
+        {
+            this.loginManager = loginManager;
+        }
         private PhoneBL phoneBL = new PhoneBL();
         private ConsoleUlts ConsoleUlts = new ConsoleUlts();
         private ConsoleUI consoleUI = new ConsoleUI();
@@ -419,16 +419,17 @@ namespace Ults
         {
             int count = 0, centeredPosition = (Console.WindowWidth - "|--------------------------------------------------------------------------------------------|".Length) / 2;
             string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
-            int secondCenteredPosition = (Console.WindowWidth - "|==================================================================================================================================================|".Length) / 2;
-            string secondSpaces = secondCenteredPosition > 0 ? new string(' ', secondCenteredPosition) : "";
             string[] timeLine = consoleUI.GetCreateReportTimeLine();
             string revenueTitle = consoleUI.GetSearchANSIText();
             string[] revenueItem = { "Revenue On Phone Model In Month", "Revenue On Phone Model In Week", "Revenue On Phone Model In Day", "Back To Previous Menu" };
+            List<Phone> phones = new List<Phone>();
             List<PhoneDetail> phoneDetails = new List<PhoneDetail>();
             int phoneDetailCount = 0;
             List<Order>? orders = null;
             bool isContinue = false;
-            int choice = 0, currentPhase = 1;
+            int choice = 0, currentPhase = 1, searchChoice = 0, phoneIdToAdd = 0, phoneModelIDToAdd = 0;
+            List<int> phoneDetailsIDToReport = new List<int>();
+            Dictionary<int, decimal> reportDataHandle = new Dictionary<int, decimal>();
             DateTime startDate = new DateTime(), endDate = new DateTime();
             do
             {
@@ -440,7 +441,6 @@ namespace Ults
                         startDate = ConsoleUlts.GetDate(spaces + "Enter Start Date (YYYY-MM-DD)");
                         endDate = ConsoleUlts.GetDate(spaces + "Enter End Date (YYYY-MM-DD)");
                         orders = orderBL.GetCompletedOrderByDate(startDate, endDate);
-                        // orders = orderBL.GetOrdersCompletedInMonth();
                         if (orders == null || orders.Count() == 0)
                         {
                             ConsoleUlts.Alert(ConsoleEnum.Alert.Warning, "Don't Have Revenue In This Month");
@@ -466,30 +466,70 @@ namespace Ults
                                 phoneDetailCount++;
                             }
                         }
-                        Console.WriteLine(secondSpaces + "|==================================================================================================================================================|");
-                        Console.WriteLine(consoleUI.GetReportANSIText());
-                        Console.WriteLine(secondSpaces + "|==================================================================================================================================================|");
-                        Console.WriteLine(secondSpaces + "| Total Revenue From {0} to {1}: {2} |", startDate.ToString("yyyy-MM-dd"), endDate.ToString("yyyy-MM-dd"), consoleUI.FormatPrice(orderBL.CalculateTotalRevenue(orders!)).PadRight(99));
-                        Console.WriteLine(secondSpaces + "| To String: {0, 50} |", consoleUI.ConvertNumberToWords(orderBL.CalculateTotalRevenue(orders)).PadRight(133));
-                        Console.WriteLine(secondSpaces + "|==================================================================================================================================================|");
-                        Console.WriteLine(secondSpaces + "| Phone Solded Quantity: {0, -20} |", phoneDetailCount.ToString().PadRight(121));
-                        Console.WriteLine(secondSpaces + "| Total Orders Quantity: {0, -20} |", orders!.Count().ToString().PadRight(121));
-                        Console.WriteLine(secondSpaces + "| Repeat Customer Quantity: {0, -20} |", orderBL.GetCustomersRepeatTime(orders).ToString().PadRight(118));
-                        Console.WriteLine(secondSpaces + "|==================================================================================================================================================|");
-                        Console.WriteLine(secondSpaces + "|-------------------------------------------------------------- Top 5 Best Seller -----------------------------------------------------------------|");
-                        Console.WriteLine(secondSpaces + "|==================================================================================================================================================|");
-                        ConsoleUlts.PrintColumnChart(ConsoleUlts.DataToPrintChartHandle(orders));
-                        Console.WriteLine(secondSpaces + "|==================================================================================================================================================|");
+                        reportDataHandle = ConsoleUlts.DataToPrintChartHandle(orders!);
+                        consoleUI.PrintReportRevenue(startDate, endDate, orderBL.CalculateTotalRevenue(orders!), phoneDetailCount, orders!.Count(), reportDataHandle, phoneDetailsIDToReport);
 
-                        int reportChoice = ConsoleUlts.PressCharacterTo("Back Previous Phase", "Cancel Report", "Confirm Report");
-                        if (reportChoice == 0) currentPhase--;
-                        else if (reportChoice == 1) currentPhase = timeLine.Count() + 1;
+                        int reportChoice = ConsoleUlts.PressCharacterTo("Cancel Report", "Create Report", "Add More Information To Report");
+                        if (reportChoice == 0) currentPhase = timeLine.Count() + 1;
+                        else if (reportChoice == 1)
+                        {
+                            currentPhase = timeLine.Count() + 1;
+                            ConsoleUlts.Alert(ConsoleEnum.Alert.Success, "Create Report Completed!");
+                        }
                         else if (reportChoice == 2)
                         {
                             currentPhase++;
                         }
                         break;
+                    case 3:
 
+                        consoleUI.PrintTimeLine(timeLine, count, currentPhase);
+                        consoleUI.PrintTitle(consoleUI.GetAppANSIText(), consoleUI.GetCreateReportANSIText(), loginManager.LoggedInStaff);
+                        
+                        searchChoice = ConsoleUlts.PressCharacterTo("Search All Phone", "Search Phone By Information", "Back To Previous Menu");
+                        if (searchChoice == 0) phones = phoneBL.GetAllPhone();
+
+                        else if (searchChoice == 1)
+                        {
+                            consoleUI.PrintTimeLine(timeLine, count, currentPhase);
+                            consoleUI.PrintTitle(consoleUI.GetAppANSIText(), consoleUI.GetCreateReportANSIText(), loginManager.LoggedInStaff);
+                            string phoneInfoToSearch = ConsoleUlts.GetInputString($"{spaces}Enter Phone Information To Search");
+                            phones = phoneBL.GetPhonesByInformation(phoneInfoToSearch);
+                        }
+
+                        else if (searchChoice == 2) return;
+
+                        if (phones.Count() == 0) return;
+                        else
+                        {
+                            List<int> listPhoneDetailID = new List<int>();
+                            bool listPhoneSearch = ConsoleUlts.ListPhonePagination(phones, timeLine, count, currentPhase, loginManager.LoggedInStaff);
+                            phoneIdToAdd = ConsoleUlts.InputIDValidation(phoneBL.GetAllPhone().Count(), $"{spaces}Enter Phone ID", "Invalid Phone ID");
+                            phoneDetails = phoneBL.GetPhoneDetailsByPhoneID(phoneIdToAdd);
+                            foreach (PhoneDetail item in phoneDetails)
+                                listPhoneDetailID.Add(item.PhoneDetailID);
+
+                            do
+                            {
+                                Console.Clear();
+                                consoleUI.PrintTimeLine(timeLine, count, currentPhase);
+                                consoleUI.PrintTitle(consoleUI.GetAppANSIText(), consoleUI.GetCreateReportANSIText(), loginManager.LoggedInStaff);
+                                consoleUI.PrintPhoneDetailsInfo(phoneDetails);
+                                phoneModelIDToAdd = ConsoleUlts.GetInputInt($"{spaces}Enter Phone Model ID");
+                                if (listPhoneDetailID.IndexOf(phoneModelIDToAdd) == -1)
+                                {
+                                    if (listPhoneDetailID.IndexOf(phoneModelIDToAdd) == -1)
+                                        ConsoleUlts.Alert(ConsoleEnum.Alert.Error, "Invalid Phone Model ID Please Choice Again");
+                                    consoleUI.PrintTimeLine(timeLine, count, currentPhase);
+                                }
+                                else
+                                {
+                                    phoneDetailsIDToReport.Add(phoneModelIDToAdd);
+                                }
+                            } while (listPhoneDetailID.IndexOf(phoneModelIDToAdd) == -1);
+                        }
+                        currentPhase--;
+                        break;
                 }
             } while (currentPhase != timeLine.Count() + 1);
         }
@@ -502,78 +542,91 @@ namespace Ults
             string input = "";
             ConsoleKeyInfo keyInfo = new ConsoleKeyInfo();
             bool activeShowtable = true;
-            do{
+            do
+            {
                 consoleUI.PrintTimeLine(tradeInItems, 0, 1);
                 consoleUI.PrintTradeInTable();
                 Console.WriteLine("Press any key to continue...");
                 Console.ReadKey();
-                if(activeShowtable == true){
+                if (activeShowtable == true)
+                {
                     bool activeCheckPhone = false;
                     choicePattern = new List<int>();
-                    do{
-                    Console.Write("Input Customer's Phone Information: ");
-                    input = Console.ReadLine()??"";
-                    List<Phone> phoneResult = phoneBL.GetPhonesByInformation(input);
-                    foreach(var p in phoneResult){
-                        choicePattern.Add(p.PhoneID);
-                    }
-                    bool showListPhone = ConsoleUlts.ListPhonePagination(phoneResult,tradeInItems,0,1,this.orderStaff);
-                    Console.Write("Choose a Phone By ID: ");
-                    input = Console.ReadLine()??"";
-                    while(!ConsoleUlts.CheckInputIDValid(input, choicePattern)){
-                        Console.Write("Input again: ");
-                        input = Console.ReadLine()??"";
-                    }
-                    choicePattern = new List<int>();
-                    Phone phoneInfo = phoneBL.GetPhoneById(Convert.ToInt32(input));
-                    List<PhoneDetail> ListPhoneDetailResult = phoneBL.GetPhoneDetailsByPhoneID(phoneInfo.PhoneID);
-                    foreach(var p in ListPhoneDetailResult){
-                        choicePattern.Add(p.PhoneDetailID);
-                    }
-                    new ConsoleUI().PrintPhoneDetailsInfo(ListPhoneDetailResult);
-                    Console.WriteLine("Choose a Phone Model corresponding to Customer's Phone Information");
-                    Console.Write("Choose a Phone Model By Detail ID: ");
-                    input = Console.ReadLine()??"";
-                    while(!ConsoleUlts.CheckInputIDValid(input, choicePattern)){
-                        Console.Write("Input again: ");
-                        input = Console.ReadLine()??"";
-                    }
-                    PhoneDetail phoneDetailForTradeIn = phoneBL.GetPhoneDetailByID(Convert.ToInt32(input));
-                    new ConsoleUI().PrintPhoneDetailsInfo(phoneDetailForTradeIn);
-                    Console.WriteLine("Are you sure that all Information of this Phone are the same with Customer's Phone Information?");
-                    Console.WriteLine("Press 'Enter' to Keep doing(All information are same) OR Any Key to Choose another Phone(Not the same).");
-                    keyInfo = Console.ReadKey();
-                    if(keyInfo.Key == ConsoleKey.Enter){
-                        activeCheckPhone = true;
-                    }
-                    else{
-                        continue;
-                    }
-                    if(activeCheckPhone == true){
-                        bool activePhoneQuotes = false;
-                        do{
-                            Console.WriteLine($"Your Phone Status is: {phoneDetailForTradeIn.PhoneStatusType}");
-                            Console.WriteLine($"TradeIn Price: {phoneDetailForTradeIn.Price}");
-                            DiscountPolicy discountForTradeIn = new DiscountPolicyBL().GetDiscountTradeInForPhone(phoneDetailForTradeIn);
-                            Console.WriteLine($"Discount TradeIn: {discountForTradeIn.Title}");
-                            Console.WriteLine($"Money Supported: {discountForTradeIn.MoneySupported}");
-                            Console.WriteLine($"Total Customer's Receive: {phoneDetailForTradeIn.Price+ discountForTradeIn.MoneySupported}");
-                            Console.WriteLine("Press 'Enter' to TradeIn OR Any Key to Cancel TradeIn");
-                            keyInfo = Console.ReadKey();
-                            if(keyInfo.Key == ConsoleKey.Enter){
-                                Console.WriteLine("TradeIn Completed!");
-                                activePhoneQuotes = true;
-                            }
-                            else{
-                                Console.WriteLine("TradeIn False");
-                                break;
-                            }
-                        }while(activePhoneQuotes == false);
-                    }
+                    do
+                    {
+                        Console.Write("Input Customer's Phone Information: ");
+                        input = Console.ReadLine() ?? "";
+                        List<Phone> phoneResult = phoneBL.GetPhonesByInformation(input);
+                        foreach (var p in phoneResult)
+                        {
+                            choicePattern.Add(p.PhoneID);
+                        }
+                        bool showListPhone = ConsoleUlts.ListPhonePagination(phoneResult, tradeInItems, 0, 1, this.orderStaff);
+                        Console.Write("Choose a Phone By ID: ");
+                        input = Console.ReadLine() ?? "";
+                        while (!ConsoleUlts.CheckInputIDValid(input, choicePattern))
+                        {
+                            Console.Write("Input again: ");
+                            input = Console.ReadLine() ?? "";
+                        }
+                        choicePattern = new List<int>();
+                        Phone phoneInfo = phoneBL.GetPhoneById(Convert.ToInt32(input));
+                        List<PhoneDetail> ListPhoneDetailResult = phoneBL.GetPhoneDetailsByPhoneID(phoneInfo.PhoneID);
+                        foreach (var p in ListPhoneDetailResult)
+                        {
+                            choicePattern.Add(p.PhoneDetailID);
+                        }
+                        new ConsoleUI().PrintPhoneDetailsInfo(ListPhoneDetailResult);
+                        Console.WriteLine("Choose a Phone Model corresponding to Customer's Phone Information");
+                        Console.Write("Choose a Phone Model By Detail ID: ");
+                        input = Console.ReadLine() ?? "";
+                        while (!ConsoleUlts.CheckInputIDValid(input, choicePattern))
+                        {
+                            Console.Write("Input again: ");
+                            input = Console.ReadLine() ?? "";
+                        }
+                        PhoneDetail phoneDetailForTradeIn = phoneBL.GetPhoneDetailByID(Convert.ToInt32(input));
+                        new ConsoleUI().PrintPhoneDetailsInfo(phoneDetailForTradeIn);
+                        Console.WriteLine("Are you sure that all Information of this Phone are the same with Customer's Phone Information?");
+                        Console.WriteLine("Press 'Enter' to Keep doing(All information are same) OR Any Key to Choose another Phone(Not the same).");
+                        keyInfo = Console.ReadKey();
+                        if (keyInfo.Key == ConsoleKey.Enter)
+                        {
+                            activeCheckPhone = true;
+                        }
+                        else
+                        {
+                            continue;
+                        }
+                        if (activeCheckPhone == true)
+                        {
+                            bool activePhoneQuotes = false;
+                            do
+                            {
+                                Console.WriteLine($"Your Phone Status is: {phoneDetailForTradeIn.PhoneStatusType}");
+                                Console.WriteLine($"TradeIn Price: {phoneDetailForTradeIn.Price}");
+                                DiscountPolicy discountForTradeIn = new DiscountPolicyBL().GetDiscountTradeInForPhone(phoneDetailForTradeIn);
+                                Console.WriteLine($"Discount TradeIn: {discountForTradeIn.Title}");
+                                Console.WriteLine($"Money Supported: {discountForTradeIn.MoneySupported}");
+                                Console.WriteLine($"Total Customer's Receive: {phoneDetailForTradeIn.Price + discountForTradeIn.MoneySupported}");
+                                Console.WriteLine("Press 'Enter' to TradeIn OR Any Key to Cancel TradeIn");
+                                keyInfo = Console.ReadKey();
+                                if (keyInfo.Key == ConsoleKey.Enter)
+                                {
+                                    Console.WriteLine("TradeIn Completed!");
+                                    activePhoneQuotes = true;
+                                }
+                                else
+                                {
+                                    Console.WriteLine("TradeIn False");
+                                    break;
+                                }
+                            } while (activePhoneQuotes == false);
+                        }
 
-                    }while(activeCheckPhone == false);
+                    } while (activeCheckPhone == false);
                 }
-            }while(activeShowtable == false);
+            } while (activeShowtable == false);
         }
         public void Payment()
         {
