@@ -394,6 +394,34 @@ namespace DAL
                 }
                 return output;
         }
+        public List<PhoneDetail> GetListPhoneDetailCanTradeIn(){
+        List<PhoneDetail> lst = new List<PhoneDetail>();
+        try{
+            if (connection.State == System.Data.ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+            query = @"select * from phonedetails where phone_status_type != 0;";
+            MySqlCommand command = new MySqlCommand(query, connection);
+            command.Parameters.Clear();
+            MySqlDataReader reader = command.ExecuteReader();
+            while(reader.Read()){
+                lst.Add(GetPhoneDetail(reader));
+            }
+            reader.Close();
+        }catch(MySqlException ex){
+            Console.WriteLine(ex.Message);
+        }
+        if (connection.State == System.Data.ConnectionState.Open)
+            {
+                connection.Close();
+            }
+        List<PhoneDetail> output = new List<PhoneDetail>();
+        foreach(var p in lst){
+            output.Add(GetPhoneDetailByID(p.PhoneDetailID));
+        }
+            return output;
+    }
     }
 }
 

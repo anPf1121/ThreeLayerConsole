@@ -14,10 +14,10 @@ namespace Ults
     class Ultilities
     {
         private IStaffBL loginManager;
-        public Ultilities(IStaffBL loginManager)
-        {
-            this.loginManager = loginManager;
-        }
+        // public Ultilities(IStaffBL loginManager)
+        // {
+        //     this.loginManager = loginManager;
+        // }
         private PhoneBL phoneBL = new PhoneBL();
         private ConsoleUlts ConsoleUlts = new ConsoleUlts();
         private ConsoleUI consoleUI = new ConsoleUI();
@@ -734,6 +734,49 @@ namespace Ults
 
                 }
             } while (currentPhase != timeLine.Count() + 1);
+        }
+        public void TradeIn(){
+            int centeredPosition = (Console.WindowWidth - "|========================================================================================================|".Length) / 2;
+            string spaces = new string(' ', centeredPosition);
+            string[] tradeInItems = { "Show Tradein Table Details", "Check Customer's Phone", "Phone Quotes", "Choose a New Phone for Tradein" };
+            bool activeShowtable = true;
+            ConsoleKeyInfo keyInfo = new ConsoleKeyInfo();
+            do{
+                consoleUI.PrintTimeLine(tradeInItems, 0, 1);
+                Console.WriteLine(spaces+"Show Tradein Table Details: ");
+                consoleUI.PrintTradeInTable();
+                Console.WriteLine(spaces+"Show Completed! Press Any Key to continue...");
+                Console.ReadKey();
+                bool activeCheckPhone = false;
+                do{
+                    consoleUI.PrintTimeLine(tradeInItems, 0, 2);
+                    Console.Write(spaces+"Input Customer's Phone Information: ");
+                    string phoneinfo = Console.ReadLine()??"";
+                    List<Phone> phonesResult = phoneBL.GetPhonesByInformation(phoneinfo);
+                    bool showListPhone = ConsoleUlts.ListPhonePaginationForTradeIn(phonesResult, tradeInItems, 0, 2, this.orderStaff);
+                    if(phonesResult.Count() == 0){
+                        Console.WriteLine(spaces+$"Doesnt have any result for '{phoneinfo}' !");
+                        Console.WriteLine(spaces+"Press 'ESC' to Back to Previous Menu || Press 'Enter' to Input again.");
+                        keyInfo = Console.ReadKey();
+                        if(keyInfo.Key == ConsoleKey.Escape){
+                            Console.WriteLine(spaces+"Back to Previous Menu.");
+                            Console.WriteLine(spaces+"Press Any Key to continue...");
+                            ConsoleUlts.ClearCurrentConsoleLine();
+                            Console.ReadKey();
+                            break;
+                        }
+                        else if(keyInfo.Key == ConsoleKey.Enter){
+                            Console.WriteLine(spaces+"Re-Input Customer's Phone Information...");
+                            ConsoleUlts.ClearCurrentConsoleLine();
+                            continue;
+                        }
+                    }
+                    else{
+
+                    }
+
+                }while(activeCheckPhone == false);
+            }while(activeShowtable == false);
         }
     }
 }

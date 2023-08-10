@@ -275,6 +275,69 @@ class ConsoleUI
             Console.WriteLine(spaces + "|===========================================================================================================================|");
         }
     }
+    public void PrintTradeInTable(){
+        int centeredPosition = (Console.WindowWidth - "|========================================================================================================|".Length) / 2;
+        string spaces = new string(' ', centeredPosition);
+        int centeredPosition2 = 0;
+        string spaces2 = new string(' ', 10);
+        Dictionary<PhoneDetail, Dictionary<PhoneEnum.Status, decimal>> TradeInTable = new Ults.ConsoleUlts().GetListPhoneTradeIn();
+        Console.WriteLine(spaces +"      |============================================================================================|");
+        Console.WriteLine(GetAppANSIText());
+        Console.WriteLine(spaces +"|=========================================================================================================|");
+        Console.WriteLine(GetShowTradeInDetailsANSIText());
+        Console.WriteLine(spaces +"|=========================================================================================================|");
+        Console.WriteLine(spaces + "| {0, -15} | {1, -13} | {2, -15} | {3, -15} | {4, -15} | {5, -15} |", "Model", "ROMSize", "Type 1", "Type 2", "Type 3", "Type 4");
+        Console.WriteLine(spaces +"|=========================================================================================================|");
+        foreach(var t in TradeInTable){
+            int count = 0;
+            Console.Write(spaces + "| {0, -15} | {1, -13} ",t.Key.Phone.PhoneName, t.Key.ROMSize.ROM);
+            foreach(var type in t.Value){
+
+                Console.Write("|"+" "+type.Value);
+                int numSpace = 16-type.Value.ToString().Length;
+                while(numSpace>0){
+                    Console.Write(" ");
+                    numSpace--;
+                }
+                count++;
+            }
+            if(count == 4)Console.Write("|");
+            else if(count == 3){
+                Console.Write("|"+" "+"-");
+                int numSpace = 15;
+                while(numSpace>0){
+                    Console.Write(" ");
+                    numSpace--;
+                }
+                Console.Write("|");
+            }
+            else if(count == 2){
+                for(int i = 0;i<2;i++){
+                    Console.Write("|"+" "+"-");
+                int numSpace = 15;
+                while(numSpace>0){
+                    Console.Write(" ");
+                    numSpace--;
+                }
+                }
+                Console.Write("|");
+            }
+            else if(count ==1){
+                for(int i = 0;i<3;i++){
+                    Console.Write("|"+" "+"-");
+                int numSpace = 15;
+                while(numSpace>0){
+                    Console.Write(" ");
+                    numSpace--;
+                }
+                }
+                Console.Write("|");
+            }
+            Console.WriteLine();
+        }
+        Console.WriteLine(spaces +"|=========================================================================================================|");
+        // Console.WriteLine(spaces + "| {0, -10} | {1, -13} | {2, -15} | {3, -15} | {4, -15} | {5, -14} |", phoneDetail.PhoneDetailID, phoneDetail.PhoneColor.Color, phoneDetail.ROMSize.ROM, string.Format(cultureInfo, "{0:N0} ₫", phoneDetail.Price), phoneDetail.PhoneStatusType, (phoneDetail.Quantity != 0) ? phoneDetail.Quantity : "Out Of Stock");
+    }
     public void PrintTitle(string? title, string? subTitle, Staff? staffLoggedIn)
     {
         int centeredPosition = (Console.WindowWidth - "|--------------------------------------------------------------------------------------------|".Length) / 2;
@@ -394,6 +457,30 @@ class ConsoleUI
 {spaces}|                    ├─┤ ││ ││  ├─┘├─┤│ ││││├┤    │ │ │  │ │├┬┘ ││├┤ ├┬┘                     |
 {spaces}|                    ┴ ┴─┴┘─┴┘  ┴  ┴ ┴└─┘┘└┘└─┘   ┴ └─┘  └─┘┴└──┴┘└─┘┴└─                     |
 {spaces}|                                                                                            |";
+    }
+    public string GetCheckCustomerPhoneANSIText(){
+        int centeredPosition = (Console.WindowWidth - "|--------------------------------------------------------------------------------------------|".Length) / 2;
+        string spaces = new string(' ', centeredPosition);
+        int centeredPosition2 = centeredPosition -9;
+        string spaces2 = new string(' ', centeredPosition2);
+        return
+        $@"{spaces}|                                                                                            |
+{spaces}|{spaces2}╔═╗┬ ┬┌─┐┌─┐┬┌─  ╔═╗┬ ┬┌─┐┌┬┐┌─┐┌┬┐┌─┐┬─┐┌─┐  ╔═╗┬ ┬┌─┐┌┐┌┌─┐             |
+{spaces}|{spaces2}║  ├─┤├┤ │  ├┴┐  ║  │ │└─┐ │ │ ││││├┤ ├┬┘└─┐  ╠═╝├─┤│ ││││├┤              |
+{spaces}|{spaces2}╚═╝┴ ┴└─┘└─┘┴ ┴  ╚═╝└─┘└─┘ ┴ └─┘┴ ┴└─┘┴└─└─┘  ╩  ┴ ┴└─┘┘└┘└─┘             |
+{spaces}|                                                                                            |";
+    }
+    public string GetShowTradeInDetailsANSIText(){
+        int centeredPosition = (Console.WindowWidth - "|--------------------------------------------------------------------------------------------------------|".Length) / 2;
+        string spaces = new string(' ', centeredPosition);
+        int centeredPosition2 = centeredPosition -3;
+        string spaces2 = new string(' ', centeredPosition2);
+        return
+        $@"{spaces}|                                                                                                         |
+{spaces}|{spaces2}╔═╗┬ ┬┌─┐┬ ┬  ╔╦╗┬─┐┌─┐┌┬┐┌─┐┬┌┐┌  ╔╦╗┌─┐┌┐ ┬  ┌─┐  ╔╦╗┌─┐┌┬┐┌─┐┬┬  ┌─┐                |
+{spaces}|{spaces2}╚═╗├─┤│ ││││   ║ ├┬┘├─┤ ││├┤ ││││   ║ ├─┤├┴┐│  ├┤    ║║├┤  │ ├─┤││  └─┐                |
+{spaces}|{spaces2}╚═╝┴ ┴└─┘└┴┘   ╩ ┴└─┴ ┴─┴┘└─┘┴┘└┘   ╩ ┴ ┴└─┘┴─┘└─┘  ═╩╝└─┘ ┴ ┴ ┴┴┴─┘└─┘                |
+{spaces}|                                                                                                         |";
     }
     public string GetAllOrderANSIText()
     {

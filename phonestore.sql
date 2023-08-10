@@ -162,7 +162,7 @@ FOREIGN KEY(update_by) REFERENCES staffs(staff_id),
 FOREIGN KEY(phone_id) REFERENCES phones(phone_id),
 FOREIGN KEY(color_id) REFERENCES colors(color_id),
 FOREIGN KEY(rom_size_id) REFERENCES romsizes(rom_size_id),
-UNIQUE key pd_unique1(phone_id, color_id, rom_size_id)
+UNIQUE key pd_unique1(phone_id, color_id, rom_size_id, phone_status_type)
 )engine = InnoDB;
 
 DELIMITER $$
@@ -176,28 +176,38 @@ DELIMITER ;
 
 INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('0', '0', '1','1', '0', '0');
 INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('1','1', '1','1', '0', '500000');
-INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('2','1', '1','2', '0', '500000');
-INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('3','1', '1','3', '0', '500000');
-INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('4','1', '2','1', '0', '500000');
-INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('5','1', '2','2', '0', '500000');
-INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('6','1', '2','3', '0', '500000');
-INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('7','1', '3','1', '0', '500000');
-INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('8','2', '1','1', '0', '500000');
-INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('9','3', '1','1', '0', '500000');
-INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('10','4', '1','1', '0', '500000');
-INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('11','5', '1','1', '0', '500000');
-INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('12','6', '1','1', '0', '500000');
-INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('13','7', '1','1', '0', '500000');
-INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('14','8', '1','1', '0', '500000');
-INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('15','9', '1','1', '0', '500000');
-INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('16','10', '1','1', '0', '500000');
-INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('17','11', '1','1', '0', '500000');
-INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('18','12', '1','1', '0', '500000');
-INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('19','13', '1','1', '0', '500000');
-INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('20','14', '1','1', '0', '500000');
-INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('21','15', '1','1', '0', '500000');
-INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('22','16', '1','1', '0', '500000');
-INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('23','17', '1','1', '0', '500000');
+INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('2','1', '1','1', '1', '400000');
+INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('3','1', '1','1', '2', '300000');
+INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('4','1', '1','1', '3', '200000');
+INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('5','1', '1','1', '4', '100000');
+INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('6','1', '1','2', '0', '500000');
+INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('7','1', '1','2', '1', '400000');
+INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('8','1', '1','2', '2', '300000');
+INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('9','1', '1','2', '3', '200000');
+INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('10','1', '1','2', '4', '100000');
+INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('11','1', '1','3', '0', '500000');
+INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('12','1', '2','1', '0', '500000');
+INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('13','1', '2','2', '0', '500000');
+INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('14','1', '2','3', '0', '500000');
+INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('15','1', '3','1', '0', '500000');
+INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('16','2', '1','1', '0', '500000');
+INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('17','3', '1','1', '0', '500000');
+INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('18','4', '1','1', '0', '500000');
+INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('19','5', '1','1', '0', '500000');
+INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('20','6', '1','1', '0', '500000');
+INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('21','7', '1','1', '0', '500000');
+INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('22','8', '1','1', '0', '500000');
+INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('23','9', '1','1', '0', '500000');
+INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('24','10', '1','1', '0', '500000');
+INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('25','11', '1','1', '0', '500000');
+INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('26','12', '1','1', '0', '500000');
+INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('27','13', '1','1', '0', '500000');
+INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('28','14', '1','1', '0', '500000');
+INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('29','15', '1','1', '0', '500000');
+INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('30','16', '1','1', '0', '500000');
+INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('31','17', '1','1', '0', '500000');
+INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('32','17', '1','1', '1', '500000');
+INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('33','17', '1','1', '2', '400000');
 
 CREATE TABLE imeis(
 phone_imei VARCHAR(15) PRIMARY KEY,
@@ -375,6 +385,3 @@ FOREIGN KEY (order_id) REFERENCES orders(order_id)
 --                 INNER JOIN imeis I ON I.phone_imei = OD.phone_imei
 --                 INNER JOIN phonedetails PD ON I.phone_detail_id = PD.phone_detail_id
 --                 INNER JOIN phones P ON PD.phone_id = P.phone_id
-
-CREATE USER IF NOT EXISTS 'accountant'@'localhost' IDENTIFIED BY '123456'
-GRANT ALL PRIVILEGES ON phonestore.* IO 'accountant'@'localhost' WITH GRANT OPTION;

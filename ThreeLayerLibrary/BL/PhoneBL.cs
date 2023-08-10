@@ -86,4 +86,7 @@ public class PhoneBL
         }
         return isDuplicate;
     }
+    public List<PhoneDetail> GetPhonesCanTradeIn(){
+        return phoneDetailDAL.GetListPhoneDetailCanTradeIn();
+    }
 }

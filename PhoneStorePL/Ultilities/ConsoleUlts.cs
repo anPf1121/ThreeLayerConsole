@@ -318,7 +318,72 @@ namespace Ults
             }
             return false;
         }
-
+        public bool ListPhonePaginationForTradeIn(List<Phone> listPhone, string[] phases, int itemCount, int currentPhase, Staff loggedInStaff)
+        {
+            string title = consoleUI.GetCheckCustomerPhoneANSIText();
+            if (listPhone != null)
+            {
+                bool active = true;
+                Dictionary<int, List<Phone>> phones = new Dictionary<int, List<Phone>>();
+                phones = PhoneMenuPaginationHandle(listPhone);
+                listAllPhones = phones;
+                int countPage = phones.Count(), currentPage = 1;
+                ConsoleKeyInfo input = new ConsoleKeyInfo();
+                while (true)
+                {
+                    
+                    while (active)
+                    {
+                        Console.Clear();
+                        consoleUI.PrintTimeLine(phases, itemCount, currentPhase);
+                        consoleUI.PrintTitle(consoleUI.GetAppANSIText(), title, loggedInStaff);
+                        consoleUI.PrintPhoneBorderLine();
+                        foreach (Phone phone in phones[currentPage])
+                        {
+                            consoleUI.PrintPhoneInfo(phone);
+                        }
+                        consoleUI.GetFooterPagination(currentPage, countPage);
+                        do
+                        {
+                            input = Console.ReadKey();
+                            if (currentPage <= countPage)
+                            {
+                                if (input.Key == ConsoleKey.RightArrow)
+                                {
+                                    if (currentPage <= countPage - 1) currentPage++;
+                                    currentPageDetails = currentPage;
+                                    Console.Clear();
+                                    break;
+                                }
+                                else if (input.Key == ConsoleKey.LeftArrow)
+                                {
+                                    if (currentPage > 1)
+                                        currentPage--;
+                                    currentPageDetails = currentPage;
+                                    Console.Clear();
+                                    break;
+                                }
+                                else if (input.Key == ConsoleKey.B)
+                                {
+                                    Console.Clear();
+                                    return false;
+                                }
+                                else if (input.Key == ConsoleKey.Spacebar)
+                                {
+                                    return true;
+                                }
+                            }
+                        } while (input.Key != ConsoleKey.RightArrow || input.Key != ConsoleKey.LeftArrow || input.Key != ConsoleKey.B || input.Key != ConsoleKey.Spacebar);
+                    }
+                }
+            }
+            else
+            {
+                Alert(ConsoleEnum.Alert.Warning, "Phone Not Found");
+                PressEnterTo("Back To Previous Menu");
+            }
+            return false;
+        }
 
         public void Alert(ConsoleEnum.Alert alertType, string msg)
         {
@@ -554,6 +619,27 @@ namespace Ults
                 }
             }
             return phoneIdToTotalSold;
+        }
+        public Dictionary<PhoneDetail, Dictionary<PhoneEnum.Status, decimal>> GetListPhoneTradeIn(){
+            List<PhoneDetail> ps = new PhoneBL().GetPhonesCanTradeIn();
+            Dictionary<PhoneDetail, Dictionary<PhoneEnum.Status, decimal>> a = new Dictionary<PhoneDetail, Dictionary<PhoneEnum.Status, decimal>>();
+            List<PhoneDetail> listcheck = new List<PhoneDetail>();
+            foreach(var p in ps ){
+                int count = 0;
+                foreach(var l in listcheck){
+                    if(l.Phone.PhoneName == p.Phone.PhoneName && l.ROMSize.ROM == p.ROMSize.ROM && l.PhoneColor.Color == p.PhoneColor.Color)count++;
+                }   
+                if(count == 0)listcheck.Add(p);
+            }
+
+            foreach(var l in listcheck){
+                Dictionary<PhoneEnum.Status, decimal> phonestatus = new Dictionary<PhoneEnum.Status, decimal>();
+                foreach(var p in ps){
+                    if(l.Phone.PhoneName == p.Phone.PhoneName && l.ROMSize.ROM == p.ROMSize.ROM && l.PhoneColor.Color == p.PhoneColor.Color)phonestatus.Add(p.PhoneStatusType, p.Price);
+                }
+            a.Add(l, phonestatus);
+            }
+            return a;
         }
     }
 
