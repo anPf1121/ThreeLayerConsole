@@ -14,7 +14,7 @@ namespace Ults
         ConsoleUI consoleUI = new ConsoleUI();
         int currentPageDetails = 1;
         public Dictionary<int, List<Phone>> listAllPhones = null;
-
+        public Dictionary<int, List<PhoneDetail>> listAllPhonesModel = null;
         public bool PressYesOrNo(string yesAction, string noAction)
         {
             string str = $"Press 'Y' To {yesAction} Or 'N' To {noAction}";
@@ -222,7 +222,35 @@ namespace Ults
             }
             return menuTab;
         }
+        public Dictionary<int, List<PhoneDetail>> PhoneTradeInMenuPageHandle(List<PhoneDetail> phoneList)
+        {
+            List<PhoneDetail> sList = new List<PhoneDetail>();
+            Dictionary<int, List<PhoneDetail>> menuTab = new Dictionary<int, List<PhoneDetail>>();
+            int phoneQuantity = phoneList.Count(), itemInTab = 4, count = 1, secondCount = 1, idTab = 0;
 
+            foreach (PhoneDetail phone in phoneList)
+            {
+                if ((count - 1) == itemInTab)
+                {
+                    sList = new List<PhoneDetail>();
+                    count = 1;
+                }
+                sList.Add(phone);
+                if (sList.Count() == itemInTab)
+                {
+                    idTab++;
+                    menuTab.Add(idTab, sList);
+                }
+                else if (sList.Count() < itemInTab && secondCount == phoneQuantity)
+                {
+                    idTab++;
+                    menuTab.Add(idTab, sList);
+                }
+                secondCount++;
+                count++;
+            }
+            return menuTab;
+        }
         public Dictionary<int, List<Order>> OrderMenuPaginationHandle(List<Order> orderList)
         {
             List<Order> sList = new List<Order>();
@@ -275,6 +303,73 @@ namespace Ults
                         foreach (Phone phone in phones[currentPage])
                         {
                             consoleUI.PrintPhoneInfo(phone);
+                        }
+                        consoleUI.GetFooterPagination(currentPage, countPage);
+                        do
+                        {
+                            input = Console.ReadKey();
+                            if (currentPage <= countPage)
+                            {
+                                if (input.Key == ConsoleKey.RightArrow)
+                                {
+                                    if (currentPage <= countPage - 1) currentPage++;
+                                    currentPageDetails = currentPage;
+                                    Console.Clear();
+                                    break;
+                                }
+                                else if (input.Key == ConsoleKey.LeftArrow)
+                                {
+                                    if (currentPage > 1)
+                                        currentPage--;
+                                    currentPageDetails = currentPage;
+                                    Console.Clear();
+                                    break;
+                                }
+                                else if (input.Key == ConsoleKey.B)
+                                {
+                                    Console.Clear();
+                                    return false;
+                                }
+                                else if (input.Key == ConsoleKey.Spacebar)
+                                {
+                                    return true;
+                                }
+                            }
+                        } while (input.Key != ConsoleKey.RightArrow || input.Key != ConsoleKey.LeftArrow || input.Key != ConsoleKey.B || input.Key != ConsoleKey.Spacebar);
+                    }
+                }
+            }
+            else
+            {
+                Alert(ConsoleEnum.Alert.Warning, "Phone Not Found");
+                PressEnterTo("Back To Previous Menu");
+            }
+            return false;
+        }
+        public bool ListPhoneModelTradeInPagination(List<PhoneDetail> listPhone, string[] phases, int itemCount, int currentPhase, Staff loggedInStaff)
+        {
+            string title = consoleUI.GetCheckCustomerPhoneANSIText();
+            if (listPhone != null)
+            {
+                bool active = true;
+                Dictionary<int, List<PhoneDetail>> phones = new Dictionary<int, List<PhoneDetail>>();
+                phones = PhoneTradeInMenuPageHandle(listPhone);
+                listAllPhonesModel = phones;
+                int countPage = phones.Count(), currentPage = 1;
+                ConsoleKeyInfo input = new ConsoleKeyInfo();
+                while (true)
+                {
+                    consoleUI.PrintTitle(consoleUI.GetTradeInANSIText(), title, loggedInStaff);
+                    consoleUI.PrintTitle(consoleUI.GetAppANSIText(), title, loggedInStaff);
+                    while (active)
+                    {
+                        Console.Clear();
+                        consoleUI.PrintTimeLine(phases, itemCount, currentPhase);
+                        consoleUI.PrintTitle(consoleUI.GetAppANSIText(), title, loggedInStaff);
+                        consoleUI.PrintPhoneModelTitle();
+                        foreach (PhoneDetail phone in phones[currentPage])
+                        {
+                            consoleUI.PrintPhoneModelInfo(phone);
                         }
                         consoleUI.GetFooterPagination(currentPage, countPage);
                         do
@@ -384,6 +479,7 @@ namespace Ults
             }
             return false;
         }
+        
 
         public void Alert(ConsoleEnum.Alert alertType, string msg)
         {

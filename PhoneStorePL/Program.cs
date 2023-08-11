@@ -67,7 +67,7 @@ namespace PhoneStoreUI
                     {
                         int result = 0;
                         bool activeAccountantMenu = true;
-                        string[] menuItem = { "Payment", "Revenue Report", "Log Out" };
+                        string[] menuItem = { "Payment", "Revenue Report","TradeIn", "Log Out" };
                         while (activeAccountantMenu)
                         {
                             switch (consoleUlts.MenuHandle(consoleUI.GetAppANSIText(), null, menuItem, staffBL.LoggedInStaff))
@@ -79,10 +79,14 @@ namespace PhoneStoreUI
                                     Ults.CreateReport();
                                     break;
                                 case 3:
+                                    Ults.TradeIn();
+                                    break;
+                                case 4:
                                     activeAccountantMenu = false;
                                     result = 1;
                                     staffBL.Logout();
                                     break;
+                                
                                 default:
                                     break;
                             }
