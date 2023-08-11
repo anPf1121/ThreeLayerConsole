@@ -66,10 +66,13 @@ namespace Ults
                         else
                         {
                             listPhoneSearch = ConsoleUlts.ListPhonePagination(listTemp, listPhase, count, currentPhase, loginManager.LoggedInStaff);
-                            phoneId = ConsoleUlts.InputIDValidation(phoneBL.GetAllPhone().Count(), $"{spaces}Enter Phone ID", "Invalid Phone ID");
+                            if (listPhoneSearch == false) break;
+                            if (listPhoneSearch == true)
+                            {
+                                phoneId = ConsoleUlts.InputIDValidation(phoneBL.GetAllPhone().Count(), $"{spaces}Enter Phone ID", "Invalid Phone ID");
+                            }
                         }
 
-                        if (!listPhoneSearch) break;
 
                         if (ConsoleUlts.PressYesOrNo("Choose Phone Model", "Back To Previous Menu")) currentPhase++;
                         break;
@@ -414,7 +417,6 @@ namespace Ults
             } while (currentPhase != 4);
             return 1;
         }
-
         public void CreateReport()
         {
             int count = 0, centeredPosition = (Console.WindowWidth - "|--------------------------------------------------------------------------------------------|".Length) / 2;
@@ -485,7 +487,7 @@ namespace Ults
 
                         consoleUI.PrintTimeLine(timeLine, count, currentPhase);
                         consoleUI.PrintTitle(consoleUI.GetAppANSIText(), consoleUI.GetCreateReportANSIText(), loginManager.LoggedInStaff);
-                        
+
                         searchChoice = ConsoleUlts.PressCharacterTo("Search All Phone", "Search Phone By Information", "Back To Previous Menu");
                         if (searchChoice == 0) phones = phoneBL.GetAllPhone();
 
@@ -546,7 +548,7 @@ namespace Ults
             {
                 consoleUI.PrintTimeLine(tradeInItems, 0, 1);
                 consoleUI.PrintTradeInTable();
-                Console.Write(spaces+"Press any key to continue...");
+                Console.Write(spaces + "Press any key to continue...");
                 Console.ReadKey();
                 if (activeShowtable == true)
                 {
@@ -555,14 +557,14 @@ namespace Ults
                     do
                     {
                         consoleUI.PrintTimeLine(tradeInItems, 0, 2);
-                        Console.WriteLine(spaces+"      |============================================================================================|");
+                        Console.WriteLine(spaces + "      |============================================================================================|");
                         Console.WriteLine(consoleUI.GetAppANSIText());
-                        Console.WriteLine(spaces+"      |============================================================================================|");
+                        Console.WriteLine(spaces + "      |============================================================================================|");
                         Console.WriteLine(consoleUI.GetTradeInANSIText());
-                        Console.WriteLine(spaces+"      |============================================================================================|");
+                        Console.WriteLine(spaces + "      |============================================================================================|");
                         Console.WriteLine(consoleUI.GetCheckCustomerPhoneANSIText());
-                        Console.WriteLine(spaces+"      |============================================================================================|");
-                        Console.Write(spaces+"Input Customer's Phone Information: ");
+                        Console.WriteLine(spaces + "      |============================================================================================|");
+                        Console.Write(spaces + "Input Customer's Phone Information: ");
                         input = Console.ReadLine() ?? "";
                         List<Phone> phoneResult = phoneBL.GetPhonesByInformation(input);
                         foreach (var p in phoneResult)
@@ -570,11 +572,11 @@ namespace Ults
                             choicePattern.Add(p.PhoneID);
                         }
                         bool showListPhone = ConsoleUlts.ListPhonePaginationForTradeIn(phoneResult, tradeInItems, 0, 2, this.orderStaff);
-                        Console.Write(spaces+ "Choose a Phone By ID: ");
+                        Console.Write(spaces + "Choose a Phone By ID: ");
                         input = Console.ReadLine() ?? "";
                         while (!ConsoleUlts.CheckInputIDValid(input, choicePattern))
                         {
-                            Console.Write(spaces+ "Input again: ");
+                            Console.Write(spaces + "Input again: ");
                             input = Console.ReadLine() ?? "";
                         }
                         choicePattern = new List<int>();
@@ -585,17 +587,17 @@ namespace Ults
                             choicePattern.Add(p.PhoneDetailID);
                         }
                         new ConsoleUlts().ListPhoneModelTradeInPagination(ListPhoneDetailResult, tradeInItems, 0, 2, this.orderStaff);
-                        Console.WriteLine(spaces+ "Choose a Phone Model corresponding to Customer's Phone Information");
-                        Console.Write(spaces+"Choose a Phone Model By Detail ID: ");
+                        Console.WriteLine(spaces + "Choose a Phone Model corresponding to Customer's Phone Information");
+                        Console.Write(spaces + "Choose a Phone Model By Detail ID: ");
                         input = Console.ReadLine() ?? "";
                         while (!ConsoleUlts.CheckInputIDValid(input, choicePattern))
                         {
-                            Console.Write(spaces+ "Input again: ");
+                            Console.Write(spaces + "Input again: ");
                             input = Console.ReadLine() ?? "";
                         }
                         PhoneDetail phoneDetailForTradeIn = phoneBL.GetPhoneDetailByID(Convert.ToInt32(input));
-                        Console.WriteLine(spaces+ "Are you sure that all Information of this Phone are the same with Customer's Phone Information?");
-                        Console.Write(spaces+ "Press 'Enter' to Keep doing(All information are same) OR Any Key to Choose another Phone(Not the same).");
+                        Console.WriteLine(spaces + "Are you sure that all Information of this Phone are the same with Customer's Phone Information?");
+                        Console.Write(spaces + "Press 'Enter' to Keep doing(All information are same) OR Any Key to Choose another Phone(Not the same).");
                         keyInfo = Console.ReadKey();
                         Console.Clear();
                         if (keyInfo.Key == ConsoleKey.Enter)
@@ -612,36 +614,36 @@ namespace Ults
                             do
                             {
                                 consoleUI.PrintTimeLine(tradeInItems, 0, 3);
-                                Console.WriteLine(spaces+"      |============================================================================================|");
+                                Console.WriteLine(spaces + "      |============================================================================================|");
                                 Console.WriteLine(consoleUI.GetAppANSIText());
-                                Console.WriteLine(spaces+"      |============================================================================================|");
+                                Console.WriteLine(spaces + "      |============================================================================================|");
                                 Console.WriteLine(consoleUI.GetTradeInANSIText());
-                                Console.WriteLine(spaces+"      |============================================================================================|");
+                                Console.WriteLine(spaces + "      |============================================================================================|");
                                 Console.WriteLine(consoleUI.GetPhoneQuotesANSIText());
-                                Console.WriteLine(spaces+"      |============================================================================================|");
-                                Console.Write(spaces+"      "+$"|Your Phone Status is: {phoneDetailForTradeIn.PhoneStatusType}");
+                                Console.WriteLine(spaces + "      |============================================================================================|");
+                                Console.Write(spaces + "      " + $"|Your Phone Status is: {phoneDetailForTradeIn.PhoneStatusType}");
                                 int k = ("|============================================================================================|").Length - (phoneDetailForTradeIn.PhoneStatusType + "|Your Phone Status is: ").Length;
-                                for(int i = 0;i<k-2;i++)Console.Write(" ");
+                                for (int i = 0; i < k - 2; i++) Console.Write(" ");
                                 Console.WriteLine(" |");
-                                Console.Write(spaces+"      "+$"|TradeIn Price: {phoneDetailForTradeIn.Price}");
+                                Console.Write(spaces + "      " + $"|TradeIn Price: {phoneDetailForTradeIn.Price}");
                                 k = ("|============================================================================================|").Length - (phoneDetailForTradeIn.Price + "|TradeIn Price: ").Length;
-                                for(int i = 0;i<k-2;i++)Console.Write(" ");
+                                for (int i = 0; i < k - 2; i++) Console.Write(" ");
                                 Console.WriteLine(" |");
                                 DiscountPolicy discountForTradeIn = new DiscountPolicyBL().GetDiscountTradeInForPhone(phoneDetailForTradeIn);
-                                Console.Write(spaces+"      "+$"|Discount TradeIn: {discountForTradeIn.Title}");
+                                Console.Write(spaces + "      " + $"|Discount TradeIn: {discountForTradeIn.Title}");
                                 k = ("|============================================================================================|").Length - (discountForTradeIn.Title + "|Discount TradeIn: ").Length;
-                                for(int i = 0;i<k-2;i++)Console.Write(" ");
+                                for (int i = 0; i < k - 2; i++) Console.Write(" ");
                                 Console.WriteLine(" |");
-                                Console.Write(spaces+"      "+$"|Money Supported: {discountForTradeIn.MoneySupported}");
+                                Console.Write(spaces + "      " + $"|Money Supported: {discountForTradeIn.MoneySupported}");
                                 k = ("|============================================================================================|").Length - (discountForTradeIn.MoneySupported + "|Money Supported: ").Length;
-                                for(int i = 0;i<k-2;i++)Console.Write(" ");
+                                for (int i = 0; i < k - 2; i++) Console.Write(" ");
                                 Console.WriteLine(" |");
-                                Console.Write(spaces+"      "+$"|Total Customer's Receive: {phoneDetailForTradeIn.Price + discountForTradeIn.MoneySupported}");
-                                k = ("|============================================================================================|").Length - (discountForTradeIn.MoneySupported+phoneDetailForTradeIn.Price + "|Total Customer's Receive: ").Length;
-                                for(int i = 0;i<k-2;i++)Console.Write(" ");
+                                Console.Write(spaces + "      " + $"|Total Customer's Receive: {phoneDetailForTradeIn.Price + discountForTradeIn.MoneySupported}");
+                                k = ("|============================================================================================|").Length - (discountForTradeIn.MoneySupported + phoneDetailForTradeIn.Price + "|Total Customer's Receive: ").Length;
+                                for (int i = 0; i < k - 2; i++) Console.Write(" ");
                                 Console.WriteLine(" |");
-                                Console.WriteLine(spaces+"      |============================================================================================|");
-                                Console.Write(spaces+"      "+"Press 'Enter' to TradeIn OR Any Key to Cancel TradeIn");
+                                Console.WriteLine(spaces + "      |============================================================================================|");
+                                Console.Write(spaces + "      " + "Press 'Enter' to TradeIn OR Any Key to Cancel TradeIn");
                                 keyInfo = Console.ReadKey();
                                 if (keyInfo.Key == ConsoleKey.Enter)
                                 {
@@ -692,7 +694,6 @@ namespace Ults
                 if (showOrderList == null)
                 {
                     ConsoleUlts.Alert(ConsoleEnum.Alert.Error, "NO ORDER EXIST");
-                    Console.ReadKey();
                     break;
                 }
                 else if (showOrderList == true)
@@ -726,24 +727,26 @@ namespace Ults
                             currentPhase = 2;
                             consoleUI.PrintTimeLine(listPhase, count, currentPhase);
                             // hiển thị các Payment Method (phương thức thanh toán)
-                            Console.WriteLine(spaces+"|============================================================================================|");
+                            Console.WriteLine(spaces + "|============================================================================================|");
                             Console.WriteLine(consoleUI.GetAppANSIText());
-                            Console.WriteLine(spaces+"|============================================================================================|");
+                            Console.WriteLine(spaces + "|============================================================================================|");
                             Console.WriteLine(consoleUI.GetPaymentANSIText());
-                            Console.WriteLine(spaces+"|============================================================================================|");
-                            Console.WriteLine(consoleUI.ChoosePaymentMethodText());
+                            Console.WriteLine(spaces + "|============================================================================================|");
+                            Console.WriteLine(consoleUI.GetChoosePaymentMethodText());
+                            Console.WriteLine(spaces + "|============================================================================================|");
+
                             foreach (var payment in ListPaymentMethod)
                             {
-                                Console.Write(spaces+"|"+spaces+payment.Key + ". " + payment.Value);
-                                int k = ("|============================================================================================|").Length -(spaces+payment.Key + ". " + payment.Value).Length;
-                                for(int i = 0;i<k-2;i++)Console.Write(" ");
+                                Console.Write(spaces + "|" + payment.Key + ". " + payment.Value + $"{spaces}");
+                                int k = ("|============================================================================================|").Length - (spaces + payment.Key + ". " + payment.Value).Length;
+                                for (int i = 0; i < k - 2; i++) Console.Write(" ");
                                 Console.WriteLine("|");
-                                
+
                             }
-                            Console.WriteLine(spaces+"|============================================================================================|");
+                            Console.WriteLine(spaces + "|============================================================================================|");
                             do
                             {
-                                inputPaymentMethodChoice = ConsoleUlts.GetInputInt(spaces+ "Choose a Payment Method");
+                                inputPaymentMethodChoice = ConsoleUlts.GetInputInt(spaces + "Choose a Payment Method");
                                 if (inputPaymentMethodChoice <= 0 || inputPaymentMethodChoice > ListPaymentMethod.Count())
                                 {
                                     ConsoleUlts.Alert(ConsoleEnum.Alert.Error, "Invalid Payment Method");
@@ -766,24 +769,24 @@ namespace Ults
                                 {
                                     currentPhase = 3;
                                     consoleUI.PrintTimeLine(listPhase, count, currentPhase);
-                                    Console.WriteLine(spaces+"|============================================================================================|");
+                                    Console.WriteLine(spaces + "|============================================================================================|");
                                     Console.WriteLine(consoleUI.GetAppANSIText());
-                                    Console.WriteLine(spaces+"|============================================================================================|");
+                                    Console.WriteLine(spaces + "|============================================================================================|");
                                     Console.WriteLine(consoleUI.GetPaymentANSIText());
-                                    Console.WriteLine(spaces+"|============================================================================================|");
-                                    Console.WriteLine(consoleUI.ChooseDiscountPolicy());
+                                    Console.WriteLine(spaces + "|============================================================================================|");
+                                    Console.WriteLine(consoleUI.GetChooseDiscountPolicyText());
                                     foreach (var discount in ListDiscountPolicyValidToOrder)
                                     {
                                         if (orderWantToPayment.PaymentMethod.Equals(discount.PaymentMethod))
                                         {
                                             choicePattern.Add(discount.PolicyID);
-                                            int l = ("|============================================================================================|").Length -(spaces+discount.PolicyID + ". " + discount.Title).Length;
-                                            Console.Write(spaces+$"|"+spaces + discount.PolicyID + ". " + discount.Title);
-                                            for(int i=0;i<l-2;i++)Console.Write(" ");
+                                            int l = ("|============================================================================================|").Length - (spaces + discount.PolicyID + ". " + discount.Title).Length;
+                                            Console.Write(spaces + $"|" + discount.PolicyID + ". " + discount.Title + spaces);
+                                            for (int i = 0; i < l - 2; i++) Console.Write(" ");
                                             Console.WriteLine("|");
                                         }
                                     }
-                                    Console.WriteLine(spaces+"|============================================================================================|");
+                                    Console.WriteLine(spaces + "|============================================================================================|");
                                     if (choicePattern.Count() != 0)
                                     {
                                         string ChoiceDiscountPayment = "";
@@ -792,29 +795,19 @@ namespace Ults
                                             ChoiceDiscountPayment = ConsoleUlts.GetInputString($"{spaces}Choose discount policy for Payment Method");
                                         } while (!ConsoleUlts.CheckInputIDValid(ChoiceDiscountPayment, choicePattern));
                                         choice = Convert.ToInt32(ChoiceDiscountPayment);
-                                        Console.WriteLine(spaces+"|============================================================================================|");
-                                    Console.WriteLine(consoleUI.GetAppANSIText());
-                                    Console.WriteLine(spaces+"|============================================================================================|");
-                                    Console.WriteLine(consoleUI.GetPaymentANSIText());
-                                    Console.WriteLine(spaces+"|============================================================================================|");
+                                        Console.WriteLine(spaces + "|============================================================================================|");
+                                        Console.WriteLine(consoleUI.GetAppANSIText());
+                                        Console.WriteLine(spaces + "|============================================================================================|");
+                                        Console.WriteLine(consoleUI.GetPaymentANSIText());
+                                        Console.WriteLine(spaces + "|============================================================================================|");
                                         consoleUI.PrintTitle(consoleUI.GetDiscountPolicyDetailText(), null, loginManager.LoggedInStaff);
                                         consoleUI.PrintDiscountPolicyDetail(new DiscountPolicyBL().GetDiscountPolicyByID(choice));
                                     }
                                     else
                                     {
                                         ConsoleUlts.Alert(ConsoleEnum.Alert.Error, "No Discount Policy Valid To This Payment Method");
-                                        Console.WriteLine(" - Or Your Order are not eligible to apply any discountpolicy !");
                                     }
-                                    bool resultDiscount = ConsoleUlts.PressYesOrNo("Continue", "Choose Discount Policy for Payment Method Again");
-                                    // if (keyInfo.Key == ConsoleKey.Enter)
-                                    // {
-                                    //     dontKnowHowtoCall3 = true;
-                                    //     orderWantToPayment.DiscountPolicies.Add(new DiscountPolicyBL().GetDiscountPolicyByID(choice));
-                                    // }
-                                    // else
-                                    // {
-                                    //     continue;
-                                    // }
+                                    bool resultDiscount = ConsoleUlts.PressYesOrNo("Continue", "Choose Discount Policy Again");
                                     if (resultDiscount == true)
                                     {
                                         activeDiscountForPayment = true;
@@ -825,12 +818,12 @@ namespace Ults
                                         {
                                             currentPhase = 4;
                                             consoleUI.PrintTimeLine(listPhase, count, currentPhase);
-                                            Console.WriteLine(spaces+"|============================================================================================|");
-                                    Console.WriteLine(consoleUI.GetAppANSIText());
-                                    Console.WriteLine(spaces+"|============================================================================================|");
-                                    Console.WriteLine(consoleUI.GetPaymentANSIText());
-                                    Console.WriteLine(spaces+"|============================================================================================|");
-                                            Console.WriteLine(consoleUI.ChooseDiscountPolicy());
+                                            Console.WriteLine(spaces + "|============================================================================================|");
+                                            Console.WriteLine(consoleUI.GetAppANSIText());
+                                            Console.WriteLine(spaces + "|============================================================================================|");
+                                            Console.WriteLine(consoleUI.GetPaymentANSIText());
+                                            Console.WriteLine(spaces + "|============================================================================================|");
+                                            Console.WriteLine(consoleUI.GetChooseDiscountPolicyText());
                                             foreach (var discount in ListDiscountPolicyValidToOrder)
                                             {
                                                 if (discount.MinimumPurchaseAmount > 0)
@@ -838,23 +831,24 @@ namespace Ults
                                                     if (orderWantToPayment.TotalDue >= discount.MinimumPurchaseAmount && discount.PaymentMethod == "Not Have")
                                                     {
                                                         choicePattern.Add(discount.PolicyID);
-                                                        int l = ("|============================================================================================|").Length -(spaces+discount.PolicyID + ". " + discount.Title).Length;
-                                                        Console.Write(spaces+$"|"+spaces + discount.PolicyID + ". " + discount.Title);
-                                                        for(int i=0;i<l-2;i++)Console.Write(" ");
+                                                        int l = ("|============================================================================================|").Length - (spaces + discount.PolicyID + ". " + discount.Title).Length;
+                                                        Console.Write(spaces + $"|" + discount.PolicyID + ". " + discount.Title + spaces);
+                                                        for (int i = 0; i < l - 2; i++) Console.Write(" ");
                                                         Console.WriteLine("|");
                                                     }
                                                 }
                                             }
-                                            Console.WriteLine(spaces+"|============================================================================================|");
+                                            Console.WriteLine(spaces + "|============================================================================================|");
                                             if (choicePattern.Count() != 0)
                                             {
                                                 string choiceDiscountOrder = "";
                                                 do
                                                 {
-                                                    choiceDiscountOrder = ConsoleUlts.GetInputString($"{spaces} Choose Discount Policy for Order:");
+                                                    choiceDiscountOrder = ConsoleUlts.GetInputString($"{spaces} Choose Discount Policy for Order");
                                                 } while (!ConsoleUlts.CheckInputIDValid(choiceDiscountOrder, choicePattern));
                                                 choice = Convert.ToInt32(choiceDiscountOrder);
                                                 Console.WriteLine($"{spaces}✅ Show Discount Policy Detail");
+                                                consoleUI.PrintTimeLine(listPhase, count, currentPhase);
                                                 consoleUI.PrintTitle(consoleUI.GetDiscountPolicyDetailText(), null, loginManager.LoggedInStaff);
                                                 consoleUI.PrintDiscountPolicyDetail(new DiscountPolicyBL().GetDiscountPolicyByID(choice));
                                                 orderWantToPayment.DiscountPolicies.Add(new DiscountPolicyBL().GetDiscountPolicyByID(choice));

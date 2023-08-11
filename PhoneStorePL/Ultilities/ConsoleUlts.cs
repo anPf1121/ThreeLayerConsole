@@ -41,7 +41,6 @@ namespace Ults
             } while (active);
             return false;
         }
-
         public int PressCharacterTo(string firstAction, string? secondAction, string? thirdAction)
         {
             string firstStr = $"Press 'Q' To {firstAction} - Press 'W' To {secondAction} - Press 'E' To {thirdAction}";
@@ -479,7 +478,6 @@ namespace Ults
             }
             return false;
         }
-        
 
         public void Alert(ConsoleEnum.Alert alertType, string msg)
         {
@@ -505,7 +503,6 @@ namespace Ults
             consoleUI.ConsoleForegroundColor(ConsoleEnum.Color.White);
             PressEnterTo("Continue");
         }
-
         public void PressEnterTo(string? action)
         {
             string str = $"👉 Press Enter To {action}...";
@@ -583,7 +580,6 @@ namespace Ults
             Customer customer = new Customer(0, customerName, phoneNumber, address);
             return customer;
         }
-
         public string GetInputString(string requestToEnter)
         {
             string str = "";
@@ -628,6 +624,8 @@ namespace Ults
         }
         public bool CheckInputIDValid(string inputId, List<int> IDPattern)
         { // Ham nay de loc input xem co dung kieu va gia tri co trong list(list order, list phonedetail, list imei ..vv.)
+            int centeredPosition = (Console.WindowWidth - "|--------------------------------------------------------------------------------------------|".Length) / 2;
+            string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
             string listofid = "";
             foreach (var ID in IDPattern)
             {
@@ -645,13 +643,13 @@ namespace Ults
                 if (count != 0) return true;
                 else
                 {
-                    Console.WriteLine($"Please choose an id in list {listofid}");
+                    Alert(ConsoleEnum.Alert.Error, $"Please choose an id in list {listofid}");
                     return false;
                 }
             }
             else
             {
-                Console.WriteLine("Invalid input! Please input a number!");
+                Alert(ConsoleEnum.Alert.Error, "Invalid Input!");
                 return false;
             }
         }
