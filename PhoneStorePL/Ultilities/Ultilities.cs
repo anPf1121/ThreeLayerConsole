@@ -311,7 +311,7 @@ namespace Ults
             string secondspaces = secondcenteredPosition > 0 ? new string(' ', secondcenteredPosition) : "";
             Console.OutputEncoding = System.Text.Encoding.UTF8;
             string handleTitle = consoleUI.GetHandleOrderANSIText();
-            string[] listPhase = { "Show orders", "Show order details", "Confirm Handle" };
+            string[] listPhase = { "Show orders", "Confirm Handle" };
             int currentPhase = 1;
             int phaseChoice = 0;
             int count = 0;
@@ -375,19 +375,6 @@ namespace Ults
                         }
                         break;
                     case 2:
-                        if (order == null) { }
-                        consoleUI.PrintTimeLine(listPhase, count, currentPhase);
-                        consoleUI.PrintOrderInfor(order);
-
-                        if (!ConsoleUlts.PressYesOrNo("Continue", "Back Previous Phase"))
-                        {
-                            currentPhase--;
-                            break;
-                        }
-                        else currentPhase++;
-
-                        break;
-                    case 3:
                         consoleUI.PrintTimeLine(listPhase, count, currentPhase);
                         consoleUI.PrintOrderInfor(order);
                         if (!ConsoleUlts.PressYesOrNo("Confirm Product", "Cancel Order"))
@@ -405,10 +392,11 @@ namespace Ults
                                 return 1;
                             }
                         }
+
                         break;
 
                 }
-            } while (currentPhase != 4);
+            } while (currentPhase != 3);
             return 1;
         }
         public void CreateReport()
@@ -750,6 +738,8 @@ namespace Ults
                                 {
                                     ConsoleUlts.Alert(ConsoleEnum.Alert.Error, "Invalid Payment Method");
                                 }
+                                else orderWantToPayment.PaymentMethod = ListPaymentMethod[inputPaymentMethodChoice];
+
                             } while (inputPaymentMethodChoice <= 0 || inputPaymentMethodChoice > ListPaymentMethod.Count());
 
                             foreach (var payment in ListPaymentMethod)

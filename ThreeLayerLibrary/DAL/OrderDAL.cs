@@ -303,13 +303,14 @@ namespace DAL
                 {
                     case OrderEnum.Status.Confirmed:
                         query = @"update orders set accountant_id = @accountantid, order_status = @orderstatus, 
-                        update_at = current_timestamp()
+                        update_at = current_timestamp(), payment_method = @paymentmethod 
                         where order_id = @orderid;";
                         command.CommandText = query;
                         command.Parameters.Clear();
                         command.Parameters.AddWithValue("@accountantid", order.Accountant.StaffID);
                         command.Parameters.AddWithValue("@orderstatus", (int)OrderEnum.Status.Confirmed);
                         command.Parameters.AddWithValue("@orderid", order.OrderID);
+                        command.Parameters.AddWithValue("@paymentmethod", order.PaymentMethod);
                         command.ExecuteNonQuery();
                         break;
                     case OrderEnum.Status.Canceled:

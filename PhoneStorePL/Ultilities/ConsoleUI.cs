@@ -240,7 +240,7 @@ class ConsoleUI
         Console.WriteLine(spaces + "| Order Create Time: {0, -30}|", DateTime.Now.ToString().PadRight(103));
         Console.WriteLine(spaces + "| Customer: {0, -30}|", ord.Customer.CustomerName.PadRight(112));
         Console.WriteLine(spaces + "| Address: {0, -50}|", ord.Customer.Address.PadRight(113));
-        Console.WriteLine(spaces + "| Phone Number: {0, -12}|", ord.Customer.PhoneNumber.PadRight(108));        
+        Console.WriteLine(spaces + "| Phone Number: {0, -12}|", ord.Customer.PhoneNumber.PadRight(108));
         Console.WriteLine(spaces + "|===========================================================================================================================|");
         PrintOrderDetails(ord);
         Console.WriteLine(spaces + "|===========================================================================================================================|");
@@ -345,7 +345,7 @@ class ConsoleUI
         int centeredPosition = (Console.WindowWidth - "|==============================================================================================|".Length) / 2;
         string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
         CultureInfo cultureInfo = new CultureInfo("vi-VN");
-        Console.WriteLine(spaces + " | {0, -10} | {1, -13} | {2, -15} | {3, -15} | {4, -15} | {5, -8}|", phoneDetail.PhoneDetailID, phoneDetail.PhoneColor.Color, phoneDetail.ROMSize.ROM, string.Format(cultureInfo, "{0:N0} ₫", phoneDetail.Price), phoneDetail.PhoneStatusType, (phoneDetail.Quantity != 0) ? phoneDetail.Quantity : "Out Of Stock");
+        Console.WriteLine(spaces + "| {0, -10} | {1, -13} | {2, -15} | {3, -15} | {4, -15} | {5, -8}|", phoneDetail.PhoneDetailID, phoneDetail.PhoneColor.Color, phoneDetail.ROMSize.ROM, string.Format(cultureInfo, "{0:N0} ₫", phoneDetail.Price), phoneDetail.PhoneStatusType, (phoneDetail.Quantity != 0) ? phoneDetail.Quantity : "Out Of Stock");
     }
     public void PrintOrderDetailsInfo(Order order)
     {
