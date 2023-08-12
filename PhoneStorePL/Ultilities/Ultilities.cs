@@ -406,7 +406,7 @@ namespace Ults
                         else
                         {
                             // đổi trạng thái Order thành completed
-                            if (orderBL.UpdateOrder(OrderEnum.Status.CompletedInDay, order) == true)
+                            if (orderBL.UpdateOrder(OrderEnum.Status.Completed, order) == true)
                             {
                                 return 1;
                             }
@@ -428,6 +428,7 @@ namespace Ults
             List<PhoneDetail> phoneDetails = new List<PhoneDetail>();
             int phoneDetailCount = 0;
             List<Order>? orders = null;
+            List<Order>? ordersStore = null;
             bool isContinue = false;
             int choice = 0, currentPhase = 1, searchChoice = 0, phoneIdToAdd = 0, phoneModelIDToAdd = 0;
             List<int> phoneDetailsIDToReport = new List<int>();
@@ -440,23 +441,32 @@ namespace Ults
                     case 1:
                         consoleUI.PrintTimeLine(timeLine, count, currentPhase);
                         consoleUI.PrintTitle(consoleUI.GetAppANSIText(), null, loginManager.LoggedInStaff);
-                        startDate = ConsoleUlts.GetDate(spaces + "Enter Start Date (YYYY-MM-DD)");
-                        endDate = ConsoleUlts.GetDate(spaces + "Enter End Date (YYYY-MM-DD)");
-                        orders = orderBL.GetCompletedOrderByDate(startDate, endDate);
+                        int firstPhaseChoice = ConsoleUlts.PressCharacterTo("Create Report In Day", "Create Report In Week", "Create Report In Month");
+
+                        if (firstPhaseChoice == 0)
+                        {
+                            orders = orderBL.GetCompletedOrderInDay(loginManager.LoggedInStaff);
+                            ordersStore = orderBL.GetCompletedOrderInDay();
+                        }
+
+                        else if (firstPhaseChoice == 1)
+                        {
+                            orders = orderBL.GetCompletedOrderInWeek(loginManager.LoggedInStaff);
+                            ordersStore = orderBL.GetCompletedOrderInWeek();
+                        }
+
+                        else
+                        {
+                            orders = orderBL.GetCompletedOrderInMonth(loginManager.LoggedInStaff);
+                            ordersStore = orderBL.GetCompletedOrderInMonth();
+                        }
+
                         if (orders == null || orders.Count() == 0)
                         {
                             ConsoleUlts.Alert(ConsoleEnum.Alert.Warning, "Don't Have Revenue In This Month");
                             break;
                         }
-                        else
-                        {
-                            if (ConsoleUlts.PressYesOrNo("Back Previous Phase", "Continue"))
-                            {
-                                currentPhase = timeLine.Count() + 1;
-                                break;
-                            }
-                            else currentPhase++;
-                        }
+                        else currentPhase++;
                         break;
                     case 2:
                         consoleUI.PrintTimeLine(timeLine, count, currentPhase);
@@ -468,8 +478,7 @@ namespace Ults
                                 phoneDetailCount++;
                             }
                         }
-                        reportDataHandle = ConsoleUlts.DataToPrintChartHandle(orders!);
-                        consoleUI.PrintReportRevenue(startDate, endDate, orderBL.CalculateTotalRevenue(orders!), phoneDetailCount, orders!.Count(), reportDataHandle, phoneDetailsIDToReport);
+                        consoleUI.PrintReportRevenue(loginManager.LoggedInStaff, orderBL.CalculateTotalRevenue(orders!), orderBL.CalculateTotalRevenue(ordersStore!), orders!.Count(), ordersStore!.Count(), ordersStore!, phoneDetailsIDToReport);
 
                         int reportChoice = ConsoleUlts.PressCharacterTo("Cancel Report", "Create Report", "Add More Information To Report");
                         if (reportChoice == 0) currentPhase = timeLine.Count() + 1;
@@ -478,13 +487,9 @@ namespace Ults
                             currentPhase = timeLine.Count() + 1;
                             ConsoleUlts.Alert(ConsoleEnum.Alert.Success, "Create Report Completed!");
                         }
-                        else if (reportChoice == 2)
-                        {
-                            currentPhase++;
-                        }
+                        else if (reportChoice == 2) currentPhase++;
                         break;
                     case 3:
-
                         consoleUI.PrintTimeLine(timeLine, count, currentPhase);
                         consoleUI.PrintTitle(consoleUI.GetAppANSIText(), consoleUI.GetCreateReportANSIText(), loginManager.LoggedInStaff);
 
@@ -531,6 +536,7 @@ namespace Ults
                             } while (listPhoneDetailID.IndexOf(phoneModelIDToAdd) == -1);
                         }
                         currentPhase--;
+
                         break;
                 }
             } while (currentPhase != timeLine.Count() + 1);

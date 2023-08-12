@@ -665,6 +665,50 @@ namespace Ults
             }
             return dateTime;
         }
+        public void PrintColumnChart(Dictionary<string, decimal> data)
+        {
+            StaffBL staffBL = new StaffBL();
+            Console.WriteLine();
+            int centeredPosition = (Console.WindowWidth - "|==================================================================================================================================================|".Length) / 2;
+            string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
+            PhoneBL phoneBL = new PhoneBL();
+            decimal maxValue = data.Values.Max();
+            int count = 0;
+            if (data.Count() == 2)
+            {
+                foreach (var value in data)
+                {
+                    count++;
+                    for (int i = 0; i < value.Value / maxValue * 100; i++)
+                    {
+                        if (i == 0)
+                        {
+                            Console.Write(spaces + "    {0, -20} | ", value.Key);
+                        }
+                        else
+                        {
+                            Console.Write("█");
+                        }
+                        if (i >= value.Value / maxValue * 100 - 1)
+                        {
+                            Console.Write(" | {0, -15}", (value.Value / maxValue * 100).ToString("0.##") + "%");
+                        }
+                    }
+                    Console.WriteLine("\n");
+                    if (count == 5) break;
+                    if (count == data.Count()) Console.WriteLine(spaces + "  * Your revenue accounts for {0} of the store's revenue", (value.Value / maxValue * 100).ToString("0.##") + "%");
+                }
+            }
+            return;
+        }
+        public Dictionary<string, decimal> accountantDataHandleToPrintChart(string accountantName, decimal totalRevenue, decimal totalStoreRevenue)
+        {
+            Dictionary<string, decimal> result = new Dictionary<string, decimal>();
+            result.Add("Store", totalStoreRevenue);
+            result.Add(accountantName, totalRevenue);
+            return result;
+        }
+
         public void PrintColumnChart(Dictionary<int, decimal> data)
         {
             Console.WriteLine();

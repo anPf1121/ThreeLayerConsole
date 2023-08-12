@@ -3,6 +3,8 @@ using GUIEnum;
 using BusinessEnum;
 using Model;
 using System.Globalization; // thu vien format tien
+using Ults;
+using BL;
 
 namespace UI;
 class ConsoleUI
@@ -30,25 +32,32 @@ class ConsoleUI
                 break;
         }
     }
-    public void PrintReportRevenue(DateTime startDate, DateTime endDate, decimal totalRevenue, int phoneSoldedQuantity, int totalOrderQuantity, Dictionary<int, decimal> dataToPrintChart, List<int> phoneDetailsIDToReport)
+    public void PrintReportRevenue(Staff accountant, decimal yourTotalRevenue, decimal storeTotalRevenue, int totalOrdersCompleted, int totalStoreOrders, List<Order> dataToPrintPhoneChart, List<int> phoneDetailsIDToReport)
     {
-        Ults.ConsoleUlts consoleUlts = new Ults.ConsoleUlts();
-        BL.PhoneBL phoneBL = new BL.PhoneBL();
+        PhoneBL phoneBL = new PhoneBL();
+        ConsoleUlts consoleUlts = new ConsoleUlts();
         int secondCenteredPosition = (Console.WindowWidth - "|==================================================================================================================================================|".Length) / 2;
         string secondSpaces = secondCenteredPosition > 0 ? new string(' ', secondCenteredPosition) : "";
         Console.WriteLine(secondSpaces + "|==================================================================================================================================================|");
         Console.WriteLine(GetReportANSIText());
         Console.WriteLine(secondSpaces + "|==================================================================================================================================================|");
-        Console.WriteLine(secondSpaces + "|                                                  REVENUE REPORT FROM {0} TO {1}                                                    |", startDate.ToString("yyyy-MM-dd"), endDate.ToString("yyyy-MM-dd"));
+        Console.WriteLine(secondSpaces + "|                                                                TOTAL REVENUE                                                                     |");
         Console.WriteLine(secondSpaces + "|==================================================================================================================================================|");
-        Console.WriteLine(secondSpaces + "| Total Revenue: {0} |", FormatPrice(totalRevenue).PadRight(129));
-        Console.WriteLine(secondSpaces + "| To String: {0, 50} |", ConvertNumberToWords(totalRevenue).PadRight(133));
+        Console.WriteLine(secondSpaces + "| Store Revenue: {0, -30} |", FormatPrice(storeTotalRevenue).PadRight(129));
+        Console.WriteLine(secondSpaces + "| Your Revenue: {0, -30} |", FormatPrice(yourTotalRevenue).PadRight(130));
         Console.WriteLine(secondSpaces + "|==================================================================================================================================================|");
-        if (phoneDetailsIDToReport.Count() != 0 || phoneDetailsIDToReport != null)
+        consoleUlts.PrintColumnChart(consoleUlts.accountantDataHandleToPrintChart(("You"), yourTotalRevenue, storeTotalRevenue));
+        Console.WriteLine(secondSpaces + "|==================================================================================================================================================|");
+        Console.WriteLine(secondSpaces + "|                                                               ORDERS COMPLETED                                                                   |");
+        Console.WriteLine(secondSpaces + "|==================================================================================================================================================|");
+        Console.WriteLine(secondSpaces + "| Your Orders: {0, -30} |", totalOrdersCompleted.ToString().PadRight(131));
+        Console.WriteLine(secondSpaces + "|==================================================================================================================================================|");
+        if (phoneDetailsIDToReport.Count() != 0)
         {
-            Console.WriteLine(secondSpaces + "|                                                              PHONE MODEL                                                                         |");
+            Console.WriteLine(secondSpaces + "|                                                             REVENUE ON PHONE MODEL                                                               |");
             Console.WriteLine(secondSpaces + "|==================================================================================================================================================|");
-            foreach (var item in dataToPrintChart)
+            Dictionary<int, decimal> dataHandled = consoleUlts.DataToPrintChartHandle(dataToPrintPhoneChart);
+            foreach (var item in dataHandled)
             {
                 if (phoneDetailsIDToReport.IndexOf(item.Key) != -1)
                 {
@@ -57,17 +66,10 @@ class ConsoleUI
                 }
             }
             Console.WriteLine(secondSpaces + "|==================================================================================================================================================|");
-
         }
-        Console.WriteLine(secondSpaces + "|                                                               MORE INFORMATION                                                                   |");
+        Console.WriteLine(secondSpaces + "|                                              TOP 5 PRODUCTS WITH THE HIGHEST REVENUE OF STORE                                                    |");
         Console.WriteLine(secondSpaces + "|==================================================================================================================================================|");
-
-        Console.WriteLine(secondSpaces + "| Phone Solded Quantity: {0, -20} |", phoneSoldedQuantity.ToString().PadRight(121));
-        Console.WriteLine(secondSpaces + "| Total Orders Quantity: {0, -20} |", totalOrderQuantity.ToString().PadRight(121));
-        Console.WriteLine(secondSpaces + "|==================================================================================================================================================|");
-        Console.WriteLine(secondSpaces + "|-------------------------------------------------------------- Top 5 Best Seller -----------------------------------------------------------------|");
-        Console.WriteLine(secondSpaces + "|==================================================================================================================================================|");
-        consoleUlts.PrintColumnChart(dataToPrintChart);
+        consoleUlts.PrintColumnChart(consoleUlts.DataToPrintChartHandle(dataToPrintPhoneChart));
         Console.WriteLine(secondSpaces + "|==================================================================================================================================================|");
     }
     public void PrintLine()

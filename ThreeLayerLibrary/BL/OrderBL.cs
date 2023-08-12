@@ -2,6 +2,7 @@ using System;
 using DAL;
 using Model;
 using BusinessEnum;
+using System.Globalization;
 
 public class OrderBL
 {
@@ -38,13 +39,9 @@ public class OrderBL
     {
         return orderDAL.UpdateOrder(BusinessEnum.OrderEnum.Status.Canceled, order);
     }
-    public List<Order>? GetOrdersCompletedInMonth()
-    {
-        return orderDAL.GetOrders(OrderEnum.Status.CompletedInMonth);
-    }
     public decimal CalculateTotalRevenue(List<Order> ordersCompleted)
     {
-        if(ordersCompleted == null || ordersCompleted.Count() == 0) return 0;  
+        if (ordersCompleted == null || ordersCompleted.Count() == 0) return 0;
         decimal totalRevenue = 0;
         foreach (var order in ordersCompleted)
         {
@@ -55,7 +52,8 @@ public class OrderBL
         }
         return totalRevenue;
     }
-    public decimal CalculateTotalRevenueOnModel(PhoneDetail phoneDetail) {
+    public decimal CalculateTotalRevenueOnModel(PhoneDetail phoneDetail)
+    {
         return phoneDetail.Quantity * phoneDetail.Price;
     }
     public List<PhoneDetail> GetPhoneDetailInOrder(List<Order> ordersCompleted)
@@ -70,63 +68,115 @@ public class OrderBL
         }
         return phoneDetail;
     }
-    public List<Order> GetCompletedOrderByDate(DateTime startDate, DateTime endDate) {
-        return orderDAL.GetOrdersByDateTime(startDate, endDate);
-    }
-    public int GetCustomersRepeatTime(List<Order> orders) {
-        Dictionary<int, int> customerIDWithRepeatTime = new Dictionary<int, int>();
-        int count = 0;
-        foreach (var item in orders)
+    public List<Order> GetCompletedOrderInDay()
+    {
+        DateTime currentDate = DateTime.Now;
+        List<Order> orders = orderDAL.GetOrders(OrderEnum.Status.Completed);
+        List<Order> ordersInDay = new List<Order>();
+        int dayNumber = 0;
+        foreach (Order order in orders)
         {
-            if(customerIDWithRepeatTime.ContainsKey(item.Customer.CustomerID)) {
-                customerIDWithRepeatTime[item.Customer.CustomerID]++;
-                Console.WriteLine("bp bl" + item.Customer.CustomerID);
-                Console.ReadLine();
-            } else {
-                customerIDWithRepeatTime[item.Customer.CustomerID] = 1;
-            }
-        }
-        foreach (var item in customerIDWithRepeatTime)
-        {
-            if(item.Value > 1) count++;
-        }
-        return count;
-    }
-    public double CalculateRevenueGrowthRate(DateTime startDate, DateTime endDate) {
-        List<Order> orders = orderDAL.GetOrdersByDateTime(startDate, endDate);
-        foreach (var order in orders)
-        {
-            startDate = order.CreateAt;
-            break;
-        }
-        for (int i = 0; i < orders.Count(); i++)
-        {
-            if(i == orders.Count() - 1) {
-                endDate = orders[i].CreateAt;
-                break;
-            }
-        }
-        List<Order> ordersInFirstDay = orderDAL.GetOrdersByDateTime(startDate, startDate);
-        List<Order> ordersInLastDay = orderDAL.GetOrdersByDateTime(endDate, endDate);
-        decimal firstDayRevenue = 0;
-        decimal lastDayRevenue = 0;
-        foreach (var order in ordersInFirstDay)
-        {
-            foreach (var phoneDetail in order.PhoneDetails)
+            dayNumber = order.CreateAt.Day;
+            if (dayNumber == currentDate.Day - 1)
             {
-                firstDayRevenue += phoneDetail.Quantity * phoneDetail.Price;
-                break;
+                ordersInDay.Add(order);
             }
         }
-        foreach (var order in ordersInLastDay)
+        return ordersInDay;
+    }
+    public List<Order> GetCompletedOrderInDay(Staff accountant)
+    {
+        DateTime currentDate = DateTime.Now;
+        List<Order> orders = orderDAL.GetOrders(OrderEnum.Status.Completed);
+        List<Order> ordersInDay = new List<Order>();
+        foreach (Order order in orders)
         {
-            foreach (var phoneDetail in order.PhoneDetails)
+            if (order.CreateAt.Day == currentDate.Day && order.Accountant.StaffID == accountant.StaffID)
             {
-                lastDayRevenue += phoneDetail.Quantity * phoneDetail.Price;
-                break;
+                ordersInDay.Add(order);
             }
         }
-        decimal revenueGrowthRate = ((lastDayRevenue - firstDayRevenue) / firstDayRevenue) * 100;
-        return (double)revenueGrowthRate;
-    }  
+        return ordersInDay;
+    }
+    public List<Order> GetCompletedOrderInWeek()
+    {
+        DateTime currentDate = DateTime.Now;
+        CultureInfo cultureInfo = CultureInfo.CurrentCulture;
+        Calendar calendar = cultureInfo.Calendar;
+        int currentWeekNumber = calendar.GetWeekOfYear(currentDate, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+        int weekNumber = 0;
+        List<Order> orders = orderDAL.GetOrders(OrderEnum.Status.Completed);
+        List<Order> ordersInWeek = new List<Order>();
+        foreach (Order order in orders)
+        {
+            if (order.CreateAt.Year == currentDate.Year)
+            {
+                weekNumber = calendar.GetWeekOfYear(order.CreateAt, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+                if (weekNumber == currentWeekNumber - 1)
+                {
+                    ordersInWeek.Add(order);
+                }
+            }
+        }
+        return ordersInWeek;
+    }
+    public List<Order> GetCompletedOrderInWeek(Staff accountant)
+    {
+        DateTime currentDate = DateTime.Now;
+        CultureInfo cultureInfo = CultureInfo.CurrentCulture;
+        Calendar calendar = cultureInfo.Calendar;
+        int currentWeekNumber = calendar.GetWeekOfYear(currentDate, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+        int weekNumber = 0;
+        List<Order> orders = orderDAL.GetOrders(OrderEnum.Status.Completed);
+        List<Order> ordersInWeek = new List<Order>();
+        foreach (Order order in orders)
+        {
+            if (order.CreateAt.Year == currentDate.Year)
+            {
+                weekNumber = calendar.GetWeekOfYear(order.CreateAt, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+                if (weekNumber == currentWeekNumber - 1)
+                {
+                    if (order.Accountant.StaffID == accountant.StaffID)
+                        ordersInWeek.Add(order);
+                }
+            }
+        }
+        return ordersInWeek;
+    }
+    public List<Order> GetCompletedOrderInMonth()
+    {
+        DateTime currentDate = DateTime.Now;
+        int currentMonthNumber = currentDate.Month;
+        List<Order> orders = orderDAL.GetOrders(OrderEnum.Status.Completed);
+        List<Order> ordersInMonth = new List<Order>();
+        foreach (Order order in orders)
+        {
+            if (order.CreateAt.Year == currentDate.Year)
+            {
+                if (order.CreateAt.Month == currentMonthNumber - 1)
+                {
+                    ordersInMonth.Add(order);
+                }
+            }
+        }
+        return ordersInMonth;
+    }
+    public List<Order> GetCompletedOrderInMonth(Staff accountant)
+    {
+        DateTime currentDate = DateTime.Now;
+        int currentMonthNumber = currentDate.Month;
+        List<Order> orders = orderDAL.GetOrders(OrderEnum.Status.Completed);
+        List<Order> ordersInMonth = new List<Order>();
+        foreach (Order order in orders)
+        {
+            if (order.CreateAt.Year == currentDate.Year)
+            {
+                if (order.CreateAt.Month == currentMonthNumber - 1 && order.Accountant.StaffID == accountant.StaffID)
+                {
+                    ordersInMonth.Add(order);
+                }
+            }
+        }
+        return ordersInMonth;
+    }
 }

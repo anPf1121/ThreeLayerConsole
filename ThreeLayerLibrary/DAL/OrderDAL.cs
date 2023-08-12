@@ -6,9 +6,9 @@ namespace DAL
 {
     public static class OrderFilter
     {
-        public const int GET_ORDER_PENDING_IN_DAY = 0;
-        public const int GET_ORDER_CONFIRMED_IN_DAY = 1;
-        public const int GET_ORDER_COMPLETED_IN_DAY = 2;
+        public const int GET_ORDER_COMPLETED_IN_DAY = 0;
+        public const int GET_ORDER_COMPLETED_IN_WEEK = 1;
+        public const int GET_ORDER_COMPLETED_IN_MONTH = 2;
     }
     public static class StatusFilter
     {
@@ -81,36 +81,43 @@ namespace DAL
             order.PhoneDetails = phoneDetailsDAL.GetListPhoneDetailInOrder(order.OrderID);
 
             //Xet trang thai cua order la truoc hay sau khi Payment
-            if(order.OrderStatus != OrderEnum.Status.Pending && order.OrderStatus != OrderEnum.Status.Canceled){
+            if (order.OrderStatus != OrderEnum.Status.Pending && order.OrderStatus != OrderEnum.Status.Canceled)
+            {
                 order.TotalDue = order.GetTotalDue();
-                try{
-                    if (connection.State == System.Data.ConnectionState.Closed)
+                try
                 {
-                    connection.Open();
-                }
-                query = @"select dp.* from discountpolicies dp
+                    if (connection.State == System.Data.ConnectionState.Closed)
+                    {
+                        connection.Open();
+                    }
+                    query = @"select dp.* from discountpolicies dp
                 inner join discountpolicydetails dpd on dp.policy_id = dpd.policy_id
                 where dpd.order_id = @orderid;";
-                MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.Clear();
-                command.Parameters.AddWithValue("@orderid", order.OrderID);
-                MySqlDataReader reader = command.ExecuteReader();
-                while(reader.Read()){
-                    order.DiscountPolicies.Add(new DiscountPolicyDAL().GetDiscountPolicy(reader));
+                    MySqlCommand command = new MySqlCommand(query, connection);
+                    command.Parameters.Clear();
+                    command.Parameters.AddWithValue("@orderid", order.OrderID);
+                    MySqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        order.DiscountPolicies.Add(new DiscountPolicyDAL().GetDiscountPolicy(reader));
+                    }
+                    reader.Close();
                 }
-                reader.Close();
-                }catch(MySqlException ex){
+                catch (MySqlException ex)
+                {
                     Console.WriteLine(ex.Message);
                 }
                 if (connection.State == System.Data.ConnectionState.Open)
                 {
                     connection.Close();
                 }
-                foreach(DiscountPolicy discount in order.DiscountPolicies){
+                foreach (DiscountPolicy discount in order.DiscountPolicies)
+                {
                     order.TotalDue -= discount.DiscountPrice;
                 }
             }
-            else if(order.OrderStatus == OrderEnum.Status.Pending){
+            else if (order.OrderStatus == OrderEnum.Status.Pending)
+            {
                 order.TotalDue = order.GetTotalDue();
             }
             return order;
@@ -141,50 +148,13 @@ namespace DAL
                         query = @"select * from orders
                         where order_status = 2 and date(create_at) = date(current_time());";
                         break;
-                    case OrderEnum.Status.CompletedInDay:
+                    case OrderEnum.Status.Completed:
                         query = @"select * from orders
-                        where order_status = 3 and MONTH(create_at) = MONTH(CURDATE()) AND YEAR(create_at) = YEAR(CURDATE());";
+                        where order_status = 3;";
                         break;
                     default: break;
                 }
                 MySqlCommand command = new MySqlCommand(query, connection);
-                MySqlDataReader reader = command.ExecuteReader();
-                while (reader.Read())
-                {
-                    orders.Add(GetOrder(reader));
-                }
-                reader.Close();
-            }
-            catch (MySqlException ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-            List<Order> output = new List<Order>();
-            foreach (var o in orders)
-            {
-                output.Add(GetOrderByID(o.OrderID));
-            }
-            return output;
-        }
-        
-        public List<Order> GetOrdersByDateTime(DateTime startDate, DateTime endDate)
-        {
-            PhoneDetailsDAL phoneDetailsDAL = new PhoneDetailsDAL();
-            PhoneDAL phoneDAL = new PhoneDAL();
-            List<Order> orders = new List<Order>();
-            try
-            {
-                if (connection.State == System.Data.ConnectionState.Closed)
-                {
-                    connection.Open();
-                }
-                query = @"select * from orders
-                        where order_status = 3 and date(create_at) >= date(@startdate) AND date(create_at) <= date(@endDate);";
-
-                MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.Clear();
-                command.Parameters.AddWithValue("@startdate", startDate);
-                command.Parameters.AddWithValue("@enddate", endDate);
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
@@ -253,7 +223,7 @@ namespace DAL
                 command.Parameters.AddWithValue("@sellerid", order.Seller.StaffID);
                 command.Parameters.AddWithValue("@orderid", order.OrderID);
                 command.ExecuteNonQuery();
-                
+
                 foreach (var phone in order.PhoneDetails)
                 {
                     int quantity = 0;
@@ -322,7 +292,7 @@ namespace DAL
             }
             return result;
         }
-         public bool UpdateOrder(OrderEnum.Status orderStatus, Order order)
+        public bool UpdateOrder(OrderEnum.Status orderStatus, Order order)
         {
             try
             {
@@ -354,12 +324,12 @@ namespace DAL
                         command.Parameters.AddWithValue("@orderid", order.OrderID);
                         command.ExecuteNonQuery();
                         break;
-                    case OrderEnum.Status.CompletedInDay:
+                    case OrderEnum.Status.Completed:
                         query = @"update orders set order_status = @orderstatus, update_at = current_timestamp() 
                         where order_id = @orderid;";
                         command.CommandText = query;
                         command.Parameters.Clear();
-                        command.Parameters.AddWithValue("@orderstatus", (int)OrderEnum.Status.CompletedInDay);
+                        command.Parameters.AddWithValue("@orderstatus", (int)OrderEnum.Status.Completed);
                         command.Parameters.AddWithValue("@orderid", order.OrderID);
                         command.ExecuteNonQuery();
                         break;
@@ -371,11 +341,14 @@ namespace DAL
             {
                 Console.WriteLine(ex.Message);
             }
-            if(orderStatus == OrderEnum.Status.Canceled){
+            if (orderStatus == OrderEnum.Status.Canceled)
+            {
                 query = @"update imeis set status = 0 where phone_imei = @phoneimei;";
                 MySqlCommand command = new MySqlCommand(query, connection);
-                foreach(var phone in order.PhoneDetails){
-                    foreach(var imei in phone.ListImei){
+                foreach (var phone in order.PhoneDetails)
+                {
+                    foreach (var imei in phone.ListImei)
+                    {
                         command.Parameters.Clear();
                         command.Parameters.AddWithValue("@phoneimei", imei.PhoneImei);
                         command.ExecuteNonQuery();
@@ -387,10 +360,12 @@ namespace DAL
                 command.Parameters.AddWithValue("@orderid", order.OrderID);
                 command.ExecuteNonQuery();
             }
-            if(orderStatus == OrderEnum.Status.Confirmed){
+            if (orderStatus == OrderEnum.Status.Confirmed)
+            {
                 query = @"insert into discountpolicydetails(order_id, policy_id) value(@orderid, @policyid);";
-                MySqlCommand command = new MySqlCommand(query,connection);
-                foreach(var dc in order.DiscountPolicies){
+                MySqlCommand command = new MySqlCommand(query, connection);
+                foreach (var dc in order.DiscountPolicies)
+                {
                     command.Parameters.Clear();
                     command.Parameters.AddWithValue("@orderid", order.OrderID);
                     command.Parameters.AddWithValue("@policyid", dc.PolicyID);
