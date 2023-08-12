@@ -247,8 +247,7 @@ namespace DAL
                             if (phone.Quantity > quantity) break;
                             else
                             {
-                                query = @"insert into orderdetails(order_id, phone_imei) 
-                                value(@orderid, @phoneimei);";
+                                query = @"insert into orderdetails(order_id, phone_imei) value (@orderid, @phoneimei);";
                                 command.CommandText = query;
                                 foreach (Imei imei in phone.ListImei)
                                 {
@@ -362,14 +361,17 @@ namespace DAL
             }
             if (orderStatus == OrderEnum.Status.Confirmed)
             {
-                query = @"insert into discountpolicydetails(order_id, policy_id) value(@orderid, @policyid);";
-                MySqlCommand command = new MySqlCommand(query, connection);
-                foreach (var dc in order.DiscountPolicies)
+                if (order.DiscountPolicies.Count() != 0 || order.DiscountPolicies != null)
                 {
-                    command.Parameters.Clear();
-                    command.Parameters.AddWithValue("@orderid", order.OrderID);
-                    command.Parameters.AddWithValue("@policyid", dc.PolicyID);
-                    command.ExecuteNonQuery();
+                    query = @"insert into discountpolicydetails(order_id, policy_id) value(@orderid, @policyid);";
+                    MySqlCommand command = new MySqlCommand(query, connection);
+                    foreach (var dc in order.DiscountPolicies)
+                    {
+                        command.Parameters.Clear();
+                        command.Parameters.AddWithValue("@orderid", order.OrderID);
+                        command.Parameters.AddWithValue("@policyid", dc.PolicyID);
+                        command.ExecuteNonQuery();
+                    }
                 }
             }
             if (connection.State == System.Data.ConnectionState.Open)

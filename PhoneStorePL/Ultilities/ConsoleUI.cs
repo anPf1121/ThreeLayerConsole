@@ -240,12 +240,17 @@ class ConsoleUI
         Console.WriteLine(spaces + "| Order Create Time: {0, -30}|", DateTime.Now.ToString().PadRight(103));
         Console.WriteLine(spaces + "| Customer: {0, -30}|", ord.Customer.CustomerName.PadRight(112));
         Console.WriteLine(spaces + "| Address: {0, -50}|", ord.Customer.Address.PadRight(113));
-        Console.WriteLine(spaces + "| Phone Number: {0, -12}|", ord.Customer.PhoneNumber.PadRight(108));
-        PrintOrderDetailsInfo(ord);
-
+        Console.WriteLine(spaces + "| Phone Number: {0, -12}|", ord.Customer.PhoneNumber.PadRight(108));        
+        Console.WriteLine(spaces + "|===========================================================================================================================|");
+        PrintOrderDetails(ord);
+        Console.WriteLine(spaces + "|===========================================================================================================================|");
         Console.WriteLine(spaces + "| {0, 40}{1, -26}{2, 15}|", "", "Total Due: ", SetTextBolder(FormatPrice(ord.GetTotalDue()).PadRight(56)));
         Console.WriteLine(spaces + "| {0, 40}{1, -26}{2, 49}|", "", "To String: ", SetTextBolder(ConvertNumberToWords(ord.GetTotalDue()).PadRight(56)));
         Console.WriteLine(spaces + "|---------------------------------------------------------------------------------------------------------------------------|");
+        Console.WriteLine(spaces + "|===========================================================================================================================|");
+        Console.WriteLine(spaces + "|{0, 10}{1, -35} {2, -40} {3, -36}|", " ", "Customer", "Seller", "Accountant", " ");
+        Console.WriteLine(spaces + "|{0, 10}{1, -35} {2, -40} {3, -36}|", " ", ord.Customer.CustomerName, ord.Seller.StaffName + " - ID: " + ord.Seller.StaffID, (ord.Accountant.StaffID == 0) ? "" : (ord.Accountant.StaffName + " - ID: " + ord.Accountant.StaffID), " ");
+        Console.WriteLine(spaces + "|===========================================================================================================================|");
     }
     public void PrintOrderDetails(Order ord)
     {
@@ -634,12 +639,11 @@ class ConsoleUI
         string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
         int centeredPosition2 = centeredPosition - 9;
         string spaces2 = centeredPosition2 > 0 ? new string(' ', centeredPosition2) : "";
-        return
-        $@"                           |                                                                                            |
-                           |{spaces2}╔═╗┬ ┬┌─┐┌─┐┬┌─  ╔═╗┬ ┬┌─┐┌┬┐┌─┐┌┬┐┌─┐┬─┐┌─┐  ╔═╗┬ ┬┌─┐┌┐┌┌─┐             |
-                           |{spaces2}║  ├─┤├┤ │  ├┴┐  ║  │ │└─┐ │ │ ││││├┤ ├┬┘└─┐  ╠═╝├─┤│ ││││├┤              |
-                           |{spaces2}╚═╝┴ ┴└─┘└─┘┴ ┴  ╚═╝└─┘└─┘ ┴ └─┘┴ ┴└─┘┴└─└─┘  ╩  ┴ ┴└─┘┘└┘└─┘             |
-                           |                                                                                            |";
+        return $@"{spaces2}|                                                                                            |
+|{spaces2}╔═╗┬ ┬┌─┐┌─┐┬┌─  ╔═╗┬ ┬┌─┐┌┬┐┌─┐┌┬┐┌─┐┬─┐┌─┐  ╔═╗┬ ┬┌─┐┌┐┌┌─┐             |
+|{spaces2}║  ├─┤├┤ │  ├┴┐  ║  │ │└─┐ │ │ ││││├┤ ├┬┘└─┐  ╠═╝├─┤│ ││││├┤              |
+|{spaces2}╚═╝┴ ┴└─┘└─┘┴ ┴  ╚═╝└─┘└─┘ ┴ └─┘┴ ┴└─┘┴└─└─┘  ╩  ┴ ┴└─┘┘└┘└─┘             |
+{spaces2}|                                                                                            |";
     }
     public string GetShowTradeInDetailsANSIText()
     {

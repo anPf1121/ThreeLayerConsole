@@ -47,4 +47,4 @@ public void TestMethod(params)
 - [Theory] là một thuộc tính (attribute) trong thư viện kiểm thử xUnit, được sử dụng để đánh dấu một phương thức là một test method kiểm thử dựa trên các trường hợp dữ liệu khác nhau. Điều này cho phép bạn viết một test method và chạy nó với nhiều bộ dữ liệu đầu vào khác nhau để kiểm tra các trường hợp khác nhau mà không cần viết nhiều phương thức kiểm thử riêng biệt.
 
 
-- cách chạy test dotnet test    
+- cách chạy test dotnet test

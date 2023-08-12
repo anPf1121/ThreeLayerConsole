@@ -76,7 +76,9 @@ status INT DEFAULT '0'
 INSERT INTO staffs(name, phone_number, address, user_name, password, role, status)
 VALUE ('Nguyen Thien An', '0766668602','Hanoi','manager','e99a18c428cb38d5f260853678922e03',2, 1);
 INSERT INTO staffs(name, phone_number, address, user_name, password, role, status)
-VALUE ('Bui Tien Dat', '0789456123','Hanoi','accountant','e99a18c428cb38d5f260853678922e03',1, 1);
+VALUE ('Bien Tien Dat', '0789456123','Hanoi','accountant','e99a18c428cb38d5f260853678922e03',1, 1);
+INSERT INTO staffs(name, phone_number, address, user_name, password, role, status)
+VALUE ('Nguyen Van Accountant', '0789456123','Hanoi','accountant02','e99a18c428cb38d5f260853678922e03',1, 1);
 INSERT INTO staffs(name, phone_number, address, user_name, password, role, status)
 VALUE ('Tran Tien Anh', '0902126092','Hanoi','seller01','e99a18c428cb38d5f260853678922e03',0, 1);
 
@@ -290,9 +292,6 @@ FOREIGN KEY(accountant_id) REFERENCES staffs(staff_id),
 FOREIGN KEY(customer_id) REFERENCES customers(customer_id)
 )engine = InnoDB;
 
-INSERT INTO Orders(order_id, seller_id, customer_id) VALUES ('A798EC16225E', 3, 1);
-INSERT INTO Orders(order_id, seller_id, customer_id) VALUES ('D2BD913A83B4', 2, 2);
-
 CREATE TABLE orderdetails(
 order_id VARCHAR(15) NOT NULL,
 phone_imei VARCHAR(15) NOT NULL,
@@ -336,9 +335,6 @@ delete from orderdetails where phone_imei = phoneimei;
 end if;
 end$$
 delimiter ;
-
-INSERT INTO OrderDetails(order_id, phone_imei) VALUES ('A798EC16225E', 378541254259880);
-INSERT INTO OrderDetails(order_id, phone_imei) VALUES ('D2BD913A83B4', 378541254259890);
 
 
 
@@ -393,3 +389,17 @@ FOREIGN KEY (order_id) REFERENCES orders(order_id)
 --                 INNER JOIN imeis I ON I.phone_imei = OD.phone_imei
 --                 INNER JOIN phonedetails PD ON I.phone_detail_id = PD.phone_detail_id
 --                 INNER JOIN phones P ON PD.phone_id = P.phone_id
+INSERT INTO Orders(order_id, seller_id, accountant_id, customer_id, create_at, order_status) VALUES ('A798EC16225E', 3, 2, 1, STR_TO_DATE("08-01-2023 16:40:10", "%m-%d-%Y %H:%i:%s"), 3);
+INSERT INTO Orders(order_id, seller_id, accountant_id, customer_id, create_at, order_status) VALUES ('D2BD913A83B4', 2, 2, 2, STR_TO_DATE("08-02-2023 17:40:10", "%m-%d-%Y %H:%i:%s"), 3);
+INSERT INTO Orders(order_id, seller_id, accountant_id, customer_id, create_at, order_status) VALUES ('D2B3233A83B4', 2, 3, 2, STR_TO_DATE("07-31-2023 15:40:10", "%m-%d-%Y %H:%i:%s"), 3);
+INSERT INTO Orders(order_id, seller_id, accountant_id, customer_id, create_at, order_status) VALUES ('F2B1233A83C6', 2, 3, 2, STR_TO_DATE("08-01-2023 19:40:10", "%m-%d-%Y %H:%i:%s"), 3);
+INSERT INTO Orders(order_id, seller_id, accountant_id, customer_id, create_at, order_status) VALUES ('T2B1233A83V9', 2, 3, 2, STR_TO_DATE("08-06-2023 19:40:10", "%m-%d-%Y %H:%i:%s"), 3);
+INSERT INTO Orders(order_id, seller_id, accountant_id, customer_id, create_at, order_status) VALUES ('P2B1222A83T2', 2, 3, 2, STR_TO_DATE("08-12-2023 19:40:10", "%m-%d-%Y %H:%i:%s"), 3);
+INSERT INTO OrderDetails(order_id, phone_imei) VALUES ('F2B1233A83C6', 378432344259117);
+INSERT INTO OrderDetails(order_id, phone_imei) VALUES ('T2B1233A83V9', 378532343259116);
+INSERT INTO OrderDetails(order_id, phone_imei) VALUES ('A798EC16225E', 378541254259880);
+INSERT INTO OrderDetails(order_id, phone_imei) VALUES ('D2BD913A83B4', 378541254259890);
+INSERT INTO OrderDetails(order_id, phone_imei) VALUES ('D2B3233A83B4', 378541254259891);
+INSERT INTO OrderDetails(order_id, phone_imei) VALUES ('P2B1222A83T2', 378541254259121);
+
+insert into orderdetails(order_id, phone_imei) value ("54E9BD575D47", @phoneimei);
