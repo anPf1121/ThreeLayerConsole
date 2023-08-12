@@ -6191,32 +6191,34 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Acer\\.nuget\\packages\\": {}
+    "C:\\Users\\anngu\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\Acer\\OneDrive\\Desktop\\ThreeLayerConsole\\PhoneStorePL.Tests\\PhoneStorePL.Tests.csproj",
+      "projectUniqueName": "C:\\Users\\anngu\\Desktop\\ThreeLayerConsole\\PhoneStorePL.Tests\\PhoneStorePL.Tests.csproj",
       "projectName": "PhoneStorePL.Tests",
-      "projectPath": "c:\\Users\\Acer\\OneDrive\\Desktop\\ThreeLayerConsole\\PhoneStorePL.Tests\\PhoneStorePL.Tests.csproj",
-      "packagesPath": "C:\\Users\\Acer\\.nuget\\packages\\",
-      "outputPath": "c:\\Users\\Acer\\OneDrive\\Desktop\\ThreeLayerConsole\\PhoneStorePL.Tests\\obj\\",
+      "projectPath": "C:\\Users\\anngu\\Desktop\\ThreeLayerConsole\\PhoneStorePL.Tests\\PhoneStorePL.Tests.csproj",
+      "packagesPath": "C:\\Users\\anngu\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\anngu\\Desktop\\ThreeLayerConsole\\PhoneStorePL.Tests\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Acer\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\anngu\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net7.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "c:\\Users\\Acer\\OneDrive\\Desktop\\ThreeLayerConsole\\PhoneStorePL\\PhoneStorePL.csproj": {
-              "projectPath": "c:\\Users\\Acer\\OneDrive\\Desktop\\ThreeLayerConsole\\PhoneStorePL\\PhoneStorePL.csproj"
+            "C:\\Users\\anngu\\Desktop\\ThreeLayerConsole\\PhoneStorePL\\PhoneStorePL.csproj": {
+              "projectPath": "C:\\Users\\anngu\\Desktop\\ThreeLayerConsole\\PhoneStorePL\\PhoneStorePL.csproj"
             }
           }
         }
@@ -6268,7 +6270,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.200\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.306\\RuntimeIdentifierGraph.json"
       }
     }
   }
