@@ -223,7 +223,6 @@ namespace DAL
                 command.Parameters.AddWithValue("@sellerid", order.Seller.StaffID);
                 command.Parameters.AddWithValue("@orderid", order.OrderID);
                 command.ExecuteNonQuery();
-
                 foreach (var phone in order.PhoneDetails)
                 {
                     int quantity = 0;

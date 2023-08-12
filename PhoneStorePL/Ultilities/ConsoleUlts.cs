@@ -77,7 +77,6 @@ namespace Ults
             } while (active);
             return 0;
         }
-
         public int MenuHandle(string? title, string? subTitle, string[] menuItem, Staff loginStaff)
         {
             int centeredPosition = (Console.WindowWidth - "|--------------------------------------------------------------------------------------------|".Length) / 2;
