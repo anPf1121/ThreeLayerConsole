@@ -1,6 +1,7 @@
 using Model;
 using System;
 using DAL;
+using CustomerDTO;
 
 namespace BL;
 public class CustomerBL
@@ -14,8 +15,11 @@ public class CustomerBL
             return tempList;
     }
 
-    public int AddCustomer(Customer customer)
+    public CustomerResultDTO AddCustomer(Customer customer)
     {
         return customerDAL.AddCustomer(customer);
+    }
+    public Customer GetCustomerByID(int iD) {
+        return customerDAL.GetCustomerByID(iD);
     }
 }

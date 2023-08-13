@@ -102,9 +102,11 @@ begin
 DECLARE phoneCount INT;
 SELECT COUNT(*) INTO phoneCount FROM Customers WHERE phone_number = customerPhone;
 IF phoneCount = 0 THEN
-	insert into Customers(name, address, phone_number) 
+	INSERT INTO Customers(name, address, phone_number) 
     values (customerName, customerAddress, customerPhone); 
-    select max(customer_id) into customerID from Customers;
+    SELECT max(customer_id) INTO customerID FROM Customers;
+ELSE 
+    SELECT * FROM Customers WHERE phone_number = customerPhone;
 END IF;
 end $$
 delimiter ;

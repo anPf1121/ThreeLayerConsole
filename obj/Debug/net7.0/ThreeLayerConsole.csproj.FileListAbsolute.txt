@@ -3,3 +3,8 @@ C:\Users\Acer\OneDrive\Desktop\ThreeLayerConsole\obj\Debug\net7.0\ThreeLayerCons
 C:\Users\Acer\OneDrive\Desktop\ThreeLayerConsole\obj\Debug\net7.0\ThreeLayerConsole.AssemblyInfoInputs.cache
 C:\Users\Acer\OneDrive\Desktop\ThreeLayerConsole\obj\Debug\net7.0\ThreeLayerConsole.AssemblyInfo.cs
 C:\Users\Acer\OneDrive\Desktop\ThreeLayerConsole\obj\Debug\net7.0\ThreeLayerConsole.csproj.CoreCompileInputs.cache
+C:\Users\anngu\Desktop\ThreeLayerConsole\obj\Debug\net7.0\ThreeLayerConsole.csproj.AssemblyReference.cache
+C:\Users\anngu\Desktop\ThreeLayerConsole\obj\Debug\net7.0\ThreeLayerConsole.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\anngu\Desktop\ThreeLayerConsole\obj\Debug\net7.0\ThreeLayerConsole.AssemblyInfoInputs.cache
+C:\Users\anngu\Desktop\ThreeLayerConsole\obj\Debug\net7.0\ThreeLayerConsole.AssemblyInfo.cs
+C:\Users\anngu\Desktop\ThreeLayerConsole\obj\Debug\net7.0\ThreeLayerConsole.csproj.CoreCompileInputs.cache

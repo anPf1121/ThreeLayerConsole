@@ -6,6 +6,8 @@ using BusinessEnum;
 using System.Globalization; // thu vien format tien
 using BL;
 using UI;
+using System.Text.RegularExpressions;
+
 
 namespace Ults
 {
@@ -571,14 +573,27 @@ namespace Ults
 
         public Customer GetCustomerInfo()
         {
+            string PatternName = "^[a-zA-Z\\s]+$";
+            string PatternPhone = @"^(0|84)(2(0[3-9]|1[0-6|8|9]|2[0-2|5-9]|3[2-9]|4[0-9]|5[1|2|4-9]|6[0-3|9]|7[0-7]|8[0-9]|9[0-4|6|7|9])|3[2-9]|5[5|6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])([0-9]{7})$";
             int centeredPosition = (Console.WindowWidth - "|--------------------------------------------------------------------------------------------|".Length) / 2;
             string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
             string customerName = GetInputString($"{spaces}Customer Name");
+            while (!Regex.IsMatch(customerName, PatternName))
+            {
+                Alert(ConsoleEnum.Alert.Error, "Invalid Customer Name customer names are not allowed to have special characters and numbers");
+                customerName = GetInputString($"{spaces}Customer Name");
+            }
             string phoneNumber = GetInputString($"{spaces}Phone Number");
+            while (!Regex.IsMatch(phoneNumber, PatternPhone, RegexOptions.IgnoreCase))
+            {
+                Alert(ConsoleEnum.Alert.Error, "INVALID Phone Number please enter again");
+                phoneNumber = GetInputString($"{spaces}Phone Number");
+            }
             string address = GetInputString($"{spaces}Address");
             Customer customer = new Customer(0, customerName, phoneNumber, address);
             return customer;
         }
+
         public string GetInputString(string requestToEnter)
         {
             string str = "";

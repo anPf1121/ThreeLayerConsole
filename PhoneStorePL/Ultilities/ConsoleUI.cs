@@ -133,7 +133,7 @@ class ConsoleUI
         Console.WriteLine(spaces + "|===================================================================================================|");
         Console.WriteLine(spaces + "| PHONE MODEL                                                                                       |");
         Console.WriteLine(spaces + "|===================================================================================================|");
-        Console.WriteLine(spaces + "| {0, -10} | {1, -13} | {2, -15} | {3, -15} | {4, -15} | {5, -14} |", "Detail ID", "Phone Color", "ROM Size", "Price", "Phone Status", "Quantity");
+        Console.WriteLine(spaces + "| {0, -10} | {1, -13} | {2, -15} | {3, -15} | {4, 15} | {5, 14} |", "Detail ID", "Phone Color", "ROM Size", "Phone Status", "Quantity", "Price");
         Console.WriteLine(spaces + "|===================================================================================================|");
     }
     public void PrintPhoneDetailsInfo(PhoneDetail phoneDetail)
@@ -238,9 +238,12 @@ class ConsoleUI
         Console.WriteLine(spaces + "| Phone Number: 0999999999                                                                                                  |");
         Console.WriteLine(spaces + "|===========================================================================================================================|");
         Console.WriteLine(spaces + "| Order Create Time: {0, -30}|", DateTime.Now.ToString().PadRight(103));
-        Console.WriteLine(spaces + "| Customer: {0, -30}|", ord.Customer.CustomerName.PadRight(112));
-        Console.WriteLine(spaces + "| Address: {0, -50}|", ord.Customer.Address.PadRight(113));
-        Console.WriteLine(spaces + "| Phone Number: {0, -12}|", ord.Customer.PhoneNumber.PadRight(108));
+        if (ord.Customer.CustomerID != 0)
+        {
+            Console.WriteLine(spaces + "| Customer: {0, -30}|", ord.Customer.CustomerName.PadRight(112));
+            Console.WriteLine(spaces + "| Address: {0, -50}|", ord.Customer.Address.PadRight(113));
+            Console.WriteLine(spaces + "| Phone Number: {0, -12}|", ord.Customer.PhoneNumber.PadRight(108));
+        }
         Console.WriteLine(spaces + "|===========================================================================================================================|");
         PrintOrderDetails(ord);
         Console.WriteLine(spaces + "|===========================================================================================================================|");
@@ -249,7 +252,7 @@ class ConsoleUI
         Console.WriteLine(spaces + "|---------------------------------------------------------------------------------------------------------------------------|");
         Console.WriteLine(spaces + "|===========================================================================================================================|");
         Console.WriteLine(spaces + "|{0, 10}{1, -35} {2, -40} {3, -36}|", " ", "Customer", "Seller", "Accountant", " ");
-        Console.WriteLine(spaces + "|{0, 10}{1, -35} {2, -40} {3, -36}|", " ", ord.Customer.CustomerName, ord.Seller.StaffName + " - ID: " + ord.Seller.StaffID, (ord.Accountant.StaffID == 0) ? "" : (ord.Accountant.StaffName + " - ID: " + ord.Accountant.StaffID), " ");
+        Console.WriteLine(spaces + "|{0, 10}{1, -35} {2, -40} {3, -36}|", " ", (ord.Customer.CustomerID != 0) ? ord.Customer.CustomerName : "", ord.Seller.StaffName + " - ID: " + ord.Seller.StaffID, (ord.Accountant.StaffID == 0) ? "" : (ord.Accountant.StaffName + " - ID: " + ord.Accountant.StaffID), " ");
         Console.WriteLine(spaces + "|===========================================================================================================================|");
     }
     public void PrintOrderDetails(Order ord)
@@ -259,7 +262,7 @@ class ConsoleUI
         CultureInfo cultureInfo = new CultureInfo("vi-VN");
         int printImeiHandle = 0;
         int printImeiHandle2 = 0;
-        Console.WriteLine(spaces + "| {0, -16} | {1, -30} | {2, -15} | {3, -15} | {4, -15} | {5, -15} |", "Phone Detail ID", "Phone Name", "Quantity", "Imei", "Price", "Total Price");
+        Console.WriteLine(spaces + "| {0, -16} | {1, -30} | {2, -15} | {3, 15} | {4, 15} | {5, 15} |", "Phone Detail ID", "Phone Name", "Imei", "Quantity", "Price", "Total Price");
         Console.WriteLine(spaces + "|===========================================================================================================================|");
         foreach (var pd in ord.PhoneDetails)
         {
@@ -267,7 +270,7 @@ class ConsoleUI
             Console.WriteLine(spaces + "|---------------------------------------------------------------------------------------------------------------------------|");
             foreach (var ims in pd.ListImei)
             {
-                Console.WriteLine(spaces + "| {0, -16} | {1, -30} | {2, -15} | {3, -15} | {4, -15} | {5, 15} |", (printImeiHandle != printImeiHandle2) ? pd.PhoneDetailID : "", (printImeiHandle != printImeiHandle2) ? pd.Phone.PhoneName : "", (printImeiHandle != printImeiHandle2) ? pd.Quantity : "", ims.PhoneImei, (printImeiHandle != printImeiHandle2) ? FormatPrice(pd.Price) : "", (printImeiHandle != printImeiHandle2) ? FormatPrice(ord.GetTotalDueForEachPhone()) : "");
+                Console.WriteLine(spaces + "| {0, -16} | {1, -30} | {2, -15} | {3, 15} | {4, 15} | {5, 15} |", (printImeiHandle != printImeiHandle2) ? pd.PhoneDetailID : "", (printImeiHandle != printImeiHandle2) ? pd.Phone.PhoneName : "", ims.PhoneImei, (printImeiHandle != printImeiHandle2) ? pd.Quantity : "", (printImeiHandle != printImeiHandle2) ? FormatPrice(pd.Price) : "", (printImeiHandle != printImeiHandle2) ? FormatPrice(ord.GetTotalDueForEachPhone()) : "");
                 printImeiHandle2 = printImeiHandle;
             }
         }
@@ -345,7 +348,7 @@ class ConsoleUI
         int centeredPosition = (Console.WindowWidth - "|===================================================================================================|".Length) / 2;
         string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
         CultureInfo cultureInfo = new CultureInfo("vi-VN");
-        Console.WriteLine(spaces + "| {0, -10} | {1, -13} | {2, -15} | {3, -15} | {4, -15} | {5, -14} |", phoneDetail.PhoneDetailID, phoneDetail.PhoneColor.Color, phoneDetail.ROMSize.ROM, string.Format(cultureInfo, "{0:N0} ₫", phoneDetail.Price), phoneDetail.PhoneStatusType, (phoneDetail.Quantity != 0) ? phoneDetail.Quantity : "Out Of Stock");
+        Console.WriteLine(spaces + "| {0, -10} | {1, -13} | {2, -15} | {3, -15} | {4, 15} | {5, 14} |", phoneDetail.PhoneDetailID, phoneDetail.PhoneColor.Color, phoneDetail.ROMSize.ROM, phoneDetail.PhoneStatusType, (phoneDetail.Quantity != 0) ? phoneDetail.Quantity : "Out Of Stock", FormatPrice(phoneDetail.Price));
     }
     public void PrintOrderDetailsInfo(Order order)
     {
@@ -361,12 +364,12 @@ class ConsoleUI
         else
         {
             Console.WriteLine(spaces + "|===========================================================================================================================|");
-            Console.WriteLine(spaces + "| {0, -34} | {1, -11} | {2, -15} | {3, -15} | {4, -15} | {5, -16} |", "Phone Name", "Color", "RomSize", "Quantity", "Price", "Total Price");
+            Console.WriteLine(spaces + "| {0, -34} | {1, -11} | {2, -15} | {3, 15} | {4, 15} | {5, 16} |", "Phone Name", "Color", "RomSize", "Quantity", "Price", "Total Price");
             Console.WriteLine(spaces + "|===========================================================================================================================|");
 
             foreach (var phone in order.PhoneDetails)
             {
-                Console.WriteLine(spaces + "| {0, -34} | {1, -11} | {2, -15} | {3, -15} | {4, -15} | {5, -16} |", phone.Phone.PhoneName, phone.PhoneColor.Color, phone.ROMSize.ROM, phone.Quantity, FormatPrice(phone.Price), FormatPrice(order.GetTotalDueForEachPhone()));
+                Console.WriteLine(spaces + "| {0, -34} | {1, -11} | {2, -15} | {3, 15} | {4, 15} | {5, 16} |", phone.Phone.PhoneName, phone.PhoneColor.Color, phone.ROMSize.ROM, phone.Quantity, FormatPrice(phone.Price), FormatPrice(order.GetTotalDueForEachPhone()));
             }
             Console.WriteLine(spaces + "|===========================================================================================================================|");
         }

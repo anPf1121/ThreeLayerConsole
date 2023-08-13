@@ -224,7 +224,6 @@ namespace DAL
                 foreach (var phone in order.PhoneDetails)
                 {
                     int quantity = 0;
-
                     bool mySqlReader = false;
                     try
                     {

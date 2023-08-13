@@ -1,5 +1,6 @@
 using MySqlConnector;
 using Model;
+using CustomerDTO;
 namespace DAL;
 public class CustomerDAL
 {
@@ -79,33 +80,40 @@ public class CustomerDAL
         }
         return customer;
     }
-    public int AddCustomer(Customer c)
+    public CustomerResultDTO AddCustomer(Customer c)
     {
-        int result = 0;
-            if (connection.State == System.Data.ConnectionState.Closed)
+        int customerId = 0;
+        bool isDupplicate = false;
+        if (connection.State == System.Data.ConnectionState.Closed)
+        {
+            connection.Open();
+        }
+        using (MySqlCommand command = new MySqlCommand("sp_createCustomer", connection))
+        {
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("@customerName", c.CustomerName);
+            command.Parameters.AddWithValue("@customerAddress", c.Address);
+            command.Parameters.AddWithValue("@customerPhone", c.PhoneNumber);
+            MySqlParameter outParameter = new MySqlParameter("@customerID", MySqlDbType.Int32);
+            outParameter.Direction = System.Data.ParameterDirection.Output;
+            command.Parameters.Add(outParameter);
+            using (MySqlDataReader reader = command.ExecuteReader())
             {
-                connection.Open();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        // Xử lý dữ liệu khi phoneCount != 0
+                        customerId = reader.GetInt32("customer_id");
+                    }
+                }
+                else
+                {
+                    customerId = Convert.ToInt32(command.Parameters["@customerID"].Value);
+                    isDupplicate = true;
+                }
             }
-            MySqlCommand cmd = new MySqlCommand("sp_createCustomer", connection);
-            try
-            {
-                cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@customerName", c.CustomerName);
-                cmd.Parameters["@customerName"].Direction = System.Data.ParameterDirection.Input;
-                cmd.Parameters.AddWithValue("@customerAddress", c.Address);
-                cmd.Parameters["@customerAddress"].Direction = System.Data.ParameterDirection.Input;
-                cmd.Parameters.AddWithValue("@customerPhone", c.PhoneNumber);
-                cmd.Parameters["@customerPhone"].Direction = System.Data.ParameterDirection.Input;
-                cmd.Parameters.AddWithValue("@customerID", MySqlDbType.Int32);
-                cmd.Parameters["@customerID"].Direction = System.Data.ParameterDirection.Output;
-                cmd.ExecuteNonQuery();
-                result = (int?)cmd.Parameters["@customerID"].Value ?? 0;
-            }
-            catch { }
-            finally
-            {
-                connection.Close();
-            }
-            return result;
+        }
+        return new CustomerResultDTO(customerId, isDupplicate);
     }
 }

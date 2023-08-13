@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System;
 using System.Reflection.Metadata;
 using System.Collections.Generic;
+using CustomerDTO;
 using UI;
 
 namespace Ults
@@ -155,9 +156,11 @@ namespace Ults
                             }
                             else break;
                         } while (reEnterPhoneModelID);
-                        if (reChooseModelAfterBackPrevPhase == 2)
-                        {
+                        if (reChooseModelAfterBackPrevPhase == 2) {
                             currentPhase++;
+                            break;
+                        } else if (reChooseModelAfterBackPrevPhase == 1 || !reEnterPhoneModelID) {
+                            currentPhase--;
                             break;
                         }
 
@@ -230,7 +233,7 @@ namespace Ults
                                     }
                                 } while (!phoneBL.CheckImeiExist(imei, phoneModelID) || isDuplicateImei);
                             }
-                            if (ConsoleUlts.PressYesOrNo("Back Previous Phase", "Continue"))
+                            if (!ConsoleUlts.PressYesOrNo("Continue", "Back Previous Phase"))
                             {
                                 imeis = new List<Imei>();
                                 currentPhase--;
@@ -255,7 +258,8 @@ namespace Ults
                         }
                         Order ord = new Order("", DateTime.Now, orderStaff, new Staff(0, "", "", "", "", "", StaffEnum.Role.Accountant, StaffEnum.Status.Active), new Customer(0, "", "", ""), phonesInOrder, OrderEnum.Status.Pending, new List<DiscountPolicy>(), "", 0);
                         consoleUI.PrintTimeLine(listPhase, count, currentPhase);
-                        consoleUI.PrintOrderDetails(ord);
+                        ord.Seller = loginManager.LoggedInStaff;
+                        consoleUI.PrintSellerOrderBeforePayment(ord);
                         consoleUI.PrintLine();
                         phaseChoice = ConsoleUlts.PressCharacterTo("Back Previous Phase", "Enter Customer Info", "Add More Phone");
                         if (phaseChoice == 0)
@@ -278,14 +282,15 @@ namespace Ults
                         consoleUI.PrintTimeLine(listPhase, count, currentPhase);
                         consoleUI.PrintTitle(consoleUI.GetAppANSIText(), consoleUI.GetCustomerInfoANSIText(), loginManager.LoggedInStaff);
                         customer = ConsoleUlts.GetCustomerInfo();
-                        customer.CustomerID = customerBL.AddCustomer(customer);
-
-                        if (customer.CustomerID > 0)
+                        CustomerResultDTO customerWithIsDupp = customerBL.AddCustomer(customer);
+                        customer.CustomerID = customerWithIsDupp.CustomerId;
+                        customer = customerBL.GetCustomerByID(customer.CustomerID);
+                        if (customerWithIsDupp.IsDuplicate)
                             ConsoleUlts.Alert(GUIEnum.ConsoleEnum.Alert.Success, $"Add customer completed with customer id {customer.CustomerID}");
                         else
-                            ConsoleUlts.Alert(GUIEnum.ConsoleEnum.Alert.Warning, $"Customer Phone Number Is Already Exsist Can't Be Added");
+                            ConsoleUlts.Alert(GUIEnum.ConsoleEnum.Alert.Warning, $"Customer Phone Number Is Already Exsist");
 
-                        if (ConsoleUlts.PressYesOrNo("Back Previous Phase", "Confirm Order")) currentPhase--;
+                        if (!ConsoleUlts.PressYesOrNo("Confirm Order", "Back Previous Phase")) currentPhase--;
 
                         else currentPhase++;
 
