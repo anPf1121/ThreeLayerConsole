@@ -81,6 +81,7 @@ namespace Ults
         }
         public int MenuHandle(string? title, string? subTitle, string[] menuItem, Staff loginStaff)
         {
+            ConsoleUlts consoleUlts = new ConsoleUlts();
             int centeredPosition = (Console.WindowWidth - "|--------------------------------------------------------------------------------------------|".Length) / 2;
             string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
             Console.Clear();
@@ -89,6 +90,7 @@ namespace Ults
             string iconBackhand = "👉";
             bool activeSelectedMenu = true;
             int currentChoice = 1;
+            int renderCount = 0;
             while (activeSelectedMenu)
             {
                 if (title != null || subTitle != null)
@@ -115,10 +117,20 @@ namespace Ults
                             else if (keyInfo.Key == ConsoleKey.UpArrow)
                                 currentChoice--;
 
-                        if (currentChoice == (menuItem.Count() + 1))
+                        if (currentChoice == (menuItem.Count() + 1)) {
+                            renderCount++;
                             currentChoice = 1;
-                        else if (currentChoice == 0)
+                            if(renderCount % 3 == 0) {
+                                consoleUlts.Alert(GUIEnum.ConsoleEnum.Alert.Warning, "This approach leads to excessive rendering of the program");    
+                            }
+                        }
+                        else if (currentChoice == 0) {
+                            renderCount++;
                             currentChoice = menuItem.Count();
+                            if(renderCount % 3 == 0) {
+                                consoleUlts.Alert(GUIEnum.ConsoleEnum.Alert.Warning, "This approach leads to excessive rendering of the program");
+                            }
+                        }
                         Console.Clear();
                     }
                     Console.Clear();

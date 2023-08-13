@@ -177,7 +177,6 @@ namespace DAL
         {
             bool result = false;
             int countphone = 0;
-            CustomerDAL cdl = new CustomerDAL();
             MySqlTransaction? tr = null;
             try
             {

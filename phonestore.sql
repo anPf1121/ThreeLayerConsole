@@ -106,7 +106,7 @@ IF phoneCount = 0 THEN
     values (customerName, customerAddress, customerPhone); 
     SELECT max(customer_id) INTO customerID FROM Customers;
 ELSE 
-    SELECT * FROM Customers WHERE phone_number = customerPhone;
+    SELECT customer_id FROM Customers WHERE phone_number = customerPhone;
 END IF;
 end $$
 delimiter ;
