@@ -188,11 +188,8 @@ namespace DAL
                 tr = connection.BeginTransaction();
                 MySqlCommand command = new MySqlCommand(connection, tr);
                 MySqlDataReader? reader = null;
-                if (order.Customer.CustomerID == 0)
+                if (order.Customer.CustomerID != 0)
                 {
-                    command.CommandText = @"insert into Customers(name, phone_number, address)
-                    values ('" + order.Customer.CustomerID + "', '" + order.Customer.PhoneNumber + "', '" + order.Customer.Address + "');";
-                    command.ExecuteNonQuery();
                     command.CommandText = "select customer_id from customers order by customer_id desc limit 1;";
                     reader = command.ExecuteReader();
                     if (reader.Read())
@@ -203,13 +200,16 @@ namespace DAL
                 }
                 else
                 {
-                    command.CommandText = "select customer_id from customers where phone_number = @phonenumber;";
+                    command.CommandText = "select * from customers where phone_number = @phonenumber;";
                     command.Parameters.Clear();
                     command.Parameters.AddWithValue("@phonenumber", order.Customer.PhoneNumber);
                     reader = command.ExecuteReader();
                     if (reader.Read())
                     {
                         order.Customer.CustomerID = reader.GetInt32("customer_id");
+                        order.Customer.CustomerName = reader.GetString("name");
+                        order.Customer.PhoneNumber = reader.GetString("phone_number");
+                        order.Customer.Address = reader.GetString("address");
                     }
                     reader.Close();
                 }
