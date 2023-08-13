@@ -188,10 +188,12 @@ namespace DAL
                 tr = connection.BeginTransaction();
                 MySqlCommand command = new MySqlCommand(connection, tr);
                 MySqlDataReader? reader = null;
-                if (cdl.InsertCustomer(order.Customer))
+                if (order.Customer.CustomerID == 0)
                 {
-                    query = @"select customer_id from customers order by customer_id desc limit 1;";
-                    command.CommandText = query;
+                    command.CommandText = @"insert into Customers(name, phone_number, address)
+                    values ('" + order.Customer.CustomerID + "', '" + order.Customer.PhoneNumber + "', '" + order.Customer.Address + "');";
+                    command.ExecuteNonQuery();
+                    command.CommandText = "select customer_id from customers order by customer_id desc limit 1;";
                     reader = command.ExecuteReader();
                     if (reader.Read())
                     {
@@ -201,19 +203,15 @@ namespace DAL
                 }
                 else
                 {
-                    query = @"select customer_id from customers where Phone_Number = @phonenumber;";
-                    command.CommandText = query;
+                    command.CommandText = "select customer_id from customers where phone_number = @phonenumber;";
                     command.Parameters.Clear();
                     command.Parameters.AddWithValue("@phonenumber", order.Customer.PhoneNumber);
-                    if (reader != null)
+                    reader = command.ExecuteReader();
+                    if (reader.Read())
                     {
-                        if (reader.Read())
-                        {
-                            order.Customer.CustomerID = reader.GetInt32("customer_id");
-                        }
-                        reader.Close();
+                        order.Customer.CustomerID = reader.GetInt32("customer_id");
                     }
-                    else return false;
+                    reader.Close();
                 }
                 query = @"insert into orders(customer_id, seller_id, order_id) 
         value (@cusid, @sellerid, @orderid);";

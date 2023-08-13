@@ -90,6 +90,25 @@ address VARCHAR(50)
 )engine = InnoDB;
 INSERT INTO customers(name, phone_number, address) VALUE('Yua Mikami', '0254136578', 'Quat Lam');
 INSERT INTO customers(name, phone_number, address) VALUE('Erichio Masharo', '0254136548', 'Quat Lam');
+
+
+delimiter $$
+create procedure sp_createCustomer(
+IN customerName varchar(50), 
+IN customerAddress varchar(50), 
+IN customerPhone VARCHAR(15), 
+OUT customerID int)
+begin
+DECLARE phoneCount INT;
+SELECT COUNT(*) INTO phoneCount FROM Customers WHERE phone_number = customerPhone;
+IF phoneCount = 0 THEN
+	insert into Customers(name, address, phone_number) 
+    values (customerName, customerAddress, customerPhone); 
+    select max(customer_id) into customerID from Customers;
+END IF;
+end $$
+delimiter ;
+
 CREATE TABLE phones(
 phone_id INT PRIMARY KEY,
 phone_name VARCHAR(50) UNIQUE,

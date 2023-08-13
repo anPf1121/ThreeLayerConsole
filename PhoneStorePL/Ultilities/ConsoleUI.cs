@@ -128,35 +128,35 @@ class ConsoleUI
     }
     public void PrintPhoneModelTitle()
     {
-        int centeredPosition = (Console.WindowWidth - "|=============================================================================================|".Length) / 2;
+        int centeredPosition = (Console.WindowWidth - "|===================================================================================================|".Length) / 2;
         string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
-        Console.WriteLine(spaces + "|============================================================================================|");
-        Console.WriteLine(spaces + "| PHONE MODEL                                                                                |");
-        Console.WriteLine(spaces + "=============================================================================================|");
-        Console.WriteLine(spaces + "| {0, -10} | {1, -13} | {2, -15} | {3, -15} | {4, -15} | {5, -8}|", "Detail ID", "Phone Color", "ROM Size", "Price", "Phone Status", "Quantity");
-        Console.WriteLine(spaces + "|============================================================================================|");
+        Console.WriteLine(spaces + "|===================================================================================================|");
+        Console.WriteLine(spaces + "| PHONE MODEL                                                                                       |");
+        Console.WriteLine(spaces + "|===================================================================================================|");
+        Console.WriteLine(spaces + "| {0, -10} | {1, -13} | {2, -15} | {3, -15} | {4, -15} | {5, -14} |", "Detail ID", "Phone Color", "ROM Size", "Price", "Phone Status", "Quantity");
+        Console.WriteLine(spaces + "|===================================================================================================|");
     }
     public void PrintPhoneDetailsInfo(PhoneDetail phoneDetail)
     {
         int centeredPosition = (Console.WindowWidth - "|===================================================================================================|".Length) / 2;
         string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
-        Console.WriteLine(spaces + "   |============================================================================================|");
-        Console.WriteLine(spaces + "   | PHONE DETAILS INFOMATION                                                                   |");
-        Console.WriteLine(spaces + "   |============================================================================================|");
-        Console.WriteLine(spaces + "   | Phone Name: {0, -50} |", phoneDetail.Phone.PhoneName.PadRight(78));
-        Console.WriteLine(spaces + "   | Brand: {0, -50} |", phoneDetail.Phone.Brand.BrandName.PadRight(83));
-        Console.WriteLine(spaces + "   | Camera: {0, -50} |", phoneDetail.Phone.Camera.PadRight(82));
-        Console.WriteLine(spaces + "   | RAM: {0, -50} |", phoneDetail.Phone.RAM.PadRight(85));
-        Console.WriteLine(spaces + "   | Weight: {0, -50} |", phoneDetail.Phone.Weight.PadRight(82));
-        Console.WriteLine(spaces + "   | Processor: {0, -50} |", phoneDetail.Phone.Processor.PadRight(79));
-        Console.WriteLine(spaces + "   | Battery: {0, -50} |", phoneDetail.Phone.BatteryCapacity.PadRight(81));
-        Console.WriteLine(spaces + "   | OS: {0, -50} |", phoneDetail.Phone.OS.PadRight(86));
-        Console.WriteLine(spaces + "   | Sim Slot: {0, -50} |", phoneDetail.Phone.SimSlot.PadRight(80));
-        Console.WriteLine(spaces + "   | Screen : {0, -50} |", phoneDetail.Phone.Screen.PadRight(81));
-        Console.WriteLine(spaces + "   | Connection: {0, -50} |", phoneDetail.Phone.Connection.PadRight(78));
-        Console.WriteLine(spaces + "   | Charge Port: {0, -50} |", phoneDetail.Phone.ChargePort.PadRight(77));
-        Console.WriteLine(spaces + "   | Release Date: {0, -50} |", phoneDetail.Phone.ReleaseDate.ToString().PadRight(76));
-        Console.WriteLine(spaces + "   | Description: {0, -50} |", phoneDetail.Phone.Description.PadRight(77));
+        Console.WriteLine(spaces + "|===================================================================================================|");
+        Console.WriteLine(spaces + "| PHONE DETAILS INFOMATION                                                                          |");
+        Console.WriteLine(spaces + "|===================================================================================================|");
+        Console.WriteLine(spaces + "| Phone Name: {0, -50} |", phoneDetail.Phone.PhoneName.PadRight(85));
+        Console.WriteLine(spaces + "| Brand: {0, -50} |", phoneDetail.Phone.Brand.BrandName.PadRight(90));
+        Console.WriteLine(spaces + "| Camera: {0, -50} |", phoneDetail.Phone.Camera.PadRight(89));
+        Console.WriteLine(spaces + "| RAM: {0, -50} |", phoneDetail.Phone.RAM.PadRight(92));
+        Console.WriteLine(spaces + "| Weight: {0, -50} |", phoneDetail.Phone.Weight.PadRight(89));
+        Console.WriteLine(spaces + "| Processor: {0, -50} |", phoneDetail.Phone.Processor.PadRight(86));
+        Console.WriteLine(spaces + "| Battery: {0, -50} |", phoneDetail.Phone.BatteryCapacity.PadRight(88));
+        Console.WriteLine(spaces + "| OS: {0, -50} |", phoneDetail.Phone.OS.PadRight(93));
+        Console.WriteLine(spaces + "| Sim Slot: {0, -50} |", phoneDetail.Phone.SimSlot.PadRight(87));
+        Console.WriteLine(spaces + "| Screen : {0, -50} |", phoneDetail.Phone.Screen.PadRight(88));
+        Console.WriteLine(spaces + "| Connection: {0, -50} |", phoneDetail.Phone.Connection.PadRight(85));
+        Console.WriteLine(spaces + "| Charge Port: {0, -50} |", phoneDetail.Phone.ChargePort.PadRight(84));
+        Console.WriteLine(spaces + "| Release Date: {0, -50} |", phoneDetail.Phone.ReleaseDate.ToString().PadRight(83));
+        Console.WriteLine(spaces + "| Description: {0, -50} |", phoneDetail.Phone.Description.PadRight(84));
     }
     public void PrintTimeLine(string[] phase, int itemCount, int currentPhase)
     {
@@ -342,10 +342,10 @@ class ConsoleUI
     }
     public void PrintPhoneModelInfo(PhoneDetail phoneDetail)
     {
-        int centeredPosition = (Console.WindowWidth - "|==============================================================================================|".Length) / 2;
+        int centeredPosition = (Console.WindowWidth - "|===================================================================================================|".Length) / 2;
         string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
         CultureInfo cultureInfo = new CultureInfo("vi-VN");
-        Console.WriteLine(spaces + "| {0, -10} | {1, -13} | {2, -15} | {3, -15} | {4, -15} | {5, -8}|", phoneDetail.PhoneDetailID, phoneDetail.PhoneColor.Color, phoneDetail.ROMSize.ROM, string.Format(cultureInfo, "{0:N0} ₫", phoneDetail.Price), phoneDetail.PhoneStatusType, (phoneDetail.Quantity != 0) ? phoneDetail.Quantity : "Out Of Stock");
+        Console.WriteLine(spaces + "| {0, -10} | {1, -13} | {2, -15} | {3, -15} | {4, -15} | {5, -14} |", phoneDetail.PhoneDetailID, phoneDetail.PhoneColor.Color, phoneDetail.ROMSize.ROM, string.Format(cultureInfo, "{0:N0} ₫", phoneDetail.Price), phoneDetail.PhoneStatusType, (phoneDetail.Quantity != 0) ? phoneDetail.Quantity : "Out Of Stock");
     }
     public void PrintOrderDetailsInfo(Order order)
     {

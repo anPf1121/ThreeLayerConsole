@@ -14,8 +14,8 @@ public class CustomerBL
             return tempList;
     }
 
-    public bool InsertCustomer(Customer customer)
+    public int AddCustomer(Customer customer)
     {
-        return customerDAL.InsertCustomer(customer);
+        return customerDAL.AddCustomer(customer);
     }
 }

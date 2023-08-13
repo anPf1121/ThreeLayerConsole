@@ -278,6 +278,12 @@ namespace Ults
                         consoleUI.PrintTimeLine(listPhase, count, currentPhase);
                         consoleUI.PrintTitle(consoleUI.GetAppANSIText(), consoleUI.GetCustomerInfoANSIText(), loginManager.LoggedInStaff);
                         customer = ConsoleUlts.GetCustomerInfo();
+                        customer.CustomerID = customerBL.AddCustomer(customer);
+
+                        if (customer.CustomerID > 0)
+                            ConsoleUlts.Alert(GUIEnum.ConsoleEnum.Alert.Success, $"Add customer completed with customer id {customer.CustomerID}");
+                        else
+                            ConsoleUlts.Alert(GUIEnum.ConsoleEnum.Alert.Warning, $"Customer Phone Number Is Already Exsist Can't Be Added");
 
                         if (ConsoleUlts.PressYesOrNo("Back Previous Phase", "Confirm Order")) currentPhase--;
 
