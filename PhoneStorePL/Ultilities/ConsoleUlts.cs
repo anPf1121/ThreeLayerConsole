@@ -117,17 +117,21 @@ namespace Ults
                             else if (keyInfo.Key == ConsoleKey.UpArrow)
                                 currentChoice--;
 
-                        if (currentChoice == (menuItem.Count() + 1)) {
+                        if (currentChoice == (menuItem.Count() + 1))
+                        {
                             renderCount++;
                             currentChoice = 1;
-                            if(renderCount % 3 == 0) {
-                                consoleUlts.Alert(GUIEnum.ConsoleEnum.Alert.Warning, "This approach leads to excessive rendering of the program");    
+                            if (renderCount % 3 == 0)
+                            {
+                                consoleUlts.Alert(GUIEnum.ConsoleEnum.Alert.Warning, "This approach leads to excessive rendering of the program");
                             }
                         }
-                        else if (currentChoice == 0) {
+                        else if (currentChoice == 0)
+                        {
                             renderCount++;
                             currentChoice = menuItem.Count();
-                            if(renderCount % 3 == 0) {
+                            if (renderCount % 3 == 0)
+                            {
                                 consoleUlts.Alert(GUIEnum.ConsoleEnum.Alert.Warning, "This approach leads to excessive rendering of the program");
                             }
                         }
@@ -586,7 +590,7 @@ namespace Ults
         public Customer GetCustomerInfo()
         {
             string PatternName = "^[a-zA-Z\\s]+$";
-            string PatternPhone = @"^(0|84)(2(0[3-9]|1[0-6|8|9]|2[0-2|5-9]|3[2-9]|4[0-9]|5[1|2|4-9]|6[0-3|9]|7[0-7]|8[0-9]|9[0-4|6|7|9])|3[2-9]|5[5|6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])([0-9]{7})$";
+            string PatternPhone = @"^\+(?:[0-9] ?){6,14}[0-9]$";
             int centeredPosition = (Console.WindowWidth - "|--------------------------------------------------------------------------------------------|".Length) / 2;
             string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
             string customerName = GetInputString($"{spaces}Customer Name");

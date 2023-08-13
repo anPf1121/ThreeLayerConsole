@@ -85,7 +85,7 @@ VALUE ('Tran Tien Anh', '0902126092','Hanoi','seller01','e99a18c428cb38d5f260853
 CREATE TABLE customers(
 customer_id INT AUTO_INCREMENT PRIMARY KEY,
 name VARCHAR(50) NOT NULL,
-phone_number VARCHAR(10) NOT NULL,
+phone_number VARCHAR(15) NOT NULL,
 address VARCHAR(50)
 )engine = InnoDB;
 INSERT INTO customers(name, phone_number, address) VALUE('Yua Mikami', '0254136578', 'Quat Lam');

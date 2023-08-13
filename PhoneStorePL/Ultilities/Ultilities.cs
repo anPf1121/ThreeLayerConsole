@@ -9,6 +9,7 @@ using System.Reflection.Metadata;
 using System.Collections.Generic;
 using CustomerDTO;
 using UI;
+using System.Net.Mail;
 
 namespace Ults
 {
@@ -82,7 +83,6 @@ namespace Ults
                         if (phonesInOrder.Count() != 0 || phonesInOrder != null)
                         {
                             Dictionary<int, int> phoneDetailsIDWithQtt = new Dictionary<int, int>();
-
                             foreach (PhoneDetail item in phonesInOrder)
                                 phoneDetailsIDWithQtt.Add(item.PhoneDetailID, item.Quantity);
 
@@ -156,10 +156,13 @@ namespace Ults
                             }
                             else break;
                         } while (reEnterPhoneModelID);
-                        if (reChooseModelAfterBackPrevPhase == 2) {
+                        if (reChooseModelAfterBackPrevPhase == 2)
+                        {
                             currentPhase++;
                             break;
-                        } else if (reChooseModelAfterBackPrevPhase == 1 || !reEnterPhoneModelID) {
+                        }
+                        else if (reChooseModelAfterBackPrevPhase == 1 || !reEnterPhoneModelID)
+                        {
                             currentPhase--;
                             break;
                         }
@@ -259,7 +262,7 @@ namespace Ults
                         Order ord = new Order("", DateTime.Now, orderStaff, new Staff(0, "", "", "", "", "", StaffEnum.Role.Accountant, StaffEnum.Status.Active), new Customer(0, "", "", ""), phonesInOrder, OrderEnum.Status.Pending, new List<DiscountPolicy>(), "", 0);
                         consoleUI.PrintTimeLine(listPhase, count, currentPhase);
                         ord.Seller = loginManager.LoggedInStaff;
-                        consoleUI.PrintSellerOrderBeforePayment(ord);
+                        consoleUI.PrintOrder(ord);
                         consoleUI.PrintLine();
                         phaseChoice = ConsoleUlts.PressCharacterTo("Back Previous Phase", "Enter Customer Info", "Add More Phone");
                         if (phaseChoice == 0)
@@ -285,6 +288,7 @@ namespace Ults
                         CustomerResultDTO customerWithIsDupp = customerBL.AddCustomer(customer);
                         customer.CustomerID = customerWithIsDupp.CustomerId;
                         customer = customerBL.GetCustomerByID(customer.CustomerID);
+                        
                         if (customerWithIsDupp.IsDuplicate)
                             ConsoleUlts.Alert(GUIEnum.ConsoleEnum.Alert.Success, $"Add customer completed with customer id {customer.CustomerID}");
                         else
@@ -298,7 +302,7 @@ namespace Ults
                     case 5:
                         consoleUI.PrintTimeLine(listPhase, count, currentPhase);
                         Order order = new Order(ConsoleUlts.GenerateID(), DateTime.Now, loginManager.LoggedInStaff, new Staff(0, "", "", "", "", "", StaffEnum.Role.Accountant, StaffEnum.Status.Active), customer, phonesInOrder, OrderEnum.Status.Pending, new List<DiscountPolicy>(), "", 0);
-                        consoleUI.PrintSellerOrderBeforePayment(order);
+                        consoleUI.PrintOrder(order);
                         if (ConsoleUlts.PressYesOrNo("Create Order", "Cancel Order"))
                         {
                             bool isCreateOrder = orderBL.CreateOrder(order);
@@ -387,7 +391,7 @@ namespace Ults
                         break;
                     case 2:
                         consoleUI.PrintTimeLine(listPhase, count, currentPhase);
-                        consoleUI.PrintOrderInfor(order);
+                        consoleUI.PrintOrder(order);
                         if (!ConsoleUlts.PressYesOrNo("Confirm Product", "Cancel Order"))
                         {
                             if (orderBL.UpdateOrder(OrderEnum.Status.Canceled, order) == true)
@@ -535,9 +539,8 @@ namespace Ults
         }
         public void TradeIn()
         {
-            int centeredPosition = (Console.WindowWidth - "|========================================================================================================|".Length) / 2;
-            string spaces = new string(' ', centeredPosition);
-            string[] tradeInItems = { "Show Tradein Table Details", "Check Customer's Phone", "Phone Quotes", "Confirm TradeIn" };
+            string spaces = consoleUI.AlignCenter("|--------------------------------------------------------------------------------------------|");
+            string[] tradeInItems = { "Show Tradein Table Details", "Check Customer's Phone", "Confirm TradeIn" };
             List<int> choicePattern = new List<int>();
             string input = "";
             ConsoleKeyInfo keyInfo = new ConsoleKeyInfo();
@@ -546,8 +549,8 @@ namespace Ults
             {
                 consoleUI.PrintTimeLine(tradeInItems, 0, 1);
                 consoleUI.PrintTradeInTable();
-                Console.Write(spaces + "Press any key to continue...");
-                Console.ReadKey();
+                ConsoleUlts.PressEnterTo("Continue");
+
                 if (activeShowtable == true)
                 {
                     bool activeCheckPhone = false;
@@ -555,15 +558,14 @@ namespace Ults
                     do
                     {
                         consoleUI.PrintTimeLine(tradeInItems, 0, 2);
-                        Console.WriteLine(spaces + "      |============================================================================================|");
+                        Console.WriteLine(spaces + "|============================================================================================|");
                         Console.WriteLine(consoleUI.GetAppANSIText());
-                        Console.WriteLine(spaces + "      |============================================================================================|");
+                        Console.WriteLine(spaces + "|============================================================================================|");
                         Console.WriteLine(consoleUI.GetTradeInANSIText());
-                        Console.WriteLine(spaces + "      |============================================================================================|");
-                        Console.WriteLine(consoleUI.GetCheckCustomerPhoneANSIText());
-                        Console.WriteLine(spaces + "      |============================================================================================|");
-                        Console.Write(spaces + "Input Customer's Phone Information: ");
-                        input = Console.ReadLine() ?? "";
+                        Console.WriteLine(spaces + "|============================================================================================|");
+                        Console.WriteLine(consoleUI.GetAddPhoneToOrderANSIText());
+                        Console.WriteLine(spaces + "|============================================================================================|");
+                        input = ConsoleUlts.GetInputString(spaces + "Input Customer's Phone Information");
                         List<Phone> phoneResult = phoneBL.GetPhonesByInformation(input);
                         foreach (var p in phoneResult)
                         {
@@ -585,62 +587,54 @@ namespace Ults
                             choicePattern.Add(p.PhoneDetailID);
                         }
                         new ConsoleUlts().ListPhoneModelTradeInPagination(ListPhoneDetailResult, tradeInItems, 0, 2, this.orderStaff);
-                        Console.WriteLine(spaces + "Choose a Phone Model corresponding to Customer's Phone Information");
-                        Console.Write(spaces + "Choose a Phone Model By Detail ID: ");
-                        input = Console.ReadLine() ?? "";
+                        Console.WriteLine();
+                        ConsoleUlts.GetInputString(spaces + "Choose a Phone Model By Detail ID");
                         while (!ConsoleUlts.CheckInputIDValid(input, choicePattern))
                         {
-                            Console.Write(spaces + "Input again: ");
-                            input = Console.ReadLine() ?? "";
+                            ConsoleUlts.Alert(ConsoleEnum.Alert.Error, "Invalid Detail ID");
+                            ConsoleUlts.GetInputString(spaces + "Choose a Phone Model By Detail ID");
                         }
                         PhoneDetail phoneDetailForTradeIn = phoneBL.GetPhoneDetailByID(Convert.ToInt32(input));
-                        Console.WriteLine(spaces + "Are you sure that all Information of this Phone are the same with Customer's Phone Information?");
-                        Console.Write(spaces + "Press 'Enter' to Keep doing(All information are same) OR Any Key to Choose another Phone(Not the same).");
-                        keyInfo = Console.ReadKey();
+                        Console.WriteLine();
+                        Console.WriteLine(consoleUI.AlignCenter("Are you sure that all Information of this Phone are the same with Customer's Phone Information?") + "Are you sure that all Information of this Phone are the same with Customer's Phone Information?");
+                        bool resultContinue = ConsoleUlts.PressYesOrNo("Continue", "Choose Another Phone");
                         Console.Clear();
-                        if (keyInfo.Key == ConsoleKey.Enter)
+                        if (resultContinue == true)
                         {
                             activeCheckPhone = true;
-                        }
-                        else
-                        {
-                            continue;
-                        }
-                        if (activeCheckPhone == true)
-                        {
                             bool activePhoneQuotes = false;
                             do
                             {
                                 consoleUI.PrintTimeLine(tradeInItems, 0, 3);
-                                Console.WriteLine(spaces + "      |============================================================================================|");
+                                Console.WriteLine(spaces + "|============================================================================================|");
                                 Console.WriteLine(consoleUI.GetAppANSIText());
-                                Console.WriteLine(spaces + "      |============================================================================================|");
+                                Console.WriteLine(spaces + "|============================================================================================|");
                                 Console.WriteLine(consoleUI.GetTradeInANSIText());
-                                Console.WriteLine(spaces + "      |============================================================================================|");
+                                Console.WriteLine(spaces + "|============================================================================================|");
                                 Console.WriteLine(consoleUI.GetPhoneQuotesANSIText());
-                                Console.WriteLine(spaces + "      |============================================================================================|");
-                                Console.Write(spaces + "      " + $"|Your Phone Status is: {phoneDetailForTradeIn.PhoneStatusType}");
+                                Console.WriteLine(spaces + "|============================================================================================|");
+                                Console.Write(spaces + $"|Your Phone Status is: {phoneDetailForTradeIn.PhoneStatusType}");
                                 int k = ("|============================================================================================|").Length - (phoneDetailForTradeIn.PhoneStatusType + "|Your Phone Status is: ").Length;
-                                for (int i = 0; i < k - 2; i++) Console.Write(" ");
+                                // for (int i = 0; i < k - 2; i++) Console.Write(" ");
                                 Console.WriteLine(" |");
-                                Console.Write(spaces + "      " + $"|TradeIn Price: {phoneDetailForTradeIn.Price}");
+                                Console.Write(spaces + $"|TradeIn Price: {phoneDetailForTradeIn.Price}");
                                 k = ("|============================================================================================|").Length - (phoneDetailForTradeIn.Price + "|TradeIn Price: ").Length;
-                                for (int i = 0; i < k - 2; i++) Console.Write(" ");
+                                // for (int i = 0; i < k - 2; i++) Console.Write(" ");
                                 Console.WriteLine(" |");
                                 DiscountPolicy discountForTradeIn = new DiscountPolicyBL().GetDiscountTradeInForPhone(phoneDetailForTradeIn);
-                                Console.Write(spaces + "      " + $"|Discount TradeIn: {discountForTradeIn.Title}");
+                                Console.Write(spaces + $"|Discount TradeIn: {discountForTradeIn.Title}");
                                 k = ("|============================================================================================|").Length - (discountForTradeIn.Title + "|Discount TradeIn: ").Length;
-                                for (int i = 0; i < k - 2; i++) Console.Write(" ");
+                                // for (int i = 0; i < k - 2; i++) Console.Write(" ");
                                 Console.WriteLine(" |");
-                                Console.Write(spaces + "      " + $"|Money Supported: {discountForTradeIn.MoneySupported}");
+                                Console.Write(spaces + $"|Money Supported: {discountForTradeIn.MoneySupported}");
                                 k = ("|============================================================================================|").Length - (discountForTradeIn.MoneySupported + "|Money Supported: ").Length;
-                                for (int i = 0; i < k - 2; i++) Console.Write(" ");
+                                // for (int i = 0; i < k - 2; i++) Console.Write(" ");
                                 Console.WriteLine(" |");
-                                Console.Write(spaces + "      " + $"|Total Customer's Receive: {phoneDetailForTradeIn.Price + discountForTradeIn.MoneySupported}");
+                                Console.Write(spaces + $"|Total Customer's Receive: {phoneDetailForTradeIn.Price + discountForTradeIn.MoneySupported}");
                                 k = ("|============================================================================================|").Length - (discountForTradeIn.MoneySupported + phoneDetailForTradeIn.Price + "|Total Customer's Receive: ").Length;
-                                for (int i = 0; i < k - 2; i++) Console.Write(" ");
+                                // for (int i = 0; i < k - 2; i++) Console.Write(" ");
                                 Console.WriteLine(" |");
-                                Console.WriteLine(spaces + "      |============================================================================================|");
+                                Console.WriteLine(spaces + "|============================================================================================|");
                                 Console.Write(spaces + "      " + "Press 'Enter' to TradeIn OR Any Key to Cancel TradeIn");
                                 keyInfo = Console.ReadKey();
                                 if (keyInfo.Key == ConsoleKey.Enter)
@@ -708,7 +702,7 @@ namespace Ults
                     } while (orderWantToPayment.OrderID == "");
 
                     //Wait to display orderdetail
-                    consoleUI.PrintSellerOrderBeforePayment(orderWantToPayment);
+                    consoleUI.PrintOrder(orderWantToPayment);
                     if (orderWantToPayment.PhoneDetails.Count() == 0)
                     {
                         ConsoleUlts.Alert(ConsoleEnum.Alert.Error, "Order doesn't have any phone!");
@@ -880,7 +874,7 @@ namespace Ults
                                                 bool choiceFinishPayment = false;
                                                 currentPhase = 5;
                                                 consoleUI.PrintTimeLine(listPhase, count, currentPhase);
-                                                consoleUI.PrintOrderInfor(orderWantToPayment); // edit here
+                                                consoleUI.PrintOrder(orderWantToPayment); // edit here
                                                 choiceFinishPayment = ConsoleUlts.PressYesOrNo("Confirm Order", "Cancel Order");
                                                 if (choiceFinishPayment == true)
                                                 {
