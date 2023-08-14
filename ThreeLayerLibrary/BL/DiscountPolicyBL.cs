@@ -8,7 +8,8 @@ public class DiscountPolicyBL{
     private DiscountPolicyDAL discountPolicyDAL = new DiscountPolicyDAL();
     public List<DiscountPolicy> GetDiscountValidToOrder(Order order){
         PhoneBL phoneBL = new PhoneBL();
-
+        int check = 0;
+        if(order.DiscountPolicies.Count()!=0)check++;
         List<DiscountPolicy> lst = new List<DiscountPolicy>();
         List<DiscountPolicy> discountPoliciesValidated = discountPolicyDAL.GetDiscountValidated();
         foreach(var dc in discountPoliciesValidated){
@@ -19,15 +20,11 @@ public class DiscountPolicyBL{
                 }
             }
             //GetDiscount for order total due
-            if(dc.MinimumPurchaseAmount >0){
+            if(check == 0){
+            if(dc.MinimumPurchaseAmount >0 && dc.PaymentMethod == "Not Have"){
                 if(order.TotalDue >= dc.MinimumPurchaseAmount && order.TotalDue <=dc.MaximumPurchaseAmount)lst.Add(dc);
             }
-            //GetDiscount for phone have discount
-                if(dc.PhoneDetail.PhoneDetailID!=0 && dc.MoneySupported !=0){
-                    foreach(var phone in order.PhoneDetails){
-                        if(phone.PhoneDetailID == dc.PhoneDetail.PhoneDetailID)lst.Add(dc);
-                    }
-                }
+            }
 
         }
         List<DiscountPolicy> output = new List<DiscountPolicy>();
@@ -46,6 +43,28 @@ public class DiscountPolicyBL{
     }
     public DiscountPolicy GetDiscountTradeInForPhone(PhoneDetail phoneDetail){
         return discountPolicyDAL.GetDiscountPolicyForPhoneTradeIn(phoneDetail);
+    }
+    public List<DiscountPolicy> GetDiscountValidated(){
+        return discountPolicyDAL.GetDiscountValidated();
+    }
+    public List<DiscountPolicy> GetDiscountTradeIn(List<PhoneDetail> phoneDetails){
+        List<DiscountPolicy> lst = new List<DiscountPolicy>();
+        List<DiscountPolicy> discountPoliciesValidated = discountPolicyDAL.GetDiscountValidated();
+        foreach(var dc in discountPoliciesValidated){
+            foreach(var phone in phoneDetails){
+                if(dc.PhoneDetail.PhoneDetailID == phone.PhoneDetailID && dc.MoneySupported !=0)lst.Add(dc);
+            }
+        }
+        List<DiscountPolicy> output = new List<DiscountPolicy>();
+        foreach(var dc in lst){
+            int count = 0;
+            foreach(var o in output){
+                if(o.Title == dc.Title)count++;
+            }
+            if(count == 0)output.Add(dc);
+        }
+        return output;
+        
     }
 
 }

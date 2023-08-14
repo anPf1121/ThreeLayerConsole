@@ -39,6 +39,9 @@ public class OrderBL
     {
         return orderDAL.UpdateOrder(BusinessEnum.OrderEnum.Status.Canceled, order);
     }
+    public bool TradeIn(Order order){
+        return orderDAL.UpdateOrder(BusinessEnum.OrderEnum.Status.Pending, order);
+    }
     public decimal CalculateTotalRevenue(List<Order> ordersCompleted)
     {
         if (ordersCompleted == null || ordersCompleted.Count() == 0) return 0;

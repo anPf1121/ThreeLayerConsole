@@ -1,6 +1,8 @@
 using Model;
 using MySqlConnector;
 using BusinessEnum;
+using MySqlConnector.Logging;
+using System.Runtime.InteropServices;
 
 namespace DAL
 {
@@ -79,11 +81,7 @@ namespace DAL
             order.Seller = staffDAL.GetStaffByID(order.Seller.StaffID);
             order.Customer = customerDAL.GetCustomerByID(order.Customer.CustomerID);
             order.PhoneDetails = phoneDetailsDAL.GetListPhoneDetailInOrder(order.OrderID);
-
-            //Xet trang thai cua order la truoc hay sau khi Payment
-            if (order.OrderStatus != OrderEnum.Status.Pending && order.OrderStatus != OrderEnum.Status.Canceled)
-            {
-                order.TotalDue = order.GetTotalDue();
+            order.TotalDue = order.GetTotalDue();
                 try
                 {
                     if (connection.State == System.Data.ConnectionState.Closed)
@@ -111,15 +109,8 @@ namespace DAL
                 {
                     connection.Close();
                 }
-                foreach (DiscountPolicy discount in order.DiscountPolicies)
-                {
-                    order.TotalDue -= discount.DiscountPrice;
-                }
-            }
-            else if (order.OrderStatus == OrderEnum.Status.Pending)
-            {
-                order.TotalDue = order.GetTotalDue();
-            }
+                
+
             return order;
         }
 
@@ -332,6 +323,8 @@ namespace DAL
                         command.Parameters.AddWithValue("@orderid", order.OrderID);
                         command.ExecuteNonQuery();
                         break;
+                    case OrderEnum.Status.Pending:
+                    break;
                     default:
                         return false;
                 }
@@ -359,10 +352,12 @@ namespace DAL
                 command.Parameters.AddWithValue("@orderid", order.OrderID);
                 command.ExecuteNonQuery();
             }
-            if (orderStatus == OrderEnum.Status.Confirmed)
+            if (orderStatus == OrderEnum.Status.Confirmed || orderStatus == OrderEnum.Status.Pending)
             {
                 if (order.DiscountPolicies.Count() != 0 || order.DiscountPolicies != null)
                 {
+                    
+                    
                     query = @"insert into discountpolicydetails(order_id, policy_id) value(@orderid, @policyid);";
                     MySqlCommand command = new MySqlCommand(query, connection);
                     foreach (var dc in order.DiscountPolicies)
