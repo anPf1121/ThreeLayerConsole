@@ -15,9 +15,9 @@ public class CustomerBL
             return tempList;
     }
 
-    public CustomerResultDTO AddCustomer(Customer customer)
+    public int CheckCustomerIsExist(Customer customer)
     {
-        return customerDAL.AddCustomer(customer);
+        return customerDAL.CheckCustomerIsExist(customer);
     }
     public Customer GetCustomerByID(int iD) {
         return customerDAL.GetCustomerByID(iD);

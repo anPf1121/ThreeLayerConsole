@@ -237,7 +237,7 @@ class ConsoleUI
         Console.WriteLine(spaces + "| Phone Number: 0999999999                                                                                                  |");
         Console.WriteLine(spaces + "|===========================================================================================================================|");
         Console.WriteLine(spaces + "| Order Create Time: {0, -30}|", DateTime.Now.ToString().PadRight(103));
-        if (ord.Customer.CustomerID != 0)
+        if (ord.Customer.CustomerID != null && ord.Customer.CustomerName != null && ord.Customer.PhoneNumber != null)
         {
             Console.WriteLine(spaces + "| Customer: {0, -30}|", ord.Customer.CustomerName.PadRight(112));
             Console.WriteLine(spaces + "| Address: {0, -50}|", ord.Customer.Address.PadRight(113));

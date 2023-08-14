@@ -94,20 +94,14 @@ INSERT INTO customers(name, phone_number, address) VALUE('Erichio Masharo', '025
 
 delimiter $$
 create procedure sp_createCustomer(
-IN customerName varchar(50), 
-IN customerAddress varchar(50), 
 IN customerPhone VARCHAR(15), 
 OUT customerID int)
 begin
 DECLARE phoneCount INT;
 SELECT COUNT(*) INTO phoneCount FROM Customers WHERE phone_number = customerPhone;
-IF phoneCount = 0 THEN
-	INSERT INTO Customers(name, address, phone_number) 
-    values (customerName, customerAddress, customerPhone); 
-    SELECT max(customer_id) INTO customerID FROM Customers;
-ELSE 
-    SELECT customer_id FROM Customers WHERE phone_number = customerPhone;
-END IF;
+    IF phoneCount > 0 THEN
+        SELECT customer_id FROM Customers WHERE phone_number = customerPhone;
+    END IF;
 end $$
 delimiter ;
 
@@ -169,7 +163,6 @@ INSERT INTO phones (phone_id, phone_name, brand_id, weight, battery_capacity, si
 VALUE ('16','Samsung Note 14', '2', '200 grams', '4,000 mAh', '2', '5828 x 1792','2022-10-15', '1');
 INSERT INTO phones (phone_id, phone_name, brand_id, weight, battery_capacity, sim_slot,screen, release_date, create_by)
 VALUE ('17','Samsung Note 15', '2', '200 grams', '4,000 mAh', '2', '6828 x 1792','2023-10-15', '1');
-
 
 CREATE TABLE phonedetails(
 phone_detail_id INT PRIMARY KEY,

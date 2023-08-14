@@ -232,155 +232,41 @@ C:/Users/PC/Desktop/New folder (7)/ThreeLayerConsole/PhoneStorePL/obj/Debug/net7
 C:/Users/PC/Desktop/New folder (7)/ThreeLayerConsole/PhoneStorePL/obj/Debug/net7.0/PhoneStorePL.pdb
 C:/Users/PC/Desktop/New folder (7)/ThreeLayerConsole/PhoneStorePL/obj/Debug/net7.0/PhoneStorePL.genruntimeconfig.cache
 C:/Users/PC/Desktop/New folder (7)/ThreeLayerConsole/PhoneStorePL/obj/Debug/net7.0/ref/PhoneStorePL.dll
-C:\Users\anngu\Desktop\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\PhoneStorePL.exe
-C:\Users\anngu\Desktop\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\PhoneStorePL.deps.json
-C:\Users\anngu\Desktop\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\PhoneStorePL.runtimeconfig.json
-C:\Users\anngu\Desktop\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\PhoneStorePL.dll
-C:\Users\anngu\Desktop\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\PhoneStorePL.pdb
-C:\Users\anngu\Desktop\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\MySqlConnector.dll
-C:\Users\anngu\Desktop\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\ThreeLayerLibrary.dll
-C:\Users\anngu\Desktop\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\ThreeLayerLibrary.pdb
-C:\Users\anngu\Desktop\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.csproj.AssemblyReference.cache
-C:\Users\anngu\Desktop\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\anngu\Desktop\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.AssemblyInfoInputs.cache
-C:\Users\anngu\Desktop\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.AssemblyInfo.cs
-C:\Users\anngu\Desktop\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.csproj.CoreCompileInputs.cache
-C:\Users\anngu\Desktop\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.csproj.CopyComplete
-C:\Users\anngu\Desktop\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.dll
-C:\Users\anngu\Desktop\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\refint\PhoneStorePL.dll
-C:\Users\anngu\Desktop\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.pdb
-C:\Users\anngu\Desktop\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.genruntimeconfig.cache
-C:\Users\anngu\Desktop\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\ref\PhoneStorePL.dll
-C:\Users\PC\Desktop\New folder\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\PhoneStorePL.exe
-C:\Users\PC\Desktop\New folder\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\PhoneStorePL.deps.json
-C:\Users\PC\Desktop\New folder\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\PhoneStorePL.runtimeconfig.json
-C:\Users\PC\Desktop\New folder\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\PhoneStorePL.dll
-C:\Users\PC\Desktop\New folder\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\PhoneStorePL.pdb
-C:\Users\PC\Desktop\New folder\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\MySqlConnector.dll
-C:\Users\PC\Desktop\New folder\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\ThreeLayerLibrary.dll
-C:\Users\PC\Desktop\New folder\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\ThreeLayerLibrary.pdb
-C:\Users\PC\Desktop\New folder\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.csproj.AssemblyReference.cache
-C:\Users\PC\Desktop\New folder\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\PC\Desktop\New folder\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.AssemblyInfoInputs.cache
-C:\Users\PC\Desktop\New folder\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.AssemblyInfo.cs
-C:\Users\PC\Desktop\New folder\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.csproj.CoreCompileInputs.cache
-C:\Users\PC\Desktop\New folder\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.csproj.CopyComplete
-C:\Users\PC\Desktop\New folder\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.dll
-C:\Users\PC\Desktop\New folder\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\refint\PhoneStorePL.dll
-C:\Users\PC\Desktop\New folder\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.pdb
-C:\Users\PC\Desktop\New folder\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.genruntimeconfig.cache
-C:\Users\PC\Desktop\New folder\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\ref\PhoneStorePL.dll
-C:\Users\PC\Desktop\New folder (5)\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\PhoneStorePL.exe
-C:\Users\PC\Desktop\New folder (5)\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\PhoneStorePL.deps.json
-C:\Users\PC\Desktop\New folder (5)\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\PhoneStorePL.runtimeconfig.json
-C:\Users\PC\Desktop\New folder (5)\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\PhoneStorePL.dll
-C:\Users\PC\Desktop\New folder (5)\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\PhoneStorePL.pdb
-C:\Users\PC\Desktop\New folder (5)\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\MySqlConnector.dll
-C:\Users\PC\Desktop\New folder (5)\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\ThreeLayerLibrary.dll
-C:\Users\PC\Desktop\New folder (5)\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\ThreeLayerLibrary.pdb
-C:\Users\PC\Desktop\New folder (5)\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.csproj.AssemblyReference.cache
-C:\Users\PC\Desktop\New folder (5)\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\PC\Desktop\New folder (5)\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.AssemblyInfoInputs.cache
-C:\Users\PC\Desktop\New folder (5)\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.AssemblyInfo.cs
-C:\Users\PC\Desktop\New folder (5)\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.csproj.CoreCompileInputs.cache
-C:\Users\PC\Desktop\New folder (5)\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.csproj.CopyComplete
-C:\Users\PC\Desktop\New folder (5)\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.dll
-C:\Users\PC\Desktop\New folder (5)\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\refint\PhoneStorePL.dll
-C:\Users\PC\Desktop\New folder (5)\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.pdb
-C:\Users\PC\Desktop\New folder (5)\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.genruntimeconfig.cache
-C:\Users\PC\Desktop\New folder (5)\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\ref\PhoneStorePL.dll
-C:\Users\PC\Desktop\New folder (6)\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\PhoneStorePL.exe
-C:\Users\PC\Desktop\New folder (6)\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\PhoneStorePL.deps.json
-C:\Users\PC\Desktop\New folder (6)\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\PhoneStorePL.runtimeconfig.json
-C:\Users\PC\Desktop\New folder (6)\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\PhoneStorePL.dll
-C:\Users\PC\Desktop\New folder (6)\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\PhoneStorePL.pdb
-C:\Users\PC\Desktop\New folder (6)\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\MySqlConnector.dll
-C:\Users\PC\Desktop\New folder (6)\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\ThreeLayerLibrary.dll
-C:\Users\PC\Desktop\New folder (6)\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\ThreeLayerLibrary.pdb
-C:\Users\PC\Desktop\New folder (6)\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.csproj.AssemblyReference.cache
-C:\Users\PC\Desktop\New folder (6)\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\PC\Desktop\New folder (6)\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.AssemblyInfoInputs.cache
-C:\Users\PC\Desktop\New folder (6)\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.AssemblyInfo.cs
-C:\Users\PC\Desktop\New folder (6)\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.csproj.CoreCompileInputs.cache
-C:\Users\PC\Desktop\New folder (6)\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.csproj.CopyComplete
-C:\Users\PC\Desktop\New folder (6)\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.dll
-C:\Users\PC\Desktop\New folder (6)\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\refint\PhoneStorePL.dll
-C:\Users\PC\Desktop\New folder (6)\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.pdb
-C:\Users\PC\Desktop\New folder (6)\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.genruntimeconfig.cache
-C:\Users\PC\Desktop\New folder (6)\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\ref\PhoneStorePL.dll
-C:\Users\Acer\OneDrive\Desktop\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\PhoneStorePL.exe
-C:\Users\Acer\OneDrive\Desktop\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\PhoneStorePL.deps.json
-C:\Users\Acer\OneDrive\Desktop\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\PhoneStorePL.runtimeconfig.json
-C:\Users\Acer\OneDrive\Desktop\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\PhoneStorePL.dll
-C:\Users\Acer\OneDrive\Desktop\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\PhoneStorePL.pdb
-C:\Users\Acer\OneDrive\Desktop\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\MySqlConnector.dll
-C:\Users\Acer\OneDrive\Desktop\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\ThreeLayerLibrary.dll
-C:\Users\Acer\OneDrive\Desktop\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\ThreeLayerLibrary.pdb
-C:\Users\Acer\OneDrive\Desktop\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.csproj.AssemblyReference.cache
-C:\Users\Acer\OneDrive\Desktop\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\Acer\OneDrive\Desktop\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.AssemblyInfoInputs.cache
-C:\Users\Acer\OneDrive\Desktop\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.AssemblyInfo.cs
-C:\Users\Acer\OneDrive\Desktop\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.csproj.CoreCompileInputs.cache
-C:\Users\Acer\OneDrive\Desktop\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.csproj.CopyComplete
-C:\Users\Acer\OneDrive\Desktop\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.dll
-C:\Users\Acer\OneDrive\Desktop\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\refint\PhoneStorePL.dll
-C:\Users\Acer\OneDrive\Desktop\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.pdb
-C:\Users\Acer\OneDrive\Desktop\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.genruntimeconfig.cache
-C:\Users\Acer\OneDrive\Desktop\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\ref\PhoneStorePL.dll
-C:\Users\PC\Desktop\New folder (7)\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\PhoneStorePL.exe
-C:\Users\PC\Desktop\New folder (7)\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\PhoneStorePL.deps.json
-C:\Users\PC\Desktop\New folder (7)\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\PhoneStorePL.runtimeconfig.json
-C:\Users\PC\Desktop\New folder (7)\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\PhoneStorePL.dll
-C:\Users\PC\Desktop\New folder (7)\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\PhoneStorePL.pdb
-C:\Users\PC\Desktop\New folder (7)\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\MySqlConnector.dll
-C:\Users\PC\Desktop\New folder (7)\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\ThreeLayerLibrary.dll
-C:\Users\PC\Desktop\New folder (7)\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\ThreeLayerLibrary.pdb
-C:\Users\PC\Desktop\New folder (7)\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.csproj.AssemblyReference.cache
-C:\Users\PC\Desktop\New folder (7)\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\PC\Desktop\New folder (7)\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.AssemblyInfoInputs.cache
-C:\Users\PC\Desktop\New folder (7)\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.AssemblyInfo.cs
-C:\Users\PC\Desktop\New folder (7)\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.csproj.CoreCompileInputs.cache
-C:\Users\PC\Desktop\New folder (7)\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.csproj.CopyComplete
-C:\Users\PC\Desktop\New folder (7)\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.dll
-C:\Users\PC\Desktop\New folder (7)\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\refint\PhoneStorePL.dll
-C:\Users\PC\Desktop\New folder (7)\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.pdb
-C:\Users\PC\Desktop\New folder (7)\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.genruntimeconfig.cache
-C:\Users\PC\Desktop\New folder (7)\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\ref\PhoneStorePL.dll
-C:\Users\PC\Desktop\New folder (8)\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\PhoneStorePL.exe
-C:\Users\PC\Desktop\New folder (8)\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\PhoneStorePL.deps.json
-C:\Users\PC\Desktop\New folder (8)\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\PhoneStorePL.runtimeconfig.json
-C:\Users\PC\Desktop\New folder (8)\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\PhoneStorePL.dll
-C:\Users\PC\Desktop\New folder (8)\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\PhoneStorePL.pdb
-C:\Users\PC\Desktop\New folder (8)\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\MySqlConnector.dll
-C:\Users\PC\Desktop\New folder (8)\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\ThreeLayerLibrary.dll
-C:\Users\PC\Desktop\New folder (8)\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\ThreeLayerLibrary.pdb
-C:\Users\PC\Desktop\New folder (8)\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.csproj.AssemblyReference.cache
-C:\Users\PC\Desktop\New folder (8)\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\PC\Desktop\New folder (8)\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.AssemblyInfoInputs.cache
-C:\Users\PC\Desktop\New folder (8)\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.AssemblyInfo.cs
-C:\Users\PC\Desktop\New folder (8)\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.csproj.CoreCompileInputs.cache
-C:\Users\PC\Desktop\New folder (8)\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.csproj.CopyComplete
-C:\Users\PC\Desktop\New folder (8)\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.dll
-C:\Users\PC\Desktop\New folder (8)\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\refint\PhoneStorePL.dll
-C:\Users\PC\Desktop\New folder (8)\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.pdb
-C:\Users\PC\Desktop\New folder (8)\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.genruntimeconfig.cache
-C:\Users\PC\Desktop\New folder (8)\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\ref\PhoneStorePL.dll
-C:\Học\PhoneStore\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\PhoneStorePL.exe
-C:\Học\PhoneStore\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\PhoneStorePL.deps.json
-C:\Học\PhoneStore\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\PhoneStorePL.runtimeconfig.json
-C:\Học\PhoneStore\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\PhoneStorePL.dll
-C:\Học\PhoneStore\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\PhoneStorePL.pdb
-C:\Học\PhoneStore\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\MySqlConnector.dll
-C:\Học\PhoneStore\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\ThreeLayerLibrary.dll
-C:\Học\PhoneStore\ThreeLayerConsole\PhoneStorePL\bin\Debug\net7.0\ThreeLayerLibrary.pdb
-C:\Học\PhoneStore\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.csproj.AssemblyReference.cache
-C:\Học\PhoneStore\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.GeneratedMSBuildEditorConfig.editorconfig
-C:\Học\PhoneStore\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.AssemblyInfoInputs.cache
-C:\Học\PhoneStore\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.AssemblyInfo.cs
-C:\Học\PhoneStore\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.csproj.CoreCompileInputs.cache
-C:\Học\PhoneStore\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.csproj.CopyComplete
-C:\Học\PhoneStore\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.dll
-C:\Học\PhoneStore\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\refint\PhoneStorePL.dll
-C:\Học\PhoneStore\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.pdb
-C:\Học\PhoneStore\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\PhoneStorePL.genruntimeconfig.cache
-C:\Học\PhoneStore\ThreeLayerConsole\PhoneStorePL\obj\Debug\net7.0\ref\PhoneStorePL.dll
+C:/Users/PC/Desktop/New folder (6)/ThreeLayerConsole/PhoneStorePL/bin/Debug/net7.0/PhoneStorePL.exe
+C:/Users/PC/Desktop/New folder (6)/ThreeLayerConsole/PhoneStorePL/bin/Debug/net7.0/PhoneStorePL.deps.json
+C:/Users/PC/Desktop/New folder (6)/ThreeLayerConsole/PhoneStorePL/bin/Debug/net7.0/PhoneStorePL.runtimeconfig.json
+C:/Users/PC/Desktop/New folder (6)/ThreeLayerConsole/PhoneStorePL/bin/Debug/net7.0/PhoneStorePL.dll
+C:/Users/PC/Desktop/New folder (6)/ThreeLayerConsole/PhoneStorePL/bin/Debug/net7.0/PhoneStorePL.pdb
+C:/Users/PC/Desktop/New folder (6)/ThreeLayerConsole/PhoneStorePL/bin/Debug/net7.0/MySqlConnector.dll
+C:/Users/PC/Desktop/New folder (6)/ThreeLayerConsole/PhoneStorePL/bin/Debug/net7.0/ThreeLayerLibrary.dll
+C:/Users/PC/Desktop/New folder (6)/ThreeLayerConsole/PhoneStorePL/bin/Debug/net7.0/ThreeLayerLibrary.pdb
+C:/Users/PC/Desktop/New folder (6)/ThreeLayerConsole/PhoneStorePL/obj/Debug/net7.0/PhoneStorePL.csproj.AssemblyReference.cache
+C:/Users/PC/Desktop/New folder (6)/ThreeLayerConsole/PhoneStorePL/obj/Debug/net7.0/PhoneStorePL.GeneratedMSBuildEditorConfig.editorconfig
+C:/Users/PC/Desktop/New folder (6)/ThreeLayerConsole/PhoneStorePL/obj/Debug/net7.0/PhoneStorePL.AssemblyInfoInputs.cache
+C:/Users/PC/Desktop/New folder (6)/ThreeLayerConsole/PhoneStorePL/obj/Debug/net7.0/PhoneStorePL.AssemblyInfo.cs
+C:/Users/PC/Desktop/New folder (6)/ThreeLayerConsole/PhoneStorePL/obj/Debug/net7.0/PhoneStorePL.csproj.CoreCompileInputs.cache
+C:/Users/PC/Desktop/New folder (6)/ThreeLayerConsole/PhoneStorePL/obj/Debug/net7.0/PhoneStorePL.csproj.CopyComplete
+C:/Users/PC/Desktop/New folder (6)/ThreeLayerConsole/PhoneStorePL/obj/Debug/net7.0/PhoneStorePL.dll
+C:/Users/PC/Desktop/New folder (6)/ThreeLayerConsole/PhoneStorePL/obj/Debug/net7.0/refint/PhoneStorePL.dll
+C:/Users/PC/Desktop/New folder (6)/ThreeLayerConsole/PhoneStorePL/obj/Debug/net7.0/PhoneStorePL.pdb
+C:/Users/PC/Desktop/New folder (6)/ThreeLayerConsole/PhoneStorePL/obj/Debug/net7.0/PhoneStorePL.genruntimeconfig.cache
+C:/Users/PC/Desktop/New folder (6)/ThreeLayerConsole/PhoneStorePL/obj/Debug/net7.0/ref/PhoneStorePL.dll
+C:/Users/PC/Desktop/New folder (8)/ThreeLayerConsole/PhoneStorePL/bin/Debug/net7.0/PhoneStorePL.exe
+C:/Users/PC/Desktop/New folder (8)/ThreeLayerConsole/PhoneStorePL/bin/Debug/net7.0/PhoneStorePL.deps.json
+C:/Users/PC/Desktop/New folder (8)/ThreeLayerConsole/PhoneStorePL/bin/Debug/net7.0/PhoneStorePL.runtimeconfig.json
+C:/Users/PC/Desktop/New folder (8)/ThreeLayerConsole/PhoneStorePL/bin/Debug/net7.0/PhoneStorePL.dll
+C:/Users/PC/Desktop/New folder (8)/ThreeLayerConsole/PhoneStorePL/bin/Debug/net7.0/PhoneStorePL.pdb
+C:/Users/PC/Desktop/New folder (8)/ThreeLayerConsole/PhoneStorePL/bin/Debug/net7.0/MySqlConnector.dll
+C:/Users/PC/Desktop/New folder (8)/ThreeLayerConsole/PhoneStorePL/bin/Debug/net7.0/ThreeLayerLibrary.dll
+C:/Users/PC/Desktop/New folder (8)/ThreeLayerConsole/PhoneStorePL/bin/Debug/net7.0/ThreeLayerLibrary.pdb
+C:/Users/PC/Desktop/New folder (8)/ThreeLayerConsole/PhoneStorePL/obj/Debug/net7.0/PhoneStorePL.csproj.AssemblyReference.cache
+C:/Users/PC/Desktop/New folder (8)/ThreeLayerConsole/PhoneStorePL/obj/Debug/net7.0/PhoneStorePL.GeneratedMSBuildEditorConfig.editorconfig
+C:/Users/PC/Desktop/New folder (8)/ThreeLayerConsole/PhoneStorePL/obj/Debug/net7.0/PhoneStorePL.AssemblyInfoInputs.cache
+C:/Users/PC/Desktop/New folder (8)/ThreeLayerConsole/PhoneStorePL/obj/Debug/net7.0/PhoneStorePL.AssemblyInfo.cs
+C:/Users/PC/Desktop/New folder (8)/ThreeLayerConsole/PhoneStorePL/obj/Debug/net7.0/PhoneStorePL.csproj.CoreCompileInputs.cache
+C:/Users/PC/Desktop/New folder (8)/ThreeLayerConsole/PhoneStorePL/obj/Debug/net7.0/PhoneStorePL.csproj.CopyComplete
+C:/Users/PC/Desktop/New folder (8)/ThreeLayerConsole/PhoneStorePL/obj/Debug/net7.0/PhoneStorePL.dll
+C:/Users/PC/Desktop/New folder (8)/ThreeLayerConsole/PhoneStorePL/obj/Debug/net7.0/refint/PhoneStorePL.dll
+C:/Users/PC/Desktop/New folder (8)/ThreeLayerConsole/PhoneStorePL/obj/Debug/net7.0/PhoneStorePL.pdb
+C:/Users/PC/Desktop/New folder (8)/ThreeLayerConsole/PhoneStorePL/obj/Debug/net7.0/PhoneStorePL.genruntimeconfig.cache
+C:/Users/PC/Desktop/New folder (8)/ThreeLayerConsole/PhoneStorePL/obj/Debug/net7.0/ref/PhoneStorePL.dll

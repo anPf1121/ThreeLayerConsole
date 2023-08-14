@@ -23,6 +23,7 @@ public class DiscountPolicyBL{
                 if(order.TotalDue >= dc.MinimumPurchaseAmount)lst.Add(dc);
             }
             //GetDiscount for phone have discount
+                if(dc.PhoneDetail.PhoneDetailID!=0 && dc.MoneySupported !=0)lst.Add(dc);
 
         }
         List<DiscountPolicy> output = new List<DiscountPolicy>();

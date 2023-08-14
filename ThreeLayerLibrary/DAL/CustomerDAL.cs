@@ -80,40 +80,36 @@ public class CustomerDAL
         }
         return customer;
     }
-    public CustomerResultDTO AddCustomer(Customer c)
+    public int CheckCustomerIsExist(Customer customer)
     {
-        int customerId = 0;
-        bool isDupplicate = false;
-        if (connection.State == System.Data.ConnectionState.Closed)
-        {
-            connection.Open();
-        }
-        using (MySqlCommand command = new MySqlCommand("sp_createCustomer", connection))
-        {
-            command.CommandType = System.Data.CommandType.StoredProcedure;
-            command.Parameters.AddWithValue("@customerName", c.CustomerName);
-            command.Parameters.AddWithValue("@customerAddress", c.Address);
-            command.Parameters.AddWithValue("@customerPhone", c.PhoneNumber);
-            MySqlParameter outParameter = new MySqlParameter("@customerID", MySqlDbType.Int32);
-            outParameter.Direction = System.Data.ParameterDirection.Output;
-            command.Parameters.Add(outParameter);
-            using (MySqlDataReader reader = command.ExecuteReader())
+        int result = 0;
+            
+       if (connection.State == System.Data.ConnectionState.Closed)
             {
-                if (reader.HasRows)
+                connection.Open();
+
+            }
+
+            using (MySqlCommand command = new MySqlCommand("sp_createCustomer", connection))
+            {
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+
+                command.Parameters.AddWithValue("@customerPhone", customer.PhoneNumber);
+                command.Parameters["@customerPhone"].Direction = System.Data.ParameterDirection.Input;
+                command.Parameters.AddWithValue("@customerID", MySqlDbType.Int32);
+                command.Parameters["@customerID"].Direction = System.Data.ParameterDirection.Output;
+                command.ExecuteNonQuery();
+
+
+                using (MySqlDataReader reader = command.ExecuteReader())
                 {
-                    while (reader.Read())
+                    if (reader.Read())
                     {
-                        // Xử lý dữ liệu khi phoneCount != 0
-                        customerId = reader.GetInt32("customer_id");
+                        result = reader.GetInt32("customer_id");
                     }
                 }
-                else
-                {
-                    customerId = Convert.ToInt32(command.Parameters["@customerID"].Value);
-                    isDupplicate = true;
-                }
             }
-        }
-        return new CustomerResultDTO(customerId, isDupplicate);
+
+        return result;
     }
 }

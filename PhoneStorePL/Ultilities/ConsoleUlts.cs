@@ -590,7 +590,7 @@ namespace Ults
         public Customer GetCustomerInfo()
         {
             string PatternName = "^[a-zA-Z\\s]+$";
-            string PatternPhone = @"^\+(?:[0-9] ?){6,14}[0-9]$";
+            string PatternPhone = @"[0-9]$";
             int centeredPosition = (Console.WindowWidth - "|--------------------------------------------------------------------------------------------|".Length) / 2;
             string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
             string customerName = GetInputString($"{spaces}Customer Name");

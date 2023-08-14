@@ -285,14 +285,14 @@ namespace Ults
                         consoleUI.PrintTimeLine(listPhase, count, currentPhase);
                         consoleUI.PrintTitle(consoleUI.GetAppANSIText(), consoleUI.GetCustomerInfoANSIText(), loginManager.LoggedInStaff);
                         customer = ConsoleUlts.GetCustomerInfo();
-                        CustomerResultDTO customerWithIsDupp = customerBL.AddCustomer(customer);
-                        customer.CustomerID = customerWithIsDupp.CustomerId;
-                        customer = customerBL.GetCustomerByID(customer.CustomerID);
+                        customer.CustomerID = customerBL.CheckCustomerIsExist(customer);
                         
-                        if (customerWithIsDupp.IsDuplicate)
-                            ConsoleUlts.Alert(GUIEnum.ConsoleEnum.Alert.Success, $"Add customer completed with customer id {customer.CustomerID}");
-                        else
-                            ConsoleUlts.Alert(GUIEnum.ConsoleEnum.Alert.Warning, $"Customer Phone Number Is Already Exsist");
+                        if (customer.CustomerID == 0)
+                            ConsoleUlts.Alert(GUIEnum.ConsoleEnum.Alert.Success, $"Add customer completed");
+                        else {
+                            customer = customerBL.GetCustomerByID(customer.CustomerID);
+                            ConsoleUlts.Alert(GUIEnum.ConsoleEnum.Alert.Warning, $"Customer Phone Number Is Already Exsist, Customer ID: {customer.CustomerID}");
+                        }
 
                         if (!ConsoleUlts.PressYesOrNo("Confirm Order", "Back Previous Phase")) currentPhase--;
 
@@ -812,10 +812,13 @@ namespace Ults
                                         activeDiscountForPayment = true;
                                         if (count1 != 0) orderWantToPayment.DiscountPolicies.Add(new DiscountPolicyBL().GetDiscountPolicyByID(choice));
                                         choicePattern = new List<int>();
-                                        int count2 = 0;
+                                        
                                         bool activeConfirmOrCancel = false;
                                         do
                                         {
+                                            
+                                            if(ConsoleUlts.PressYesOrNo("Select Special Offer", "Select Paying Offer")){
+                                                int count2 = 0;
                                             currentPhase = 4;
                                             consoleUI.PrintTimeLine(listPhase, count, currentPhase);
                                             Console.WriteLine(spaces + "|============================================================================================|");
@@ -826,18 +829,15 @@ namespace Ults
                                             Console.WriteLine(consoleUI.GetChooseDiscountPolicyText());
                                             foreach (var discount in ListDiscountPolicyValidToOrder)
                                             {
-                                                if (discount.MinimumPurchaseAmount > 0)
-                                                {
-                                                    if (orderWantToPayment.TotalDue >= discount.MinimumPurchaseAmount && discount.PaymentMethod == "Not Have")
-                                                    {
+                                                if(discount.PhoneDetail.PhoneDetailID != 0 && discount.MoneySupported !=0){
                                                         choicePattern.Add(discount.PolicyID);
                                                         int l = ("|============================================================================================|").Length - (spaces + discount.PolicyID + ". " + discount.Title).Length;
                                                         Console.Write(spaces + $"|" + discount.PolicyID + ". " + discount.Title + spaces);
                                                         for (int i = 0; i < l - 2; i++) Console.Write(" ");
                                                         Console.WriteLine("|");
                                                         count2++;
-                                                    }
                                                 }
+                                                
                                             }
                                             Console.WriteLine(spaces + "|============================================================================================|");
                                             if (choicePattern.Count() != 0)
@@ -859,6 +859,53 @@ namespace Ults
                                                 ConsoleUlts.Alert(ConsoleEnum.Alert.Error, "No Discount Policy valid to this order");
                                             }
                                             Console.WriteLine();
+                                            }
+                                            else{
+                                                currentPhase = 4;
+                                                int count3 = 0;
+                                            consoleUI.PrintTimeLine(listPhase, count, currentPhase);
+                                            Console.WriteLine(spaces + "|============================================================================================|");
+                                            Console.WriteLine(consoleUI.GetAppANSIText());
+                                            Console.WriteLine(spaces + "|============================================================================================|");
+                                            Console.WriteLine(consoleUI.GetPaymentANSIText());
+                                            Console.WriteLine(spaces + "|============================================================================================|");
+                                            Console.WriteLine(consoleUI.GetChooseDiscountPolicyText());
+                                            foreach (var discount in ListDiscountPolicyValidToOrder)
+                                            {
+                                                if (discount.MinimumPurchaseAmount > 0)
+                                                {
+                                                    if (orderWantToPayment.TotalDue >= discount.MinimumPurchaseAmount && discount.PaymentMethod == "Not Have")
+                                                    {
+                                                        choicePattern.Add(discount.PolicyID);
+                                                        int l = ("|============================================================================================|").Length - (spaces + discount.PolicyID + ". " + discount.Title).Length;
+                                                        Console.Write(spaces + $"|" + discount.PolicyID + ". " + discount.Title + spaces);
+                                                        for (int i = 0; i < l - 2; i++) Console.Write(" ");
+                                                        Console.WriteLine("|");
+                                                        count3++;
+                                                    }
+                                                }
+                                            }
+                                            Console.WriteLine(spaces + "|============================================================================================|");
+                                            if (choicePattern.Count() != 0)
+                                            {
+                                                string choiceDiscountOrder = "";
+                                                do
+                                                {
+                                                    choiceDiscountOrder = ConsoleUlts.GetInputString($"{spaces} Choose Discount Policy for Order");
+                                                } while (!ConsoleUlts.CheckInputIDValid(choiceDiscountOrder, choicePattern));
+                                                choice = Convert.ToInt32(choiceDiscountOrder);
+                                                Console.WriteLine($"{spaces}✅ Show Discount Policy Detail");
+                                                consoleUI.PrintTimeLine(listPhase, count, currentPhase);
+                                                consoleUI.PrintTitle(consoleUI.GetDiscountPolicyDetailText(), null, loginManager.LoggedInStaff);
+                                                consoleUI.PrintDiscountPolicyDetail(new DiscountPolicyBL().GetDiscountPolicyByID(choice));
+                                                if (count3 != 0) orderWantToPayment.DiscountPolicies.Add(new DiscountPolicyBL().GetDiscountPolicyByID(choice));
+                                            }
+                                            else
+                                            {
+                                                ConsoleUlts.Alert(ConsoleEnum.Alert.Error, "No Discount Policy valid to this order");
+                                            }
+                                            Console.WriteLine();
+                                            }
                                             resultDiscount = ConsoleUlts.PressYesOrNo("Continue", "Choose Discount Policy for Order Again");
                                             // if (keyInfo.Key == ConsoleKey.Enter)
                                             // {

@@ -187,8 +187,12 @@ namespace DAL
                 tr = connection.BeginTransaction();
                 MySqlCommand command = new MySqlCommand(connection, tr);
                 MySqlDataReader? reader = null;
-                if (order.Customer.CustomerID != 0)
+                if (order.Customer.CustomerID == 0)
                 {
+                    command.CommandText = $@"insert into Customers(name, address, phone_number)
+                    values ('{order.Customer.CustomerName}','{order.Customer.Address}','{order.Customer.PhoneNumber}');";
+                    command.ExecuteNonQuery();
+                    
                     command.CommandText = "select customer_id from customers order by customer_id desc limit 1;";
                     reader = command.ExecuteReader();
                     if (reader.Read())
