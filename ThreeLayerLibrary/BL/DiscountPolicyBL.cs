@@ -15,15 +15,19 @@ public class DiscountPolicyBL{
             //GetDiscount for payment method
             if(order.PaymentMethod == dc.PaymentMethod){
                 if(order.PaymentMethod == "VNPay"|| order.PaymentMethod == "Banking"|| order.PaymentMethod == "Cash"){
-                    if(order.TotalDue >= dc.MinimumPurchaseAmount)lst.Add(dc);
+                    if(order.TotalDue >= dc.MinimumPurchaseAmount && order.TotalDue <=dc.MaximumPurchaseAmount)lst.Add(dc);
                 }
             }
             //GetDiscount for order total due
             if(dc.MinimumPurchaseAmount >0){
-                if(order.TotalDue >= dc.MinimumPurchaseAmount)lst.Add(dc);
+                if(order.TotalDue >= dc.MinimumPurchaseAmount && order.TotalDue <=dc.MaximumPurchaseAmount)lst.Add(dc);
             }
             //GetDiscount for phone have discount
-                if(dc.PhoneDetail.PhoneDetailID!=0 && dc.MoneySupported !=0)lst.Add(dc);
+                if(dc.PhoneDetail.PhoneDetailID!=0 && dc.MoneySupported !=0){
+                    foreach(var phone in order.PhoneDetails){
+                        if(phone.PhoneDetailID == dc.PhoneDetail.PhoneDetailID)lst.Add(dc);
+                    }
+                }
 
         }
         List<DiscountPolicy> output = new List<DiscountPolicy>();
@@ -35,7 +39,7 @@ public class DiscountPolicyBL{
             if(count == 0)output.Add(dc);
         }
 
-        return output;
+        return lst;
     }
     public DiscountPolicy GetDiscountPolicyByID(int discountid){
         return discountPolicyDAL.GetDiscountPolicyById(discountid);

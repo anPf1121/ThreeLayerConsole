@@ -380,16 +380,18 @@ FOREIGN KEY (update_by) REFERENCES staffs(staff_id)
 )engine = InnoDB;
 INSERT INTO discountpolicies(title, from_date, to_date, phone_detail_id, discount_price, create_by) VALUE('Giam gia cho dien thoai Nokia 1280 model 1', '2023-07-07', '2024-07-07', '1', '100000', '2');
 INSERT INTO discountpolicies(title, from_date, to_date, phone_detail_id, discount_price, create_by) VALUE('Giam gia cho dien thoai Nokia 1280 model 2', '2023-07-07', '2024-07-07', '2', '100000', '2');
-INSERT INTO discountpolicies(title, from_date, to_date, minimum_purchase_amount, maximum_purchase_amount, discount_price, create_by) VALUE('Giam gia tong chi tren 500000 cua order', '2023-07-07', '2024-07-07','500000','3500000' , '100000', '2');
+INSERT INTO discountpolicies(title, from_date, to_date, minimum_purchase_amount, maximum_purchase_amount, discount_price, create_by) VALUE('Giam gia tong chi tren 500000 den 3500000 cua order', '2023-07-07', '2024-07-07','500000','3500000' , '100000', '2');
+INSERT INTO discountpolicies(title, from_date, to_date, minimum_purchase_amount, maximum_purchase_amount, discount_price, create_by) VALUE('Giam gia tong chi tren 3500000 den 5000000 cua order', '2023-07-07', '2024-07-07','3500000','7000000' , '250000', '2');
 INSERT INTO discountpolicies(title, from_date, to_date, minimum_purchase_amount, maximum_purchase_amount, discount_price,payment_method, create_by) VALUE('Giam gia tong chi tren 500000 cho VNPay loai 1', '2023-07-07', '2024-07-07','500000','3500000' , '100000','VNPay', '2');
-INSERT INTO discountpolicies(title, from_date, to_date, phone_detail_id, money_supported, create_by) VALUE('Ho tro thu cu dien thoai Nokia 1280 16GB', '2023-07-07', '2024-07-07', '2', '100000', '2');
-INSERT INTO discountpolicies(title, from_date, to_date, phone_detail_id, money_supported, create_by) VALUE('Ho tro thu cu dien thoai Nokia 1280 16GB', '2023-07-07', '2024-07-07', '3', '100000', '2');
-INSERT INTO discountpolicies(title, from_date, to_date, phone_detail_id, money_supported, create_by) VALUE('Ho tro thu cu dien thoai Nokia 1280 16GB', '2023-07-07', '2024-07-07', '4', '100000', '2');
-INSERT INTO discountpolicies(title, from_date, to_date, phone_detail_id, money_supported, create_by) VALUE('Ho tro thu cu dien thoai Nokia 1280 16GB', '2023-07-07', '2024-07-07', '5', '100000', '2');
-INSERT INTO discountpolicies(title, from_date, to_date, phone_detail_id, money_supported, create_by) VALUE('Ho tro thu cu dien thoai Nokia 1280 32GB', '2023-07-07', '2024-07-07', '7', '100000', '2');
-INSERT INTO discountpolicies(title, from_date, to_date, phone_detail_id, money_supported, create_by) VALUE('Ho tro thu cu dien thoai Nokia 1280 32GB', '2023-07-07', '2024-07-07', '8', '100000', '2');
-INSERT INTO discountpolicies(title, from_date, to_date, phone_detail_id, money_supported, create_by) VALUE('Ho tro thu cu dien thoai Nokia 1280 32GB', '2023-07-07', '2024-07-07', '9', '100000', '2');
-INSERT INTO discountpolicies(title, from_date, to_date, phone_detail_id, money_supported, create_by) VALUE('Ho tro thu cu dien thoai Nokia 1280 32GB', '2023-07-07', '2024-07-07', '10', '100000', '2');
+INSERT INTO discountpolicies(title, from_date, to_date, phone_detail_id, money_supported, create_by) VALUE('Ho tro thu cu - len doi dien thoai Nokia', '2023-07-07', '2024-07-07', '1', '100000', '2');
+INSERT INTO discountpolicies(title, from_date, to_date, phone_detail_id, money_supported, create_by) VALUE('Ho tro thu cu - len doi dien thoai Nokia', '2023-07-07', '2024-07-07', '2', '100000', '2');
+INSERT INTO discountpolicies(title, from_date, to_date, phone_detail_id, money_supported, create_by) VALUE('Ho tro thu cu - len doi dien thoai Nokia', '2023-07-07', '2024-07-07', '3', '100000', '2');
+INSERT INTO discountpolicies(title, from_date, to_date, phone_detail_id, money_supported, create_by) VALUE('Ho tro thu cu - len doi dien thoai Nokia', '2023-07-07', '2024-07-07', '4', '100000', '2');
+INSERT INTO discountpolicies(title, from_date, to_date, phone_detail_id, money_supported, create_by) VALUE('Ho tro thu cu - len doi dien thoai Nokia', '2023-07-07', '2024-07-07', '5', '100000', '2');
+INSERT INTO discountpolicies(title, from_date, to_date, phone_detail_id, money_supported, create_by) VALUE('Ho tro thu cu - len doi dien thoai Nokia', '2023-07-07', '2024-07-07', '7', '100000', '2');
+INSERT INTO discountpolicies(title, from_date, to_date, phone_detail_id, money_supported, create_by) VALUE('Ho tro thu cu - len doi dien thoai Nokia', '2023-07-07', '2024-07-07', '8', '100000', '2');
+INSERT INTO discountpolicies(title, from_date, to_date, phone_detail_id, money_supported, create_by) VALUE('Ho tro thu cu - len doi dien thoai Nokia', '2023-07-07', '2024-07-07', '9', '100000', '2');
+INSERT INTO discountpolicies(title, from_date, to_date, phone_detail_id, money_supported, create_by) VALUE('Ho tro thu cu - len doi dien thoai Nokia', '2023-07-07', '2024-07-07', '10', '100000', '2');
 CREATE TABLE discountpolicydetails(
 policy_detail_id INT AUTO_INCREMENT PRIMARY KEY,
 policy_id INT NOT NULL,
@@ -415,5 +417,3 @@ INSERT INTO OrderDetails(order_id, phone_imei) VALUES ('A798EC16225E', 378541254
 INSERT INTO OrderDetails(order_id, phone_imei) VALUES ('D2BD913A83B4', 378541254259890);
 INSERT INTO OrderDetails(order_id, phone_imei) VALUES ('D2B3233A83B4', 378541254259891);
 INSERT INTO OrderDetails(order_id, phone_imei) VALUES ('P2B1222A83T2', 378541254259121);
-
-insert into orderdetails(order_id, phone_imei) value ("54E9BD575D47", @phoneimei);

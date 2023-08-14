@@ -8,6 +8,18 @@ using BL;
 using DAL;
 using UI;
 
+// List<DiscountPolicy> dcs = new DiscountPolicyBL().GetDiscountValidToOrder(new OrderBL().GetOrderById("399D3D8ED73E"));
+// foreach(var p in new OrderBL().GetOrderById("399D3D8ED73E").PhoneDetails){
+//     Console.WriteLine(p.PhoneDetailID);
+// }
+// foreach(var dc in dcs){
+//     Console.WriteLine(dc.Title+ dc.PolicyID);
+// }
+
+
+
+
+
 namespace PhoneStoreUI
 {
     class Program
