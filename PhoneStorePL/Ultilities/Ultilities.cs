@@ -103,7 +103,7 @@ namespace Ults
 
                             do
                             {
-                                ConsoleUlts.ListPhoneModelTradeInPagination(phonedetails, listPhase, 0, 2, this.orderStaff);
+                                consoleUI.PrintPhoneDetailsInfo(phonedetails);
                                 phoneModelID = ConsoleUlts.GetInputInt($"{secondspaces}Enter Phone Model ID");
                                 if (listPhoneDetailID.IndexOf(phoneModelID) == -1)
                                 {
@@ -549,6 +549,7 @@ namespace Ults
             int count = 0;
             int currentPhase = 1;
             string orderID = "";
+            List<Phone> ListPhoneInformation = new List<Phone>();
             bool activeTradeIn = true;
             List<int> choicePattern = new List<int>();
             List<Order> ListOrderPending = new OrderBL().GetOrdersPendingInday();
@@ -598,6 +599,15 @@ namespace Ults
                             Console.WriteLine(spaces+"|============================================================================================|");
                             Console.Write(spaces+ "Search Phone By Information: ");
                             input = Console.ReadLine()??"";
+                            ListPhoneInformation = phoneBL.GetPhonesByInformation(input);
+                            if(ListPhoneInformation.Count() == 0){
+                                Console.WriteLine(spaces+ $"Doesnt have any result like '{input}'");
+                                bool SearchAgainOrNot = ConsoleUlts.PressYesOrNo("Search again", "Skip TradeIn");
+                                if(SearchAgainOrNot == true)continue;
+                                else{
+                                    ConsoleUlts.Alert(ConsoleEnum.Alert.Warning, "Skip TradeIn");
+                                }
+                            }
                             bool listPhoneSearch = ConsoleUlts.ListPhonePaginationForTradeIn(phoneBL.GetPhonesByInformation(input), listPhase, 0, 2, this.orderStaff);
                             if (listPhoneSearch == false) break;
                             if (listPhoneSearch == true)
@@ -654,11 +664,25 @@ namespace Ults
                                         continue;
                                     }
                                     else{
+                                        List<DiscountPolicy> OrderDiscount = order.DiscountPolicies;
                                         foreach(var discount in new DiscountPolicyBL().GetDiscountTradeIn(ListPhoneOfCustomerWantTradeIn)){
-                                            order.DiscountPolicies.Add(discount);
+                                            int checkExist = 0;
+                                            foreach(var discountExistInOrder in OrderDiscount){
+                                                if(discountExistInOrder.Title == discount.Title)checkExist++;
+                                            }
+                                            if(checkExist == 0)OrderDiscount.Add(discount);
                                         }
                                         consoleUI.PrintTimeLine(listPhase, 0, 3);
-                                        consoleUI.PrintOrder(order);
+                                        if(OrderDiscount.Count() != 0){
+                                            order.DiscountPolicies = OrderDiscount;
+                                            consoleUI.PrintOrder(order);
+                                        }
+                                        else{
+                                            consoleUI.PrintOrder(order);
+                                            order.DiscountPolicies = new List<DiscountPolicy>();
+
+                                        }
+                                        
                                         bool TradeInOrSkip = ConsoleUlts.PressYesOrNo("TradeIn", "Skip TradeIn");
                                         if(TradeInOrSkip == true){
                                             orderBL.TradeIn(order);
@@ -799,7 +823,7 @@ namespace Ults
                             Console.Write(spaces+"Enter Money: ");
                             decimal moneyOfCustomerPaid;
                             input = Console.ReadLine()??"";
-                            while(!decimal.TryParse(input, out moneyOfCustomerPaid)){
+                            while(!(decimal.TryParse(input, out moneyOfCustomerPaid) && moneyOfCustomerPaid >=0)){
                                 Console.Write(spaces+"Invalid Input! Input again: ");
                                 input = Console.ReadLine()??"";
                             }
