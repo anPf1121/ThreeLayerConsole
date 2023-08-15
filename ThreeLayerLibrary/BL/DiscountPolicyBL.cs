@@ -63,7 +63,6 @@ public class DiscountPolicyBL{
         DiscountPolicy lst = new DiscountPolicy(0, "", new DateTime(), new DateTime(), new Staff(0, "", "", "", "", "", StaffEnum.Role.Accountant, StaffEnum.Status.Active), new DateTime(), 0, 0, 0, "", new PhoneDetail(0, new Phone(0, "", new Brand(0, "", ""), "", "", "", "", "", "", "", "", "",  new DateTime(), "",new Staff(0, "", "", "", "", "", StaffEnum.Role.Seller, StaffEnum.Status.Active), new DateTime(), ""), new ROMSize(0, ""), new PhoneColor(0, ""), 0, 0, PhoneEnum.Status.Type1, new List<Imei>(), new Staff(0, "", "", "", "", "", StaffEnum.Role.Accountant, StaffEnum.Status.Active), new DateTime()), new DateTime(), new Staff(0, "", "", "", "", "", StaffEnum.Role.Accountant, StaffEnum.Status.Active), 0, "");
         List<DiscountPolicy> discountPoliciesValidated = discountPolicyDAL.GetDiscountValidated();
         foreach(var dc in discountPoliciesValidated){
-            //GetDiscount for order totaldue
             if(dc.DiscountPrice != 0 && dc.PaymentMethod == "Not Have"){
                 if(order.TotalDue >= dc.MinimumPurchaseAmount && order.TotalDue <=dc.MaximumPurchaseAmount){
                     lst = dc;
@@ -72,6 +71,5 @@ public class DiscountPolicyBL{
             }
         }
         return lst;
-
-}
+    }
 }

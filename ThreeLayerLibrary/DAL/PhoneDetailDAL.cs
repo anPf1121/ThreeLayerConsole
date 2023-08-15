@@ -4,6 +4,11 @@ using BusinessEnum;
 
 namespace DAL
 {
+    public class PhoneDetailFilter {
+        public const int CHANGE_IMEI_STATUS_TO_INORDER = 1;
+        public const int CHANGE_IMEI_STATUS_TO_EXPORT = 2;
+        public const int CHANGE_IMEI_STATUS_TO_NOTEXPORT = 3;
+    }
     public class PhoneDetailsDAL
     {
         private string query = "";
@@ -16,6 +21,41 @@ namespace DAL
                 reader.GetString("website")
             );
             return brand;
+        }
+        public bool UpdateImeiStatus(string imei, int imeiFilter) {
+            try
+            {
+                if (connection.State == System.Data.ConnectionState.Closed)
+                {
+                    connection.Open();
+                }
+                switch (imeiFilter)
+                {
+                    case PhoneDetailFilter.CHANGE_IMEI_STATUS_TO_INORDER:
+                        query = $@"UPDATE imeis SET status = 2 WHERE phone_imei = '{imei}';";
+                    break;
+                    case PhoneDetailFilter.CHANGE_IMEI_STATUS_TO_EXPORT:
+                        query = $@"UPDATE imeis SET status = 1 WHERE phone_imei = '{imei}';";
+                    break;
+                    case PhoneDetailFilter.CHANGE_IMEI_STATUS_TO_NOTEXPORT:
+                        query = $@"UPDATE imeis SET status = 0 WHERE phone_imei = '{imei}';";
+                    break;
+                }
+                MySqlCommand command = new MySqlCommand(query, connection);
+                MySqlDataReader reader = command.ExecuteReader();
+                reader.Close();
+            }
+            catch (MySqlException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            } finally {
+                if (connection.State == System.Data.ConnectionState.Open)
+                {
+                    connection.Close();
+                }
+            }
+            return true;
         }
         public Brand GetBrandByID(int id)
         {

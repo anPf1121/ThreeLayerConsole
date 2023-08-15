@@ -18,7 +18,15 @@ public class PhoneBL
         List<Phone> tempList = phoneDAL.GetPhones(PhoneFilter.GET_ALL, null);
         return tempList;
     }
-
+    public bool AddPhoneImeiToOrder(string imei) {
+        return phoneDetailDAL.UpdateImeiStatus(imei, PhoneDetailFilter.CHANGE_IMEI_STATUS_TO_INORDER);
+    }
+    public bool ExportPhoneImei(string imei) {
+        return phoneDetailDAL.UpdateImeiStatus(imei, PhoneDetailFilter.CHANGE_IMEI_STATUS_TO_EXPORT);
+    }
+    public bool NotExportPhoneImei(string imei) {
+        return phoneDetailDAL.UpdateImeiStatus(imei, PhoneDetailFilter.CHANGE_IMEI_STATUS_TO_NOTEXPORT);
+    }
     public List<Phone> GetPhonesByInformation(string phoneInformation)
     {
         if (phoneInformation == "") return GetAllPhone();

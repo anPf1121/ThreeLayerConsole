@@ -65,7 +65,6 @@ namespace Ults
                         else if (searchChoice == 2) return;
 
                         if (listTemp.Count() == 0)
-                         if (listTemp.Count() == 0)
                         {
                             ConsoleUlts.Alert(ConsoleEnum.Alert.Error, "Phone not found");
                             activeSearchPhone = false;
@@ -211,27 +210,19 @@ namespace Ults
                                 Imei imei = new Imei("", BusinessEnum.PhoneEnum.ImeiStatus.NotExport);
                                 do
                                 {
-                                    isDuplicateImei = false;
                                     imei.PhoneImei = ConsoleUlts.GetInputString($"{secondspaces}Enter Imei {i + 1}");
-                                    foreach (PhoneDetail item in phonesInOrder)
+                                    if (!phoneBL.CheckImeiExist(imei, phoneModelID))
                                     {
-                                        isDuplicateImei = phoneBL.CheckImeiIsDuplicateInOrder(imei, item.ListImei);
-                                    }
-                                    if (!phoneBL.CheckImeiExist(imei, phoneModelID) || isDuplicateImei)
-                                    {
-                                        if (!phoneBL.CheckImeiExist(imei, phoneModelID))
-                                            ConsoleUlts.Alert(ConsoleEnum.Alert.Error, "Imei Not Found");
-                                        else if (isDuplicateImei)
-                                            ConsoleUlts.Alert(ConsoleEnum.Alert.Error, "You Just Entered This Imei Before, Please Re-enter It");
+                                        ConsoleUlts.Alert(ConsoleEnum.Alert.Error, "Imei Not Found");
                                         Console.Clear();
                                         consoleUI.PrintTimeLine(listPhase, count, currentPhase);
                                         ConsoleUlts.ListPhoneModelTradeInPagination(phonedetails, listPhase, 0, 2, this.orderStaff);
-                                        Console.WriteLine("Phone Model ID: " + phoneModelID);
-                                        Console.WriteLine("Quantity: " + quantity);
+                                        Console.WriteLine(secondspaces + "Phone Model ID: " + phoneModelID);
+                                        Console.WriteLine(secondspaces + "Quantity: " + quantity);
                                         idImei = 1;
                                         foreach (var item in imeis)
                                         {
-                                            Console.WriteLine("Imei " + (idImei) + ": " + item.PhoneImei);
+                                            Console.WriteLine(secondspaces + "Imei " + (idImei) + ": " + item.PhoneImei);
                                             idImei++;
                                         }
                                     }
@@ -240,7 +231,11 @@ namespace Ults
                                         ConsoleUlts.Alert(ConsoleEnum.Alert.Success, "Imei Successfully Added");
                                         imeis.Add(imei);
                                     }
-                                } while (!phoneBL.CheckImeiExist(imei, phoneModelID) || isDuplicateImei);
+                                } while (!phoneBL.CheckImeiExist(imei, phoneModelID));
+                                foreach (var ims in imeis)
+                                {
+                                    phoneBL.AddPhoneImeiToOrder(ims.PhoneImei);
+                                }
                             }
                             if (!ConsoleUlts.PressYesOrNo("Continue", "Back Previous Phase"))
                             {
@@ -402,11 +397,25 @@ namespace Ults
                         {
                             if (orderBL.UpdateOrder(OrderEnum.Status.Canceled, order) == true)
                             {
+                                foreach (var phoneDetail in order.PhoneDetails)
+                                {
+                                    foreach (var imei in phoneDetail.ListImei)
+                                    {
+                                        phoneBL.ExportPhoneImei(imei.PhoneImei);
+                                    }
+                                }
                                 return 0;
                             }
                         }
                         else
                         {
+                             foreach (var phoneDetail in order.PhoneDetails)
+                                {
+                                    foreach (var imei in phoneDetail.ListImei)
+                                    {
+                                        phoneBL.NotExportPhoneImei(imei.PhoneImei);
+                                    }
+                                }
                             // đổi trạng thái Order thành completed
                             if (orderBL.UpdateOrder(OrderEnum.Status.Completed, order) == true)
                             {
@@ -683,7 +692,7 @@ namespace Ults
                                             order.DiscountPolicies = OrderDiscount;
                                             consoleUI.PrintOrder(order);
                                         }
-                                        else{
+                                        else {
                                             consoleUI.PrintOrder(order);
                                             order.DiscountPolicies = new List<DiscountPolicy>();
 
@@ -795,7 +804,6 @@ namespace Ults
                                 int k = ("|============================================================================================|").Length - (spaces + payment.Key + ". " + payment.Value).Length;
                                 for (int i = 0; i < k - 2; i++) Console.Write(" ");
                                 Console.WriteLine("|");
-
                             }
                             Console.WriteLine(spaces + "|============================================================================================|");
                             do
@@ -814,7 +822,6 @@ namespace Ults
                                 if (payment.Key == inputPaymentMethodChoice) orderWantToPayment.PaymentMethod = payment.Value;
                             }
                           
-                            // Nhap Tien Va Valid Tien
                             decimal totalDue = orderWantToPayment.GetTotalDue();
                             int checkHaveDiiscountTradeIn = 0;
                             foreach(var discountinorder in orderWantToPayment.DiscountPolicies){
