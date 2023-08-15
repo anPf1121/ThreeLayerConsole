@@ -187,7 +187,7 @@ namespace DAL
                 {
                     connection.Open();
                 }
-                query = @"SELECT * FROM phonedetails where phone_id = @phoneid;";
+                query = @"SELECT * FROM phonedetails where phone_id = @phoneid and phone_detail_id >0;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.Clear();
                 command.Parameters.AddWithValue("@phoneID", phoneID);

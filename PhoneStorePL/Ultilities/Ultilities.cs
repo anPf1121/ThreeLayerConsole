@@ -64,7 +64,13 @@ namespace Ults
 
                         else if (searchChoice == 2) return;
 
-                        if (listTemp.Count() == 0) activeSearchPhone = false;
+                        if (listTemp.Count() == 0)
+                         if (listTemp.Count() == 0)
+                        {
+                            ConsoleUlts.Alert(ConsoleEnum.Alert.Error, "Phone not found");
+                            activeSearchPhone = false;
+                            break;
+                        }
                         else
                         {
                             listPhoneSearch = ConsoleUlts.ListPhonePagination(listTemp, listPhase, count, currentPhase, loginManager.LoggedInStaff);
@@ -810,12 +816,17 @@ namespace Ults
                           
                             // Nhap Tien Va Valid Tien
                             decimal totalDue = orderWantToPayment.GetTotalDue();
-                            
-                            foreach(var discount in new DiscountPolicyBL().GetDiscountValidToOrder(orderWantToPayment)){
+                            int checkdiscount = 0;
+                            foreach(var discountinorder in orderWantToPayment.DiscountPolicies){
+                                if(discountinorder.MoneySupported != 0)checkdiscount++;
+                            }
+                            foreach(var discount in new DiscountPolicyBL().GetDiscountForPaymentmethod(orderWantToPayment)){
                                 orderWantToPayment.DiscountPolicies.Add(discount);
                                 if(discount.DiscountPrice !=0)totalDue -=discount.DiscountPrice;
                             }
-
+                            if(checkdiscount !=0){
+                                
+                            }
                             bool activeEnterMoney = false;
                             do{
                                 consoleUI.PrintTimeLine(listPhase, 0, 3);

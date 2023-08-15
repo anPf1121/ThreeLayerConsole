@@ -6,10 +6,8 @@ using Model;
 namespace BL;
 public class DiscountPolicyBL{
     private DiscountPolicyDAL discountPolicyDAL = new DiscountPolicyDAL();
-    public List<DiscountPolicy> GetDiscountValidToOrder(Order order){
+    public List<DiscountPolicy> GetDiscountForPaymentmethod(Order order){
         PhoneBL phoneBL = new PhoneBL();
-        int check = 0;
-        if(order.DiscountPolicies.Count()!=0)check++;
         List<DiscountPolicy> lst = new List<DiscountPolicy>();
         List<DiscountPolicy> discountPoliciesValidated = discountPolicyDAL.GetDiscountValidated();
         foreach(var dc in discountPoliciesValidated){
@@ -18,12 +16,6 @@ public class DiscountPolicyBL{
                 if(order.PaymentMethod == "VNPay"|| order.PaymentMethod == "Banking"|| order.PaymentMethod == "Cash"){
                     if(order.TotalDue >= dc.MinimumPurchaseAmount && order.TotalDue <=dc.MaximumPurchaseAmount)lst.Add(dc);
                 }
-            }
-            //GetDiscount for order total due
-            if(check == 0){
-            if(dc.MinimumPurchaseAmount >0 && dc.PaymentMethod == "Not Have"){
-                if(order.TotalDue >= dc.MinimumPurchaseAmount && order.TotalDue <=dc.MaximumPurchaseAmount)lst.Add(dc);
-            }
             }
 
         }
@@ -66,5 +58,17 @@ public class DiscountPolicyBL{
         return output;
         
     }
+    public List<DiscountPolicy> GetDiscountForOrder(Order order){
+        PhoneBL phoneBL = new PhoneBL();
+        List<DiscountPolicy> lst = new List<DiscountPolicy>();
+        List<DiscountPolicy> discountPoliciesValidated = discountPolicyDAL.GetDiscountValidated();
+        foreach(var dc in discountPoliciesValidated){
+            //GetDiscount for order totaldue
+            if(dc.DiscountPrice != 0){
+                if(order.TotalDue >= dc.MinimumPurchaseAmount && order.TotalDue <=dc.MaximumPurchaseAmount)lst.Add(dc);
+            }
+        }
+        return lst;
 
+}
 }
