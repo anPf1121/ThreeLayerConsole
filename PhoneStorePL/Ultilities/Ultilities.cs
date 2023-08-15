@@ -816,16 +816,16 @@ namespace Ults
                           
                             // Nhap Tien Va Valid Tien
                             decimal totalDue = orderWantToPayment.GetTotalDue();
-                            int checkdiscount = 0;
+                            int checkHaveDiiscountTradeIn = 0;
                             foreach(var discountinorder in orderWantToPayment.DiscountPolicies){
-                                if(discountinorder.MoneySupported != 0)checkdiscount++;
+                                if(discountinorder.MoneySupported != 0)checkHaveDiiscountTradeIn++;
                             }
                             foreach(var discount in new DiscountPolicyBL().GetDiscountForPaymentmethod(orderWantToPayment)){
                                 orderWantToPayment.DiscountPolicies.Add(discount);
                                 if(discount.DiscountPrice !=0)totalDue -=discount.DiscountPrice;
                             }
-                            if(checkdiscount !=0){
-                                
+                            if(checkHaveDiiscountTradeIn ==0){
+                                orderWantToPayment.DiscountPolicies.Add(new DiscountPolicyBL().GetDiscountForOrder(orderWantToPayment));
                             }
                             bool activeEnterMoney = false;
                             do{
@@ -859,9 +859,7 @@ namespace Ults
                                         // orderBL.CancelPayment(orderWantToPayment);
                                         ConsoleUlts.Alert(ConsoleEnum.Alert.Warning, "Cancel Payment");
                                         activeChoosePaymentMethod = true;
-
                                         activePayment = true;
-                                        
                                         break;
                                     }
                                     else{

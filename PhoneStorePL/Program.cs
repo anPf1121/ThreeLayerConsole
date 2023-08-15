@@ -11,9 +11,6 @@ using UI;
 
 
 
-
-
-
 namespace PhoneStoreUI
 {
     class Program
