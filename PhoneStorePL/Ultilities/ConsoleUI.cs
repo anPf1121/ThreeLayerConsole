@@ -92,7 +92,7 @@ class ConsoleUI
         {
             PrintPhoneModelInfo(pd);
         }
-        Console.WriteLine(spaces+"    |============================================================================================|");
+        Console.WriteLine(spaces + "    |============================================================================================|");
     }
     public void FullWidthTinyLine()
     {
@@ -144,10 +144,10 @@ class ConsoleUI
         Console.WriteLine(spaces + "    |============================================================================================|");
         Console.WriteLine(spaces + "    | Phone Name: {0, -50} |", phoneDetail.Phone.PhoneName.PadRight(78));
         Console.WriteLine(spaces + "    | Brand: {0, -50} |", phoneDetail.Phone.Brand.BrandName.PadRight(83));
-        Console.WriteLine(spaces + "    | Camera: {0, -50} |", phoneDetail.Phone.Camera.PadRight(82));
-        Console.WriteLine(spaces + "    | RAM: {0, -50} |", phoneDetail.Phone.RAM.PadRight(85));
+        Console.WriteLine(spaces + "    | Camera: {0, -50} |", phoneDetail.Phone.Camera!.PadRight(82));
+        Console.WriteLine(spaces + "    | RAM: {0, -50} |", phoneDetail.Phone.RAM!.PadRight(85));
         Console.WriteLine(spaces + "    | Weight: {0, -50} |", phoneDetail.Phone.Weight.PadRight(82));
-        Console.WriteLine(spaces + "    | Processor: {0, -50} |", phoneDetail.Phone.Processor.PadRight(79));
+        Console.WriteLine(spaces + "    | Processor: {0, -50} |", phoneDetail.Phone.Processor!.PadRight(79));
         Console.WriteLine(spaces + "    | Battery: {0, -50} |", phoneDetail.Phone.BatteryCapacity.PadRight(81));
         Console.WriteLine(spaces + "    | OS: {0, -50} |", phoneDetail.Phone.OS.PadRight(86));
         Console.WriteLine(spaces + "    | Sim Slot: {0, -50} |", phoneDetail.Phone.SimSlot.PadRight(80));
@@ -166,10 +166,10 @@ class ConsoleUI
         Console.WriteLine(spaces + "    |============================================================================================|");
         Console.WriteLine(spaces + "    | Phone Name: {0, -50} |", phoneDetail.Phone.PhoneName.PadRight(78));
         Console.WriteLine(spaces + "    | Brand: {0, -50} |", phoneDetail.Phone.Brand.BrandName.PadRight(83));
-        Console.WriteLine(spaces + "    | Camera: {0, -50} |", phoneDetail.Phone.Camera.PadRight(82));
-        Console.WriteLine(spaces + "    | RAM: {0, -50} |", phoneDetail.Phone.RAM.PadRight(85));
+        Console.WriteLine(spaces + "    | Camera: {0, -50} |", phoneDetail.Phone.Camera!.PadRight(82));
+        Console.WriteLine(spaces + "    | RAM: {0, -50} |", phoneDetail.Phone.RAM!.PadRight(85));
         Console.WriteLine(spaces + "    | Weight: {0, -50} |", phoneDetail.Phone.Weight.PadRight(82));
-        Console.WriteLine(spaces + "    | Processor: {0, -50} |", phoneDetail.Phone.Processor.PadRight(79));
+        Console.WriteLine(spaces + "    | Processor: {0, -50} |", phoneDetail.Phone.Processor!.PadRight(79));
         Console.WriteLine(spaces + "    | Battery: {0, -50} |", phoneDetail.Phone.BatteryCapacity.PadRight(81));
         Console.WriteLine(spaces + "    | OS: {0, -50} |", phoneDetail.Phone.OS.PadRight(86));
         Console.WriteLine(spaces + "    | Sim Slot: {0, -50} |", phoneDetail.Phone.SimSlot.PadRight(80));
@@ -181,7 +181,7 @@ class ConsoleUI
         Console.WriteLine(spaces + "    | Phone Status Type: {0, -50} |", phoneDetail.PhoneStatusType.ToString().PadRight(71));
         Console.WriteLine(spaces + "    | Color: {0, -50} |", phoneDetail.PhoneColor.Color.PadRight(83));
         Console.WriteLine(spaces + "    | ROMSize: {0, -50} |", phoneDetail.ROMSize.ROM.PadRight(81));
-                Console.WriteLine(spaces + "    |============================================================================================|");
+        Console.WriteLine(spaces + "    |============================================================================================|");
 
     }
     public void PrintTimeLine(string[] phase, int itemCount, int currentPhase)
@@ -264,7 +264,7 @@ class ConsoleUI
         Console.WriteLine(spaces + "| Phone Number: 0999999999                                                                                                  |");
         Console.WriteLine(spaces + "|===========================================================================================================================|");
         Console.WriteLine(spaces + "| Order Create Time: {0, -30}|", DateTime.Now.ToString().PadRight(103));
-        if (ord.Customer.CustomerID != null && ord.Customer.CustomerName != null && ord.Customer.PhoneNumber != null)
+        if (ord.Customer.CustomerName != null && ord.Customer.PhoneNumber != null)
         {
             Console.WriteLine(spaces + "| Customer: {0, -30}|", ord.Customer.CustomerName.PadRight(112));
             Console.WriteLine(spaces + "| Address: {0, -50}|", ord.Customer.Address.PadRight(113));
@@ -279,8 +279,8 @@ class ConsoleUI
             Console.WriteLine(spaces + "| {0, 46}                                                                            |", SetTextBolder("All DiscountPolicy Be Apply For This Order Is "));
             foreach (var dp in ord.DiscountPolicies)
             {
-                if(dp.DiscountPrice != 0)Console.WriteLine(spaces + "| - {0, -100}         |", (dp.Title + ": " + SetTextBolder(FormatPrice(dp.DiscountPrice).ToString().PadRight(57))).PadRight(119));
-                if(dp.MoneySupported != 0)Console.WriteLine(spaces + "| - {0, -100}         |", (dp.Title + ": " + SetTextBolder(FormatPrice(dp.MoneySupported).ToString().PadRight(57))).PadRight(119));
+                if (dp.DiscountPrice != 0) Console.WriteLine(spaces + "| - {0, -100}         |", (dp.Title + ": " + SetTextBolder(FormatPrice(dp.DiscountPrice).ToString().PadRight(57))).PadRight(119));
+                if (dp.MoneySupported != 0) Console.WriteLine(spaces + "| - {0, -100}         |", (dp.Title + ": " + SetTextBolder(FormatPrice(dp.MoneySupported).ToString().PadRight(57))).PadRight(119));
                 if (ord.OrderStatus == OrderEnum.Status.Pending) ord.TotalDue -= dp.DiscountPrice;
             }
         }
@@ -658,8 +658,9 @@ class ConsoleUI
     {
         return new string[] { "Choose an Order", "Choose Paymentmethod", "Enter Money", "Confirm or Cancel or Skip Payment" };
     }
-    public string[] GetTradeInTimeLine(){
-        return new string[] { "Choose an Order", "Check and Add Customer's Phone", "Confirm or Cancel TradeIn"};
+    public string[] GetTradeInTimeLine()
+    {
+        return new string[] { "Choose an Order", "Check and Add Customer's Phone", "Confirm or Cancel TradeIn" };
     }
     public string GetCustomerInfoANSIText()
     {

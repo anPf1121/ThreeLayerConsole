@@ -1,0 +1,8 @@
+C:\Học\PhoneStore\ThreeLayerConsole\PhoneStorePL\bin\Release\net7.0\publish\PhoneStorePL.exe
+C:\Học\PhoneStore\ThreeLayerConsole\PhoneStorePL\bin\Release\net7.0\publish\PhoneStorePL.dll
+C:\Học\PhoneStore\ThreeLayerConsole\PhoneStorePL\bin\Release\net7.0\publish\PhoneStorePL.deps.json
+C:\Học\PhoneStore\ThreeLayerConsole\PhoneStorePL\bin\Release\net7.0\publish\PhoneStorePL.runtimeconfig.json
+C:\Học\PhoneStore\ThreeLayerConsole\PhoneStorePL\bin\Release\net7.0\publish\PhoneStorePL.pdb
+C:\Học\PhoneStore\ThreeLayerConsole\PhoneStorePL\bin\Release\net7.0\publish\MySqlConnector.dll
+C:\Học\PhoneStore\ThreeLayerConsole\PhoneStorePL\bin\Release\net7.0\publish\ThreeLayerLibrary.dll
+C:\Học\PhoneStore\ThreeLayerConsole\PhoneStorePL\bin\Release\net7.0\publish\ThreeLayerLibrary.pdb

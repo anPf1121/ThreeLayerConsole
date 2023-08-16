@@ -10,3 +10,15 @@ C:\Users\Acer\OneDrive\Desktop\ThreeLayerConsole\ThreeLayerLibrary\obj\Release\n
 C:\Users\Acer\OneDrive\Desktop\ThreeLayerConsole\ThreeLayerLibrary\obj\Release\net7.0\refint\ThreeLayerLibrary.dll
 C:\Users\Acer\OneDrive\Desktop\ThreeLayerConsole\ThreeLayerLibrary\obj\Release\net7.0\ThreeLayerLibrary.pdb
 C:\Users\Acer\OneDrive\Desktop\ThreeLayerConsole\ThreeLayerLibrary\obj\Release\net7.0\ref\ThreeLayerLibrary.dll
+C:\Học\PhoneStore\ThreeLayerConsole\ThreeLayerLibrary\bin\Release\net7.0\ThreeLayerLibrary.deps.json
+C:\Học\PhoneStore\ThreeLayerConsole\ThreeLayerLibrary\bin\Release\net7.0\ThreeLayerLibrary.dll
+C:\Học\PhoneStore\ThreeLayerConsole\ThreeLayerLibrary\bin\Release\net7.0\ThreeLayerLibrary.pdb
+C:\Học\PhoneStore\ThreeLayerConsole\ThreeLayerLibrary\obj\Release\net7.0\ThreeLayerLibrary.csproj.AssemblyReference.cache
+C:\Học\PhoneStore\ThreeLayerConsole\ThreeLayerLibrary\obj\Release\net7.0\ThreeLayerLibrary.GeneratedMSBuildEditorConfig.editorconfig
+C:\Học\PhoneStore\ThreeLayerConsole\ThreeLayerLibrary\obj\Release\net7.0\ThreeLayerLibrary.AssemblyInfoInputs.cache
+C:\Học\PhoneStore\ThreeLayerConsole\ThreeLayerLibrary\obj\Release\net7.0\ThreeLayerLibrary.AssemblyInfo.cs
+C:\Học\PhoneStore\ThreeLayerConsole\ThreeLayerLibrary\obj\Release\net7.0\ThreeLayerLibrary.csproj.CoreCompileInputs.cache
+C:\Học\PhoneStore\ThreeLayerConsole\ThreeLayerLibrary\obj\Release\net7.0\ThreeLayerLibrary.dll
+C:\Học\PhoneStore\ThreeLayerConsole\ThreeLayerLibrary\obj\Release\net7.0\refint\ThreeLayerLibrary.dll
+C:\Học\PhoneStore\ThreeLayerConsole\ThreeLayerLibrary\obj\Release\net7.0\ThreeLayerLibrary.pdb
+C:\Học\PhoneStore\ThreeLayerConsole\ThreeLayerLibrary\obj\Release\net7.0\ref\ThreeLayerLibrary.dll

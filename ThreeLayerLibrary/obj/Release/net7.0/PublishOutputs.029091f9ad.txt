@@ -1,0 +1,4 @@
+C:\Học\PhoneStore\ThreeLayerConsole\ThreeLayerLibrary\bin\Release\net7.0\publish\ThreeLayerLibrary.dll
+C:\Học\PhoneStore\ThreeLayerConsole\ThreeLayerLibrary\bin\Release\net7.0\publish\ThreeLayerLibrary.deps.json
+C:\Học\PhoneStore\ThreeLayerConsole\ThreeLayerLibrary\bin\Release\net7.0\publish\ThreeLayerLibrary.pdb
+C:\Học\PhoneStore\ThreeLayerConsole\ThreeLayerLibrary\bin\Release\net7.0\publish\MySqlConnector.dll

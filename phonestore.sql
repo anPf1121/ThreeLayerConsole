@@ -1,3 +1,4 @@
+drop database if exists phonestore;
 create database phonestore;
 use phonestore;
 
@@ -417,3 +418,8 @@ INSERT INTO OrderDetails(order_id, phone_imei) VALUES ('A798EC16225E', 378541254
 INSERT INTO OrderDetails(order_id, phone_imei) VALUES ('D2BD913A83B4', 378541254259890);
 INSERT INTO OrderDetails(order_id, phone_imei) VALUES ('D2B3233A83B4', 378541254259891);
 INSERT INTO OrderDetails(order_id, phone_imei) VALUES ('P2B1222A83T2', 378541254259121);
+
+
+-- CREATE AN SUB ACCOUNT TO DATABASE 
+CREATE USER IF NOT exists 'something'@'localhost' IDENTIFIED BY '123456';
+GRANT ALL PRIVILEGES ON phonestore.* TO 'something'@'localhost' WITH GRANT OPTION;

@@ -8,3 +8,8 @@ C:\Users\anngu\Desktop\ThreeLayerConsole\obj\Debug\net7.0\ThreeLayerConsole.Gene
 C:\Users\anngu\Desktop\ThreeLayerConsole\obj\Debug\net7.0\ThreeLayerConsole.AssemblyInfoInputs.cache
 C:\Users\anngu\Desktop\ThreeLayerConsole\obj\Debug\net7.0\ThreeLayerConsole.AssemblyInfo.cs
 C:\Users\anngu\Desktop\ThreeLayerConsole\obj\Debug\net7.0\ThreeLayerConsole.csproj.CoreCompileInputs.cache
+C:\Học\PhoneStore\ThreeLayerConsole\obj\Debug\net7.0\ThreeLayerConsole.csproj.AssemblyReference.cache
+C:\Học\PhoneStore\ThreeLayerConsole\obj\Debug\net7.0\ThreeLayerConsole.GeneratedMSBuildEditorConfig.editorconfig
+C:\Học\PhoneStore\ThreeLayerConsole\obj\Debug\net7.0\ThreeLayerConsole.AssemblyInfoInputs.cache
+C:\Học\PhoneStore\ThreeLayerConsole\obj\Debug\net7.0\ThreeLayerConsole.AssemblyInfo.cs
+C:\Học\PhoneStore\ThreeLayerConsole\obj\Debug\net7.0\ThreeLayerConsole.csproj.CoreCompileInputs.cache

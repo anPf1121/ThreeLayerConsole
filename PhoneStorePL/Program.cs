@@ -22,9 +22,7 @@ namespace PhoneStoreUI
             Ultilities Ults = new Ultilities(staffBL);
             ConsoleUlts consoleUlts = new ConsoleUlts();
             ConsoleUI consoleUI = new ConsoleUI();
-            StaffEnum.Role? loginAccount = null;
             bool active = true;
-            int mainChoice = 0, SellerAccount = 0, AccountantAccount = 0;
             do
             {
                 Console.Clear();
@@ -36,7 +34,6 @@ namespace PhoneStoreUI
                     consoleUlts.Alert(GUIEnum.ConsoleEnum.Alert.Success, "Login Successfully!");
                     if (staffBL.LoggedInStaff.Role == StaffEnum.Role.Seller)
                     {
-                        int result = 0;
                         bool activeSellerMenu = true;
                         string[] menuItem = { "Create Order", "Handle Order", "Log Out" };
                         int HandleResult = 0;
@@ -58,7 +55,6 @@ namespace PhoneStoreUI
                                     break;
                                 case 3:
                                     activeSellerMenu = false;
-                                    result = 1;
                                     staffBL.Logout();
                                     break;
                                 default:
@@ -68,9 +64,8 @@ namespace PhoneStoreUI
                     }
                     else if (staffBL.LoggedInStaff.Role == StaffEnum.Role.Accountant)
                     {
-                        int result = 0;
                         bool activeAccountantMenu = true;
-                        string[] menuItem = { "Payment", "Revenue Report","TradeIn", "Log Out" };
+                        string[] menuItem = { "Payment", "TradeIn", "Log Out" };
                         while (activeAccountantMenu)
                         {
                             switch (consoleUlts.MenuHandle(consoleUI.GetAppANSIText(), null, menuItem, staffBL.LoggedInStaff))
@@ -79,17 +74,12 @@ namespace PhoneStoreUI
                                     Ults.Payment();
                                     break;
                                 case 2:
-                                    Ults.CreateReport();
-                                    break;
-                                case 3:
                                     Ults.TradeIn();
                                     break;
-                                case 4:
+                                case 3:
                                     activeAccountantMenu = false;
-                                    result = 1;
                                     staffBL.Logout();
                                     break;
-                                
                                 default:
                                     break;
                             }

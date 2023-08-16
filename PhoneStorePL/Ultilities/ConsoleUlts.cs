@@ -15,8 +15,8 @@ namespace Ults
     {
         ConsoleUI consoleUI = new ConsoleUI();
         int currentPageDetails = 1;
-        public Dictionary<int, List<Phone>> listAllPhones = null;
-        public Dictionary<int, List<PhoneDetail>> listAllPhonesModel = null;
+        public Dictionary<int, List<Phone>> listAllPhones = new Dictionary<int, List<Phone>>();
+        public Dictionary<int, List<PhoneDetail>> listAllPhonesModel = new Dictionary<int, List<PhoneDetail>>();
         public bool PressYesOrNo(string yesAction, string noAction)
         {
             string str = $"Press 'Y' To {yesAction} Or 'N' To {noAction}";
@@ -25,7 +25,6 @@ namespace Ults
 
             ConsoleKeyInfo input = new ConsoleKeyInfo();
             bool active = true;
-            char ch = 'c';
             Console.Write(spaces + str);
             do
             {
@@ -53,7 +52,6 @@ namespace Ults
             string secondSpaces = secondCenteredPosition > 0 ? new string(' ', secondCenteredPosition) : "";
             ConsoleKeyInfo input = new ConsoleKeyInfo();
             bool active = true;
-            char ch = 'c';
             if (thirdAction != null)
                 Console.Write(firstSpaces + firstStr);
             else

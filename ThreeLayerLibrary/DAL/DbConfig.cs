@@ -9,13 +9,13 @@ namespace DAL
         private DbConfig() { }
         public static MySqlConnection GetDefaultConnection()
         {
-            return GetConnection("server=localhost;user id=root;password=123456;port=3306;database=phonestore;IgnoreCommandTransaction=true;");
+            return GetConnection("server=localhost;user id=something;password=123456;port=3306;database=phonestore;IgnoreCommandTransaction=true;");
         }
         public static bool CreateDefaultDb()
         {
             string sqlFilePath = "../../phonestore.sql";
             string mysqlPath = @"mysql "; // Path to mysql.exe
-            string username = "root";
+            string username = "something";
             string hostname = "localhost";
             string password = "123456";
 
@@ -40,7 +40,7 @@ namespace DAL
                 process.BeginOutputReadLine();
                 process.BeginErrorReadLine();
 
-                bool exited = process.WaitForExit(5000); 
+                bool exited = process.WaitForExit(5000);
 
                 if (exited)
                 {
@@ -81,7 +81,7 @@ namespace DAL
                 using (System.IO.FileStream fileStream = System.IO.File.OpenRead("DbConfig.txt"))
                 using (System.IO.StreamReader reader = new System.IO.StreamReader(fileStream))
                 {
-                    conString = reader.ReadLine() ?? "server=localhost;user id=root;password=123456;port=3306;database=phonestore;IgnoreCommandTransaction=true;";
+                    conString = reader.ReadLine() ?? "server=localhost;user id=something;password=123456;port=3306;database=phonestore;IgnoreCommandTransaction=true;";
                 }
 
                 if (!conString.Contains("IgnoreCommandTransaction=true"))

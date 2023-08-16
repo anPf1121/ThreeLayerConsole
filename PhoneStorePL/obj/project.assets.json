@@ -70,19 +70,19 @@
     ]
   },
   "packageFolders": {
-    "/Users/macos/.nuget/packages/": {}
+    "C:\\Users\\Acer\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/macos/Documents/ThreeLayerConsole/ThreeLayerConsole/PhoneStorePL/PhoneStorePL.csproj",
+      "projectUniqueName": "C:\\Học\\PhoneStore\\ThreeLayerConsole\\PhoneStorePL\\PhoneStorePL.csproj",
       "projectName": "PhoneStorePL",
-      "projectPath": "/Users/macos/Documents/ThreeLayerConsole/ThreeLayerConsole/PhoneStorePL/PhoneStorePL.csproj",
-      "packagesPath": "/Users/macos/.nuget/packages/",
-      "outputPath": "/Users/macos/Documents/ThreeLayerConsole/ThreeLayerConsole/PhoneStorePL/obj/",
+      "projectPath": "C:\\Học\\PhoneStore\\ThreeLayerConsole\\PhoneStorePL\\PhoneStorePL.csproj",
+      "packagesPath": "C:\\Users\\Acer\\.nuget\\packages\\",
+      "outputPath": "C:\\Học\\PhoneStore\\ThreeLayerConsole\\PhoneStorePL\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/macos/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\Acer\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net7.0"
@@ -94,8 +94,8 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "/Users/macos/Documents/ThreeLayerConsole/ThreeLayerConsole/ThreeLayerLibrary/ThreeLayerLibrary.csproj": {
-              "projectPath": "/Users/macos/Documents/ThreeLayerConsole/ThreeLayerConsole/ThreeLayerLibrary/ThreeLayerLibrary.csproj"
+            "C:\\Học\\PhoneStore\\ThreeLayerConsole\\ThreeLayerLibrary\\ThreeLayerLibrary.csproj": {
+              "projectPath": "C:\\Học\\PhoneStore\\ThreeLayerConsole\\ThreeLayerLibrary\\ThreeLayerLibrary.csproj"
             }
           }
         }
@@ -125,7 +125,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.202/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.200\\RuntimeIdentifierGraph.json"
       }
     }
   }

@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "VdKWcOUJJiQwXSBKMDOr/je/UCLnJLk6Y82S2CdunY7a9IggD9pUIM2IzqPzyrvcyxDNulIvvkOyyo+jZfpaZg==",
+  "dgSpecHash": "w/BshaR13mdqsLDRQapDIrmTDogofHyfZjqoXdAbp1hoFVp8nN+xumYGcsoNdyX73cY2BU3pAE4yv5/3ndHaag==",
   "success": true,
-  "projectFilePath": "/Users/macos/Documents/ThreeLayerConsole/ThreeLayerConsole/ThreeLayerLibrary/ThreeLayerLibrary.csproj",
+  "projectFilePath": "C:\\Học\\PhoneStore\\ThreeLayerConsole\\ThreeLayerLibrary\\ThreeLayerLibrary.csproj",
   "expectedPackageFiles": [
-    "/Users/macos/.nuget/packages/mysqlconnector/2.2.6/mysqlconnector.2.2.6.nupkg.sha512"
+    "C:\\Users\\Acer\\.nuget\\packages\\mysqlconnector\\2.2.6\\mysqlconnector.2.2.6.nupkg.sha512"
   ],
   "logs": []
 }
