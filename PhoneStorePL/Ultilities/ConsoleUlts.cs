@@ -637,12 +637,12 @@ namespace Ults
             } while (!isValidInput);
             return intValue;
         }
-        public int InputIDValidation(int maximumValue, string requestToEnter, string errorMessage)
+        public int InputIDValidation(int maximumValue, string requestToEnter, string errorMessage, string spaceToCenter)
         {
             int intValue = 0;
             do
             {
-                intValue = GetInputInt(requestToEnter);
+                intValue = GetInputInt(spaceToCenter + requestToEnter);
                 if (intValue <= 0 || intValue > maximumValue)
                 {
                     Alert(ConsoleEnum.Alert.Error, errorMessage);

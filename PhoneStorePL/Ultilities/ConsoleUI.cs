@@ -207,49 +207,6 @@ class ConsoleUI
         FullWidthTinyLine();
         itemCount = 0;
     }
-    // public void PrintOrderInfor(Order ord)
-    // {
-    //     int centeredPosition = (Console.WindowWidth - "|===========================================================================================================================|".Length) / 2;
-    //     string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
-    //     Console.WriteLine("\n" + spaces + "|===========================================================================================================================|");
-    //     Console.WriteLine(spaces + "|------------------------------------------------------- \x1b[1mVTC Mobile\x1b[0m --------------------------------------------------------|");
-    //     Console.WriteLine(spaces + "|===========================================================================================================================|");
-    //     Console.WriteLine(spaces + "|                                                   Order ID: " + ord.OrderID + "                                                  |");
-    //     Console.WriteLine(spaces + "|===========================================================================================================================|");
-    //     Console.WriteLine(spaces + "| Website: https://vtc.edu.vn/                                                                                              |");
-    //     Console.WriteLine(spaces + "| Address: 18 Tam Trinh, Quận Hai Bà Trưng, Thành Phố Hà Nội                                                                |");
-    //     Console.WriteLine(spaces + "| Phone Number: 0999999999                                                                                                  |");
-    //     Console.WriteLine(spaces + "|===========================================================================================================================|");
-    //     Console.WriteLine(spaces + "| Order Create Time: {0, -30}|", DateTime.Now.ToString().PadRight(103));
-    //     Console.WriteLine(spaces + "| Customer: {0, -30}|", ord.Customer.CustomerName.PadRight(112));
-    //     Console.WriteLine(spaces + "| Address: {0, -50}|", ord.Customer.Address.PadRight(113));
-    //     Console.WriteLine(spaces + "| Phone Number: {0, -12}|", ord.Customer.PhoneNumber.PadRight(108));
-    //     Console.Write((ord.Accountant.StaffID != 0) ? (spaces + "| Payment Method: {0, 35} |" + "\n") : "", ord.PaymentMethod.PadRight(105));
-    //     Console.WriteLine(spaces + "|===========================================================================================================================|");
-    //     PrintOrderDetails(ord);
-    //     Console.WriteLine(spaces + "|===========================================================================================================================|");
-    //     if (ord.DiscountPolicies.Count() != 0)
-    //     {
-    //         Console.WriteLine(spaces + "| {0, 46}                                                                            |", SetTextBolder("All DiscountPolicy Be Apply For This Order Is "));
-    //         foreach (var dp in ord.DiscountPolicies)
-    //         {
-    //             Console.WriteLine(spaces + "| - {0, -100}         |", (dp.Title + ": " + SetTextBolder(FormatPrice(dp.DiscountPrice).ToString().PadRight(57))).PadRight(119));
-    //             if (ord.OrderStatus == OrderEnum.Status.Pending) ord.TotalDue -= dp.DiscountPrice;
-    //         }
-    //     }
-    //     Console.WriteLine(spaces + "|---------------------------------------------------------------------------------------------------------------------------|");
-    //     Console.WriteLine(spaces + "| {0, 40}{1, -26}{2, 15}|", "", "Total Due: ", SetTextBolder(FormatPrice(ord.GetTotalDue()).PadRight(56)));
-    //     if (ord.Accountant.StaffID != 0)
-    //     {
-    //         Console.WriteLine(spaces + "| {0, 40}{1, -25}{2, 22}|", "", "Discount Price: ", SetTextBolder(FormatPrice(ord.TotalDue - ord.GetTotalDue()).ToString().PadRight(57)));
-    //         Console.WriteLine(spaces + "| {0, 40}{1, -15}{2, 21}|", "", "Total Due After Discount: ", SetTextBolder(FormatPrice(ord.TotalDue).ToString().PadRight(56)));
-    //     }
-    //     Console.WriteLine(spaces + "| {0, 40}{1, -26}{2, 49}|", "", "To String: ", (ord.Accountant.StaffID == 0) ? SetTextBolder(ConvertNumberToWords(ord.GetTotalDue()).PadRight(56)) : SetTextBolder(ConvertNumberToWords(ord.TotalDue).PadRight(56)));
-    //     Console.WriteLine(spaces + "|===========================================================================================================================|");
-    //     Console.WriteLine(spaces + "|{0, 10}{1, -35} {2, -40} {3, -36}|", " ", "Customer", "Seller", "Accountant", " ");
-    //     Console.WriteLine(spaces + "|{0, 10}{1, -35} {2, -40} {3, -36}|", " ", ord.Customer.CustomerName, ord.Seller.StaffName + " - ID: " + ord.Seller.StaffID, (ord.Accountant.StaffID == 0) ? "" : (ord.Accountant.StaffName + " - ID: " + ord.Accountant.StaffID), " ");
-    //     Console.WriteLine(spaces + "|===========================================================================================================================|");
-    // }
     public void PrintOrder(Order ord)
     {
         int centeredPosition = (Console.WindowWidth - "|===========================================================================================================================|".Length) / 2;
@@ -281,7 +238,7 @@ class ConsoleUI
             {
                 if (dp.DiscountPrice != 0) Console.WriteLine(spaces + "| - {0, -100}         |", (dp.Title + ": " + SetTextBolder(FormatPrice(dp.DiscountPrice).ToString().PadRight(57))).PadRight(119));
                 if (dp.MoneySupported != 0) Console.WriteLine(spaces + "| - {0, -100}         |", (dp.Title + ": " + SetTextBolder(FormatPrice(dp.MoneySupported).ToString().PadRight(57))).PadRight(119));
-                if (ord.OrderStatus == OrderEnum.Status.Pending) ord.TotalDue -= dp.DiscountPrice;
+                if (ord.OrderStatus == OrderEnum.Status.Pending || ord.OrderStatus == OrderEnum.Status.Confirmed) ord.TotalDue -= dp.DiscountPrice;
             }
         }
         Console.WriteLine(spaces + "| {0, 40}{1, -26}{2, 15}|", "", "Total Due: ", SetTextBolder(FormatPrice(ord.GetTotalDue()).PadRight(56)));
@@ -307,7 +264,7 @@ class ConsoleUI
         CultureInfo cultureInfo = new CultureInfo("vi-VN");
         int printImeiHandle = 0;
         int printImeiHandle2 = 0;
-        Console.WriteLine(spaces + "| {0, -16} | {1, -30} | {2, -15} | {3, 15} | {4, 15} | {5, 15} |", "Phone Detail ID", "Phone Name", "Imei", "Quantity", "Price", "Total Price");
+        Console.WriteLine(spaces + "| {0, -16} | {1, -30} | {2, -15} | {3, 15} | {4, 15} | {5, 15} |", "Phone Detail ID", "Phone Model", "Imei", "Quantity", "Price", "Total Price");
         Console.WriteLine(spaces + "|===========================================================================================================================|");
         foreach (var pd in ord.PhoneDetails)
         {
@@ -315,7 +272,7 @@ class ConsoleUI
             Console.WriteLine(spaces + "|---------------------------------------------------------------------------------------------------------------------------|");
             foreach (var ims in pd.ListImei)
             {
-                Console.WriteLine(spaces + "| {0, -16} | {1, -30} | {2, -15} | {3, 15} | {4, 15} | {5, 15} |", (printImeiHandle != printImeiHandle2) ? pd.PhoneDetailID : "", (printImeiHandle != printImeiHandle2) ? pd.Phone.PhoneName : "", ims.PhoneImei, (printImeiHandle != printImeiHandle2) ? pd.Quantity : "", (printImeiHandle != printImeiHandle2) ? FormatPrice(pd.Price) : "", (printImeiHandle != printImeiHandle2) ? FormatPrice(ord.GetTotalDue()) : "");
+                Console.WriteLine(spaces + "| {0, -16} | {1, -30} | {2, -15} | {3, 15} | {4, 15} | {5, 15} |", (printImeiHandle != printImeiHandle2) ? pd.PhoneDetailID : "", (printImeiHandle != printImeiHandle2) ? (pd.Phone.PhoneName + " " + pd.PhoneColor.Color + " " + pd.ROMSize.ROM + $" ({pd.PhoneStatusType})") : "", ims.PhoneImei, (printImeiHandle != printImeiHandle2) ? pd.Quantity : "", (printImeiHandle != printImeiHandle2) ? FormatPrice(pd.Price) : "", (printImeiHandle != printImeiHandle2) ? FormatPrice(ord.GetTotalDueForEachPhone(pd.PhoneDetailID)) : "");
                 printImeiHandle2 = printImeiHandle;
             }
         }
@@ -413,7 +370,7 @@ class ConsoleUI
 
             foreach (var phone in order.PhoneDetails)
             {
-                Console.WriteLine(spaces + "| {0, -34} | {1, -11} | {2, -15} | {3, 15} | {4, 15} | {5, 16} |", phone.Phone.PhoneName, phone.PhoneColor.Color, phone.ROMSize.ROM, phone.Quantity, FormatPrice(phone.Price), FormatPrice(order.GetTotalDueForEachPhone()));
+                Console.WriteLine(spaces + "| {0, -34} | {1, -11} | {2, -15} | {3, 15} | {4, 15} | {5, 16} |", phone.Phone.PhoneName, phone.PhoneColor.Color, phone.ROMSize.ROM, phone.Quantity, FormatPrice(phone.Price), FormatPrice(order.GetTotalDueForEachPhone(phone.PhoneDetailID)));
             }
             Console.WriteLine(spaces + "|===========================================================================================================================|");
         }

@@ -22,6 +22,19 @@ namespace PhoneStoreUI
             Ultilities Ults = new Ultilities(staffBL);
             ConsoleUlts consoleUlts = new ConsoleUlts();
             ConsoleUI consoleUI = new ConsoleUI();
+
+            Console.CancelKeyPress += delegate (object? sender, ConsoleCancelEventArgs e)
+            {
+                e.Cancel = true;
+                
+                consoleUI.ConsoleForegroundColor(ConsoleEnum.Color.Green);
+                new StaffBL().Logout();
+                string space = consoleUI.AlignCenter("Exit Successfully!");
+                Console.WriteLine("\n" + space + "Exit Successfully!");
+                consoleUI.ConsoleForegroundColor(ConsoleEnum.Color.White);
+                Environment.Exit(0);
+            };
+            
             bool active = true;
             do
             {
@@ -92,7 +105,9 @@ namespace PhoneStoreUI
                     Main();
                 }
             } while (active);
+            
         }
+        
     }
 }
 

@@ -13,7 +13,7 @@ public class Order
     public List<DiscountPolicy> DiscountPolicies { get; set; }
     public string PaymentMethod { get; set; }
     public decimal TotalDue { get; set; }
-    public Order() {}
+    public Order() { }
     public Order(string orderID, DateTime createAt, Staff seller, Staff accountant, Customer customer, List<PhoneDetail> phones, OrderEnum.Status orderStatus, List<DiscountPolicy> discountPolicies, string paymentMethod, decimal totaldue)
     {
         this.OrderID = orderID;
@@ -36,11 +36,13 @@ public class Order
         }
         return totalDue;
     }
-    public decimal GetTotalDueForEachPhone() {
+    public decimal GetTotalDueForEachPhone(int phoneID)
+    {
         decimal totalDue = 0;
         foreach (var item in PhoneDetails)
         {
-            totalDue = item.Quantity * item.Price;
+            if (phoneID == item.PhoneDetailID)
+                totalDue = item.Quantity * item.Price;
         }
         return totalDue;
     }
