@@ -236,15 +236,15 @@ class ConsoleUI
             Console.WriteLine(spaces + "| {0, 46}                                                                            |", SetTextBolder("All DiscountPolicy Be Apply For This Order Is "));
             foreach (var dp in ord.DiscountPolicies)
             {
-                if (dp.DiscountPrice != 0) Console.WriteLine(spaces + "| - {0, -100}         |", (dp.Title + ": " + SetTextBolder(FormatPrice(dp.DiscountPrice).ToString().PadRight(57))).PadRight(119));
-                if (dp.MoneySupported != 0) Console.WriteLine(spaces + "| - {0, -100}         |", (dp.Title + ": " + SetTextBolder(FormatPrice(dp.MoneySupported).ToString().PadRight(57))).PadRight(119));
+                if (dp.DiscountPrice != 0) Console.WriteLine(spaces + "| - {0, -100}         |", (dp.Title + ": " + SetTextBolder(FormatPrice(dp.DiscountPrice))).PadRight(119));
+                if (dp.MoneySupported != 0) Console.WriteLine(spaces + "| - {0, -100}         |", (dp.Title + ": " + SetTextBolder(FormatPrice(dp.MoneySupported))).PadRight(119));
                 if (ord.OrderStatus == OrderEnum.Status.Pending || ord.OrderStatus == OrderEnum.Status.Confirmed) ord.TotalDue -= dp.DiscountPrice;
             }
         }
         Console.WriteLine(spaces + "| {0, 40}{1, -26}{2, 15}|", "", "Total Due: ", SetTextBolder(FormatPrice(ord.GetTotalDue()).PadRight(56)));
         if (ord.Accountant.StaffID != 0)
         {
-            Console.WriteLine(spaces + "| {0, 40}{1, -25}{2, 22}|", "", "Discount Price: ", SetTextBolder(FormatPrice(ord.TotalDue - ord.GetTotalDue()).ToString().PadRight(57)));
+            Console.WriteLine(spaces + "| {0, 40}{1, -26}{2, 23}|", "", "Discount Price: ", SetTextBolder(FormatPrice(ord.TotalDue - ord.GetTotalDue()).ToString().PadRight(56)));
             Console.WriteLine(spaces + "| {0, 40}{1, -15}{2, 21}|", "", "Total Due After Discount: ", SetTextBolder(FormatPrice(ord.TotalDue).ToString().PadRight(56)));
         }
 
@@ -692,7 +692,7 @@ class ConsoleUI
     public string FormatPrice(decimal price)
     {
         CultureInfo cultureInfo = new CultureInfo("vi-VN");
-        return string.Format(cultureInfo, "{0:N0} ₫", price);
+        return string.Format(cultureInfo, "{0:N0} VND", price);
     }
     public string ConvertToWords(long number)
     {
