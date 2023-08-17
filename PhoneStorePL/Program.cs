@@ -7,6 +7,7 @@ using GUIEnum;
 using BL;
 using DAL;
 using UI;
+using System.Reflection.PortableExecutable;
 
 
 
@@ -26,7 +27,7 @@ namespace PhoneStoreUI
             Console.CancelKeyPress += delegate (object? sender, ConsoleCancelEventArgs e)
             {
                 e.Cancel = true;
-                
+
                 consoleUI.ConsoleForegroundColor(ConsoleEnum.Color.Green);
                 new StaffBL().Logout();
                 string space = consoleUI.AlignCenter("Exit Successfully!");
@@ -34,7 +35,7 @@ namespace PhoneStoreUI
                 consoleUI.ConsoleForegroundColor(ConsoleEnum.Color.White);
                 Environment.Exit(0);
             };
-            
+
             bool active = true;
             do
             {
@@ -105,9 +106,9 @@ namespace PhoneStoreUI
                     Main();
                 }
             } while (active);
-            
+
         }
-        
+
     }
 }
 

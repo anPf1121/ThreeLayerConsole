@@ -562,28 +562,16 @@ namespace Ults
                                     }
                                     else
                                     {
-                                        List<DiscountPolicy> OrderDiscount = order.DiscountPolicies;
-                                        foreach (var discount in new DiscountPolicyBL().GetDiscountTradeIn(ListPhoneOfCustomerWantTradeIn))
-                                        {
-                                            int checkExist = 0;
-                                            foreach (var discountExistInOrder in OrderDiscount)
-                                            {
-                                                if (discountExistInOrder.Title == discount.Title) checkExist++;
+                                        List<DiscountPolicy> discountForCustomerPhones = new DiscountPolicyBL().GetDiscountTradeIn(ListPhoneOfCustomerWantTradeIn);
+                                        List<DiscountPolicy> discountForPhoneInOrder = new DiscountPolicyBL().GetDiscountTradeIn(order.PhoneDetails);
+                                        foreach(var TIorder in discountForPhoneInOrder){
+                                            foreach(var TIcustomer in discountForCustomerPhones){
+                                                if(TIorder.Title == TIcustomer.Title)order.DiscountPolicies.Add(TIcustomer);
                                             }
-                                            if (checkExist == 0) OrderDiscount.Add(discount);
                                         }
-                                        consoleUI.PrintTimeLine(listPhase, 0, 3);
-                                        if (OrderDiscount.Count() != 0)
-                                        {
-                                            order.DiscountPolicies = OrderDiscount;
-                                            consoleUI.PrintOrder(order);
-                                        }
-                                        else
-                                        {
-                                            consoleUI.PrintOrder(order);
-                                            order.DiscountPolicies = new List<DiscountPolicy>();
-
-                                        }
+                                        List<DiscountPolicy> ListCheck = order.DiscountPolicies;
+                                        
+                                        consoleUI.PrintOrder(order);
 
                                         bool TradeInOrSkip = ConsoleUlts.PressYesOrNo("TradeIn", "Skip TradeIn");
                                         if (TradeInOrSkip == true)
@@ -778,7 +766,7 @@ namespace Ults
                                         bool YesOrNoSkip = ConsoleUlts.PressYesOrNo("Skip Payment", "Not Skip");
                                         if (YesOrNoSkip == true)
                                         {
-                                            // orderBL.CancelPayment(orderWantToPayment);
+                                            orderBL.CancelPayment(orderWantToPayment);
                                             ConsoleUlts.Alert(ConsoleEnum.Alert.Warning, "Skip Payment ");
                                             activeChoosePaymentMethod = true;
 
