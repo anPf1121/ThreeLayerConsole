@@ -562,20 +562,42 @@ namespace Ults
                                     }
                                     else
                                     {
+                                        List<DiscountPolicy> newListDc = new List<DiscountPolicy>();
                                         List<DiscountPolicy> discountForCustomerPhones = new DiscountPolicyBL().GetDiscountTradeIn(ListPhoneOfCustomerWantTradeIn);
                                         List<DiscountPolicy> discountForPhoneInOrder = new DiscountPolicyBL().GetDiscountTradeIn(order.PhoneDetails);
+                                        bool IsDiscountWork = false;
+                                        // Lay ra Discount Tradein cua nhung dien thoai co trong order
+                                        // So sanh voi nhung chiec dien thoai ma Customer mang den de tradein 
                                         foreach(var TIorder in discountForPhoneInOrder){
                                             foreach(var TIcustomer in discountForCustomerPhones){
-                                                if(TIorder.Title == TIcustomer.Title)order.DiscountPolicies.Add(TIcustomer);
+                                                if(TIorder.Title == TIcustomer.Title){
+                                                    newListDc.Add(TIcustomer);
+                                                    IsDiscountWork = true;
+                                                }
                                             }
                                         }
+                                        // Xu li trung lap Discount TradeIn: Neu trong Order truoc do da ton tai Discount
+                                        // thi khong duoc add them discount trade in nao trung lap voi cac discount co san trong order
                                         List<DiscountPolicy> ListCheck = order.DiscountPolicies;
-                                        
+                                        List<DiscountPolicy> ListDiscountResult = new List<DiscountPolicy>();
+                                        foreach(var anew in newListDc){
+                                            int checkexist = 0;
+                                            foreach(var adiscount in ListCheck){
+                                                if(anew.Title == adiscount.Title && anew.MoneySupported == adiscount.MoneySupported)checkexist++;
+                                            }
+                                            if(checkexist == 0)ListDiscountResult.Add(anew);
+                                        }
+                                        if(IsDiscountWork){
+                                            foreach(var discount in ListDiscountResult){
+                                                order.DiscountPolicies.Add(discount);
+                                            }
+                                        }
                                         consoleUI.PrintOrder(order);
 
                                         bool TradeInOrSkip = ConsoleUlts.PressYesOrNo("TradeIn", "Skip TradeIn");
                                         if (TradeInOrSkip == true)
                                         {
+                                            order.DiscountPolicies = ListDiscountResult;
                                             orderBL.TradeIn(order);
                                             ConsoleUlts.Alert(ConsoleEnum.Alert.Success, "TradeIn Completed");
                                             activeTradeIn = true;
@@ -733,6 +755,11 @@ namespace Ults
                                     consoleUI.PrintOrder(orderWantToPayment);
                                     if (ConfirmOrCancelOrSkip == 0)
                                     {
+                                        List<DiscountPolicy> ListDiscountResult = new List<DiscountPolicy>();
+                                        foreach(var discount in orderWantToPayment.DiscountPolicies){
+                                            if(discount.DiscountPrice != 0)ListDiscountResult.Add(discount);
+                                        }
+                                        orderWantToPayment.DiscountPolicies = ListDiscountResult;
                                         Console.WriteLine(spaces + $"-> EXCESS CASH: " + consoleUI.FormatPrice(moneyOfCustomerPaid - totalDue).ToString());
                                         orderBL.Payment(orderWantToPayment);
                                         ConsoleUlts.Alert(ConsoleEnum.Alert.Success, "Payment Completed");
