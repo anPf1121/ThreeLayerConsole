@@ -209,6 +209,23 @@ class ConsoleUI
     }
     public void PrintOrder(Order ord)
     {
+        Dictionary<DiscountPolicy, int> DiscountAndRepeatTime = new Dictionary<DiscountPolicy, int>();
+        // Xu li lan lap Discount cua TradeInPolicy
+        List<DiscountPolicy> ListTemp = new List<DiscountPolicy>();
+        foreach(var discount in ord.DiscountPolicies){
+            int count = 0;
+            foreach(var discountTemp in ListTemp){
+                if(discount.Title == discountTemp.Title && discount.MoneySupported == discount.MoneySupported && discount.PhoneDetail.PhoneDetailID != 0)count++;
+            }
+            if(count == 0)ListTemp.Add(discount);
+        }
+        foreach(var discountTemp in ListTemp){
+            int RepeatTime = 0;
+            foreach(var discount in ord.DiscountPolicies){
+                if(discountTemp.Title == discount.Title && discountTemp.MoneySupported == discount.MoneySupported)RepeatTime++;
+            }
+            DiscountAndRepeatTime.Add(discountTemp, RepeatTime);
+        }
         int centeredPosition = (Console.WindowWidth - "|===========================================================================================================================|".Length) / 2;
         string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
         Console.WriteLine("\n" + spaces + "|===========================================================================================================================|");
@@ -233,12 +250,13 @@ class ConsoleUI
         Console.WriteLine(spaces + "|===========================================================================================================================|");
         if (ord.DiscountPolicies.Count() != 0)
         {
+            
             Console.WriteLine(spaces + "| {0, 46}                                                                            |", SetTextBolder("All DiscountPolicy Be Apply For This Order Is "));
-            foreach (var dp in ord.DiscountPolicies)
+            foreach (var dp in DiscountAndRepeatTime)
             {
-                if (dp.DiscountPrice != 0) Console.WriteLine(spaces + "| - {0, -100}         |", (dp.Title + ": " + SetTextBolder(FormatPrice(dp.DiscountPrice))).PadRight(119));
-                if (dp.MoneySupported != 0) Console.WriteLine(spaces + "| - {0, -100}         |", (dp.Title + ": " + SetTextBolder(FormatPrice(dp.MoneySupported))).PadRight(119));
-                if (ord.OrderStatus == OrderEnum.Status.Pending || ord.OrderStatus == OrderEnum.Status.Confirmed) ord.TotalDue -= dp.DiscountPrice;
+                if (dp.Key.DiscountPrice != 0) Console.WriteLine(spaces + "| - {0, -100}         |", (dp.Key.Title + (" "+"("+dp.Value+"x"+")")+": " + SetTextBolder(FormatPrice(dp.Key.DiscountPrice))).PadRight(119));
+                if (dp.Key.MoneySupported != 0) Console.WriteLine(spaces + "| - {0, -100}         |", (dp.Key.Title + (" "+"("+dp.Value+"x"+")")+": " + SetTextBolder(FormatPrice(dp.Key.MoneySupported))).PadRight(119));
+                if (ord.OrderStatus == OrderEnum.Status.Pending || ord.OrderStatus == OrderEnum.Status.Confirmed) ord.TotalDue -= dp.Key.DiscountPrice;
             }
         }
         Console.WriteLine(spaces + "| {0, 40}{1, -26}{2, 15}|", "", "Total Due: ", SetTextBolder(FormatPrice(ord.GetTotalDue()).PadRight(56)));

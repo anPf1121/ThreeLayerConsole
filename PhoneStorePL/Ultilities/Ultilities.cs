@@ -570,6 +570,7 @@ namespace Ults
                                     Console.WriteLine(spaces + "|============================================================================================|");
                                     Console.WriteLine(consoleUI.GetCheckCustomerPhoneANSIText());
                                     Console.WriteLine(spaces + "|============================================================================================|");
+                                    // Xu li Hien thi Discount TradeIn
                                     bool IsPhoneApplyForTradeIn = false;
                                     List<PhoneDetail> listPhoneCustomer = new List<PhoneDetail>();
                                     listPhoneCustomer.Add(phoneBL.GetPhoneDetailByID(Convert.ToInt32(input)));
@@ -636,6 +637,8 @@ namespace Ults
                                             ListPhoneOfCustomerWantTradeIn.Add(phoneBL.GetPhoneDetailByID(Convert.ToInt32(input)));
                                         }
                                     }
+                                    // ------------------------------ tu 573 den 640 chi de giup hien thi ma thoi :))
+                                    
                                     Console.WriteLine(spaces + "|============================================================================================|");
                                     Console.WriteLine(consoleUI.GetAppANSIText());
                                     Console.WriteLine(spaces + "|============================================================================================|");
@@ -667,32 +670,22 @@ namespace Ults
                                                 }
                                             }
                                         }
+                                        if(order.DiscountPolicies.Count() == 0)order.DiscountPolicies = newListDc;
+                                        else{
+                                            foreach(var newdiscount in newListDc){
+                                                order.DiscountPolicies.Add(newdiscount);
+                                            }
+                                        }
+
                                         // Xu li trung lap Discount TradeIn: Neu trong Order truoc do da ton tai Discount
                                         // thi khong duoc add them discount trade in nao trung lap voi cac discount co san trong order
-                                        List<DiscountPolicy> ListCheck = order.DiscountPolicies;
-                                        List<DiscountPolicy> ListDiscountResult = new List<DiscountPolicy>();
-                                        foreach (var anew in newListDc)
-                                        {
-                                            int checkexist = 0;
-                                            foreach (var adiscount in ListCheck)
-                                            {
-                                                if (anew.Title == adiscount.Title && anew.MoneySupported == adiscount.MoneySupported) checkexist++;
-                                            }
-                                            if (checkexist == 0) ListDiscountResult.Add(anew);
-                                        }
-                                        if (IsDiscountWork)
-                                        {
-                                            foreach (var discount in ListDiscountResult)
-                                            {
-                                                order.DiscountPolicies.Add(discount);
-                                            }
-                                        }
+                                        
                                         consoleUI.PrintOrder(order);
 
                                         bool TradeInOrSkip = ConsoleUlts.PressYesOrNo("TradeIn", "Skip TradeIn");
                                         if (TradeInOrSkip == true)
                                         {
-                                            order.DiscountPolicies = ListDiscountResult;
+                                            order.DiscountPolicies = newListDc;
                                             orderBL.TradeIn(order);
                                             ConsoleUlts.Alert(ConsoleEnum.Alert.Success, "TradeIn Completed");
                                             activeTradeIn = true;
