@@ -271,7 +271,71 @@ namespace Ults
             }
             return null;
         }
-
+public bool? ListPhoneModelForCheckPagination(List<PhoneDetail> listPhoneModel, string[] phases, int itemCount, int currentPhase, Staff staff, PhoneDetail phoneModel)
+        {
+            if (listPhoneModel != null)
+            {
+                string title = consoleUI.GetCheckCustomerPhoneANSIText();
+                bool active = true;
+                Dictionary<int, List<PhoneDetail>> models = PhoneModelPaginationHandle(listPhoneModel);
+                if (models != null && models.Count > 0)
+                {
+                    int countPage = models.Count(),
+                        currentPage = 1;
+                    ConsoleKeyInfo input = new ConsoleKeyInfo();
+                    while (true)
+                    {
+                        Console.Clear();
+                        consoleUI.PrintTitle(consoleUI.GetAppANSIText(), title, staff);
+                        while (active)
+                        {
+                            consoleUI.PrintTimeLine(phases, itemCount, currentPhase);
+                            consoleUI.PrintTitle(consoleUI.GetAppANSIText(), title, staff);
+                            consoleUI.PrintPhoneDetailsInfo(phoneModel);
+                            consoleUI.PrintPhoneModelTitle();
+                            foreach (PhoneDetail phone in models[currentPage])
+                            {
+                                consoleUI.PrintPhoneModelInfo(phone);
+                            }
+                            consoleUI.GetFooterPagination(currentPage, countPage);
+                            do
+                            {
+                                input = Console.ReadKey();
+                                if (currentPage <= countPage)
+                                {
+                                    if (input.Key == ConsoleKey.RightArrow)
+                                    {
+                                        if (currentPage <= countPage - 1)
+                                            currentPage++;
+                                        currentPageDetails = currentPage;
+                                        Console.Clear();
+                                        break;
+                                    }
+                                    else if (input.Key == ConsoleKey.LeftArrow)
+                                    {
+                                        if (currentPage > 1)
+                                            currentPage--;
+                                        currentPageDetails = currentPage;
+                                        Console.Clear();
+                                        break;
+                                    }
+                                    else if (input.Key == ConsoleKey.B)
+                                    {
+                                        Console.Clear();
+                                        return false;
+                                    }
+                                    else if (input.Key == ConsoleKey.Spacebar)
+                                    {
+                                        return true;
+                                    }
+                                }
+                            } while (input.Key != ConsoleKey.RightArrow || input.Key != ConsoleKey.LeftArrow || input.Key != ConsoleKey.B || input.Key != ConsoleKey.Spacebar);
+                        }
+                    }
+                }
+            }
+            return null;
+        }
         public Dictionary<int, List<PhoneDetail>> PhoneModelPaginationHandle(List<PhoneDetail> phoneList)
         {
             List<PhoneDetail> sList = new List<PhoneDetail>();

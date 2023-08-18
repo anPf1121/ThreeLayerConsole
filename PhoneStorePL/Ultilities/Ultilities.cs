@@ -510,11 +510,11 @@ namespace Ults
                                 }
                             }
                             bool listPhoneSearch = ConsoleUlts.ListPhonePaginationForTradeIn(phoneBL.GetPhonesByInformation(input), listPhase, 0, 2, loginManager.LoggedInStaff);
-                            if (listPhoneSearch == false) break;
+                            if (listPhoneSearch == false) activeChoosePhone = false;
                             if (listPhoneSearch == true)
                             {
                                 phoneId = ConsoleUlts.InputIDValidation(phoneBL.GetAllPhone().Count(), $"Enter Phone ID", "Invalid Phone ID", spaces);
-                            }
+                            
                             List<PhoneDetail> phoneDetails = phoneBL.GetPhoneDetailsByPhoneID(phoneId);
                             List<PhoneDetail> phoneDetailsForTradeIn = new List<PhoneDetail>();
                             foreach (var phonedetail in phoneDetails)
@@ -541,11 +541,11 @@ namespace Ults
                                     break;
                                 }
                             }
-                            bool? listPhoneDetailSearch = ConsoleUlts.ListPhoneModelPagination(phoneDetailsForTradeIn, listPhase, 0, 2, loginManager.LoggedInStaff, phoneBL.GetPhoneDetailByID(phoneId));
+                            bool? listPhoneDetailSearch = ConsoleUlts.ListPhoneModelForCheckPagination(phoneDetailsForTradeIn, listPhase, 0, 2, loginManager.LoggedInStaff, phoneBL.GetPhoneDetailByID(phoneId));
                             if(listPhoneDetailSearch == null) {
                                 return;
                             }
-                            if (listPhoneDetailSearch == false) break;
+                            if (listPhoneDetailSearch == false) activeChoosePhone = false;
                             if (listPhoneDetailSearch == true)
                             {
                                 Console.Write(spaces + "Choose a PhoneDetail ID: ");
@@ -562,7 +562,79 @@ namespace Ults
                                 if (acceptOrNotChoose == true)
                                 {
                                     consoleUI.PrintTimeLine(listPhase, 0, 2);
-                                    ListPhoneOfCustomerWantTradeIn.Add(phoneBL.GetPhoneDetailByID(Convert.ToInt32(input)));
+                                    
+                                    Console.WriteLine(spaces + "|============================================================================================|");
+                                    Console.WriteLine(consoleUI.GetAppANSIText());
+                                    Console.WriteLine(spaces + "|============================================================================================|");
+                                    Console.WriteLine(consoleUI.GetTradeInANSIText());
+                                    Console.WriteLine(spaces + "|============================================================================================|");
+                                    Console.WriteLine(consoleUI.GetCheckCustomerPhoneANSIText());
+                                    Console.WriteLine(spaces + "|============================================================================================|");
+                                    bool IsPhoneApplyForTradeIn = false;
+                                    List<PhoneDetail> listPhoneCustomer = new List<PhoneDetail>();
+                                    listPhoneCustomer.Add(phoneBL.GetPhoneDetailByID(Convert.ToInt32(input)));
+                                    List<DiscountPolicy> DiscountTradeInForCustomerPhones = new DiscountPolicyBL().GetDiscountTradeIn(listPhoneCustomer);
+                                    foreach(var discountInOrder in order.DiscountPolicies){
+                                        foreach(var discountForCusPhone in DiscountTradeInForCustomerPhones){
+                                            if(discountInOrder.Title == discountForCusPhone.Title)IsPhoneApplyForTradeIn = true;
+                                        }
+                                    }
+                                    if(IsPhoneApplyForTradeIn == false){
+                                        int countUp = 1;
+                                        Console.WriteLine(spaces+"              This Customer's Phone doesnt match with any TradeIn Policy that Order had");
+                                        Console.WriteLine(spaces+"                           Show Discount TradeIn Exist in Order: ");
+                                        List<DiscountPolicy> DiscountForcheckRepeat = new List<DiscountPolicy>();
+                                        foreach(var discountInOrder in order.DiscountPolicies){
+                                            bool IsRepeat = false;
+                                            foreach(var discountNotRepeat in DiscountForcheckRepeat){
+                                                if(discountNotRepeat.Title == discountInOrder.Title)IsRepeat = true;
+                                            }
+                                            if(IsRepeat == false){
+                                                DiscountForcheckRepeat.Add(discountInOrder);
+                                                Console.WriteLine(spaces+"                           "+countUp+". "+discountInOrder.Title);
+                                            }
+                                            countUp++;
+                                        }
+                                        bool ChooseAgainOrNot = ConsoleUlts.PressYesOrNo("Choose Phone TradeIn again", "Keep TradeIn");
+                                        if(ChooseAgainOrNot){
+                                            continue;
+                                        }
+                                        else{
+                                            ListPhoneOfCustomerWantTradeIn.Add(phoneBL.GetPhoneDetailByID(Convert.ToInt32(input)));
+                                        }
+                                    }
+                                    else{
+                                        Console.WriteLine(spaces+"                           Show Discount TradeIn in Order Apply for Customer's Phone");
+                                        int countUp = 1;
+                                        List<DiscountPolicy> DiscountForcheckRepeat = new List<DiscountPolicy>();
+                                        foreach(var discountInOrder in order.DiscountPolicies){
+                                            bool IsApply = false;
+                                            bool IsRepeat = false;
+                                            foreach(var discountForCusPhone in DiscountTradeInForCustomerPhones){
+                                                if(discountForCusPhone.Title == discountInOrder.Title)
+                                                IsApply = true;
+                                            }
+                                            foreach(var discountNotRepeat in DiscountForcheckRepeat){
+                                                if(discountNotRepeat.Title == discountInOrder.Title)IsRepeat = true;
+                                            }
+                                            if(IsRepeat == false)DiscountForcheckRepeat.Add(discountInOrder);
+                                            if(IsApply && IsRepeat==false){
+                                                Console.ForegroundColor = ConsoleColor.Green;
+                                            }
+                                            if(IsRepeat == false)Console.WriteLine(spaces+"                           "+countUp+". "+discountInOrder.Title);
+                                            countUp++;
+                                            if(IsApply && IsRepeat == false){
+                                                Console.ForegroundColor = ConsoleColor.White;
+                                            }
+                                        }
+                                        bool ChooseAgainOrNot = ConsoleUlts.PressYesOrNo("Choose Phone TradeIn again", "Keep TradeIn");
+                                        if(ChooseAgainOrNot){
+                                            continue;
+                                        }
+                                        else{
+                                            ListPhoneOfCustomerWantTradeIn.Add(phoneBL.GetPhoneDetailByID(Convert.ToInt32(input)));
+                                        }
+                                    }
                                     Console.WriteLine(spaces + "|============================================================================================|");
                                     Console.WriteLine(consoleUI.GetAppANSIText());
                                     Console.WriteLine(spaces + "|============================================================================================|");
@@ -634,13 +706,18 @@ namespace Ults
                                     }
                                 }
                             }
+                            }
                         } while (activeChoosePhone == false);
                     }
+                    
                     else
                     {
                         activeTradeIn = false;
                         continue;
                     }
+                }
+                else if(showOrderList == false){
+                    activeTradeIn = true;
                 }
             } while (activeTradeIn == false);
         }
@@ -804,10 +881,7 @@ namespace Ults
                                         }
                                         else
                                         {
-                                            activeChoosePaymentMethod = true;
-
-                                            activePayment = true;
-                                            break;
+                                            continue;
                                         }
                                     }
                                     else if (ConfirmOrCancelOrSkip == 2)
@@ -826,10 +900,7 @@ namespace Ults
                                         else
                                         {
 
-                                            activeChoosePaymentMethod = true;
-
-                                            activePayment = true;
-                                            break;
+                                            continue;
                                         }
                                     }
 
@@ -860,7 +931,7 @@ namespace Ults
                                         if (YesOrNoCancel == true)
                                         {
                                             orderBL.CancelPayment(orderWantToPayment);
-                                            ConsoleUlts.Alert(ConsoleEnum.Alert.Success, "Skip Payment");
+                                            ConsoleUlts.Alert(ConsoleEnum.Alert.Success, "Cancel Payment");
                                             Console.ReadKey();
                                             activeChoosePaymentMethod = true;
                                             activePayment = true;
@@ -868,15 +939,16 @@ namespace Ults
                                         }
                                         else
                                         {
-                                            activeChoosePaymentMethod = true;
-                                            activePayment = true;
-                                            break;
+                                            continue;
                                         }
                                     }
                                 }
                                 Console.ReadKey();
                             } while (activeEnterMoney == false);
                         } while (activeChoosePaymentMethod == false);
+                    } else{
+                        activePayment = false;
+                        
                     }
                 }
             } while (activePayment == false);
