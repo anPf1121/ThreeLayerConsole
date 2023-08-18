@@ -10,7 +10,6 @@ using UI;
 using System.Reflection.PortableExecutable;
 
 
-
 namespace PhoneStoreUI
 {
     class Program

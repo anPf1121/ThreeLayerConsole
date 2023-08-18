@@ -796,6 +796,11 @@ INSERT INTO discountpolicies(title, from_date, to_date, phone_detail_id, money_s
 INSERT INTO discountpolicies(title, from_date, to_date, phone_detail_id, money_supported, create_by) VALUE('TradeIn Policy for realme', '2023-07-07', '2024-07-07', '117', '100000', '2');
 INSERT INTO discountpolicies(title, from_date, to_date, phone_detail_id, money_supported, create_by) VALUE('TradeIn Policy for realme', '2023-07-07', '2024-07-07', '118', '100000', '2');
 INSERT INTO discountpolicies(title, from_date, to_date, phone_detail_id, money_supported, create_by) VALUE('TradeIn Policy for realme', '2023-07-07', '2024-07-07', '119', '100000', '2');
+INSERT INTO discountpolicies(title, from_date, to_date, phone_detail_id, money_supported, create_by) VALUE('TradeIn Policy for realme', '2023-07-07', '2024-07-07', '121', '100000', '2');
+INSERT INTO discountpolicies(title, from_date, to_date, phone_detail_id, money_supported, create_by) VALUE('TradeIn Policy for realme', '2023-07-07', '2024-07-07', '122', '100000', '2');
+INSERT INTO discountpolicies(title, from_date, to_date, phone_detail_id, money_supported, create_by) VALUE('TradeIn Policy for realme', '2023-07-07', '2024-07-07', '123', '100000', '2');
+INSERT INTO discountpolicies(title, from_date, to_date, phone_detail_id, money_supported, create_by) VALUE('TradeIn Policy for realme', '2023-07-07', '2024-07-07', '124', '100000', '2');
+INSERT INTO discountpolicies(title, from_date, to_date, phone_detail_id, money_supported, create_by) VALUE('TradeIn Policy for realme', '2023-07-07', '2024-07-07', '125', '100000', '2');
 
 
 CREATE TABLE discountpolicydetails(

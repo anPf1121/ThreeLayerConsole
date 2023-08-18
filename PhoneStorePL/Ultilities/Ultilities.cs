@@ -574,7 +574,7 @@ namespace Ults
                                     List<PhoneDetail> listPhoneCustomer = new List<PhoneDetail>();
                                     listPhoneCustomer.Add(phoneBL.GetPhoneDetailByID(Convert.ToInt32(input)));
                                     List<DiscountPolicy> DiscountTradeInForCustomerPhones = new DiscountPolicyBL().GetDiscountTradeIn(listPhoneCustomer);
-                                    foreach(var discountInOrder in order.DiscountPolicies){
+                                    foreach(var discountInOrder in new DiscountPolicyBL().GetDiscountTradeIn(order.PhoneDetails)){
                                         foreach(var discountForCusPhone in DiscountTradeInForCustomerPhones){
                                             if(discountInOrder.Title == discountForCusPhone.Title)IsPhoneApplyForTradeIn = true;
                                         }
@@ -584,7 +584,7 @@ namespace Ults
                                         Console.WriteLine(spaces+"              This Customer's Phone doesnt match with any TradeIn Policy that Order had");
                                         Console.WriteLine(spaces+"                           Show Discount TradeIn Exist in Order: ");
                                         List<DiscountPolicy> DiscountForcheckRepeat = new List<DiscountPolicy>();
-                                        foreach(var discountInOrder in order.DiscountPolicies){
+                                        foreach(var discountInOrder in new DiscountPolicyBL().GetDiscountTradeIn(order.PhoneDetails)){
                                             bool IsRepeat = false;
                                             foreach(var discountNotRepeat in DiscountForcheckRepeat){
                                                 if(discountNotRepeat.Title == discountInOrder.Title)IsRepeat = true;
@@ -592,8 +592,9 @@ namespace Ults
                                             if(IsRepeat == false){
                                                 DiscountForcheckRepeat.Add(discountInOrder);
                                                 Console.WriteLine(spaces+"                           "+countUp+". "+discountInOrder.Title);
+                                                countUp++;
                                             }
-                                            countUp++;
+                                            
                                         }
                                         bool ChooseAgainOrNot = ConsoleUlts.PressYesOrNo("Choose Phone TradeIn again", "Keep TradeIn");
                                         if(ChooseAgainOrNot){
@@ -607,7 +608,7 @@ namespace Ults
                                         Console.WriteLine(spaces+"                           Show Discount TradeIn in Order Apply for Customer's Phone");
                                         int countUp = 1;
                                         List<DiscountPolicy> DiscountForcheckRepeat = new List<DiscountPolicy>();
-                                        foreach(var discountInOrder in order.DiscountPolicies){
+                                        foreach(var discountInOrder in new DiscountPolicyBL().GetDiscountTradeIn(order.PhoneDetails)){
                                             bool IsApply = false;
                                             bool IsRepeat = false;
                                             foreach(var discountForCusPhone in DiscountTradeInForCustomerPhones){
