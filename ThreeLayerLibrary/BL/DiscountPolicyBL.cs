@@ -33,9 +33,6 @@ public class DiscountPolicyBL{
     public DiscountPolicy GetDiscountPolicyByID(int discountid){
         return discountPolicyDAL.GetDiscountPolicyById(discountid);
     }
-    public DiscountPolicy GetDiscountTradeInForPhone(PhoneDetail phoneDetail){
-        return discountPolicyDAL.GetDiscountPolicyForPhoneTradeIn(phoneDetail);
-    }
     public List<DiscountPolicy> GetDiscountValidated(){
         return discountPolicyDAL.GetDiscountValidated();
     }

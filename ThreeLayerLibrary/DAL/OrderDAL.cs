@@ -80,7 +80,7 @@ namespace DAL
             order.Accountant = staffDAL.GetStaffByID(order.Accountant.StaffID);
             order.Seller = staffDAL.GetStaffByID(order.Seller.StaffID);
             order.Customer = customerDAL.GetCustomerByID(order.Customer.CustomerID);
-            order.PhoneDetails = phoneDetailsDAL.GetListPhoneDetailInOrder(order.OrderID);
+            order.PhoneDetails = phoneDetailsDAL.GetPhoneDetails(order.OrderID, PhoneDetailFilter.GET_PHONE_DETAIL_IN_ORDER);
             order.TotalDue = order.GetTotalDue();
                 try
                 {
