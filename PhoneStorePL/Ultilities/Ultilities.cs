@@ -656,9 +656,8 @@ namespace Ults
                                         List<DiscountPolicy> newListDc = new List<DiscountPolicy>();
                                         List<DiscountPolicy> discountForCustomerPhones = new DiscountPolicyBL().GetDiscountTradeIn(ListPhoneOfCustomerWantTradeIn);
                                         List<DiscountPolicy> discountForPhoneInOrder = new DiscountPolicyBL().GetDiscountTradeIn(order.PhoneDetails);
-                                        bool IsDiscountWork = false;
                                         // Lay ra Discount Tradein cua nhung dien thoai co trong order
-                                        // So sanh voi nhung chiec dien thoai ma Customer mang den de tradein 
+                                        // So sanh voi nhung Discount Tradein cua nhung chiec dien thoai ma Customer mang den de tradein 
                                         foreach (var TIorder in discountForPhoneInOrder)
                                         {
                                             foreach (var TIcustomer in discountForCustomerPhones)
@@ -666,7 +665,6 @@ namespace Ults
                                                 if (TIorder.Title == TIcustomer.Title)
                                                 {
                                                     newListDc.Add(TIcustomer);
-                                                    IsDiscountWork = true;
                                                 }
                                             }
                                         }
@@ -944,6 +942,9 @@ namespace Ults
                         activePayment = false;
                         
                     }
+                }
+                else{
+                    activePayment = true;
                 }
             } while (activePayment == false);
         }

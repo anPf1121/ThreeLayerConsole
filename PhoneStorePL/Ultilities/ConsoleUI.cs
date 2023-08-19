@@ -215,7 +215,7 @@ class ConsoleUI
         foreach(var discount in ord.DiscountPolicies){
             int count = 0;
             foreach(var discountTemp in ListTemp){
-                if(discount.Title == discountTemp.Title && discount.MoneySupported == discount.MoneySupported && discount.PhoneDetail.PhoneDetailID != 0)count++;
+                if(discount.Title == discountTemp.Title  && discount.PhoneDetail.PhoneDetailID != 0 && discount.MoneySupported == discountTemp.MoneySupported)count++;
             }
             if(count == 0)ListTemp.Add(discount);
         }
