@@ -184,8 +184,9 @@ class ConsoleUI
         Console.WriteLine(spaces + "    |============================================================================================|");
 
     }
-    public void PrintTimeLine(string[] phase, int itemCount, int currentPhase)
+    public void PrintTimeLine(string[] phase, int currentPhase)
     {
+        int itemCount = 0;
         Console.Clear();
         FullWidthTinyLine();
         foreach (string item in phase)

@@ -55,14 +55,14 @@ namespace Ults
                 switch (currentPhase)
                 {
                     case 1:
-                        consoleUI.PrintTimeLine(listPhase, count, currentPhase);
+                        consoleUI.PrintTimeLine(listPhase, currentPhase);
                         consoleUI.PrintTitle(consoleUI.GetAppANSIText(), consoleUI.GetSearchANSIText(), loginManager.LoggedInStaff);
                         searchChoice = ConsoleUlts.PressCharacterTo("Search All Phone", "Search Phone By Information", "Back To Previous Menu");
                         if (searchChoice == 0) listTemp = phoneBL.GetAllPhone();
 
                         else if (searchChoice == 1)
                         {
-                            consoleUI.PrintTimeLine(listPhase, count, currentPhase);
+                            consoleUI.PrintTimeLine(listPhase, currentPhase);
                             consoleUI.PrintTitle(consoleUI.GetAppANSIText(), searchTitle, loginManager.LoggedInStaff);
                             phoneInfoToSearch = ConsoleUlts.GetInputString($"{spaces}Enter Phone Information To Search");
                             listTemp = phoneBL.GetPhonesByInformation(phoneInfoToSearch);
@@ -77,7 +77,7 @@ namespace Ults
                         }
                         else
                         {
-                            listPhoneSearch = ConsoleUlts.ListPhonePagination(listTemp, listPhase, count, currentPhase, loginManager.LoggedInStaff);
+                            listPhoneSearch = ConsoleUlts.Pagination(listTemp, currentPhase);
                             if (listPhoneSearch == false) break;
                             if (listPhoneSearch == true)
                             {
@@ -90,7 +90,7 @@ namespace Ults
                     case 2:
                         bool? isContinueChooseModelID = null;
                         phonedetails = phoneBL.GetPhoneDetailsByPhoneID(phoneId);
-                        consoleUI.PrintTimeLine(listPhase, count, currentPhase);
+                        consoleUI.PrintTimeLine(listPhase, currentPhase);
                         if (phonesInOrder!.Count() != 0 || phonesInOrder != null)
                         {
                             Dictionary<int, int> phoneDetailsIDWithQtt = new Dictionary<int, int>();
@@ -113,7 +113,7 @@ namespace Ults
                                 listPhoneDetailID.Add(item.PhoneDetailID);
                             do
                             {
-                                isContinueChooseModelID = ConsoleUlts.ListPhoneModelPagination(phonedetails, listPhase, count, currentPhase, loginManager.LoggedInStaff, phoneBL.GetPhoneDetailByID(phoneId));
+                                isContinueChooseModelID = ConsoleUlts.Pagination(phonedetails, currentPhase);
                                 if (isContinueChooseModelID != null)
                                 {
                                     if (isContinueChooseModelID == true)
@@ -123,7 +123,7 @@ namespace Ults
                                 if (listPhoneDetailID.IndexOf(phoneModelID) == -1)
                                 {
                                     ConsoleUlts.Alert(ConsoleEnum.Alert.Error, "Invalid Phone Model ID Please Choice Again");
-                                    consoleUI.PrintTimeLine(listPhase, count, currentPhase);
+                                    consoleUI.PrintTimeLine(listPhase, currentPhase);
                                 }
                             } while (listPhoneDetailID.IndexOf(phoneModelID) == -1);
                             int quantityAfterBackPrevPhase = 1;
@@ -196,7 +196,7 @@ namespace Ults
                         }
                         else phoneDetailQuantity = pDetails.Quantity;
 
-                        consoleUI.PrintTimeLine(listPhase, count, currentPhase);
+                        consoleUI.PrintTimeLine(listPhase, currentPhase);
                         consoleUI.PrintPhoneModelTitle();
                         consoleUI.PrintPhoneModelInfo(phoneBL.GetPhoneDetailByID(phoneModelID));
                         Console.WriteLine(spaces + "|============================================================================================|");
@@ -206,9 +206,9 @@ namespace Ults
                         imeis = new List<Imei>();
                         do
                         {
-                            consoleUI.PrintTimeLine(listPhase, count, currentPhase);
+                            consoleUI.PrintTimeLine(listPhase, currentPhase);
                             int idImei = 1;
-                            consoleUI.PrintTimeLine(listPhase, count, currentPhase);
+                            consoleUI.PrintTimeLine(listPhase, currentPhase);
                             consoleUI.PrintPhoneModelTitle();
                             consoleUI.PrintPhoneModelInfo(phoneBL.GetPhoneDetailByID(phoneModelID));
                             Console.WriteLine(spaces + "|============================================================================================|");
@@ -229,7 +229,7 @@ namespace Ults
                                     {
                                         ConsoleUlts.Alert(ConsoleEnum.Alert.Error, "Imei Not Found");
                                         Console.Clear();
-                                        consoleUI.PrintTimeLine(listPhase, count, currentPhase);
+                                        consoleUI.PrintTimeLine(listPhase, currentPhase);
                                         consoleUI.PrintPhoneModelTitle();
                                         consoleUI.PrintPhoneModelInfo(phoneBL.GetPhoneDetailByID(phoneModelID));
                                         Console.WriteLine(spaces + "|============================================================================================|");
@@ -274,7 +274,7 @@ namespace Ults
                         }
                         Order ord = new Order("", DateTime.Now, loginManager.LoggedInStaff, new Staff(0, "", "", "", "", "", StaffEnum.Role.Accountant, StaffEnum.Status.Active), new Customer(0, "", "", ""), phonesInOrder!, OrderEnum.Status.Pending, new List<DiscountPolicy>(), "", 0);
                         ord.OrderID = orderGenerateID;
-                        consoleUI.PrintTimeLine(listPhase, count, currentPhase);
+                        consoleUI.PrintTimeLine(listPhase, currentPhase);
                         ord.Seller = loginManager.LoggedInStaff;
                         consoleUI.PrintOrder(ord);
                         consoleUI.PrintLine();
@@ -295,7 +295,7 @@ namespace Ults
                         }
                         break;
                     case 4:
-                        consoleUI.PrintTimeLine(listPhase, count, currentPhase);
+                        consoleUI.PrintTimeLine(listPhase, currentPhase);
                         consoleUI.PrintTitle(consoleUI.GetAppANSIText(), consoleUI.GetCustomerInfoANSIText(), loginManager.LoggedInStaff);
                         customer = ConsoleUlts.GetCustomerInfo();
                         customer.CustomerID = customerBL.CheckCustomerIsExist(customer);
@@ -314,7 +314,7 @@ namespace Ults
 
                         break;
                     case 5:
-                        consoleUI.PrintTimeLine(listPhase, count, currentPhase);
+                        consoleUI.PrintTimeLine(listPhase, currentPhase);
                         Order order = new Order(orderGenerateID, DateTime.Now, loginManager.LoggedInStaff, new Staff(0, "", "", "", "", "", StaffEnum.Role.Accountant, StaffEnum.Status.Active), customer!, phonesInOrder!, OrderEnum.Status.Pending, new List<DiscountPolicy>(), "", 0);
                         consoleUI.PrintOrder(order);
                         if (ConsoleUlts.PressYesOrNo("Create Order", "Cancel Order"))
@@ -363,7 +363,7 @@ namespace Ults
                 switch (currentPhase)
                 {
                     case 1:
-                        consoleUI.PrintTimeLine(listPhase, count, currentPhase);
+                        consoleUI.PrintTimeLine(listPhase, currentPhase);
                         consoleUI.PrintTitle(consoleUI.GetAppANSIText(), handleTitle, loginManager.LoggedInStaff);
                         handleChoice = ConsoleUlts.PressCharacterTo("Show orders have confirmed status in day", "Back To Previous Menu", null);
                         switch (handleChoice)
@@ -376,8 +376,8 @@ namespace Ults
                         }
                         if (handleChoice == 1) return 2;
 
-                        consoleUI.PrintTimeLine(listPhase, count, currentPhase);
-                        temp = ConsoleUlts.ListOrderPagination(listOrderTemp, listPhase, count, currentPhase, loginManager.LoggedInStaff);
+                        consoleUI.PrintTimeLine(listPhase, currentPhase);
+                        temp = ConsoleUlts.Pagination(listOrderTemp, currentPhase);
                         if (temp == true)
                         {
                             // nhập Id order để xem
@@ -405,7 +405,7 @@ namespace Ults
                         }
                         break;
                     case 2:
-                        consoleUI.PrintTimeLine(listPhase, count, currentPhase);
+                        consoleUI.PrintTimeLine(listPhase, currentPhase);
                         consoleUI.PrintOrder(order);
                         if (!ConsoleUlts.PressYesOrNo("Confirm Product", "Cancel Order"))
                         {
@@ -463,13 +463,8 @@ namespace Ults
             do
             {
                 currentPhase = 1;
-                bool? showOrderList = ConsoleUlts.ListOrderPagination(ListOrderPending, listPhase, count, currentPhase, loginManager.LoggedInStaff);
-                if (showOrderList == null)
-                {
-                    ConsoleUlts.Alert(ConsoleEnum.Alert.Error, "NO ORDER EXIST");
-                    break;
-                }
-                else if (showOrderList == true)
+                bool showOrderList = ConsoleUlts.Pagination(ListOrderPending, currentPhase);
+                if (showOrderList == true)
                 {
                     do
                     {
@@ -481,7 +476,7 @@ namespace Ults
                         }
                         else order.Accountant = this.loginManager.LoggedInStaff;
                     } while (order.OrderID == "");
-                    consoleUI.PrintTimeLine(listPhase, 0, 1);
+                    consoleUI.PrintTimeLine(listPhase, 1);
                     consoleUI.PrintOrder(order);
                     if (order.PhoneDetails.Count() == 0)
                     {
@@ -496,7 +491,7 @@ namespace Ults
                         do
                         {
                             int phoneId = 0;
-                            consoleUI.PrintTimeLine(listPhase, 0, 2);
+                            consoleUI.PrintTimeLine(listPhase, 2);
                             Console.WriteLine(spaces + "|============================================================================================|");
                             Console.WriteLine(consoleUI.GetAppANSIText());
                             Console.WriteLine(spaces + "|============================================================================================|");
@@ -517,7 +512,7 @@ namespace Ults
                                     ConsoleUlts.Alert(ConsoleEnum.Alert.Warning, "Skip TradeIn");
                                 }
                             }
-                            bool listPhoneSearch = ConsoleUlts.ListPhonePaginationForTradeIn(phoneBL.GetPhonesByInformation(input), listPhase, 0, 2, loginManager.LoggedInStaff);
+                            bool listPhoneSearch = ConsoleUlts.Pagination(phoneBL.GetPhonesByInformation(input), currentPhase);
                             if (listPhoneSearch == false) activeChoosePhone = false;
                             if (listPhoneSearch == true)
                             {
@@ -549,11 +544,7 @@ namespace Ults
                                         break;
                                     }
                                 }
-                                bool? listPhoneDetailSearch = ConsoleUlts.ListPhoneModelForCheckPagination(phoneDetailsForTradeIn, listPhase, 0, 2, loginManager.LoggedInStaff, phoneBL.GetPhoneDetailByID(phoneId));
-                                if (listPhoneDetailSearch == null)
-                                {
-                                    return;
-                                }
+                                bool listPhoneDetailSearch = ConsoleUlts.Pagination(phoneDetailsForTradeIn, currentPhase);
                                 if (listPhoneDetailSearch == false) activeChoosePhone = false;
                                 if (listPhoneDetailSearch == true)
                                 {
@@ -564,13 +555,13 @@ namespace Ults
                                         Console.Write(spaces + "Input again: ");
                                         input = Console.ReadLine() ?? "";
                                     }
-                                    consoleUI.PrintTimeLine(listPhase, 0, 2);
+                                    consoleUI.PrintTimeLine(listPhase, 2);
                                     consoleUI.PrintPhoneTradeInDetailInfo(phoneBL.GetPhoneDetailByID(Convert.ToInt32(input)));
                                     Console.WriteLine(spaces + "Are you sure all this Phone Information are corresponding to Customer's Phone Information?");
                                     bool acceptOrNotChoose = ConsoleUlts.PressYesOrNo("Accept Choose Phone", "Choose another Phone");
                                     if (acceptOrNotChoose == true)
                                     {
-                                        consoleUI.PrintTimeLine(listPhase, 0, 2);
+                                        consoleUI.PrintTimeLine(listPhase, 2);
 
                                         Console.WriteLine(spaces + "|============================================================================================|");
                                         Console.WriteLine(consoleUI.GetAppANSIText());
@@ -766,7 +757,7 @@ namespace Ults
             do
             {
                 currentPhase = 1;
-                bool? showOrderList = ConsoleUlts.ListOrderPagination(ListOrderPending, listPhase, count, currentPhase, loginManager.LoggedInStaff);
+                bool? showOrderList = ConsoleUlts.Pagination(ListOrderPending, currentPhase);
                 if (showOrderList == null)
                 {
                     ConsoleUlts.Alert(ConsoleEnum.Alert.Error, "NO ORDER EXIST");
@@ -787,7 +778,7 @@ namespace Ults
                     } while (orderWantToPayment.OrderID == "");
 
                     //Wait to display orderdetail
-                    consoleUI.PrintTimeLine(listPhase, 0, 1);
+                    consoleUI.PrintTimeLine(listPhase, 1);
                     consoleUI.PrintOrder(orderWantToPayment);
                     int check = 0;
                     if (orderWantToPayment.DiscountPolicies.Count() != 0) check++;
@@ -805,7 +796,7 @@ namespace Ults
                         {
                             int inputPaymentMethodChoice = 0;
                             currentPhase = 2;
-                            consoleUI.PrintTimeLine(listPhase, count, currentPhase);
+                            consoleUI.PrintTimeLine(listPhase, currentPhase);
                             // hiển thị các Payment Method (phương thức thanh toán)
                             Console.WriteLine(spaces + "|============================================================================================|");
                             Console.WriteLine(consoleUI.GetAppANSIText());
@@ -856,7 +847,7 @@ namespace Ults
                             bool activeEnterMoney = false;
                             do
                             {
-                                consoleUI.PrintTimeLine(listPhase, 0, 3);
+                                consoleUI.PrintTimeLine(listPhase, 3);
                                 consoleUI.PrintOrder(orderWantToPayment);
                                 Console.Write(spaces + "Enter Money: ");
                                 decimal moneyOfCustomerPaid;
@@ -870,7 +861,7 @@ namespace Ults
                                 if (moneyOfCustomerPaid >= totalDue)
                                 {
                                     int ConfirmOrCancelOrSkip = ConsoleUlts.PressCharacterTo("Confirm Payment", "Cancel Payment", "Skip Payment");
-                                    consoleUI.PrintTimeLine(listPhase, 0, 4);
+                                    consoleUI.PrintTimeLine(listPhase, 4);
                                     consoleUI.PrintOrder(orderWantToPayment);
                                     if (ConfirmOrCancelOrSkip == 0)
                                     {
@@ -927,7 +918,7 @@ namespace Ults
                                 }
                                 else if (moneyOfCustomerPaid < totalDue)
                                 {
-                                    consoleUI.PrintTimeLine(listPhase, 0, 4);
+                                    consoleUI.PrintTimeLine(listPhase, 4);
                                     consoleUI.PrintOrder(orderWantToPayment);
                                     Console.WriteLine(spaces + $"Missing: " + consoleUI.FormatPrice(totalDue - moneyOfCustomerPaid).ToString());
                                     int SkipOrReInputOrCancel = ConsoleUlts.PressCharacterTo("Skip Payment", "Re-Input Money", "Cancel Payment");
