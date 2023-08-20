@@ -26,6 +26,29 @@ namespace Ults
         private CustomerBL customerBL = new CustomerBL();
         private OrderBL orderBL = new OrderBL();
         // public List<Phone> SearchPhone() {}
+        public List<Phone>? SearchPhone(int currentPhase)
+        {
+            string spaces = consoleUI.AlignCenter("|--------------------------------------------------------------------------------------------|");
+            List<Phone> result = new List<Phone>();
+            int searchChoice = 0;
+            string phoneInfoToSearch = String.Empty;
+            consoleUI.PrintTimeLine(consoleUI.GetCreateOrderTimeLine(), currentPhase);
+            consoleUI.PrintTitle(consoleUI.GetAppANSIText(), consoleUI.GetSearchANSIText(), loginManager.LoggedInStaff);
+            searchChoice = ConsoleUlts.PressCharacterTo("Search All Phone", "Search Phone By Information", "Back To Previous Menu");
+            if (searchChoice == 0) result = phoneBL.GetAllPhone();
+
+            else if (searchChoice == 1)
+            {
+                consoleUI.PrintTimeLine(consoleUI.GetCreateOrderTimeLine(), currentPhase);
+                consoleUI.PrintTitle(consoleUI.GetAppANSIText(), consoleUI.GetSearchANSIText(), loginManager.LoggedInStaff);
+                phoneInfoToSearch = ConsoleUlts.GetInputString($"{spaces}Enter Phone Information To Search");
+                result = phoneBL.GetPhonesByInformation(phoneInfoToSearch);
+            }
+
+            else if (searchChoice == 2) return null;
+
+            return result;
+        }
         public void CreateOrder()
         {
             string spaces = consoleUI.AlignCenter("|--------------------------------------------------------------------------------------------|");
@@ -36,7 +59,7 @@ namespace Ults
             List<Imei>? imeis = null;
             List<int>? listAllPhonesID = new List<int>();
             bool listPhoneSearch = false;
-            List<Phone> listTemp = new List<Phone>();
+            List<Phone>? listTemp = new List<Phone>();
             List<PhoneDetail> phonedetails = new List<PhoneDetail>(), phonesInOrder = new List<PhoneDetail>();
             PhoneDetail? pDetails = null;
             Customer? customer = null;
@@ -45,20 +68,13 @@ namespace Ults
                 switch (currentPhase)
                 {
                     case 1:
-                        consoleUI.PrintTimeLine(listPhase, currentPhase);
-                        consoleUI.PrintTitle(consoleUI.GetAppANSIText(), consoleUI.GetSearchANSIText(), loginManager.LoggedInStaff);
-                        searchChoice = ConsoleUlts.PressCharacterTo("Search All Phone", "Search Phone By Information", "Back To Previous Menu");
-                        if (searchChoice == 0) listTemp = phoneBL.GetAllPhone();
+                        listTemp = SearchPhone(currentPhase);
 
-                        else if (searchChoice == 1)
+                        if (listTemp == null)
                         {
-                            consoleUI.PrintTimeLine(listPhase, currentPhase);
-                            consoleUI.PrintTitle(consoleUI.GetAppANSIText(), searchTitle, loginManager.LoggedInStaff);
-                            phoneInfoToSearch = ConsoleUlts.GetInputString($"{spaces}Enter Phone Information To Search");
-                            listTemp = phoneBL.GetPhonesByInformation(phoneInfoToSearch);
+                            currentPhase = 6; 
+                            break;
                         }
-
-                        else if (searchChoice == 2) return;
 
                         if (listTemp.Count() == 0)
                         {
