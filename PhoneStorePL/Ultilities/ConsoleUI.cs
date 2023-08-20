@@ -135,17 +135,21 @@ class ConsoleUI
         Dictionary<DiscountPolicy, int> DiscountAndRepeatTime = new Dictionary<DiscountPolicy, int>();
         // Xu li lan lap Discount cua TradeInPolicy
         List<DiscountPolicy> ListTemp = new List<DiscountPolicy>();
-        foreach(var discount in ord.DiscountPolicies){
+        foreach (var discount in ord.DiscountPolicies)
+        {
             int count = 0;
-            foreach(var discountTemp in ListTemp){
-                if(discount.Title == discountTemp.Title  && discount.PhoneDetail.PhoneDetailID != 0 && discount.MoneySupported == discountTemp.MoneySupported)count++;
+            foreach (var discountTemp in ListTemp)
+            {
+                if (discount.Title == discountTemp.Title && discount.PhoneDetail.PhoneDetailID != 0 && discount.MoneySupported == discountTemp.MoneySupported) count++;
             }
-            if(count == 0)ListTemp.Add(discount);
+            if (count == 0) ListTemp.Add(discount);
         }
-        foreach(var discountTemp in ListTemp){
+        foreach (var discountTemp in ListTemp)
+        {
             int RepeatTime = 0;
-            foreach(var discount in ord.DiscountPolicies){
-                if(discountTemp.Title == discount.Title && discountTemp.MoneySupported == discount.MoneySupported)RepeatTime++;
+            foreach (var discount in ord.DiscountPolicies)
+            {
+                if (discountTemp.Title == discount.Title && discountTemp.MoneySupported == discount.MoneySupported) RepeatTime++;
             }
             DiscountAndRepeatTime.Add(discountTemp, RepeatTime);
         }
@@ -173,12 +177,12 @@ class ConsoleUI
         Console.WriteLine(spaces + "|===========================================================================================================================|");
         if (ord.DiscountPolicies.Count() != 0)
         {
-            
+
             Console.WriteLine(spaces + "| {0, 46}                                                                            |", SetTextBolder("All DiscountPolicy Be Apply For This Order Is "));
             foreach (var dp in DiscountAndRepeatTime)
             {
-                if (dp.Key.DiscountPrice != 0) Console.WriteLine(spaces + "| - {0, -100}         |", (dp.Key.Title + (" "+"("+dp.Value+"x"+")")+": " + SetTextBolder(FormatPrice(dp.Key.DiscountPrice))).PadRight(119));
-                if (dp.Key.MoneySupported != 0) Console.WriteLine(spaces + "| - {0, -100}         |", (dp.Key.Title + (" "+"("+dp.Value+"x"+")")+": " + SetTextBolder(FormatPrice(dp.Key.MoneySupported))).PadRight(119));
+                if (dp.Key.DiscountPrice != 0) Console.WriteLine(spaces + "| - {0, -100}         |", (dp.Key.Title + (" " + "(" + dp.Value + "x" + ")") + ": " + SetTextBolder(FormatPrice(dp.Key.DiscountPrice))).PadRight(119));
+                if (dp.Key.MoneySupported != 0) Console.WriteLine(spaces + "| - {0, -100}         |", (dp.Key.Title + (" " + "(" + dp.Value + "x" + ")") + ": " + SetTextBolder(FormatPrice(dp.Key.MoneySupported))).PadRight(119));
                 if (ord.OrderStatus == OrderEnum.Status.Pending || ord.OrderStatus == OrderEnum.Status.Confirmed) ord.TotalDue -= dp.Key.DiscountPrice;
             }
         }
@@ -218,7 +222,7 @@ class ConsoleUI
             }
         }
     }
-   
+
     public void PrintPhoneModelInfo(PhoneDetail phoneDetail)
     {
         string spaces = AlignCenter("|============================================================================================|");
@@ -393,6 +397,10 @@ class ConsoleUI
     public string[] GetTradeInTimeLine()
     {
         return new string[] { "Choose an Order", "Check and Add Customer's Phone", "Confirm or Cancel TradeIn" };
+    }
+    public string[] GetHandleOrderTimeLine()
+    {
+        return new string[] { "Show orders", "Confirm Handle" };
     }
     public string GetCustomerInfoANSIText()
     {

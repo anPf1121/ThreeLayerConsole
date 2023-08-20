@@ -149,8 +149,6 @@ namespace Ults
             ConsoleKeyInfo key;
             do
             {
-                Console.Clear();
-
                 if (typeof(T) == typeof(Phone))
                     DisplayCurrentPage((List<Phone>)(object)listItem, currentPage, 5, currentPhase);
                 else if (typeof(T) == typeof(PhoneDetail))
