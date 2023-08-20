@@ -32,67 +32,11 @@ class ConsoleUI
                 break;
         }
     }
-    public void PrintReportRevenue(Staff accountant, decimal yourTotalRevenue, decimal storeTotalRevenue, int totalOrdersCompleted, int totalStoreOrders, List<Order> dataToPrintPhoneChart, List<int> phoneDetailsIDToReport)
-    {
-        PhoneBL phoneBL = new PhoneBL();
-        ConsoleUlts consoleUlts = new ConsoleUlts();
-        int secondCenteredPosition = (Console.WindowWidth - "|==================================================================================================================================================|".Length) / 2;
-        string secondSpaces = secondCenteredPosition > 0 ? new string(' ', secondCenteredPosition) : "";
-        Console.WriteLine(secondSpaces + "|==================================================================================================================================================|");
-        Console.WriteLine(GetReportANSIText());
-        Console.WriteLine(secondSpaces + "|==================================================================================================================================================|");
-        Console.WriteLine(secondSpaces + "|                                                                TOTAL REVENUE                                                                     |");
-        Console.WriteLine(secondSpaces + "|==================================================================================================================================================|");
-        Console.WriteLine(secondSpaces + "| Store Revenue: {0, -30} |", FormatPrice(storeTotalRevenue).PadRight(129));
-        Console.WriteLine(secondSpaces + "| Your Revenue: {0, -30} |", FormatPrice(yourTotalRevenue).PadRight(130));
-        Console.WriteLine(secondSpaces + "|==================================================================================================================================================|");
-        consoleUlts.PrintColumnChart(consoleUlts.accountantDataHandleToPrintChart(("You"), yourTotalRevenue, storeTotalRevenue));
-        Console.WriteLine(secondSpaces + "|==================================================================================================================================================|");
-        Console.WriteLine(secondSpaces + "|                                                               ORDERS COMPLETED                                                                   |");
-        Console.WriteLine(secondSpaces + "|==================================================================================================================================================|");
-        Console.WriteLine(secondSpaces + "| Your Orders: {0, -30} |", totalOrdersCompleted.ToString().PadRight(131));
-        Console.WriteLine(secondSpaces + "|==================================================================================================================================================|");
-        if (phoneDetailsIDToReport.Count() != 0)
-        {
-            Console.WriteLine(secondSpaces + "|                                                             REVENUE ON PHONE MODEL                                                               |");
-            Console.WriteLine(secondSpaces + "|==================================================================================================================================================|");
-            Dictionary<int, decimal> dataHandled = consoleUlts.DataToPrintChartHandle(dataToPrintPhoneChart);
-            foreach (var item in dataHandled)
-            {
-                if (phoneDetailsIDToReport.IndexOf(item.Key) != -1)
-                {
-                    PhoneDetail phoneDetail = phoneBL.GetPhoneDetailByID(item.Key);
-                    Console.WriteLine(secondSpaces + "| {0, -80}              |", (phoneDetail.Phone.PhoneName + "(" + phoneDetail.PhoneColor.Color + "/" + phoneDetail.ROMSize.ROM + ")" + " - Total Revenue: " + FormatPrice(item.Value)).PadRight(131));
-                }
-            }
-            Console.WriteLine(secondSpaces + "|==================================================================================================================================================|");
-        }
-        Console.WriteLine(secondSpaces + "|                                              TOP 5 PRODUCTS WITH THE HIGHEST REVENUE OF STORE                                                    |");
-        Console.WriteLine(secondSpaces + "|==================================================================================================================================================|");
-        consoleUlts.PrintColumnChart(consoleUlts.DataToPrintChartHandle(dataToPrintPhoneChart));
-        Console.WriteLine(secondSpaces + "|==================================================================================================================================================|");
-    }
     public void PrintLine()
     {
         int centeredPosition = (Console.WindowWidth - "|--------------------------------------------------------------------------------------------|".Length) / 2;
         string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
         Console.WriteLine(spaces + @"|--------------------------------------------------------------------------------------------|");
-    }
-    public void PrintPhoneDetailsInfo(List<PhoneDetail> phoneDetails)
-    {
-        int centeredPosition = (Console.WindowWidth - "|===================================================================================================|".Length) / 2;
-        string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
-        foreach (PhoneDetail pd in phoneDetails)
-        {
-            PrintPhoneDetailsInfo(pd);
-            break;
-        }
-        PrintPhoneModelTitle();
-        foreach (PhoneDetail pd in phoneDetails)
-        {
-            PrintPhoneModelInfo(pd);
-        }
-        Console.WriteLine(spaces + "    |============================================================================================|");
     }
     public void FullWidthTinyLine()
     {
@@ -134,28 +78,6 @@ class ConsoleUI
         Console.WriteLine(spaces + "|============================================================================================|");
         Console.WriteLine(spaces + "| {0, -10} | {1, -13} | {2, -10} | {3, -15} | {4, 13} | {5, 14} |", "Detail ID", "Phone Color", "ROM Size", "Phone Status", "Quantity", "Price");
         Console.WriteLine(spaces + "|============================================================================================|");
-    }
-    public void PrintPhoneDetailsInfo(PhoneDetail phoneDetail)
-    {
-        int centeredPosition = (Console.WindowWidth - "|===================================================================================================|".Length) / 2;
-        string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
-        Console.WriteLine(spaces + "    |============================================================================================|");
-        Console.WriteLine(spaces + "    | PHONE DETAILS INFOMATION                                                                   |");
-        Console.WriteLine(spaces + "    |============================================================================================|");
-        Console.WriteLine(spaces + "    | Phone Name: {0, -50} |", phoneDetail.Phone.PhoneName.PadRight(78));
-        Console.WriteLine(spaces + "    | Brand: {0, -50} |", phoneDetail.Phone.Brand.BrandName.PadRight(83));
-        Console.WriteLine(spaces + "    | Camera: {0, -50} |", phoneDetail.Phone.Camera!.PadRight(82));
-        Console.WriteLine(spaces + "    | RAM: {0, -50} |", phoneDetail.Phone.RAM!.PadRight(85));
-        Console.WriteLine(spaces + "    | Weight: {0, -50} |", phoneDetail.Phone.Weight.PadRight(82));
-        Console.WriteLine(spaces + "    | Processor: {0, -50} |", phoneDetail.Phone.Processor!.PadRight(79));
-        Console.WriteLine(spaces + "    | Battery: {0, -50} |", phoneDetail.Phone.BatteryCapacity.PadRight(81));
-        Console.WriteLine(spaces + "    | OS: {0, -50} |", phoneDetail.Phone.OS.PadRight(86));
-        Console.WriteLine(spaces + "    | Sim Slot: {0, -50} |", phoneDetail.Phone.SimSlot.PadRight(80));
-        Console.WriteLine(spaces + "    | Screen : {0, -50} |", phoneDetail.Phone.Screen.PadRight(81));
-        Console.WriteLine(spaces + "    | Connection: {0, -50} |", phoneDetail.Phone.Connection.PadRight(78));
-        Console.WriteLine(spaces + "    | Charge Port: {0, -50} |", phoneDetail.Phone.ChargePort.PadRight(77));
-        Console.WriteLine(spaces + "    | Release Date: {0, -50} |", phoneDetail.Phone.ReleaseDate.ToString().PadRight(76));
-        Console.WriteLine(spaces + "    | Description: {0, -50} |", phoneDetail.Phone.Description.PadRight(77));
     }
     public void PrintPhoneTradeInDetailInfo(PhoneDetail phoneDetail)
     {
@@ -296,178 +218,12 @@ class ConsoleUI
             }
         }
     }
-    public void PrintDiscountPolicyDetail(DiscountPolicy discountPolicy)
-    {
-        string l = "|--------------------------------------------------------------------------------------------|";
-        int centeredPosition = (Console.WindowWidth - "|--------------------------------------------------------------------------------------------|".Length) / 2;
-        string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
-        Console.Write(spaces + "|" + $"Title: {discountPolicy.Title}");
-        int k = l.Length - (discountPolicy.Title + "Title: ").Length;
-        for (int i = 0; i < k - 2; i++) Console.Write(" ");
-        Console.Write("|");
-        Console.WriteLine();
-        Console.Write(spaces + "|" + $"FromDate: {discountPolicy.FromDate}");
-        k = l.Length - (discountPolicy.FromDate + "FromDate: ").Length;
-        for (int i = 0; i < k - 2; i++) Console.Write(" ");
-        Console.Write("|");
-        Console.WriteLine();
-        Console.Write(spaces + "|" + $"ToDate: {discountPolicy.ToDate}");
-        k = l.Length - (discountPolicy.ToDate + "ToDate: ").Length;
-        for (int i = 0; i < k - 2; i++) Console.Write(" ");
-        Console.Write("|");
-        Console.WriteLine();
-        if (discountPolicy.PhoneDetail.PhoneDetailID != 0)
-        {
-            Console.Write(spaces + "|" + $"Phone Information: {discountPolicy.PhoneDetail.Phone.PhoneName} {discountPolicy.PhoneDetail.PhoneColor.Color} {discountPolicy.PhoneDetail.ROMSize.ROM}");
-            k = l.Length - (discountPolicy.PhoneDetail.Phone.PhoneName + " " + discountPolicy.PhoneDetail.PhoneColor.Color + " " + discountPolicy.PhoneDetail.ROMSize.ROM + "Phone Information: ").Length;
-            for (int i = 0; i < k - 2; i++) Console.Write(" ");
-            Console.Write("|");
-            Console.WriteLine();
-        }
-        if (discountPolicy.PaymentMethod != "Not Have")
-        {
-            Console.Write(spaces + "|" + $"Apply for Paymentmethod: {discountPolicy.PaymentMethod}");
-            k = l.Length - (discountPolicy.PaymentMethod + "Apply for Paymentmethod: ").Length;
-            for (int i = 0; i < k - 2; i++) Console.Write(" ");
-            Console.Write("|");
-            Console.WriteLine();
-        }
-        if (discountPolicy.MinimumPurchaseAmount > 0 && discountPolicy.MaximumPurchaseAmount > 0)
-        {
-            Console.Write(spaces + "|" + $"Maximum purchase amount: {discountPolicy.MaximumPurchaseAmount}");
-            k = l.Length - (discountPolicy.MaximumPurchaseAmount + "Maximum purchase amount: ").Length;
-            for (int i = 0; i < k - 2; i++) Console.Write(" ");
-            Console.Write("|");
-            Console.WriteLine();
-            Console.Write(spaces + "|" + $"Minimum purchase amount: {discountPolicy.MinimumPurchaseAmount}");
-            k = l.Length - (discountPolicy.MinimumPurchaseAmount + "Minimun purchase amount: ").Length;
-            for (int i = 0; i < k - 2; i++) Console.Write(" ");
-            Console.Write("|");
-            Console.WriteLine();
-        }
-        if (discountPolicy.DiscountPrice != 0)
-        {
-            Console.Write(spaces + "|" + $"DiscountPrice: {discountPolicy.DiscountPrice}");
-            k = l.Length - (discountPolicy.DiscountPrice + "DiscountPrice: ").Length;
-            for (int i = 0; i < k - 2; i++) Console.Write(" ");
-            Console.Write("|");
-            Console.WriteLine();
-        }
-        if (discountPolicy.MoneySupported != 0)
-        {
-            Console.Write(spaces + "|" + $"Money supported: {discountPolicy.MoneySupported}");
-            k = l.Length - (discountPolicy.MoneySupported + "Money supported: ").Length;
-            for (int i = 0; i < k - 2; i++) Console.Write(" ");
-            Console.Write("|");
-            Console.WriteLine();
-        }
-        Console.Write(spaces + l);
-
-    }
+   
     public void PrintPhoneModelInfo(PhoneDetail phoneDetail)
     {
         string spaces = AlignCenter("|============================================================================================|");
         CultureInfo cultureInfo = new CultureInfo("vi-VN");
         Console.WriteLine(spaces + "| {0, -10} | {1, -13} | {2, -10} | {3, -15} | {4, 13} | {5, 14} |", phoneDetail.PhoneDetailID, phoneDetail.PhoneColor.Color, phoneDetail.ROMSize.ROM, phoneDetail.PhoneStatusType, (phoneDetail.Quantity != 0) ? phoneDetail.Quantity : "Out Of Stock", FormatPrice(phoneDetail.Price));
-    }
-    public void PrintOrderDetailsInfo(Order order)
-    {
-        int centeredPosition = (Console.WindowWidth - "|===========================================================================================================================|".Length) / 2;
-        string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
-
-        if (order.PhoneDetails.Count() == 0)
-        {
-            Console.WriteLine(spaces + "|===========================================================================================================================|");
-            Console.WriteLine(spaces + "| Doesnt have any phone in cart                                                                                        |");
-            Console.WriteLine(spaces + "|===========================================================================================================================|");
-        }
-        else
-        {
-            Console.WriteLine(spaces + "|===========================================================================================================================|");
-            Console.WriteLine(spaces + "| {0, -34} | {1, -11} | {2, -15} | {3, 15} | {4, 15} | {5, 16} |", "Phone Name", "Color", "RomSize", "Quantity", "Price", "Total Price");
-            Console.WriteLine(spaces + "|===========================================================================================================================|");
-
-            foreach (var phone in order.PhoneDetails)
-            {
-                Console.WriteLine(spaces + "| {0, -34} | {1, -11} | {2, -15} | {3, 15} | {4, 15} | {5, 16} |", phone.Phone.PhoneName, phone.PhoneColor.Color, phone.ROMSize.ROM, phone.Quantity, FormatPrice(phone.Price), FormatPrice(order.GetTotalDueForEachPhone(phone.PhoneDetailID)));
-            }
-            Console.WriteLine(spaces + "|===========================================================================================================================|");
-        }
-    }
-    public void PrintTradeInTable()
-    {
-        int centeredPosition = (Console.WindowWidth - "|========================================================================================================|".Length) / 2;
-        string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
-        int centeredPosition2 = 0;
-        string spaces2 = centeredPosition2 > 0 ? new string(' ', 10) : "";
-        Dictionary<PhoneDetail, Dictionary<PhoneEnum.Status, decimal>> TradeInTable = new Ults.ConsoleUlts().GetListPhoneTradeIn();
-        Console.WriteLine(spaces + "      |============================================================================================|");
-        Console.WriteLine(GetAppANSIText());
-        Console.WriteLine(spaces + "|=========================================================================================================|");
-        Console.WriteLine(GetShowTradeInDetailsANSIText());
-        Console.WriteLine(spaces + "|=========================================================================================================|");
-        Console.WriteLine(spaces + "| {0, -15} | {1, -13} | {2, -15} | {3, -15} | {4, -15} | {5, -15} |", "Model", "ROMSize", "Type 1", "Type 2", "Type 3", "Type 4");
-        Console.WriteLine(spaces + "|=========================================================================================================|");
-        foreach (var t in TradeInTable)
-        {
-            int count = 0;
-            Console.Write(spaces + "| {0, -15} | {1, -13} ", t.Key.Phone.PhoneName, t.Key.ROMSize.ROM);
-            foreach (var type in t.Value)
-            {
-
-                Console.Write("|" + " " + FormatPrice(type.Value));
-                int numSpace = 13 - type.Value.ToString().Length;
-                while (numSpace > 0)
-                {
-                    Console.Write(" ");
-                    numSpace--;
-                }
-                count++;
-            }
-            if (count == 4) Console.Write("|");
-            else if (count == 3)
-            {
-                Console.Write("|" + " " + "-");
-                int numSpace = 15;
-                while (numSpace > 0)
-                {
-                    Console.Write(" ");
-                    numSpace--;
-                }
-                Console.Write("|");
-            }
-            else if (count == 2)
-            {
-                for (int i = 0; i < 2; i++)
-                {
-                    Console.Write("|" + " " + "-");
-                    int numSpace = 15;
-                    while (numSpace > 0)
-                    {
-                        Console.Write(" ");
-                        numSpace--;
-                    }
-                }
-                Console.Write("|");
-            }
-            else if (count == 1)
-            {
-                for (int i = 0; i < 3; i++)
-                {
-                    Console.Write("|" + " " + "-");
-                    int numSpace = 15;
-                    while (numSpace > 0)
-                    {
-                        Console.Write(" ");
-                        numSpace--;
-                    }
-                }
-                Console.Write("|");
-            }
-            Console.WriteLine();
-        }
-        Console.WriteLine(spaces + "|=========================================================================================================|");
-        // Console.WriteLine(spaces + "| {0, -10} | {1, -13} | {2, -15} | {3, -15} | {4, -15} | {5, -14} |", phoneDetail.PhoneDetailID, phoneDetail.PhoneColor.Color, phoneDetail.ROMSize.ROM, string.Format(cultureInfo, "{0:N0} ₫", phoneDetail.Price), phoneDetail.PhoneStatusType, (phoneDetail.Quantity != 0) ? phoneDetail.Quantity : "Out Of Stock");
     }
     public void PrintTitle(string? title, string? subTitle, Staff? staffLoggedIn)
     {
@@ -770,11 +526,6 @@ class ConsoleUI
 
         return result;
     }
-    public string[] GetCreateReportTimeLine()
-    {
-        return new string[] { "Enter DateTime", "Confirm Report", "Add More Information To Report" };
-    }
-
     public string AlignCenter(string content)
     {
         // phương thức căn giữa ra màn hình

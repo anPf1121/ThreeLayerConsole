@@ -80,8 +80,7 @@ namespace Ults
         public int MenuHandle(string? title, string? subTitle, string[] menuItem, Staff loginStaff)
         {
             ConsoleUlts consoleUlts = new ConsoleUlts();
-            int centeredPosition = (Console.WindowWidth - "|--------------------------------------------------------------------------------------------|".Length) / 2;
-            string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
+            string spaces = consoleUI.AlignCenter("|--------------------------------------------------------------------------------------------|");
             Console.Clear();
             Console.OutputEncoding = System.Text.Encoding.UTF8;
             ConsoleKeyInfo keyInfo;
@@ -218,8 +217,7 @@ namespace Ults
 
         public void Alert(ConsoleEnum.Alert alertType, string msg)
         {
-            int centeredPosition = (Console.WindowWidth - msg.Length) / 2;
-            string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
+            string spaces = consoleUI.AlignCenter(msg);
             switch (alertType)
             {
                 case ConsoleEnum.Alert.Success:
@@ -243,8 +241,7 @@ namespace Ults
         public void PressEnterTo(string? action)
         {
             string str = $"👉 Press Enter To {action}...";
-            int centeredPosition = (Console.WindowWidth - str.Length) / 2;
-            string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
+            string spaces = consoleUI.AlignCenter(str);
             if (action != null)
             {
                 Console.Write("\n" + spaces + str);
@@ -269,16 +266,14 @@ namespace Ults
 
         public string GetUserName()
         {
-            int centeredPosition = (Console.WindowWidth - "|--------------------------------------------------------------------------------------------|".Length) / 2;
-            string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
+            string spaces = consoleUI.AlignCenter("|--------------------------------------------------------------------------------------------|");
             string userName = GetInputString(spaces + "👉 User Name");
             return userName;
         }
 
         public string GetPassword()
         {
-            int centeredPosition = (Console.WindowWidth - "|--------------------------------------------------------------------------------------------|".Length) / 2;
-            string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
+            string spaces = consoleUI.AlignCenter("|--------------------------------------------------------------------------------------------|");
             string pass = "";
             do
             {
@@ -311,8 +306,7 @@ namespace Ults
         {
             string PatternName = "^[a-zA-Z\\s]+$";
             string PatternPhone = @"[0-9]$";
-            int centeredPosition = (Console.WindowWidth - "|--------------------------------------------------------------------------------------------|".Length) / 2;
-            string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
+            string spaces = consoleUI.AlignCenter("|--------------------------------------------------------------------------------------------|");
             string customerName = GetInputString($"{spaces}Customer Name");
             while (!Regex.IsMatch(customerName, PatternName))
             {
@@ -374,8 +368,6 @@ namespace Ults
         }
         public bool CheckInputIDValid(string inputId, List<int> IDPattern)
         { // Ham nay de loc input xem co dung kieu va gia tri co trong list(list order, list phonedetail, list imei ..vv.)
-            int centeredPosition = (Console.WindowWidth - "|--------------------------------------------------------------------------------------------|".Length) / 2;
-            string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
             string listofid = "";
             foreach (var ID in IDPattern)
             {
@@ -404,144 +396,6 @@ namespace Ults
             }
         }
         public string GenerateID() => Guid.NewGuid().ToString("N").Substring(0, 12).ToUpper();
-
-        public DateTime GetDate(string requestToEnter)
-        {
-            Console.Write(requestToEnter + ": ");
-            DateTime dateTime;
-            while (!DateTime.TryParseExact(Console.ReadLine(), "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out dateTime))
-            {
-                Console.Write("Invalid Date Format, Please Re-enter (yyyy-MM-dd): ");
-            }
-            return dateTime;
-        }
-        public void PrintColumnChart(Dictionary<string, decimal> data)
-        {
-            StaffBL staffBL = new StaffBL();
-            Console.WriteLine();
-            int centeredPosition = (Console.WindowWidth - "|==================================================================================================================================================|".Length) / 2;
-            string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
-            PhoneBL phoneBL = new PhoneBL();
-            decimal maxValue = data.Values.Max();
-            int count = 0;
-            if (data.Count() == 2)
-            {
-                foreach (var value in data)
-                {
-                    count++;
-                    for (int i = 0; i < value.Value / maxValue * 100; i++)
-                    {
-                        if (i == 0)
-                        {
-                            Console.Write(spaces + "    {0, -20} | ", value.Key);
-                        }
-                        else
-                        {
-                            Console.Write("█");
-                        }
-                        if (i >= value.Value / maxValue * 100 - 1)
-                        {
-                            Console.Write(" | {0, -15}", (value.Value / maxValue * 100).ToString("0.##") + "%");
-                        }
-                    }
-                    Console.WriteLine("\n");
-                    if (count == 5) break;
-                    if (count == data.Count()) Console.WriteLine(spaces + "  * Your revenue accounts for {0} of the store's revenue", (value.Value / maxValue * 100).ToString("0.##") + "%");
-                }
-            }
-            return;
-        }
-        public Dictionary<string, decimal> accountantDataHandleToPrintChart(string accountantName, decimal totalRevenue, decimal totalStoreRevenue)
-        {
-            Dictionary<string, decimal> result = new Dictionary<string, decimal>();
-            result.Add("Store", totalStoreRevenue);
-            result.Add(accountantName, totalRevenue);
-            return result;
-        }
-
-        public void PrintColumnChart(Dictionary<int, decimal> data)
-        {
-            Console.WriteLine();
-            int centeredPosition = (Console.WindowWidth - "|==================================================================================================================================================|".Length) / 2;
-            string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
-            PhoneBL phoneBL = new PhoneBL();
-            decimal maxValue = data.Values.Max();
-            int count = 0;
-            foreach (var value in data)
-            {
-                count++;
-                for (int i = 0; i < value.Value / maxValue * 100; i++)
-                {
-                    if (i == 0)
-                    {
-                        Console.Write(spaces + "    {0, -20} | ", phoneBL.GetPhoneDetailByID(value.Key).Phone.PhoneName + " " + phoneBL.GetPhoneDetailByID(value.Key).PhoneColor.Color + " " + phoneBL.GetPhoneDetailByID(value.Key).ROMSize.ROM);
-                    }
-                    else
-                    {
-                        Console.Write("█");
-                    }
-                    if (i >= value.Value / maxValue * 100 - 1)
-                    {
-                        Console.Write(" | {0, -15}", consoleUI.FormatPrice(value.Value));
-                    }
-                }
-                Console.WriteLine("\n");
-                if (count == 5) break;
-            }
-        }
-        public Dictionary<int, decimal> DataToPrintChartHandle(List<Order> orders)
-        {
-            Dictionary<int, decimal> phoneIdWithPrice = new Dictionary<int, decimal>();
-
-            foreach (var order in orders)
-            {
-                foreach (var phone in order.PhoneDetails)
-                {
-                    if (phoneIdWithPrice.ContainsKey(phone.PhoneDetailID))
-                    {
-                        phoneIdWithPrice[phone.PhoneDetailID] += phone.Quantity * phone.Price;
-                    }
-                    else
-                    {
-                        phoneIdWithPrice[phone.PhoneDetailID] = phone.Quantity * phone.Price;
-                    }
-                }
-            }
-            Dictionary<int, decimal> sortedDictionary = new Dictionary<int, decimal>();
-            List<KeyValuePair<int, decimal>> sortedList = new List<KeyValuePair<int, decimal>>(phoneIdWithPrice);
-            sortedList.Sort((pair1, pair2) => pair2.Value.CompareTo(pair1.Value));
-            foreach (var pair in sortedList)
-            {
-                sortedDictionary.Add(pair.Key, pair.Value);
-            }
-            return sortedDictionary;
-        }
-        public Dictionary<PhoneDetail, Dictionary<PhoneEnum.Status, decimal>> GetListPhoneTradeIn()
-        {
-            List<PhoneDetail> ps = new PhoneBL().GetPhonesCanTradeIn();
-            Dictionary<PhoneDetail, Dictionary<PhoneEnum.Status, decimal>> a = new Dictionary<PhoneDetail, Dictionary<PhoneEnum.Status, decimal>>();
-            List<PhoneDetail> listcheck = new List<PhoneDetail>();
-            foreach (var p in ps)
-            {
-                int count = 0;
-                foreach (var l in listcheck)
-                {
-                    if (l.Phone.PhoneName == p.Phone.PhoneName && l.ROMSize.ROM == p.ROMSize.ROM && l.PhoneColor.Color == p.PhoneColor.Color) count++;
-                }
-                if (count == 0) listcheck.Add(p);
-            }
-
-            foreach (var l in listcheck)
-            {
-                Dictionary<PhoneEnum.Status, decimal> phonestatus = new Dictionary<PhoneEnum.Status, decimal>();
-                foreach (var p in ps)
-                {
-                    if (l.Phone.PhoneName == p.Phone.PhoneName && l.ROMSize.ROM == p.ROMSize.ROM && l.PhoneColor.Color == p.PhoneColor.Color) phonestatus.Add(p.PhoneStatusType, p.Price);
-                }
-                a.Add(l, phonestatus);
-            }
-            return a;
-        }
     }
 
 }

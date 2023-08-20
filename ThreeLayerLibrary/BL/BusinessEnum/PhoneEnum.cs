@@ -16,7 +16,8 @@ namespace BusinessEnum
         public enum ImeiStatus
         {
             NotExport,
-            Export
+            Export,
+            InOrder
         }
     }
 }

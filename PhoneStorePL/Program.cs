@@ -21,11 +21,9 @@ namespace PhoneStoreUI
             Ultilities Ults = new Ultilities(staffBL);
             ConsoleUlts consoleUlts = new ConsoleUlts();
             ConsoleUI consoleUI = new ConsoleUI();
-
-            Console.CancelKeyPress += delegate (object? sender, ConsoleCancelEventArgs e)
+            Console.CancelKeyPress += delegate (object? sender, ConsoleCancelEventArgs e) // XỬ LÝ KHI NGƯỜI DÙNG SỬ DỤNG TỔ HỢP PHÍM CTRL + C ĐỂ THOÁT CHƯƠNG TRÌNH
             {
                 e.Cancel = true;
-
                 consoleUI.ConsoleForegroundColor(ConsoleEnum.Color.Green);
                 new StaffBL().Logout();
                 string space = consoleUI.AlignCenter("Exit Successfully!");
@@ -33,7 +31,6 @@ namespace PhoneStoreUI
                 consoleUI.ConsoleForegroundColor(ConsoleEnum.Color.White);
                 Environment.Exit(0);
             };
-
             bool active = true;
             do
             {
@@ -104,9 +101,7 @@ namespace PhoneStoreUI
                     Main();
                 }
             } while (active);
-
         }
-
     }
 }
 

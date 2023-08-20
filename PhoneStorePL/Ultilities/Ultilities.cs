@@ -33,16 +33,14 @@ namespace Ults
             }
             return false;
         }
+        // public List<Phone> SearchPhone() {}
         public void CreateOrder()
         {
-            int centeredPosition = (Console.WindowWidth - "|--------------------------------------------------------------------------------------------|".Length) / 2;
-            string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
-            int secondcenteredPosition = (Console.WindowWidth - "|===================================================================================================|".Length) / 2;
-            string secondspaces = secondcenteredPosition > 0 ? new string(' ', secondcenteredPosition) : "";
+            string spaces = consoleUI.AlignCenter("|--------------------------------------------------------------------------------------------|");
             string orderGenerateID = ConsoleUlts.GenerateID();
             string searchTitle = consoleUI.GetSearchANSIText(), phoneInfoToSearch = "";
             string[] menuSearchChoice = consoleUI.GetMenuItemSearch(), listPhase = consoleUI.GetCreateOrderTimeLine();
-            int phoneId = 0, phoneModelID = 0, count = 0, searchChoice = 0, currentPhase = 1, phaseChoice = 0, quantity = 0, reChooseModelAfterBackPrevPhase = 0;
+            int phoneId = 0, phoneModelID = 0, searchChoice = 0, currentPhase = 1, phaseChoice = 0, quantity = 0, reChooseModelAfterBackPrevPhase = 0;
             List<Imei>? imeis = null;
             List<int>? listAllPhonesID = new List<int>();
             bool listPhoneSearch = false;
@@ -91,6 +89,7 @@ namespace Ults
                         bool? isContinueChooseModelID = null;
                         phonedetails = phoneBL.GetPhoneDetailsByPhoneID(phoneId);
                         consoleUI.PrintTimeLine(listPhase, currentPhase);
+
                         if (phonesInOrder!.Count() != 0 || phonesInOrder != null)
                         {
                             Dictionary<int, int> phoneDetailsIDWithQtt = new Dictionary<int, int>();
@@ -347,7 +346,6 @@ namespace Ults
             string handleTitle = consoleUI.GetHandleOrderANSIText();
             string[] listPhase = { "Show orders", "Confirm Handle" };
             int currentPhase = 1;
-            int count = 0;
             int handleChoice = 0;
             // danh sách chứa tạm các order lấy được trong database
             List<Order> listOrderTemp = new List<Order>();
@@ -415,7 +413,7 @@ namespace Ults
                                 {
                                     foreach (var imei in phoneDetail.ListImei)
                                     {
-                                        phoneBL.UpdateImeiStatusToExport(imei.PhoneImei);
+                                        phoneBL.UpdateImeiStatusToNotExport(imei.PhoneImei);
                                     }
                                 }
                                 return 0;
@@ -427,7 +425,7 @@ namespace Ults
                             {
                                 foreach (var imei in phoneDetail.ListImei)
                                 {
-                                    phoneBL.UpdateImeiStatusToNotExport(imei.PhoneImei);
+                                    phoneBL.UpdateImeiStatusToExport(imei.PhoneImei);
                                 }
                             }
                             // đổi trạng thái Order thành completed
@@ -436,9 +434,7 @@ namespace Ults
                                 return 1;
                             }
                         }
-
                         break;
-
                 }
             } while (currentPhase != 3);
             return 1;
