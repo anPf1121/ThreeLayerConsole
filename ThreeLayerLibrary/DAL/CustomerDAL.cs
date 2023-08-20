@@ -18,6 +18,36 @@ public class CustomerDAL
         );
         return customer;
     }
+    public List<Customer> GetCustomersByName(string name)
+    {
+        List<Customer> lstCustomer = new List<Customer>();
+        try
+        {
+            if (connection.State == System.Data.ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+            query = @"select * from customers where name like @name;";
+            MySqlCommand command = new MySqlCommand(query, connection);
+            command.Parameters.Clear();
+            command.Parameters.AddWithValue("@name", "%" + name + "%");
+            MySqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                lstCustomer.Add(GetCustomer(reader));
+            }
+            reader.Close();
+        }
+        catch (MySqlException ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+        if (connection.State == System.Data.ConnectionState.Open)
+        {
+            connection.Close();
+        }
+        return lstCustomer;
+    }
     public Customer GetCustomerByID(int id)
     {
         Customer customer = new Customer(0, "", "", "");

@@ -33,6 +33,9 @@ public class DiscountPolicyBL{
     public DiscountPolicy GetDiscountPolicyByID(int discountid){
         return discountPolicyDAL.GetDiscountPolicyById(discountid);
     }
+    public DiscountPolicy GetDiscountTradeInForPhone(PhoneDetail phoneDetail){
+        return discountPolicyDAL.GetDiscountPolicyForPhoneTradeIn(phoneDetail);
+    }
     public List<DiscountPolicy> GetDiscountValidated(){
         return discountPolicyDAL.GetDiscountValidated();
     }
@@ -44,8 +47,15 @@ public class DiscountPolicyBL{
                 if(dc.PhoneDetail.PhoneDetailID == phone.PhoneDetailID && dc.MoneySupported !=0)lst.Add(dc);
             }
         }
-        
-        return lst;
+        List<DiscountPolicy> output = new List<DiscountPolicy>();
+        foreach(var dc in lst){
+            int count = 0;
+            foreach(var o in output){
+                if(o.Title == dc.Title)count++;
+            }
+            if(count == 0)output.Add(dc);
+        }
+        return output;
         
     }
     public DiscountPolicy GetDiscountForOrder(Order order){

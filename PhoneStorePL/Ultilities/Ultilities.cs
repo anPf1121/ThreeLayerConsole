@@ -25,14 +25,6 @@ namespace Ults
         private ConsoleUI consoleUI = new ConsoleUI();
         private CustomerBL customerBL = new CustomerBL();
         private OrderBL orderBL = new OrderBL();
-        public bool CheckImeiExist(Imei imei, int phoneDetailID)
-        {
-            foreach (Imei item in phoneBL.GetImeis(phoneDetailID))
-            {
-                if (item.PhoneImei == imei.PhoneImei && item.Status == imei.Status) return true;
-            }
-            return false;
-        }
         // public List<Phone> SearchPhone() {}
         public void CreateOrder()
         {
@@ -224,7 +216,7 @@ namespace Ults
                                 do
                                 {
                                     imei.PhoneImei = ConsoleUlts.GetInputString($"{spaces}Enter Imei {i + 1}");
-                                    if (!CheckImeiExist(imei, phoneModelID))
+                                    if (!new PhoneBL().CheckImeiExist(imei, phoneModelID))
                                     {
                                         ConsoleUlts.Alert(ConsoleEnum.Alert.Error, "Imei Not Found");
                                         Console.Clear();
@@ -246,7 +238,7 @@ namespace Ults
                                         ConsoleUlts.Alert(ConsoleEnum.Alert.Success, "Imei Successfully Added");
                                         imeis.Add(imei);
                                     }
-                                } while (!CheckImeiExist(imei, phoneModelID));
+                                } while (!new PhoneBL().CheckImeiExist(imei, phoneModelID));
                             }
                             if (!ConsoleUlts.PressYesOrNo("Continue", "Back Previous Phase"))
                             {
@@ -318,11 +310,6 @@ namespace Ults
                         consoleUI.PrintOrder(order);
                         if (ConsoleUlts.PressYesOrNo("Create Order", "Cancel Order"))
                         {
-                            if (imeis != null)
-                                foreach (var ims in imeis)
-                                {
-                                    phoneBL.UpdateImeiStatusToInOrder(ims.PhoneImei);
-                                }
                             bool isCreateOrder = orderBL.CreateOrder(order);
                             ConsoleUlts.Alert(isCreateOrder ? ConsoleEnum.Alert.Success : ConsoleEnum.Alert.Error, isCreateOrder ? "Create Order Completed" : "Create Order Failed");
                         }
@@ -409,25 +396,11 @@ namespace Ults
                         {
                             if (orderBL.UpdateOrder(OrderEnum.Status.Canceled, order) == true)
                             {
-                                foreach (var phoneDetail in order.PhoneDetails)
-                                {
-                                    foreach (var imei in phoneDetail.ListImei)
-                                    {
-                                        phoneBL.UpdateImeiStatusToNotExport(imei.PhoneImei);
-                                    }
-                                }
                                 return 0;
                             }
                         }
                         else
                         {
-                            foreach (var phoneDetail in order.PhoneDetails)
-                            {
-                                foreach (var imei in phoneDetail.ListImei)
-                                {
-                                    phoneBL.UpdateImeiStatusToExport(imei.PhoneImei);
-                                }
-                            }
                             // đổi trạng thái Order thành completed
                             if (orderBL.UpdateOrder(OrderEnum.Status.Completed, order) == true)
                             {

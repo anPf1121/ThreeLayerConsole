@@ -597,7 +597,7 @@ DELIMITER $$
 CREATE TRIGGER after_insert_on_orderdetails AFTER INSERT ON OrderDetails
 FOR EACH ROW
 BEGIN
-UPDATE Imeis SET status = '2' WHERE phone_imei = new.phone_imei;
+UPDATE Imeis SET status = '1' WHERE phone_imei = new.phone_imei;
 END$$
 DELIMITER ;
 

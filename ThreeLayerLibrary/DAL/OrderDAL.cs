@@ -6,6 +6,17 @@ using System.Runtime.InteropServices;
 
 namespace DAL
 {
+    public static class OrderFilter
+    {
+        public const int GET_ORDER_COMPLETED_IN_DAY = 0;
+        public const int GET_ORDER_COMPLETED_IN_WEEK = 1;
+        public const int GET_ORDER_COMPLETED_IN_MONTH = 2;
+    }
+    public static class StatusFilter
+    {
+        public const int Paid = 0;
+        public const int Export = 1;
+    }
     public class OrderDAL
     {
         private MySqlConnection connection = DbConfig.GetConnection();
@@ -69,7 +80,7 @@ namespace DAL
             order.Accountant = staffDAL.GetStaffByID(order.Accountant.StaffID);
             order.Seller = staffDAL.GetStaffByID(order.Seller.StaffID);
             order.Customer = customerDAL.GetCustomerByID(order.Customer.CustomerID);
-            order.PhoneDetails = phoneDetailsDAL.GetPhoneDetails(order.OrderID, PhoneDetailFilter.GET_PHONE_DETAIL_IN_ORDER);
+            order.PhoneDetails = phoneDetailsDAL.GetListPhoneDetailInOrder(order.OrderID);
             order.TotalDue = order.GetTotalDue();
                 try
                 {
