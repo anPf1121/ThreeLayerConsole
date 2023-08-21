@@ -10,6 +10,7 @@ using UI;
 using System.Reflection.PortableExecutable;
 
 
+
 namespace PhoneStoreUI
 {
     class Program
@@ -51,7 +52,7 @@ namespace PhoneStoreUI
                             switch (consoleUlts.MenuHandle(consoleUI.GetAppANSIText(), null, menuItem, staffBL.LoggedInStaff))
                             {
                                 case 1:
-                                    Ults.CreateOrder();
+                                    
                                     break;
                                 case 2:
                                     HandleResult = Ults.HandleOrder();

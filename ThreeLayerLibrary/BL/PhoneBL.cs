@@ -56,36 +56,10 @@ public class PhoneBL
     {
         return phoneDetailDAL.GetImeisByPhoneDetailsID(phoneDetailID);
     }
-    public bool CheckImeisExits(PhoneDetail phonedetail, List<Imei> imeiWantToCheck)
-    {
-
-        int count = 0;
-        foreach (var imeisofphone in phonedetail.ListImei)
-        {
-            foreach (var imeiwanttocheck in imeiWantToCheck)
-            {
-                if (imeisofphone.PhoneImei == imeiwanttocheck.PhoneImei)
-                {
-                    count++;
-                    break;
-                }
-            }
-        }
-        if (count == imeiWantToCheck.Count())
-        {
-            return true;
-        }
-        return false;
-
-    }
-    public Dictionary<PhoneDetail, decimal> GetListPhoneDetailHaveDiscountByID(int policyid)
-    {
-        return phoneDetailDAL.GetListPhoneDetailHaveDiscountByID(policyid);
-    }
-    public bool CheckImeiIsDuplicateInOrder(Imei imei, List<Imei> imeis)
+    public bool CheckImeiIsDuplicateInOrder(Imei imei, Order order)
     {
         bool isDuplicate = false;
-        foreach (Imei j in imeis)
+        foreach (Imei j in order.ListImeiInOrder)
         {
             if (j.PhoneImei == imei.PhoneImei)
             {

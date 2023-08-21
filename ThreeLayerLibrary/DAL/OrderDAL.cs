@@ -31,7 +31,7 @@ namespace DAL
                 new Staff(reader.GetInt32("seller_id"), "", "", "", "", "", StaffEnum.Role.Seller, StaffEnum.Status.Active),
                 new Staff(reader.GetInt32("accountant_id"), "", "", "", "", "", StaffEnum.Role.Accountant, StaffEnum.Status.Active),
                 new Customer(reader.GetInt32("customer_id"), "", "", ""),
-                new List<PhoneDetail>(),
+                new List<Imei>(),
                 (OrderEnum.Status)Enum.ToObject(typeof(OrderEnum.Status), reader.GetInt32("order_status")),
                 new List<DiscountPolicy>(),
                 reader.GetString("payment_method"),
@@ -45,7 +45,7 @@ namespace DAL
             StaffDAL staffDAL = new StaffDAL();
             CustomerDAL customerDAL = new CustomerDAL();
             PhoneDetailsDAL phoneDetailsDAL = new PhoneDetailsDAL();
-            Order order = new Order("", new DateTime(), new Staff(0, "", "", "", "", "", StaffEnum.Role.Seller, StaffEnum.Status.Active), new Staff(0, "", "", "", "", "", StaffEnum.Role.Accountant, StaffEnum.Status.Active), new Customer(0, "", "", ""), new List<PhoneDetail>(), OrderEnum.Status.Pending, new List<DiscountPolicy>(), "", 0);
+            Order order = new Order("", new DateTime(), new Staff(0, "", "", "", "", "", StaffEnum.Role.Seller, StaffEnum.Status.Active), new Staff(0, "", "", "", "", "", StaffEnum.Role.Accountant, StaffEnum.Status.Active), new Customer(0, "", "", ""), new List<Imei>(), OrderEnum.Status.Pending, new List<DiscountPolicy>(), "", 0);
 
             // Dau tien lay ra thong tin cua Customer, Seller, Accountant theo order id
             try
@@ -80,7 +80,7 @@ namespace DAL
             order.Accountant = staffDAL.GetStaffByID(order.Accountant.StaffID);
             order.Seller = staffDAL.GetStaffByID(order.Seller.StaffID);
             order.Customer = customerDAL.GetCustomerByID(order.Customer.CustomerID);
-            order.PhoneDetails = phoneDetailsDAL.GetListPhoneDetailInOrder(order.OrderID);
+            order.ListImeiInOrder = phoneDetailsDAL.GetListImeisInOrder(order.OrderID);
             order.TotalDue = order.GetTotalDue();
                 try
                 {
@@ -208,23 +208,25 @@ namespace DAL
                     reader.Close();
                 }
                 query = @"insert into orders(customer_id, seller_id, order_id) 
-        value (@cusid, @sellerid, @orderid);";
+                value (@cusid, @sellerid, @orderid);";
                 command.CommandText = query;
                 command.Parameters.Clear();
                 command.Parameters.AddWithValue("@cusid", order.Customer.CustomerID);
                 command.Parameters.AddWithValue("@sellerid", order.Seller.StaffID);
                 command.Parameters.AddWithValue("@orderid", order.OrderID);
                 command.ExecuteNonQuery();
-                foreach (var phone in order.PhoneDetails)
+                foreach (var imei in order.ListImeiInOrder)
                 {
                     int quantity = 0;
                     bool mySqlReader = false;
                     try
                     {
-                        query = @"select quantity from phonedetails where phone_detail_id = @phonedetailid;";
+                        query = @"select pd.quantity from imeis i
+                        inner join phonedetails pd on i.phone_detail_id = pd.phone_detail_id
+                        where pd.phone_detail_id = @phonedetailid;";
                         command.CommandText = query;
                         command.Parameters.Clear();
-                        command.Parameters.AddWithValue("@phonedetailid", phone.PhoneDetailID);
+                        command.Parameters.AddWithValue("@phonedetailid", imei.PhoneDetail.PhoneDetailID);
                         reader = command.ExecuteReader();
                         mySqlReader = reader.Read();
                         if (mySqlReader)
@@ -234,16 +236,16 @@ namespace DAL
                         reader.Close();
                         if (mySqlReader)
                         {
-                            if (phone.Quantity > quantity) break;
+                            if (imei.PhoneDetail.Quantity > quantity) break;
                             else
                             {
                                 query = @"insert into orderdetails(order_id, phone_imei) value (@orderid, @phoneimei);";
                                 command.CommandText = query;
-                                foreach (Imei imei in phone.ListImei)
+                                foreach (Imei imei2 in order.ListImeiInOrder)
                                 {
                                     command.Parameters.Clear();
                                     command.Parameters.AddWithValue("@orderid", order.OrderID);
-                                    command.Parameters.AddWithValue("@phoneimei", imei.PhoneImei);
+                                    command.Parameters.AddWithValue("@phoneimei", imei2.PhoneImei);
                                     command.ExecuteNonQuery();
                                 }
                             }
@@ -256,7 +258,7 @@ namespace DAL
                     }
                     countphone++;
                 }
-                if (countphone == order.PhoneDetails.Count() && order.PhoneDetails.Count() > 0) result = true;
+                if (countphone == order.ListImeiInOrder.Count() && order.ListImeiInOrder.Count() > 0) result = true;
                 else result = false;
                 if (result == true) tr.Commit();
                 else tr.Rollback();
@@ -337,14 +339,11 @@ namespace DAL
             {
                 query = @"update imeis set status = 0 where phone_imei = @phoneimei;";
                 MySqlCommand command = new MySqlCommand(query, connection);
-                foreach (var phone in order.PhoneDetails)
+                foreach (var imei in order.ListImeiInOrder)
                 {
-                    foreach (var imei in phone.ListImei)
-                    {
                         command.Parameters.Clear();
                         command.Parameters.AddWithValue("@phoneimei", imei.PhoneImei);
                         command.ExecuteNonQuery();
-                    }
                 }
                 query = @"delete from discountpolicydetails where order_id = @orderid;";
                 command.CommandText = query;

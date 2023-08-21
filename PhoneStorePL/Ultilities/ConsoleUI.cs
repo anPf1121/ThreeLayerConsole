@@ -204,6 +204,26 @@ class ConsoleUI
     }
     public void PrintOrderDetails(Order ord)
     {
+        List<PhoneDetail> ListTemp = new List<PhoneDetail>();
+        foreach(var imei in ord.ListImeiInOrder){
+            ListTemp.Add(imei.PhoneDetail);
+        }
+        List<PhoneDetail> ListPhoneInOrder = new List<PhoneDetail>();
+        foreach(var phone in ListTemp){
+            bool checkRepeate = false;
+            foreach(var phone1 in ListPhoneInOrder){
+                if(phone.PhoneDetailID == phone1.PhoneDetailID)checkRepeate = true;
+            }
+            if(!checkRepeate)ListPhoneInOrder.Add(phone);
+        }
+        Dictionary<PhoneDetail, int> ListPhoneAndQuantity = new Dictionary<PhoneDetail, int>();
+        foreach(var phone in ListPhoneInOrder){
+            int count = 0;
+            foreach(var temp in ListTemp){
+                if(temp.PhoneDetailID == phone.PhoneDetailID)count++;
+            }
+            ListPhoneAndQuantity.Add(phone, count);
+        }
         int centeredPosition = (Console.WindowWidth - "|===========================================================================================================================|".Length) / 2;
         string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
         CultureInfo cultureInfo = new CultureInfo("vi-VN");
@@ -211,15 +231,19 @@ class ConsoleUI
         int printImeiHandle2 = 0;
         Console.WriteLine(spaces + "| {0, -16} | {1, -30} | {2, -15} | {3, 15} | {4, 15} | {5, 15} |", "Phone Detail ID", "Phone Model", "Imei", "Quantity", "Price", "Total Price");
         Console.WriteLine(spaces + "|===========================================================================================================================|");
-        foreach (var pd in ord.PhoneDetails)
+        foreach (var imei in ListPhoneAndQuantity)
         {
-            printImeiHandle = pd.PhoneDetailID;
+            int quan = 0;
+            printImeiHandle = imei.Key.PhoneDetailID;
             Console.WriteLine(spaces + "|---------------------------------------------------------------------------------------------------------------------------|");
-            foreach (var ims in pd.ListImei)
-            {
-                Console.WriteLine(spaces + "| {0, -16} | {1, -30} | {2, -15} | {3, 15} | {4, 15} | {5, 15} |", (printImeiHandle != printImeiHandle2) ? pd.PhoneDetailID : "", (printImeiHandle != printImeiHandle2) ? (pd.Phone.PhoneName + " " + pd.PhoneColor.Color + " " + pd.ROMSize.ROM + $" ({pd.PhoneStatusType})") : "", ims.PhoneImei, (printImeiHandle != printImeiHandle2) ? pd.Quantity : "", (printImeiHandle != printImeiHandle2) ? FormatPrice(pd.Price) : "", (printImeiHandle != printImeiHandle2) ? FormatPrice(ord.GetTotalDueForEachPhone(pd.PhoneDetailID)) : "");
+            foreach(var imei1 in ord.ListImeiInOrder){
+                if(imei.Key.PhoneDetailID == imei1.PhoneDetail.PhoneDetailID){
+                    quan+=1;
+                Console.WriteLine(spaces + "| {0, -16} | {1, -30} | {2, -15} | {3, 15} | {4, 15} | {5, 15} |", (printImeiHandle != printImeiHandle2) ? imei1.PhoneDetail.PhoneDetailID : "", (printImeiHandle != printImeiHandle2) ? (imei1.PhoneDetail.Phone.PhoneName + " " + imei1.PhoneDetail.PhoneColor.Color + " " + imei1.PhoneDetail.ROMSize.ROM + $" ({imei1.PhoneDetail.PhoneStatusType})") : "", imei1.PhoneImei, (printImeiHandle != printImeiHandle2) ? imei.Value : "", (printImeiHandle != printImeiHandle2) ? FormatPrice(imei1.PhoneDetail.Price) : "", (printImeiHandle != printImeiHandle2) ? FormatPrice(ord.GetTotalDueForEachPhone(imei1.PhoneDetail.PhoneDetailID)) : "");
                 printImeiHandle2 = printImeiHandle;
+                }
             }
+
         }
     }
 

@@ -54,9 +54,9 @@ public class OrderBL
         decimal totalRevenue = 0;
         foreach (var order in ordersCompleted)
         {
-            foreach (var phoneDetail in order.PhoneDetails)
+            foreach (var imei in order.ListImeiInOrder)
             {
-                totalRevenue += CalculateTotalRevenueOnModel(phoneDetail);
+                totalRevenue += CalculateTotalRevenueOnModel(imei.PhoneDetail);
             }
         }
         return totalRevenue;
@@ -70,9 +70,9 @@ public class OrderBL
         List<PhoneDetail> phoneDetail = new List<PhoneDetail>();
         foreach (var order in ordersCompleted)
         {
-            foreach (var pd in order.PhoneDetails)
+            foreach (var pd in order.ListImeiInOrder)
             {
-                phoneDetail.Add(pd);
+                phoneDetail.Add(pd.PhoneDetail);
             }
         }
         return phoneDetail;
