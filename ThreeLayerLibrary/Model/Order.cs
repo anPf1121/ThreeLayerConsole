@@ -42,7 +42,7 @@ public class Order
         foreach (var item in this.ListImeiInOrder)
         {
             if (phoneID == item.PhoneDetail.PhoneDetailID)
-                totalDue = item.PhoneDetail.Price;
+                totalDue += item.PhoneDetail.Price;
         }
         return totalDue;
     }

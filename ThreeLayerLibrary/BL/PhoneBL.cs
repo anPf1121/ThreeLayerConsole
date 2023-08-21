@@ -48,6 +48,10 @@ public class PhoneBL
         }
         return false;
     }
+    public PhoneDetail GetPhoneDetailByImei(string imei) {
+        PhoneDetail phoneDetail = phoneDetailDAL.GetPhoneDetailByImei(imei);
+        return phoneDetail;
+    }
     public PhoneDetail GetPhoneDetailByID(int phonedetailid)
     {
         return phoneDetailDAL.GetPhoneDetailByID(phonedetailid);

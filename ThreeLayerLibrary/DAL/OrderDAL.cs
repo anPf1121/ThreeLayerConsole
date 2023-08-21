@@ -82,34 +82,34 @@ namespace DAL
             order.Customer = customerDAL.GetCustomerByID(order.Customer.CustomerID);
             order.ListImeiInOrder = phoneDetailsDAL.GetListImeisInOrder(order.OrderID);
             order.TotalDue = order.GetTotalDue();
-                try
+            try
+            {
+                if (connection.State == System.Data.ConnectionState.Closed)
                 {
-                    if (connection.State == System.Data.ConnectionState.Closed)
-                    {
-                        connection.Open();
-                    }
-                    query = @"select dp.* from discountpolicies dp
+                    connection.Open();
+                }
+                query = @"select dp.* from discountpolicies dp
                 inner join discountpolicydetails dpd on dp.policy_id = dpd.policy_id
                 where dpd.order_id = @orderid;";
-                    MySqlCommand command = new MySqlCommand(query, connection);
-                    command.Parameters.Clear();
-                    command.Parameters.AddWithValue("@orderid", order.OrderID);
-                    MySqlDataReader reader = command.ExecuteReader();
-                    while (reader.Read())
-                    {
-                        order.DiscountPolicies.Add(new DiscountPolicyDAL().GetDiscountPolicy(reader));
-                    }
-                    reader.Close();
-                }
-                catch (MySqlException ex)
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.Clear();
+                command.Parameters.AddWithValue("@orderid", order.OrderID);
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
                 {
-                    Console.WriteLine(ex.Message);
+                    order.DiscountPolicies.Add(new DiscountPolicyDAL().GetDiscountPolicy(reader));
                 }
-                if (connection.State == System.Data.ConnectionState.Open)
-                {
-                    connection.Close();
-                }
-                
+                reader.Close();
+            }
+            catch (MySqlException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            if (connection.State == System.Data.ConnectionState.Open)
+            {
+                connection.Close();
+            }
+
 
             return order;
         }
@@ -183,7 +183,7 @@ namespace DAL
                     command.CommandText = $@"insert into Customers(name, address, phone_number)
                     values ('{order.Customer.CustomerName}','{order.Customer.Address}','{order.Customer.PhoneNumber}');";
                     command.ExecuteNonQuery();
-                    
+
                     command.CommandText = "select customer_id from customers order by customer_id desc limit 1;";
                     reader = command.ExecuteReader();
                     if (reader.Read())
@@ -205,7 +205,6 @@ namespace DAL
                         order.Customer.PhoneNumber = reader.GetString("phone_number");
                         order.Customer.Address = reader.GetString("address");
                     }
-                    reader.Close();
                 }
                 query = @"insert into orders(customer_id, seller_id, order_id) 
                 value (@cusid, @sellerid, @orderid);";
@@ -215,12 +214,14 @@ namespace DAL
                 command.Parameters.AddWithValue("@sellerid", order.Seller.StaffID);
                 command.Parameters.AddWithValue("@orderid", order.OrderID);
                 command.ExecuteNonQuery();
+
                 foreach (var imei in order.ListImeiInOrder)
                 {
                     int quantity = 0;
                     bool mySqlReader = false;
                     try
                     {
+
                         query = @"select pd.quantity from imeis i
                         inner join phonedetails pd on i.phone_detail_id = pd.phone_detail_id
                         where pd.phone_detail_id = @phonedetailid;";
@@ -247,6 +248,7 @@ namespace DAL
                                     command.Parameters.AddWithValue("@orderid", order.OrderID);
                                     command.Parameters.AddWithValue("@phoneimei", imei2.PhoneImei);
                                     command.ExecuteNonQuery();
+                                    countphone++;
                                 }
                             }
                         }
@@ -256,7 +258,6 @@ namespace DAL
                     {
                         Console.WriteLine(ex.Message);
                     }
-                    countphone++;
                 }
                 if (countphone == order.ListImeiInOrder.Count() && order.ListImeiInOrder.Count() > 0) result = true;
                 else result = false;
@@ -326,7 +327,7 @@ namespace DAL
                         command.ExecuteNonQuery();
                         break;
                     case OrderEnum.Status.Pending:
-                    break;
+                        break;
                     default:
                         return false;
                 }
@@ -341,9 +342,9 @@ namespace DAL
                 MySqlCommand command = new MySqlCommand(query, connection);
                 foreach (var imei in order.ListImeiInOrder)
                 {
-                        command.Parameters.Clear();
-                        command.Parameters.AddWithValue("@phoneimei", imei.PhoneImei);
-                        command.ExecuteNonQuery();
+                    command.Parameters.Clear();
+                    command.Parameters.AddWithValue("@phoneimei", imei.PhoneImei);
+                    command.ExecuteNonQuery();
                 }
                 query = @"delete from discountpolicydetails where order_id = @orderid;";
                 command.CommandText = query;
@@ -355,8 +356,8 @@ namespace DAL
             {
                 if (order.DiscountPolicies.Count() != 0 || order.DiscountPolicies != null)
                 {
-                    
-                    
+
+
                     query = @"insert into discountpolicydetails(order_id, policy_id) value(@orderid, @policyid);";
                     MySqlCommand command = new MySqlCommand(query, connection);
                     foreach (var dc in order.DiscountPolicies)

@@ -13,6 +13,7 @@ public class PhoneDetail
     public PhoneEnum.Status PhoneStatusType { get; set; }
     public Staff UpdateBy { get; set; }
     public DateTime UpdateAt { get; set; }
+    public PhoneDetail() {}
     public PhoneDetail(int phoneDetailID, Phone phone, ROMSize romSize, PhoneColor phoneColor,decimal price,int quantity, PhoneEnum.Status phoneStatusType, Staff updateBy, DateTime updateAt)
     {
         this.PhoneDetailID = phoneDetailID;

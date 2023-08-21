@@ -4,7 +4,8 @@ using BusinessEnum;
 
 namespace DAL
 {
-    public class PhoneDetailFilter {
+    public class PhoneDetailFilter
+    {
         public const int CHANGE_IMEI_STATUS_TO_INORDER = 1;
         public const int CHANGE_IMEI_STATUS_TO_EXPORT = 2;
         public const int CHANGE_IMEI_STATUS_TO_NOTEXPORT = 3;
@@ -22,7 +23,8 @@ namespace DAL
             );
             return brand;
         }
-        public bool UpdateImeiStatus(string imei, int imeiFilter) {
+        public bool UpdateImeiStatus(string imei, int imeiFilter)
+        {
             try
             {
                 if (connection.State == System.Data.ConnectionState.Closed)
@@ -33,13 +35,13 @@ namespace DAL
                 {
                     case PhoneDetailFilter.CHANGE_IMEI_STATUS_TO_INORDER:
                         query = $@"UPDATE imeis SET status = 2 WHERE phone_imei = '{imei}';";
-                    break;
+                        break;
                     case PhoneDetailFilter.CHANGE_IMEI_STATUS_TO_EXPORT:
                         query = $@"UPDATE imeis SET status = 1 WHERE phone_imei = '{imei}';";
-                    break;
+                        break;
                     case PhoneDetailFilter.CHANGE_IMEI_STATUS_TO_NOTEXPORT:
                         query = $@"UPDATE imeis SET status = 0 WHERE phone_imei = '{imei}';";
-                    break;
+                        break;
                 }
                 MySqlCommand command = new MySqlCommand(query, connection);
                 MySqlDataReader reader = command.ExecuteReader();
@@ -49,7 +51,9 @@ namespace DAL
             {
                 Console.WriteLine(ex.Message);
                 return false;
-            } finally {
+            }
+            finally
+            {
                 if (connection.State == System.Data.ConnectionState.Open)
                 {
                     connection.Close();
@@ -157,7 +161,7 @@ namespace DAL
         public Imei GetImei(MySqlDataReader reader)
         {
             Imei imei = new Imei(
-                new PhoneDetail(reader.GetInt32("phone_detail_id"), new Phone(0, "", new Brand(0, "", ""), "", "", "", "", "", "", "", "", "", new DateTime(), "", new Staff(0, "", "", "", "", "", StaffEnum.Role.Seller, StaffEnum.Status.Active), new DateTime(), ""), new ROMSize(0, ""), new PhoneColor(0, ""), 0, 0, PhoneEnum.Status.Type1,  new Staff(0, "", "", "", "", "", StaffEnum.Role.Seller, StaffEnum.Status.Active), new DateTime()),
+                new PhoneDetail(reader.GetInt32("phone_detail_id"), new Phone(0, "", new Brand(0, "", ""), "", "", "", "", "", "", "", "", "", new DateTime(), "", new Staff(0, "", "", "", "", "", StaffEnum.Role.Seller, StaffEnum.Status.Active), new DateTime(), ""), new ROMSize(0, ""), new PhoneColor(0, ""), 0, 0, PhoneEnum.Status.Type1, new Staff(0, "", "", "", "", "", StaffEnum.Role.Seller, StaffEnum.Status.Active), new DateTime()),
                 reader.GetString("phone_imei"),
                 (PhoneEnum.ImeiStatus)Enum.ToObject(typeof(PhoneEnum.ImeiStatus), reader.GetInt32("status"))
 
@@ -183,7 +187,7 @@ namespace DAL
         }
         public PhoneDetail GetPhoneDetailByID(int phonedetailid)
         {
-            PhoneDetail output = new PhoneDetail(0, new Phone(0, "", new Brand(0, "", ""), "", "", "", "", "", "", "", "", "", new DateTime(), "", new Staff(0, "", "", "", "", "", StaffEnum.Role.Seller, StaffEnum.Status.Active), new DateTime(), ""), new ROMSize(0, ""), new PhoneColor(0, ""), 0, 0, PhoneEnum.Status.Type1,  new Staff(0, "", "", "", "", "", StaffEnum.Role.Seller, StaffEnum.Status.Active), new DateTime());
+            PhoneDetail output = new PhoneDetail(0, new Phone(0, "", new Brand(0, "", ""), "", "", "", "", "", "", "", "", "", new DateTime(), "", new Staff(0, "", "", "", "", "", StaffEnum.Role.Seller, StaffEnum.Status.Active), new DateTime(), ""), new ROMSize(0, ""), new PhoneColor(0, ""), 0, 0, PhoneEnum.Status.Type1, new Staff(0, "", "", "", "", "", StaffEnum.Role.Seller, StaffEnum.Status.Active), new DateTime());
             PhoneDAL phoneDAL = new PhoneDAL();
             StaffDAL staffDAL = new StaffDAL();
             try
@@ -254,6 +258,38 @@ namespace DAL
 
             return output;
         }
+        public PhoneDetail GetPhoneDetailByImei(string phoneImei)
+        {
+            PhoneDetail phoneDetail = new PhoneDetail();
+            try
+            {
+                if (connection.State == System.Data.ConnectionState.Closed)
+                {
+                    connection.Open();
+                }
+                query = @"select * from imeis I
+                INNER JOIN phonedetails PD ON PD.phone_detail_id = I.phone_detail_id
+                INNER JOIN phones P ON P.phone_id = PD.phone_id
+                WHERE I.phone_imei = @phone_imei;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.Clear();
+                command.Parameters.AddWithValue("@phone_imei", phoneImei);
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                   phoneDetail = GetPhoneDetail(reader);
+                }
+                reader.Close();
+            }
+            catch (MySqlException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            phoneDetail.Phone = new PhoneDAL().GetPhoneById(phoneDetail.Phone.PhoneID);
+            phoneDetail.PhoneColor = GetPhoneColoreByID(phoneDetail.PhoneColor.ColorID);
+            phoneDetail.ROMSize = GetROMSizeByID(phoneDetail.ROMSize.ROMID);
+            return phoneDetail;
+        }
         public List<Imei> GetImeisByPhoneDetailsID(int phoneDetailID)
         {
             List<Imei> imeis = new List<Imei>();
@@ -280,7 +316,8 @@ namespace DAL
                 Console.WriteLine(ex.Message);
             }
             List<Imei> output = new List<Imei>();
-            foreach(var imei in imeis){
+            foreach (var imei in imeis)
+            {
                 imei.PhoneDetail = GetPhoneDetailByID(imei.PhoneDetail.PhoneDetailID);
                 output.Add(imei);
             }
@@ -313,41 +350,48 @@ namespace DAL
                 Console.WriteLine(ex.Message);
             }
             List<Imei> output1 = new List<Imei>();
-            foreach(var imei in output){
+            foreach (var imei in output)
+            {
                 imei.PhoneDetail = GetPhoneDetailByID(imei.PhoneDetail.PhoneDetailID);
                 output1.Add(imei);
             }
 
             return output1;
         }
-        public List<PhoneDetail> GetListPhoneDetailCanTradeIn(){
-        List<PhoneDetail> lst = new List<PhoneDetail>();
-        try{
-            if (connection.State == System.Data.ConnectionState.Closed)
+        public List<PhoneDetail> GetListPhoneDetailCanTradeIn()
+        {
+            List<PhoneDetail> lst = new List<PhoneDetail>();
+            try
             {
-                connection.Open();
+                if (connection.State == System.Data.ConnectionState.Closed)
+                {
+                    connection.Open();
+                }
+                query = @"select * from phonedetails where phone_status_type != 0;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.Clear();
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    lst.Add(GetPhoneDetail(reader));
+                }
+                reader.Close();
             }
-            query = @"select * from phonedetails where phone_status_type != 0;";
-            MySqlCommand command = new MySqlCommand(query, connection);
-            command.Parameters.Clear();
-            MySqlDataReader reader = command.ExecuteReader();
-            while(reader.Read()){
-                lst.Add(GetPhoneDetail(reader));
+            catch (MySqlException ex)
+            {
+                Console.WriteLine(ex.Message);
             }
-            reader.Close();
-        }catch(MySqlException ex){
-            Console.WriteLine(ex.Message);
-        }
-        if (connection.State == System.Data.ConnectionState.Open)
+            if (connection.State == System.Data.ConnectionState.Open)
             {
                 connection.Close();
             }
-        List<PhoneDetail> output = new List<PhoneDetail>();
-        foreach(var p in lst){
-            output.Add(GetPhoneDetailByID(p.PhoneDetailID));
-        }
+            List<PhoneDetail> output = new List<PhoneDetail>();
+            foreach (var p in lst)
+            {
+                output.Add(GetPhoneDetailByID(p.PhoneDetailID));
+            }
             return output;
-    }
+        }
     }
 }
 
