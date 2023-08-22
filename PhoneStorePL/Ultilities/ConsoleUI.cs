@@ -180,8 +180,8 @@ class ConsoleUI
             Console.WriteLine(spaces + "| {0, 46}                                                                            |", SetTextBolder("All DiscountPolicy Be Apply For This Order Is "));
             foreach (var dp in DiscountAndRepeatTime)
             {
-                if (dp.Key.DiscountPrice != 0) Console.WriteLine(spaces + "| - {0, -100}         |", (dp.Key.Title + (" " + "(" + dp.Value + "x" + ")") + ": " + SetTextBolder(FormatPrice(dp.Key.DiscountPrice))).PadRight(119));
-                if (dp.Key.MoneySupported != 0) Console.WriteLine(spaces + "| - {0, -100}         |", (dp.Key.Title + (" " + "(" + dp.Value + "x" + ")") + ": " + SetTextBolder(FormatPrice(dp.Key.MoneySupported))).PadRight(119));
+                if (dp.Key.DiscountPrice != 0) Console.WriteLine(spaces + "| - {0, -100} |", (dp.Key.Title + (" " + "(" + dp.Value + "x" + ")") + ": " + SetTextBolder(FormatPrice(dp.Key.DiscountPrice))).PadRight(119));
+                if (dp.Key.MoneySupported != 0) Console.WriteLine(spaces + "| - {0, -100} |", (dp.Key.Title + (" " + "(" + dp.Value + "x" + ")") + ": " + SetTextBolder(FormatPrice(dp.Key.MoneySupported))).PadRight(119));
                 if (ord.OrderStatus == OrderEnum.Status.Pending || ord.OrderStatus == OrderEnum.Status.Confirmed) ord.TotalDue -= dp.Key.DiscountPrice;
             }
         }
@@ -204,22 +204,27 @@ class ConsoleUI
     public void PrintOrderDetails(Order ord)
     {
         List<PhoneDetail> ListTemp = new List<PhoneDetail>();
-        foreach(var imei in ord.ListImeiInOrder){
+        foreach (var imei in ord.ListImeiInOrder)
+        {
             ListTemp.Add(imei.PhoneDetail);
         }
         List<PhoneDetail> ListPhoneInOrder = new List<PhoneDetail>();
-        foreach(var phone in ListTemp){
+        foreach (var phone in ListTemp)
+        {
             bool checkRepeate = false;
-            foreach(var phone1 in ListPhoneInOrder){
-                if(phone.PhoneDetailID == phone1.PhoneDetailID)checkRepeate = true;
+            foreach (var phone1 in ListPhoneInOrder)
+            {
+                if (phone.PhoneDetailID == phone1.PhoneDetailID) checkRepeate = true;
             }
-            if(!checkRepeate)ListPhoneInOrder.Add(phone);
+            if (!checkRepeate) ListPhoneInOrder.Add(phone);
         }
         Dictionary<PhoneDetail, int> ListPhoneAndQuantity = new Dictionary<PhoneDetail, int>();
-        foreach(var phone in ListPhoneInOrder){
+        foreach (var phone in ListPhoneInOrder)
+        {
             int count = 0;
-            foreach(var temp in ListTemp){
-                if(temp.PhoneDetailID == phone.PhoneDetailID)count++;
+            foreach (var temp in ListTemp)
+            {
+                if (temp.PhoneDetailID == phone.PhoneDetailID) count++;
             }
             ListPhoneAndQuantity.Add(phone, count);
         }
@@ -235,11 +240,13 @@ class ConsoleUI
             int quan = 0;
             printImeiHandle = imei.Key.PhoneDetailID;
             Console.WriteLine(spaces + "|---------------------------------------------------------------------------------------------------------------------------|");
-            foreach(var imei1 in ord.ListImeiInOrder){
-                if(imei.Key.PhoneDetailID == imei1.PhoneDetail.PhoneDetailID){
-                    quan+=1;
-                Console.WriteLine(spaces + "| {0, -16} | {1, -30} | {2, -15} | {3, 15} | {4, 15} | {5, 15} |", (printImeiHandle != printImeiHandle2) ? imei1.PhoneDetail.PhoneDetailID : "", (printImeiHandle != printImeiHandle2) ? (imei1.PhoneDetail.Phone.PhoneName + " " + imei1.PhoneDetail.PhoneColor.Color + " " + imei1.PhoneDetail.ROMSize.ROM + $" ({imei1.PhoneDetail.PhoneStatusType})") : "", imei1.PhoneImei, (printImeiHandle != printImeiHandle2) ? imei.Value : "", (printImeiHandle != printImeiHandle2) ? FormatPrice(imei1.PhoneDetail.Price) : "", (printImeiHandle != printImeiHandle2) ? FormatPrice(ord.GetTotalDueForEachPhone(imei1.PhoneDetail.PhoneDetailID)) : "");
-                printImeiHandle2 = printImeiHandle;
+            foreach (var imei1 in ord.ListImeiInOrder)
+            {
+                if (imei.Key.PhoneDetailID == imei1.PhoneDetail.PhoneDetailID)
+                {
+                    quan += 1;
+                    Console.WriteLine(spaces + "| {0, -16} | {1, -30} | {2, -15} | {3, 15} | {4, 15} | {5, 15} |", (printImeiHandle != printImeiHandle2) ? imei1.PhoneDetail.PhoneDetailID : "", (printImeiHandle != printImeiHandle2) ? (imei1.PhoneDetail.Phone.PhoneName + " " + imei1.PhoneDetail.PhoneColor.Color + " " + imei1.PhoneDetail.ROMSize.ROM + $" ({imei1.PhoneDetail.PhoneStatusType})") : "", imei1.PhoneImei, (printImeiHandle != printImeiHandle2) ? imei.Value : "", (printImeiHandle != printImeiHandle2) ? FormatPrice(imei1.PhoneDetail.Price) : "", (printImeiHandle != printImeiHandle2) ? FormatPrice(ord.GetTotalDueForEachPhone(imei1.PhoneDetail.PhoneDetailID)) : "");
+                    printImeiHandle2 = printImeiHandle;
                 }
             }
 
@@ -490,6 +497,18 @@ class ConsoleUI
 {spaces}|                                       │  │ ││ ┬││││                                        |
 {spaces}|                                       ┴─┘└─┘└─┘┴┘└┘                                        |
 {spaces}|                                                                                            |";
+    }
+    public string GetPhoneDetailANSIText()
+    {
+        int centeredPosition = (Console.WindowWidth - "|--------------------------------------------------------------------------------------------|".Length) / 2;
+        string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
+        return $@"{spaces}|                                                                                            |
+{spaces}|                              ┌─┐┬ ┬┌─┐┌┐┌┌─┐  ┌┬┐┌─┐┌┬┐┌─┐┬┬                               |  
+{spaces}|                              ├─┘├─┤│ ││││├┤    ││├┤  │ ├─┤││                               |  
+{spaces}|                              ┴  ┴ ┴└─┘┘└┘└─┘  ─┴┘└─┘ ┴ ┴ ┴┴┴─┘                             |
+{spaces}|                                                                                            |";
+
+
     }
     public string SetTextBolder(string text)
     {

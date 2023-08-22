@@ -97,11 +97,12 @@ namespace Ults
                         }
                         else
                         {
-                            listPhoneSearch = ConsoleUlts.Pagination(listTemp, currentPhase);
+                            listPhoneSearch = ConsoleUlts.Pagination(listTemp, currentPhase, consoleUI.GetCreateOrderTimeLine());
                             if (listPhoneSearch == false) break;
                             if (listPhoneSearch == true)
                             {
                                 phoneId = ConsoleUlts.InputIDValidation(phoneBL.GetAllPhone().Count(), $"Enter Phone ID", "Invalid Phone ID", spaces);
+                                ConsoleUlts.Alert(ConsoleEnum.Alert.Success, "Choose Phone ID Susccesfully");
                             }
                         }
 
@@ -148,7 +149,7 @@ namespace Ults
                                 listPhoneDetailID.Add(item.PhoneDetailID);
                             do
                             {
-                                isContinueChooseModelID = ConsoleUlts.Pagination(phonedetails, currentPhase);
+                                isContinueChooseModelID = ConsoleUlts.Pagination(phonedetails, currentPhase, consoleUI.GetCreateOrderTimeLine());
                                 if (isContinueChooseModelID != null)
                                 {
                                     if (isContinueChooseModelID == true)
@@ -447,7 +448,7 @@ namespace Ults
                         else
                         {
                             consoleUI.PrintTimeLine(listPhase, currentPhase);
-                            temp = ConsoleUlts.Pagination(listOrderTemp, currentPhase);
+                            temp = ConsoleUlts.Pagination(listOrderTemp, currentPhase, consoleUI.GetHandleOrderTimeLine());
                             if (temp == true)
                             {
                                 // nhập Id order để xem
@@ -527,7 +528,7 @@ namespace Ults
                 }
                 else
                 {
-                    bool showOrderList = ConsoleUlts.Pagination(ListOrderPending, currentPhase);
+                    bool showOrderList = ConsoleUlts.Pagination(ListOrderPending, currentPhase, consoleUI.GetTradeInTimeLine());
                     if (showOrderList == true)
                     {
                         do
@@ -576,7 +577,7 @@ namespace Ults
                                         ConsoleUlts.Alert(ConsoleEnum.Alert.Warning, "Skip TradeIn");
                                     }
                                 }
-                                bool listPhoneSearch = ConsoleUlts.Pagination(phoneBL.GetPhonesByInformation(input), currentPhase);
+                                bool listPhoneSearch = ConsoleUlts.Pagination(phoneBL.GetPhonesByInformation(input), currentPhase, consoleUI.GetTradeInTimeLine());
                                 if (listPhoneSearch == false) activeChoosePhone = false;
                                 if (listPhoneSearch == true)
                                 {
@@ -608,7 +609,7 @@ namespace Ults
                                             break;
                                         }
                                     }
-                                    bool listPhoneDetailSearch = ConsoleUlts.Pagination(phoneDetailsForTradeIn, currentPhase);
+                                    bool listPhoneDetailSearch = ConsoleUlts.Pagination(phoneDetailsForTradeIn, currentPhase, consoleUI.GetTradeInTimeLine());
                                     if (listPhoneDetailSearch == false) activeChoosePhone = false;
                                     if (listPhoneDetailSearch == true)
                                     {
@@ -856,7 +857,7 @@ namespace Ults
                 }
                 else
                 {
-                    bool? showOrderList = ConsoleUlts.Pagination(ListOrderPending, currentPhase);
+                    bool? showOrderList = ConsoleUlts.Pagination(ListOrderPending, currentPhase, listPhase);
                     if (showOrderList == true)
                     {
                         do

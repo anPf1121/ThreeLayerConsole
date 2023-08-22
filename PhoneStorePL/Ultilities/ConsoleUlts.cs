@@ -101,7 +101,9 @@ namespace Ults
                             Console.ForegroundColor = ConsoleColor.Blue;
                             Console.WriteLine(spaces + "| {0, 50} |", (iconBackhand + " " + consoleUI.SetTextBolder(menuItem[i])).PadRight(90));
                             Console.ForegroundColor = ConsoleColor.White;
-                        } else {
+                        }
+                        else
+                        {
                             Console.WriteLine(spaces + "| {0, 50} |", menuItem[i].PadRight(90));
                         }
                     }
@@ -149,7 +151,7 @@ namespace Ults
             return currentChoice;
         }
 
-        public bool Pagination<T>(List<T> listItem, int currentPhase)
+        public bool Pagination<T>(List<T> listItem, int currentPhase, string[] timeLine)
         {
             int currentPage = 1;
             int totalPages = (int)Math.Ceiling((double)listItem.Count / 5);
@@ -159,11 +161,11 @@ namespace Ults
             do
             {
                 if (typeof(T) == typeof(Phone))
-                    DisplayCurrentPage((List<Phone>)(object)listItem, currentPage, 5, currentPhase);
+                    DisplayCurrentPage((List<Phone>)(object)listItem, currentPage, 5, currentPhase, timeLine);
                 else if (typeof(T) == typeof(PhoneDetail))
-                    DisplayCurrentPage((List<PhoneDetail>)(object)listItem, currentPage, 5, currentPhase);
+                    DisplayCurrentPage((List<PhoneDetail>)(object)listItem, currentPage, 5, currentPhase, timeLine);
                 else if (typeof(T) == typeof(Order))
-                    DisplayCurrentPage((List<Order>)(object)listItem, currentPage, 5, currentPhase);
+                    DisplayCurrentPage((List<Order>)(object)listItem, currentPage, 5, currentPhase, timeLine);
                 new ConsoleUI().GetFooterPagination(currentPage, totalPages);
                 key = Console.ReadKey();
 
@@ -180,7 +182,7 @@ namespace Ults
             return false;
         }
 
-        public void DisplayCurrentPage<T>(List<T> items, int currentPage, int itemsPerPage, int currentPhase)
+        public void DisplayCurrentPage<T>(List<T> items, int currentPage, int itemsPerPage, int currentPhase, string[] timeLine)
         {
             int startIndex = (currentPage - 1) * itemsPerPage;
             int endIndex = Math.Min(startIndex + itemsPerPage, items.Count);
@@ -192,7 +194,7 @@ namespace Ults
                 {
                     if (i == startIndex)
                     {
-                        new ConsoleUI().PrintTimeLine(new ConsoleUI().GetCreateOrderTimeLine(), currentPhase);
+                        new ConsoleUI().PrintTimeLine(timeLine, currentPhase);
                         new ConsoleUI().PrintTitle(new ConsoleUI().GetAppANSIText(), new ConsoleUI().GetAddPhoneToOrderANSIText(), null);
                         new ConsoleUI().PrintPhoneBorderLine();
                     }
@@ -203,8 +205,8 @@ namespace Ults
                 {
                     if (i == startIndex)
                     {
-                        new ConsoleUI().PrintTimeLine(new ConsoleUI().GetCreateOrderTimeLine(), currentPhase);
-                        new ConsoleUI().PrintTitle(new ConsoleUI().GetAppANSIText(), new ConsoleUI().GetAddPhoneToOrderANSIText(), null);
+                        new ConsoleUI().PrintTimeLine(timeLine, currentPhase);
+                        new ConsoleUI().PrintTitle(new ConsoleUI().GetAppANSIText(), new ConsoleUI().GetPhoneDetailANSIText(), null);
                         new ConsoleUI().PrintPhoneModelTitle();
                     }
                     new ConsoleUI().PrintPhoneModelInfo((PhoneDetail)(object)items[i]!);
@@ -213,7 +215,7 @@ namespace Ults
                 {
                     if (i == startIndex)
                     {
-                        new ConsoleUI().PrintTimeLine(new ConsoleUI().GetCreateOrderTimeLine(), currentPhase);
+                        new ConsoleUI().PrintTimeLine(timeLine, currentPhase);
                         new ConsoleUI().PrintTitle(new ConsoleUI().GetAppANSIText(), new ConsoleUI().GetAddPhoneToOrderANSIText(), null);
                         new ConsoleUI().PrintOrderBorderLine();
                     }
