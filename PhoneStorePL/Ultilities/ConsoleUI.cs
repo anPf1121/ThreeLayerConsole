@@ -76,34 +76,33 @@ class ConsoleUI
         Console.WriteLine(spaces + "|============================================================================================|");
         Console.WriteLine(spaces + "| PHONE MODEL                                                                                |");
         Console.WriteLine(spaces + "|============================================================================================|");
-        Console.WriteLine(spaces + "| {0, -10} | {1, -13} | {2, -10} | {3, -15} | {4, 13} | {5, 14} |", "Detail ID", "Phone Color", "ROM Size", "Phone Status", "Quantity", "Price");
+        Console.WriteLine(spaces + "| {0, -10} | {1, -38} | {2, 13} | {3, 20} |", "Detail ID", "Phone Model", "Quantity", "Price");
         Console.WriteLine(spaces + "|============================================================================================|");
     }
     public void PrintPhoneTradeInDetailInfo(PhoneDetail phoneDetail)
     {
-        int centeredPosition = (Console.WindowWidth - "|===================================================================================================|".Length) / 2;
-        string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
-        Console.WriteLine(spaces + "    |============================================================================================|");
-        Console.WriteLine(spaces + "    | PHONE DETAILS INFOMATION                                                                   |");
-        Console.WriteLine(spaces + "    |============================================================================================|");
-        Console.WriteLine(spaces + "    | Phone Name: {0, -50} |", phoneDetail.Phone.PhoneName.PadRight(78));
-        Console.WriteLine(spaces + "    | Brand: {0, -50} |", phoneDetail.Phone.Brand.BrandName.PadRight(83));
-        Console.WriteLine(spaces + "    | Camera: {0, -50} |", phoneDetail.Phone.Camera!.PadRight(82));
-        Console.WriteLine(spaces + "    | RAM: {0, -50} |", phoneDetail.Phone.RAM!.PadRight(85));
-        Console.WriteLine(spaces + "    | Weight: {0, -50} |", phoneDetail.Phone.Weight.PadRight(82));
-        Console.WriteLine(spaces + "    | Processor: {0, -50} |", phoneDetail.Phone.Processor!.PadRight(79));
-        Console.WriteLine(spaces + "    | Battery: {0, -50} |", phoneDetail.Phone.BatteryCapacity.PadRight(81));
-        Console.WriteLine(spaces + "    | OS: {0, -50} |", phoneDetail.Phone.OS.PadRight(86));
-        Console.WriteLine(spaces + "    | Sim Slot: {0, -50} |", phoneDetail.Phone.SimSlot.PadRight(80));
-        Console.WriteLine(spaces + "    | Screen : {0, -50} |", phoneDetail.Phone.Screen.PadRight(81));
-        Console.WriteLine(spaces + "    | Connection: {0, -50} |", phoneDetail.Phone.Connection.PadRight(78));
-        Console.WriteLine(spaces + "    | Charge Port: {0, -50} |", phoneDetail.Phone.ChargePort.PadRight(77));
-        Console.WriteLine(spaces + "    | Release Date: {0, -50} |", phoneDetail.Phone.ReleaseDate.ToString().PadRight(76));
-        Console.WriteLine(spaces + "    | Description: {0, -50} |", phoneDetail.Phone.Description.PadRight(77));
-        Console.WriteLine(spaces + "    | Phone Status Type: {0, -50} |", phoneDetail.PhoneStatusType.ToString().PadRight(71));
-        Console.WriteLine(spaces + "    | Color: {0, -50} |", phoneDetail.PhoneColor.Color.PadRight(83));
-        Console.WriteLine(spaces + "    | ROMSize: {0, -50} |", phoneDetail.ROMSize.ROM.PadRight(81));
-        Console.WriteLine(spaces + "    |============================================================================================|");
+        string spaces = AlignCenter("|============================================================================================|");
+        Console.WriteLine(spaces + "|============================================================================================|");
+        Console.WriteLine(spaces + "| PHONE DETAILS INFOMATION                                                                   |");
+        Console.WriteLine(spaces + "|============================================================================================|");
+        Console.WriteLine(spaces + "| Phone Name: {0, -50} |", phoneDetail.Phone.PhoneName.PadRight(78));
+        Console.WriteLine(spaces + "| Brand: {0, -50} |", phoneDetail.Phone.Brand.BrandName.PadRight(83));
+        Console.WriteLine(spaces + "| Camera: {0, -50} |", phoneDetail.Phone.Camera!.PadRight(82));
+        Console.WriteLine(spaces + "| RAM: {0, -50} |", phoneDetail.Phone.RAM!.PadRight(85));
+        Console.WriteLine(spaces + "| Weight: {0, -50} |", phoneDetail.Phone.Weight.PadRight(82));
+        Console.WriteLine(spaces + "| Processor: {0, -50} |", phoneDetail.Phone.Processor!.PadRight(79));
+        Console.WriteLine(spaces + "| Battery: {0, -50} |", phoneDetail.Phone.BatteryCapacity.PadRight(81));
+        Console.WriteLine(spaces + "| OS: {0, -50} |", phoneDetail.Phone.OS.PadRight(86));
+        Console.WriteLine(spaces + "| Sim Slot: {0, -50} |", phoneDetail.Phone.SimSlot.PadRight(80));
+        Console.WriteLine(spaces + "| Screen : {0, -50} |", phoneDetail.Phone.Screen.PadRight(81));
+        Console.WriteLine(spaces + "| Connection: {0, -50} |", phoneDetail.Phone.Connection.PadRight(78));
+        Console.WriteLine(spaces + "| Charge Port: {0, -50} |", phoneDetail.Phone.ChargePort.PadRight(77));
+        Console.WriteLine(spaces + "| Release Date: {0, -50} |", phoneDetail.Phone.ReleaseDate.ToString().PadRight(76));
+        Console.WriteLine(spaces + "| Description: {0, -50} |", phoneDetail.Phone.Description.PadRight(77));
+        Console.WriteLine(spaces + "| Phone Status Type: {0, -50} |", phoneDetail.PhoneStatusType.ToString().PadRight(71));
+        Console.WriteLine(spaces + "| Color: {0, -50} |", phoneDetail.PhoneColor.Color.PadRight(83));
+        Console.WriteLine(spaces + "| ROMSize: {0, -50} |", phoneDetail.ROMSize.ROM.PadRight(81));
+        Console.WriteLine(spaces + "|============================================================================================|");
 
     }
     public void PrintTimeLine(string[] phase, int currentPhase)
@@ -117,12 +116,12 @@ class ConsoleUI
             if (itemCount == currentPhase)
             {
                 ConsoleForegroundColor(ConsoleEnum.Color.Green);
-                Console.Write(((itemCount == currentPhase) ? " 👉 " + SetTextBolder(item) : " > " + item));
+                Console.Write(((itemCount == currentPhase) ? " > " + item : " > " + item));
                 ConsoleForegroundColor(ConsoleEnum.Color.White);
             }
             else
             {
-                Console.Write(((itemCount == currentPhase) ? " 👉 " + SetTextBolder(item) : " > " + item));
+                Console.Write(((itemCount == currentPhase) ? " > " + item : " > " + item));
             }
             if (itemCount == phase.Length)
                 Console.Write("\n");
@@ -251,7 +250,7 @@ class ConsoleUI
     {
         string spaces = AlignCenter("|============================================================================================|");
         CultureInfo cultureInfo = new CultureInfo("vi-VN");
-        Console.WriteLine(spaces + "| {0, -10} | {1, -13} | {2, -10} | {3, -15} | {4, 13} | {5, 14} |", phoneDetail.PhoneDetailID, phoneDetail.PhoneColor.Color, phoneDetail.ROMSize.ROM, phoneDetail.PhoneStatusType, (phoneDetail.Quantity != 0) ? phoneDetail.Quantity : "Out Of Stock", FormatPrice(phoneDetail.Price));
+        Console.WriteLine(spaces + "| {0, -10} | {1, -38} | {2, 13} | {3, 20} |", phoneDetail.PhoneDetailID, phoneDetail.Phone.PhoneName + " " + phoneDetail.PhoneColor.Color + "/" + phoneDetail.ROMSize.ROM + " (" + phoneDetail.PhoneStatusType + ")", (phoneDetail.Quantity != 0) ? phoneDetail.Quantity : "Out Of Stock", FormatPrice(phoneDetail.Price));
     }
     public void PrintTitle(string? title, string? subTitle, Staff? staffLoggedIn)
     {
@@ -494,7 +493,7 @@ class ConsoleUI
     }
     public string SetTextBolder(string text)
     {
-        return $"\x1b[1m{text}\x1b[0m";
+        return $"{text}";
     }
     public string FormatPrice(decimal price)
     {

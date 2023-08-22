@@ -60,20 +60,23 @@ namespace Ults
         }
         public void CreateOrder()
         {
-            string spaces = consoleUI.AlignCenter("|--------------------------------------------------------------------------------------------|");
+            string spaces = consoleUI.AlignCenter("|============================================================================================|");
             string orderGenerateID = ConsoleUlts.GenerateID();
             string searchTitle = consoleUI.GetSearchANSIText(), phoneInfoToSearch = "";
             string[] menuSearchChoice = consoleUI.GetMenuItemSearch(), listPhase = consoleUI.GetCreateOrderTimeLine();
-            int phoneId = 0, phoneModelID = 0, searchChoice = 0, currentPhase = 1, phaseChoice = 0, quantity = 0, reChooseModelAfterBackPrevPhase = 0;
+            int phoneId = 0, phoneModelID = 0, currentPhase = 1, phaseChoice = 0, quantity = 0, reChooseModelAfterBackPrevPhase = 0;
             List<Imei>? imeis = new List<Imei>();
             List<int>? listAllPhonesID = new List<int>();
             bool listPhoneSearch = false;
             List<Phone>? listTemp = new List<Phone>();
-            List<PhoneDetail> phonedetails = new List<PhoneDetail>(), phonesInOrder = new List<PhoneDetail>();
+            List<PhoneDetail> phonedetails = new List<PhoneDetail>(), phonesInOrder = new List<PhoneDetail>(), phoneDetailsInOrder = new List<PhoneDetail>();
             PhoneDetail? pDetails = null;
             Customer? customer = null;
             Order order = new Order();
             List<Imei> imeisToInsert = new List<Imei>();
+            List<Imei> imeisHandle = new List<Imei>();
+            List<Imei> listImeiInOrder = new List<Imei>();
+            PhoneDetail phoneDetailToView = new PhoneDetail();
             do
             {
                 switch (currentPhase)
@@ -109,17 +112,31 @@ namespace Ults
                         phonedetails = phoneBL.GetPhoneDetailsByPhoneID(phoneId);
                         consoleUI.PrintTimeLine(listPhase, currentPhase);
 
-                        if (phonesInOrder!.Count() != 0 || phonesInOrder != null)
+                        if (listImeiInOrder!.Count() != 0)
                         {
                             Dictionary<int, int> phoneDetailsIDWithQtt = new Dictionary<int, int>();
-                            foreach (PhoneDetail item in phonesInOrder!)
-                                phoneDetailsIDWithQtt.Add(item.PhoneDetailID, item.Quantity);
-
+                            List<int> phoneDetailsID = new List<int>();
+                            foreach (var item in listImeiInOrder)
+                            {
+                                phoneDetailsID.Add(phoneBL.GetPhoneDetailByImei(item.PhoneImei).PhoneDetailID);
+                            }
+                            foreach (int item in phoneDetailsID)
+                            {
+                                if (phoneDetailsIDWithQtt.ContainsKey(item))
+                                {
+                                    phoneDetailsIDWithQtt[item]++;
+                                }
+                                else
+                                {
+                                    phoneDetailsIDWithQtt[item] = 1;
+                                }
+                            }
                             foreach (PhoneDetail pd in phonedetails)
                                 foreach (KeyValuePair<int, int> item in phoneDetailsIDWithQtt)
                                     if (pd.PhoneDetailID == item.Key)
                                         pd.Quantity -= item.Value;
                         }
+
 
                         bool reEnterPhoneModelID = true;
                         List<int> listPhoneDetailID = new List<int>();
@@ -144,14 +161,10 @@ namespace Ults
                                     consoleUI.PrintTimeLine(listPhase, currentPhase);
                                 }
                             } while (listPhoneDetailID.IndexOf(phoneModelID) == -1);
+                            ConsoleUlts.Alert(ConsoleEnum.Alert.Success, "Choose Phone Model ID Successfully");
                             int quantityAfterBackPrevPhase = 1;
                             if (isContinueChooseModelID == true)
                             {
-                                if (phonesInOrder!.Count() != 0 || phonesInOrder != null)
-                                    foreach (PhoneDetail pd in phonesInOrder!)
-                                        if (pd.PhoneDetailID == phoneModelID)
-                                            quantityAfterBackPrevPhase = phoneBL.GetPhoneDetailByID(phoneModelID).Quantity - pd.Quantity;
-
                                 if (phoneBL.GetPhoneDetailByID(phoneModelID).Quantity == 0 || quantityAfterBackPrevPhase == 0)
                                 {
                                     ConsoleUlts.Alert(ConsoleEnum.Alert.Warning, "This Phone Model Is Out Of Stock");
@@ -213,10 +226,17 @@ namespace Ults
                                     phoneDetailQuantity = pDetails.Quantity;
                         }
                         else phoneDetailQuantity = pDetails.Quantity;
-
+                        foreach (var item in phonedetails)
+                        {
+                            if (item.PhoneDetailID == phoneModelID)
+                            {
+                                phoneDetailToView = item;
+                            }
+                        }
                         consoleUI.PrintTimeLine(listPhase, currentPhase);
+                        consoleUI.PrintPhoneTradeInDetailInfo(phoneDetailToView);
                         consoleUI.PrintPhoneModelTitle();
-                        consoleUI.PrintPhoneModelInfo(phoneBL.GetPhoneDetailByID(phoneModelID));
+                        consoleUI.PrintPhoneModelInfo(phoneDetailToView);
                         Console.WriteLine(spaces + "|============================================================================================|");
                         quantity = ConsoleUlts.InputIDValidation(phoneDetailQuantity, $"Enter Phone Model Quantity", "Invalid Phone Model Quantity", spaces);
                         ConsoleUlts.Alert(ConsoleEnum.Alert.Success, "Quantity Successfully Added");
@@ -224,32 +244,41 @@ namespace Ults
                         phonedetails.Add(pDetails);
                         do
                         {
-                            consoleUI.PrintTimeLine(listPhase, currentPhase);
                             int idImei = 1;
                             consoleUI.PrintTimeLine(listPhase, currentPhase);
+                            consoleUI.PrintPhoneTradeInDetailInfo(phoneDetailToView);
                             consoleUI.PrintPhoneModelTitle();
-                            consoleUI.PrintPhoneModelInfo(phoneBL.GetPhoneDetailByID(phoneModelID));
+                            consoleUI.PrintPhoneModelInfo(phoneDetailToView);
                             Console.WriteLine(spaces + "|============================================================================================|");
                             Console.WriteLine($"{spaces}Phone Model ID: " + phoneModelID);
                             Console.WriteLine($"{spaces}Quantity: " + quantity);
+                            List<string> listImeis = new List<string>();
                             foreach (var item in imeis)
                             {
-                                Console.WriteLine($"{spaces}Imei " + (idImei) + ": " + item.PhoneImei);
-                                idImei++;
+                                listImeis.Add(item.PhoneImei);
                             }
+                            imeisHandle = new List<Imei>();
                             for (int i = 0; i < quantity; i++)
                             {
                                 Imei imei = new Imei(new PhoneDetail(0, new Phone(0, "", new Brand(0, "", ""), "", "", "", "", "", "", "", "", "", new DateTime(), "", new Staff(0, "", "", "", "", "", StaffEnum.Role.Seller, StaffEnum.Status.Active), new DateTime(), ""), new ROMSize(0, ""), new PhoneColor(0, ""), 0, 0, PhoneEnum.Status.Type1, new Staff(0, "", "", "", "", "", StaffEnum.Role.Seller, StaffEnum.Status.Active), new DateTime()), "", BusinessEnum.PhoneEnum.ImeiStatus.NotExport);
                                 do
                                 {
-                                    imei.PhoneImei = ConsoleUlts.GetInputString($"{spaces}Enter Imei {i + 1}");
+                                    do
+                                    {
+                                        imei.PhoneImei = ConsoleUlts.GetInputString($"{spaces}Enter Imei {i + 1}");
+                                        if (listImeis.IndexOf(imei.PhoneImei) != -1)
+                                        {
+                                            ConsoleUlts.Alert(ConsoleEnum.Alert.Error, "Can't Add Duplicate Imei");
+                                        }
+                                    } while (listImeis.IndexOf(imei.PhoneImei) != -1);
                                     if (!new PhoneBL().CheckImeiExist(imei, phoneModelID))
                                     {
                                         ConsoleUlts.Alert(ConsoleEnum.Alert.Error, "Imei Not Found");
                                         Console.Clear();
                                         consoleUI.PrintTimeLine(listPhase, currentPhase);
+                                        consoleUI.PrintPhoneTradeInDetailInfo(phoneDetailToView);
                                         consoleUI.PrintPhoneModelTitle();
-                                        consoleUI.PrintPhoneModelInfo(phoneBL.GetPhoneDetailByID(phoneModelID));
+                                        consoleUI.PrintPhoneModelInfo(phoneDetailToView);
                                         Console.WriteLine(spaces + "|============================================================================================|");
                                         Console.WriteLine(spaces + "Phone Model ID: " + phoneModelID);
                                         Console.WriteLine(spaces + "Quantity: " + quantity);
@@ -264,6 +293,7 @@ namespace Ults
                                     {
                                         ConsoleUlts.Alert(ConsoleEnum.Alert.Success, "Imei Successfully Added");
                                         imeis.Add(imei);
+                                        imeisHandle.Add(imei);
                                     }
                                 } while (!new PhoneBL().CheckImeiExist(imei, phoneModelID));
                             }
@@ -272,7 +302,11 @@ namespace Ults
                                 imeis = new List<Imei>();
                                 currentPhase--;
                             }
-                            else currentPhase++;
+                            else
+                            {
+                                listImeiInOrder = imeis;
+                                currentPhase++;
+                            }
                             break;
                         } while (phaseChoice != 1 && phaseChoice != 2);
                         break;
@@ -281,7 +315,6 @@ namespace Ults
 
                         if (reChooseModelAfterBackPrevPhase != 2)
                         {
-                            bool isDuplicate = false;
                             order.ListImeiInOrder = imeis!;
                         }
                         order.OrderID = orderGenerateID;
@@ -305,18 +338,15 @@ namespace Ults
                         phaseChoice = ConsoleUlts.PressCharacterTo("Back Previous Phase", "Enter Customer Info", "Add More Phone");
                         if (phaseChoice == 0)
                         {
-                            // for (var i = 0; i < phonesInOrder!.Count(); i++)
-                            //     phonesInOrder![i].ListImei.RemoveAll(item => pDetails!.ListImei.Contains(item));
+                            for (var i = 0; i < order.ListImeiInOrder.Count(); i++)
+                                order.ListImeiInOrder.RemoveAll(item => imeisHandle.Contains(item));
                             foreach (PhoneDetail pd in phonesInOrder!)
                                 if (pDetails!.PhoneDetailID == pd.PhoneDetailID)
                                     pd.Quantity -= pDetails.Quantity;
                             currentPhase--;
                         }
                         else if (phaseChoice == 1) currentPhase++;
-                        else
-                        {
-                            currentPhase = 1;
-                        }
+                        else currentPhase = 1;
                         break;
                     case 4:
                         consoleUI.PrintTimeLine(listPhase, currentPhase);
@@ -332,7 +362,7 @@ namespace Ults
                             ConsoleUlts.Alert(GUIEnum.ConsoleEnum.Alert.Warning, $"Customer Phone Number Is Already Exsist, Customer ID: {customer.CustomerID}");
                         }
 
-                        if (!ConsoleUlts.PressYesOrNo("Confirm Order", "Back Previous Phase")) currentPhase--;
+                        if (!ConsoleUlts.PressYesOrNo("Confirm Order", "Re-Enter Customer Information")) break;
 
                         else currentPhase++;
 
@@ -721,9 +751,19 @@ namespace Ults
                                                 List<DiscountPolicy> newListDc = new List<DiscountPolicy>();
                                                 List<DiscountPolicy> discountForCustomerPhones = new DiscountPolicyBL().GetDiscountTradeIn(ListPhoneOfCustomerWantTradeIn);
                                                 List<DiscountPolicy> discountForPhoneInOrder = new DiscountPolicyBL().GetDiscountTradeIn(ListPhoneInOrder);
+                                                List<DiscountPolicy> discountForPhoneInOrderOutput = new List<DiscountPolicy>();
+                                                foreach (var discount in discountForPhoneInOrder)
+                                                {
+                                                    bool isWork = false;
+                                                    foreach (var discountOut in discountForPhoneInOrderOutput)
+                                                    {
+                                                        if (discountOut.Title == discount.Title) isWork = true;
+                                                    }
+                                                    if (!isWork) discountForPhoneInOrderOutput.Add(discount);
+                                                }
                                                 // Lay ra Discount Tradein cua nhung dien thoai co trong order
                                                 // So sanh voi nhung Discount Tradein cua nhung chiec dien thoai ma Customer mang den de tradein 
-                                                foreach (var TIorder in discountForPhoneInOrder)
+                                                foreach (var TIorder in discountForPhoneInOrderOutput)
                                                 {
                                                     foreach (var TIcustomer in discountForCustomerPhones)
                                                     {
@@ -733,6 +773,7 @@ namespace Ults
                                                         }
                                                     }
                                                 }
+
                                                 if (order.DiscountPolicies.Count() == 0) order.DiscountPolicies = newListDc;
                                                 else
                                                 {

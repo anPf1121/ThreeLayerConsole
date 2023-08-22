@@ -84,7 +84,7 @@ namespace Ults
             Console.Clear();
             Console.OutputEncoding = System.Text.Encoding.UTF8;
             ConsoleKeyInfo keyInfo;
-            string iconBackhand = "👉";
+            string iconBackhand = "   ";
             bool activeSelectedMenu = true;
             int currentChoice = 1;
             int renderCount = 0;
@@ -95,7 +95,16 @@ namespace Ults
                 if (currentChoice <= (menuItem.Count() + 1) && currentChoice >= 1)
                 {
                     for (int i = 0; i < menuItem.Count(); i++)
-                        Console.WriteLine(spaces + "| {0, 50} |", (((currentChoice - 1 == i) ? (iconBackhand + " ") : "") + " " + consoleUI.SetTextBolder(menuItem[i]) + $" ({i + 1})").PadRight(98));
+                    {
+                        if (currentChoice - 1 == i)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Blue;
+                            Console.WriteLine(spaces + "| {0, 50} |", (iconBackhand + " " + consoleUI.SetTextBolder(menuItem[i])).PadRight(90));
+                            Console.ForegroundColor = ConsoleColor.White;
+                        } else {
+                            Console.WriteLine(spaces + "| {0, 50} |", menuItem[i].PadRight(90));
+                        }
+                    }
                     consoleUI.PrintLine();
 
                     keyInfo = Console.ReadKey();
@@ -238,7 +247,7 @@ namespace Ults
         }
         public void PressEnterTo(string? action)
         {
-            string str = $"👉 Press Enter To {action}...";
+            string str = $"Press Enter To {action}...";
             string spaces = consoleUI.AlignCenter(str);
             if (action != null)
             {
@@ -265,7 +274,7 @@ namespace Ults
         public string GetUserName()
         {
             string spaces = consoleUI.AlignCenter("|--------------------------------------------------------------------------------------------|");
-            string userName = GetInputString(spaces + "👉 User Name");
+            string userName = GetInputString(spaces + "User Name");
             return userName;
         }
 
@@ -275,7 +284,7 @@ namespace Ults
             string pass = "";
             do
             {
-                Console.Write("\n" + spaces + "👉 Password: ");
+                Console.Write("\n" + spaces + "Password: ");
                 ConsoleKeyInfo key;
                 do
                 {

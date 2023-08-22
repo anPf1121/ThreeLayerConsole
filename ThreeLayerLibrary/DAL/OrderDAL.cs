@@ -254,10 +254,7 @@ namespace DAL
                         }
                         else break;
                     }
-                    catch (MySqlException ex)
-                    {
-                        Console.WriteLine(ex.Message);
-                    }
+                    catch {}
                 }
                 if (countphone == order.ListImeiInOrder.Count() && order.ListImeiInOrder.Count() > 0) result = true;
                 else result = false;
