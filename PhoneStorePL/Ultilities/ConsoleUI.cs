@@ -204,27 +204,47 @@ class ConsoleUI
     }
     public void PrintOrderDetails(Order ord)
     {
-        List<Imei> listImei = ord.ListImeiInOrder;
+        List<PhoneDetail> ListTemp = new List<PhoneDetail>();
+        foreach(var imei in ord.ListImeiInOrder){
+            ListTemp.Add(imei.PhoneDetail);
+        }
+        List<PhoneDetail> ListPhoneInOrder = new List<PhoneDetail>();
+        foreach(var phone in ListTemp){
+            bool checkRepeate = false;
+            foreach(var phone1 in ListPhoneInOrder){
+                if(phone.PhoneDetailID == phone1.PhoneDetailID)checkRepeate = true;
+            }
+            if(!checkRepeate)ListPhoneInOrder.Add(phone);
+        }
+        Dictionary<PhoneDetail, int> ListPhoneAndQuantity = new Dictionary<PhoneDetail, int>();
+        foreach(var phone in ListPhoneInOrder){
+            int count = 0;
+            foreach(var temp in ListTemp){
+                if(temp.PhoneDetailID == phone.PhoneDetailID)count++;
+            }
+            ListPhoneAndQuantity.Add(phone, count);
+        }
         int centeredPosition = (Console.WindowWidth - "|===========================================================================================================================|".Length) / 2;
         string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
-        List<int> listPhoneDetailID = new List<int>();
-
+        CultureInfo cultureInfo = new CultureInfo("vi-VN");
+        int printImeiHandle = 0;
+        int printImeiHandle2 = 0;
         Console.WriteLine(spaces + "| {0, -16} | {1, -30} | {2, -15} | {3, 15} | {4, 15} | {5, 15} |", "Phone Detail ID", "Phone Model", "Imei", "Quantity", "Price", "Total Price");
         Console.WriteLine(spaces + "|===========================================================================================================================|");
-        foreach (var item in listImei)
+        foreach (var imei in ListPhoneAndQuantity)
         {
-            if (listPhoneDetailID.IndexOf(item.PhoneDetail.PhoneDetailID) == -1)
-            {
-                Console.WriteLine(spaces + "|---------------------------------------------------------------------------------------------------------------------------|");
-                listPhoneDetailID.Add(item.PhoneDetail.PhoneDetailID);
-                Console.WriteLine(spaces + "| {0, -16} | {1, -30} | {2, -15} | {3, 15} | {4, 15} | {5, 15} |", item.PhoneDetail.PhoneDetailID, item.PhoneDetail.Phone.PhoneName + " " + item.PhoneDetail.PhoneColor.Color + " " + item.PhoneDetail.ROMSize.ROM + " (" + item.PhoneDetail.PhoneStatusType + ")", item.PhoneImei, item.PhoneDetail.Quantity, FormatPrice(item.PhoneDetail.Price), FormatPrice(ord.GetTotalDueForEachPhone(item.PhoneDetail.PhoneDetailID)));
+            int quan = 0;
+            printImeiHandle = imei.Key.PhoneDetailID;
+            Console.WriteLine(spaces + "|---------------------------------------------------------------------------------------------------------------------------|");
+            foreach(var imei1 in ord.ListImeiInOrder){
+                if(imei.Key.PhoneDetailID == imei1.PhoneDetail.PhoneDetailID){
+                    quan+=1;
+                Console.WriteLine(spaces + "| {0, -16} | {1, -30} | {2, -15} | {3, 15} | {4, 15} | {5, 15} |", (printImeiHandle != printImeiHandle2) ? imei1.PhoneDetail.PhoneDetailID : "", (printImeiHandle != printImeiHandle2) ? (imei1.PhoneDetail.Phone.PhoneName + " " + imei1.PhoneDetail.PhoneColor.Color + " " + imei1.PhoneDetail.ROMSize.ROM + $" ({imei1.PhoneDetail.PhoneStatusType})") : "", imei1.PhoneImei, (printImeiHandle != printImeiHandle2) ? imei.Value : "", (printImeiHandle != printImeiHandle2) ? FormatPrice(imei1.PhoneDetail.Price) : "", (printImeiHandle != printImeiHandle2) ? FormatPrice(ord.GetTotalDueForEachPhone(imei1.PhoneDetail.PhoneDetailID)) : "");
+                printImeiHandle2 = printImeiHandle;
+                }
             }
-            else
-            {
-                Console.WriteLine(spaces + "| {0, -16} | {1, -30} | {2, -15} | {3, 15} | {4, 15} | {5, 15} |", "", "", item.PhoneImei, "", "", "");
-            }
+
         }
-        Console.WriteLine(spaces + "|---------------------------------------------------------------------------------------------------------------------------|");
     }
 
     public void PrintPhoneModelInfo(PhoneDetail phoneDetail)

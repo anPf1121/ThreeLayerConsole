@@ -46,15 +46,8 @@ public class DiscountPolicyBL{
                 if(dc.PhoneDetail.PhoneDetailID == phone.PhoneDetailID && dc.MoneySupported !=0)lst.Add(dc);
             }
         }
-        List<DiscountPolicy> output = new List<DiscountPolicy>();
-        foreach(var dc in lst){
-            int count = 0;
-            foreach(var o in output){
-                if(o.Title == dc.Title)count++;
-            }
-            if(count == 0)output.Add(dc);
-        }
-        return output;
+
+        return lst;
         
     }
     public DiscountPolicy GetDiscountForOrder(Order order){
