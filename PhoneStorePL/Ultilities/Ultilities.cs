@@ -7,21 +7,11 @@ using System.Diagnostics;
 using System;
 using System.Reflection.Metadata;
 using System.Collections.Generic;
-using CustomerDTO;
 using UI;
 using System.Net.Mail;
 
 namespace Ults
 {
-    class Comparer : IComparer<Imei>
-    {
-        public int Compare(Imei? x, Imei? y)
-        {
-            if (x == null || y == null) return 0;
-
-            return x.PhoneDetail.PhoneDetailID.CompareTo(y.PhoneDetail.PhoneDetailID);
-        }
-    }
     class Ultilities
     {
         private IStaffBL loginManager;
@@ -43,18 +33,54 @@ namespace Ults
             string phoneInfoToSearch = String.Empty;
             consoleUI.PrintTimeLine(consoleUI.GetCreateOrderTimeLine(), currentPhase);
             consoleUI.PrintTitle(consoleUI.GetAppANSIText(), consoleUI.GetSearchANSIText(), loginManager.LoggedInStaff);
-            searchChoice = ConsoleUlts.PressCharacterTo("Search All Phone", "Search Phone By Information", "Back To Previous Menu");
+            searchChoice = ConsoleUlts.PressCharacterTo("Search All Phone", "Search Phone By Information", "Search By Brand", "Back To Previous Menu");
+
             if (searchChoice == 0) result = phoneBL.GetAllPhone();
 
             else if (searchChoice == 1)
             {
                 consoleUI.PrintTimeLine(consoleUI.GetCreateOrderTimeLine(), currentPhase);
                 consoleUI.PrintTitle(consoleUI.GetAppANSIText(), consoleUI.GetSearchANSIText(), loginManager.LoggedInStaff);
-                phoneInfoToSearch = ConsoleUlts.GetInputString($"{spaces}Enter Phone Information To Search");
+                phoneInfoToSearch = ConsoleUlts.GetInputString($"{spaces} Enter Phone Information To Search");
                 result = phoneBL.GetPhonesByInformation(phoneInfoToSearch);
             }
-
-            else if (searchChoice == 2) return null;
+            else if (searchChoice == 2)
+            {
+                int brandChoice = 0;
+                consoleUI.PrintTimeLine(consoleUI.GetCreateOrderTimeLine(), currentPhase);
+                consoleUI.PrintTitle(consoleUI.GetAppANSIText(), consoleUI.GetSearchANSIText(), loginManager.LoggedInStaff);
+                Console.WriteLine(spaces + "|--------------------------------------------------------------------------------------------|");
+                Console.WriteLine(spaces + "| 1. Apple                                                                                   |");
+                Console.WriteLine(spaces + "| 2. Samsung                                                                                 |");
+                Console.WriteLine(spaces + "| 3. Nokia                                                                                   |");
+                Console.WriteLine(spaces + "| 4. Realme                                                                                  |");
+                Console.WriteLine(spaces + "| 5. Oppo                                                                                    |");
+                Console.WriteLine(spaces + "|--------------------------------------------------------------------------------------------|");
+                do
+                {
+                    Console.Write(spaces + " Your Choice: ");
+                    int.TryParse(Console.ReadLine(), out brandChoice);
+                    switch (brandChoice)
+                    {
+                        case 1:
+                            result = phoneBL.GetPhonesByInformation("Apple");
+                            break;
+                        case 2:
+                            result = phoneBL.GetPhonesByInformation("Samsung");
+                            break;
+                        case 3:
+                            result = phoneBL.GetPhonesByInformation("Nokia");
+                            break;
+                        case 4:
+                            result = phoneBL.GetPhonesByInformation("Realme");
+                            break;
+                        case 5:
+                            result = phoneBL.GetPhonesByInformation("Oppo");
+                            break;
+                    }
+                } while (brandChoice <= 0 || brandChoice > 6);
+            }
+            else if (searchChoice == 3) return null;
 
             return result;
         }
@@ -62,7 +88,7 @@ namespace Ults
         {
             string spaces = consoleUI.AlignCenter("|============================================================================================|");
             string orderGenerateID = ConsoleUlts.GenerateID();
-            string searchTitle = consoleUI.GetSearchANSIText(), phoneInfoToSearch = "";
+            string searchTitle = consoleUI.GetSearchANSIText();
             string[] menuSearchChoice = consoleUI.GetMenuItemSearch(), listPhase = consoleUI.GetCreateOrderTimeLine();
             int phoneId = 0, phoneModelID = 0, currentPhase = 1, phaseChoice = 0, quantity = 0, reChooseModelAfterBackPrevPhase = 0;
             List<Imei>? imeis = new List<Imei>();
@@ -101,7 +127,7 @@ namespace Ults
                             if (listPhoneSearch == false) break;
                             if (listPhoneSearch == true)
                             {
-                                phoneId = ConsoleUlts.InputIDValidation(phoneBL.GetAllPhone().Count(), $"Enter Phone ID", "Invalid Phone ID", spaces);
+                                phoneId = ConsoleUlts.InputIDValidation(phoneBL.GetAllPhone().Count(), $" Enter Phone ID", "Invalid Phone ID", spaces);
                                 ConsoleUlts.Alert(ConsoleEnum.Alert.Success, "Choose Phone ID Susccesfully");
                             }
                         }
@@ -153,7 +179,7 @@ namespace Ults
                                 if (isContinueChooseModelID != null)
                                 {
                                     if (isContinueChooseModelID == true)
-                                        phoneModelID = ConsoleUlts.GetInputInt($"{spaces}Enter Phone Model ID");
+                                        phoneModelID = ConsoleUlts.GetInputInt($"{spaces} Enter Phone Model ID");
                                     else break;
                                 }
                                 if (listPhoneDetailID.IndexOf(phoneModelID) == -1)
@@ -173,7 +199,7 @@ namespace Ults
                                     {
                                         if (listPhoneDetailID.Count() > 1)
                                         {
-                                            reChooseModelAfterBackPrevPhase = ConsoleUlts.PressCharacterTo("Choose Another Phone Model", "Back Previous Phase", "Continue To Create Order");
+                                            reChooseModelAfterBackPrevPhase = ConsoleUlts.PressCharacterTo("Choose Another Phone Model", "Back Previous Phase", "Continue To Create Order", null);
                                             if (reChooseModelAfterBackPrevPhase == 1)
                                             {
                                                 reEnterPhoneModelID = false;
@@ -239,7 +265,7 @@ namespace Ults
                         consoleUI.PrintPhoneModelTitle();
                         consoleUI.PrintPhoneModelInfo(phoneDetailToView);
                         Console.WriteLine(spaces + "|============================================================================================|");
-                        quantity = ConsoleUlts.InputIDValidation(phoneDetailQuantity, $"Enter Phone Model Quantity", "Invalid Phone Model Quantity", spaces);
+                        quantity = ConsoleUlts.InputIDValidation(phoneDetailQuantity, $" Enter Phone Model Quantity", "Invalid Phone Model Quantity", spaces);
                         ConsoleUlts.Alert(ConsoleEnum.Alert.Success, "Quantity Successfully Added");
                         pDetails.Quantity = quantity;
                         phonedetails.Add(pDetails);
@@ -251,8 +277,8 @@ namespace Ults
                             consoleUI.PrintPhoneModelTitle();
                             consoleUI.PrintPhoneModelInfo(phoneDetailToView);
                             Console.WriteLine(spaces + "|============================================================================================|");
-                            Console.WriteLine($"{spaces}Phone Model ID: " + phoneModelID);
-                            Console.WriteLine($"{spaces}Quantity: " + quantity);
+                            Console.WriteLine($"{spaces} Phone Model ID: " + phoneModelID);
+                            Console.WriteLine($"{spaces} Quantity: " + quantity);
                             List<string> listImeis = new List<string>();
                             foreach (var item in imeis)
                             {
@@ -266,7 +292,7 @@ namespace Ults
                                 {
                                     do
                                     {
-                                        imei.PhoneImei = ConsoleUlts.GetInputString($"{spaces}Enter Imei {i + 1}");
+                                        imei.PhoneImei = ConsoleUlts.GetInputString($"{spaces} Enter Imei {i + 1}");
                                         if (listImeis.IndexOf(imei.PhoneImei) != -1)
                                         {
                                             ConsoleUlts.Alert(ConsoleEnum.Alert.Error, "Can't Add Duplicate Imei");
@@ -281,8 +307,8 @@ namespace Ults
                                         consoleUI.PrintPhoneModelTitle();
                                         consoleUI.PrintPhoneModelInfo(phoneDetailToView);
                                         Console.WriteLine(spaces + "|============================================================================================|");
-                                        Console.WriteLine(spaces + "Phone Model ID: " + phoneModelID);
-                                        Console.WriteLine(spaces + "Quantity: " + quantity);
+                                        Console.WriteLine(spaces + " Phone Model ID: " + phoneModelID);
+                                        Console.WriteLine(spaces + " Quantity: " + quantity);
                                         idImei = 1;
                                         foreach (var item in imeis)
                                         {
@@ -336,7 +362,7 @@ namespace Ults
                         }
                         order.ListImeiInOrder.Sort((x, y) => x.PhoneDetail.PhoneDetailID.CompareTo(y.PhoneDetail.PhoneDetailID));
                         consoleUI.PrintOrder(order);
-                        phaseChoice = ConsoleUlts.PressCharacterTo("Back Previous Phase", "Enter Customer Info", "Add More Phone");
+                        phaseChoice = ConsoleUlts.PressCharacterTo("Back Previous Phase", "Enter Customer Info", "Add More Phone", null);
                         if (phaseChoice == 0)
                         {
                             for (var i = 0; i < order.ListImeiInOrder.Count(); i++)
@@ -395,7 +421,6 @@ namespace Ults
             string spaces = consoleUI.AlignCenter("|--------------------------------------------------------------------------------------------|");
             List<Order>? result = null;
 
-            int handleChoice = 0;
             // search order in Handle Order
             if (OrderStatusFilter == OrderEnum.Status.Confirmed)
             {
@@ -408,7 +433,7 @@ namespace Ults
             {
                 result = orderBL.GetOrdersPendingInday();
             }
-            if (result.Count() == 0)
+            if (result!.Count() == 0)
             {
                 return null;
             }
@@ -424,7 +449,6 @@ namespace Ults
             string handleTitle = consoleUI.GetHandleOrderANSIText();
             string[] listPhase = { "Show orders", "Confirm Handle" };
             int currentPhase = 1;
-            int handleChoice = 0;
             // danh sách chứa tạm các order lấy được trong database
             List<Order>? listOrderTemp = new List<Order>();
             // danh sách chứa các id để check id
@@ -454,7 +478,7 @@ namespace Ults
                                 // nhập Id order để xem
                                 do
                                 {
-                                    orderId = ConsoleUlts.GetInputString($"{spaces}Enter Order ID").ToUpper();
+                                    orderId = ConsoleUlts.GetInputString($"{spaces} Enter Order ID").ToUpper();
                                     // lấy ra order bằng order ID
                                     orderTemp = orderBL.GetOrderById(orderId);
                                     if (orderTemp.OrderID == "")
@@ -509,7 +533,6 @@ namespace Ults
 
             string[] listPhase = consoleUI.GetTradeInTimeLine();
             string input = "";
-            int count = 0;
             int currentPhase = 1;
             string orderID = "";
             List<Phone> ListPhoneInformation = new List<Phone>();
@@ -533,7 +556,7 @@ namespace Ults
                     {
                         do
                         {
-                            orderID = ConsoleUlts.GetInputString($"{spaces}Choose An Order ID ").ToUpper();
+                            orderID = ConsoleUlts.GetInputString($"{spaces} Choose An Order ID ").ToUpper();
                             order = new OrderBL().GetOrderById(orderID) ?? null;
                             if (order!.OrderID == "")
                             {
@@ -581,7 +604,7 @@ namespace Ults
                                 if (listPhoneSearch == false) activeChoosePhone = false;
                                 if (listPhoneSearch == true)
                                 {
-                                    phoneId = ConsoleUlts.InputIDValidation(phoneBL.GetAllPhone().Count(), $"Enter Phone ID", "Invalid Phone ID", spaces);
+                                    phoneId = ConsoleUlts.InputIDValidation(phoneBL.GetAllPhone().Count(), $" Enter Phone ID", "Invalid Phone ID", spaces);
 
                                     List<PhoneDetail> phoneDetails = phoneBL.GetPhoneDetailsByPhoneID(phoneId);
                                     List<PhoneDetail> phoneDetailsForTradeIn = new List<PhoneDetail>();
@@ -595,7 +618,7 @@ namespace Ults
                                     }
                                     if (phoneDetailsForTradeIn.Count() == 0)
                                     {
-                                        Console.WriteLine(spaces + "Doesnt have any Model Can TradeIn of this Phone");
+                                        Console.WriteLine(consoleUI.AlignCenter("Doesnt have any Model Can TradeIn of this Phone") + "Doesnt have any Model Can TradeIn of this Phone");
                                         bool chooseAnotherPhoneOrBreak = ConsoleUlts.PressYesOrNo("Choose Another Phone", "Skip TradeIn");
                                         if (chooseAnotherPhoneOrBreak == true)
                                         {
@@ -622,7 +645,7 @@ namespace Ults
                                         }
                                         consoleUI.PrintTimeLine(listPhase, 2);
                                         consoleUI.PrintPhoneTradeInDetailInfo(phoneBL.GetPhoneDetailByID(Convert.ToInt32(input)));
-                                        Console.WriteLine(spaces + "Are you sure all this Phone Information are corresponding to Customer's Phone Information?");
+                                        Console.WriteLine(consoleUI.AlignCenter("Are you sure all this Phone Information are corresponding to Customer's Phone Information?") + "Are you sure all this Phone Information are corresponding to Customer's Phone Information?");
                                         bool acceptOrNotChoose = ConsoleUlts.PressYesOrNo("Accept Choose Phone", "Choose another Phone");
                                         if (acceptOrNotChoose == true)
                                         {
@@ -665,8 +688,8 @@ namespace Ults
                                             if (IsPhoneApplyForTradeIn == false)
                                             {
                                                 int countUp = 1;
-                                                Console.WriteLine(spaces + "              This Customer's Phone doesnt match with any TradeIn Policy that Order had");
-                                                Console.WriteLine(spaces + "                           Show Discount TradeIn Exist in Order: ");
+                                                Console.WriteLine(consoleUI.AlignCenter("This Customer's Phone doesnt match with any TradeIn Policy that Order had") + "This Customer's Phone doesnt match with any TradeIn Policy that Order had");
+                                                Console.WriteLine(consoleUI.AlignCenter("Show Discount TradeIn Exist in Order: ") + "Show Discount TradeIn Exist in Order: ");
                                                 List<DiscountPolicy> DiscountForcheckRepeat = new List<DiscountPolicy>();
                                                 foreach (var discountInOrder in new DiscountPolicyBL().GetDiscountTradeIn(ListPhoneInOrder))
                                                 {
@@ -678,7 +701,7 @@ namespace Ults
                                                     if (IsRepeat == false)
                                                     {
                                                         DiscountForcheckRepeat.Add(discountInOrder);
-                                                        Console.WriteLine(spaces + "                           " + countUp + ". " + discountInOrder.Title);
+                                                        Console.WriteLine(consoleUI.AlignCenter((countUp + ". " + discountInOrder.Title).ToString()) + countUp + ". " + discountInOrder.Title);
                                                         countUp++;
                                                     }
 
@@ -833,7 +856,6 @@ namespace Ults
 
             string[] listPhase = consoleUI.GetPaymentTimeLine();
             string input = "";
-            int count = 0;
             int currentPhase = 1;
             List<Order>? ListOrderPending = null;
             List<DiscountPolicy> ListDiscountPolicyValidToOrder = new List<DiscountPolicy>();
@@ -954,7 +976,7 @@ namespace Ults
                                     moneyOfCustomerPaid = Convert.ToDecimal(input);
                                     if (moneyOfCustomerPaid >= totalDue)
                                     {
-                                        int ConfirmOrCancelOrSkip = ConsoleUlts.PressCharacterTo("Confirm Payment", "Cancel Payment", "Skip Payment");
+                                        int ConfirmOrCancelOrSkip = ConsoleUlts.PressCharacterTo("Confirm Payment", "Cancel Payment", "Skip Payment", null);
                                         consoleUI.PrintTimeLine(listPhase, 4);
                                         consoleUI.PrintOrder(orderWantToPayment);
                                         if (ConfirmOrCancelOrSkip == 0)
@@ -1015,7 +1037,7 @@ namespace Ults
                                         consoleUI.PrintTimeLine(listPhase, 4);
                                         consoleUI.PrintOrder(orderWantToPayment);
                                         Console.WriteLine(spaces + $"Missing: " + consoleUI.FormatPrice(totalDue - moneyOfCustomerPaid).ToString());
-                                        int SkipOrReInputOrCancel = ConsoleUlts.PressCharacterTo("Skip Payment", "Re-Input Money", "Cancel Payment");
+                                        int SkipOrReInputOrCancel = ConsoleUlts.PressCharacterTo("Skip Payment", "Re-Input Money", "Cancel Payment", null);
                                         if (SkipOrReInputOrCancel == 0)
                                         {
                                             ConsoleUlts.Alert(ConsoleEnum.Alert.Warning, "Skip Payment");

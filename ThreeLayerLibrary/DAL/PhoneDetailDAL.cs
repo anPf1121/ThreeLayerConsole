@@ -23,44 +23,6 @@ namespace DAL
             );
             return brand;
         }
-        public bool UpdateImeiStatus(string imei, int imeiFilter)
-        {
-            try
-            {
-                if (connection.State == System.Data.ConnectionState.Closed)
-                {
-                    connection.Open();
-                }
-                switch (imeiFilter)
-                {
-                    case PhoneDetailFilter.CHANGE_IMEI_STATUS_TO_INORDER:
-                        query = $@"UPDATE imeis SET status = 2 WHERE phone_imei = '{imei}';";
-                        break;
-                    case PhoneDetailFilter.CHANGE_IMEI_STATUS_TO_EXPORT:
-                        query = $@"UPDATE imeis SET status = 1 WHERE phone_imei = '{imei}';";
-                        break;
-                    case PhoneDetailFilter.CHANGE_IMEI_STATUS_TO_NOTEXPORT:
-                        query = $@"UPDATE imeis SET status = 0 WHERE phone_imei = '{imei}';";
-                        break;
-                }
-                MySqlCommand command = new MySqlCommand(query, connection);
-                MySqlDataReader reader = command.ExecuteReader();
-                reader.Close();
-            }
-            catch (MySqlException ex)
-            {
-                Console.WriteLine(ex.Message);
-                return false;
-            }
-            finally
-            {
-                if (connection.State == System.Data.ConnectionState.Open)
-                {
-                    connection.Close();
-                }
-            }
-            return true;
-        }
         public Brand GetBrandByID(int id)
         {
             Brand output = new Brand(0, "", "");
@@ -357,40 +319,6 @@ namespace DAL
             }
 
             return output1;
-        }
-        public List<PhoneDetail> GetListPhoneDetailCanTradeIn()
-        {
-            List<PhoneDetail> lst = new List<PhoneDetail>();
-            try
-            {
-                if (connection.State == System.Data.ConnectionState.Closed)
-                {
-                    connection.Open();
-                }
-                query = @"select * from phonedetails where phone_status_type != 0;";
-                MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.Clear();
-                MySqlDataReader reader = command.ExecuteReader();
-                while (reader.Read())
-                {
-                    lst.Add(GetPhoneDetail(reader));
-                }
-                reader.Close();
-            }
-            catch (MySqlException ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-            if (connection.State == System.Data.ConnectionState.Open)
-            {
-                connection.Close();
-            }
-            List<PhoneDetail> output = new List<PhoneDetail>();
-            foreach (var p in lst)
-            {
-                output.Add(GetPhoneDetailByID(p.PhoneDetailID));
-            }
-            return output;
         }
     }
 }

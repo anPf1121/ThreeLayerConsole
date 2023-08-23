@@ -14,7 +14,6 @@ namespace Ults
     class ConsoleUlts
     {
         ConsoleUI consoleUI = new ConsoleUI();
-        int currentPageDetails = 1;
         public Dictionary<int, List<Phone>> listAllPhones = new Dictionary<int, List<Phone>>();
         public Dictionary<int, List<PhoneDetail>> listAllPhonesModel = new Dictionary<int, List<PhoneDetail>>();
         public bool PressYesOrNo(string yesAction, string noAction)
@@ -42,20 +41,22 @@ namespace Ults
             } while (active);
             return false;
         }
-        public int PressCharacterTo(string firstAction, string? secondAction, string? thirdAction)
+        public int PressCharacterTo(string firstAction, string? secondAction, string? thirdAction, string? fourthAction)
         {
             string firstStr = $"Press 'Q' To {firstAction} - Press 'W' To {secondAction} - Press 'E' To {thirdAction}";
             string secondStr = $"Press 'Q' To {firstAction} - Press 'W' To {secondAction}";
+            string thirdStr = $"Press 'Q' To {firstAction} - Press 'W' To {secondAction} - Press 'E' To {thirdAction} - Press 'R' To {fourthAction}";
             int centeredPosition = (Console.WindowWidth - firstStr.Length) / 2;
             int secondCenteredPosition = (Console.WindowWidth - secondStr.Length) / 2;
+            int thirdCenteredPosition = (Console.WindowWidth - thirdStr.Length) / 2;
             string firstSpaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
             string secondSpaces = secondCenteredPosition > 0 ? new string(' ', secondCenteredPosition) : "";
+            string thirdSpaces = secondCenteredPosition > 0 ? new string(' ', thirdCenteredPosition) : "";
             ConsoleKeyInfo input = new ConsoleKeyInfo();
             bool active = true;
-            if (thirdAction != null)
-                Console.Write(firstSpaces + firstStr);
-            else
-                Console.Write(secondSpaces + secondStr);
+            if (thirdAction != null && fourthAction == null) Console.Write(firstSpaces + firstStr);
+            else if (fourthAction != null) Console.Write(thirdSpaces + thirdStr);
+            else Console.Write(secondSpaces + secondStr);
             do
             {
                 input = Console.ReadKey(true);
@@ -74,6 +75,11 @@ namespace Ults
                     Console.Clear();
                     return 2;
                 }
+                else if (input.Key == ConsoleKey.R && fourthAction != null)
+                {
+                    Console.Clear();
+                    return 3;
+                }
             } while (active);
             return 0;
         }
@@ -88,8 +94,10 @@ namespace Ults
             bool activeSelectedMenu = true;
             int currentChoice = 1;
             int renderCount = 0;
+            int colorCount = 0;
             while (activeSelectedMenu)
             {
+                colorCount++;
                 if (title != null || subTitle != null)
                     consoleUI.PrintTitle(title, subTitle, loginStaff);
                 if (currentChoice <= (menuItem.Count() + 1) && currentChoice >= 1)
@@ -98,7 +106,11 @@ namespace Ults
                     {
                         if (currentChoice - 1 == i)
                         {
-                            Console.ForegroundColor = ConsoleColor.Blue;
+                            if (colorCount % 2 == 0) Console.ForegroundColor = ConsoleColor.DarkCyan;
+                            else if (colorCount % 3 == 0) Console.ForegroundColor = ConsoleColor.Blue;
+                            else if (colorCount % 5 == 0) Console.ForegroundColor = ConsoleColor.Green;
+                            else Console.ForegroundColor = ConsoleColor.Yellow;
+                            if(menuItem[i].ToLower() == "Log Out".ToLower()) Console.ForegroundColor = ConsoleColor.Red;
                             Console.WriteLine(spaces + "| {0, 50} |", (iconBackhand + " " + consoleUI.SetTextBolder(menuItem[i])).PadRight(90));
                             Console.ForegroundColor = ConsoleColor.White;
                         }
@@ -276,7 +288,7 @@ namespace Ults
         public string GetUserName()
         {
             string spaces = consoleUI.AlignCenter("|--------------------------------------------------------------------------------------------|");
-            string userName = GetInputString(spaces + "User Name");
+            string userName = GetInputString(spaces + " User Name");
             return userName;
         }
 
@@ -286,7 +298,7 @@ namespace Ults
             string pass = "";
             do
             {
-                Console.Write("\n" + spaces + "Password: ");
+                Console.Write("\n" + spaces + " Password: ");
                 ConsoleKeyInfo key;
                 do
                 {
@@ -316,19 +328,19 @@ namespace Ults
             string PatternName = "^[a-zA-Z\\s]+$";
             string PatternPhone = @"[0-9]$";
             string spaces = consoleUI.AlignCenter("|--------------------------------------------------------------------------------------------|");
-            string customerName = GetInputString($"{spaces}Customer Name");
+            string customerName = GetInputString($"{spaces} Customer Name");
             while (!Regex.IsMatch(customerName, PatternName))
             {
                 Alert(ConsoleEnum.Alert.Error, "Invalid Customer Name customer names are not allowed to have special characters and numbers");
-                customerName = GetInputString($"{spaces}Customer Name");
+                customerName = GetInputString($"{spaces} Customer Name");
             }
-            string phoneNumber = GetInputString($"{spaces}Phone Number");
+            string phoneNumber = GetInputString($"{spaces} Phone Number");
             while (!Regex.IsMatch(phoneNumber, PatternPhone, RegexOptions.IgnoreCase))
             {
                 Alert(ConsoleEnum.Alert.Error, "INVALID Phone Number please enter again");
-                phoneNumber = GetInputString($"{spaces}Phone Number");
+                phoneNumber = GetInputString($"{spaces} Phone Number");
             }
-            string address = GetInputString($"{spaces}Address");
+            string address = GetInputString($"{spaces} Address");
             Customer customer = new Customer(0, customerName, phoneNumber, address);
             return customer;
         }
@@ -406,5 +418,4 @@ namespace Ults
         }
         public string GenerateID() => Guid.NewGuid().ToString("N").Substring(0, 12).ToUpper();
     }
-
 }

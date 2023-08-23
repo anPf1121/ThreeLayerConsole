@@ -41,7 +41,7 @@ namespace PhoneStoreUI
                 bool isSuccess = staffBL.Login(consoleUlts.GetUserName(), consoleUlts.GetPassword());
                 if (isSuccess)
                 {
-                    consoleUlts.Alert(GUIEnum.ConsoleEnum.Alert.Success, "Login Successfully!");
+                    consoleUlts.Alert(ConsoleEnum.Alert.Success, "Login Successfully!");
                     if (staffBL.LoggedInStaff.Role == StaffEnum.Role.Seller)
                     {
                         bool activeSellerMenu = true;
@@ -57,11 +57,11 @@ namespace PhoneStoreUI
                                 case 2:
                                     HandleResult = Ults.HandleOrder();
                                     if (HandleResult == -1)
-                                        consoleUlts.Alert(GUIEnum.ConsoleEnum.Alert.Error, "No Order exist");
+                                        consoleUlts.Alert(ConsoleEnum.Alert.Error, "No Order exist");
                                     else if (HandleResult == 0)
-                                        consoleUlts.Alert(GUIEnum.ConsoleEnum.Alert.Warning, "Cancel Order Completed");
+                                        consoleUlts.Alert(ConsoleEnum.Alert.Warning, "Cancel Order Completed");
                                     else if (HandleResult == 1)
-                                        consoleUlts.Alert(GUIEnum.ConsoleEnum.Alert.Success, "Handle Order Completed");
+                                        consoleUlts.Alert(ConsoleEnum.Alert.Success, "Handle Order Completed");
                                     break;
                                 case 3:
                                     activeSellerMenu = false;

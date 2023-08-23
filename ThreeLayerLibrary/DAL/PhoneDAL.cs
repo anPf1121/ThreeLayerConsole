@@ -1,6 +1,7 @@
 using MySqlConnector;
 using Model;
 using BusinessEnum;
+using System.Text.RegularExpressions;
 namespace DAL
 {
     public static class PhoneFilter
@@ -87,17 +88,17 @@ namespace DAL
                         inner join staffs s on s.staff_id = p.create_by
                         inner join phonedetails pd on p.phone_id = pd.phone_id
                         inner join colors c on c.color_id = pd.color_id
-                        inner join romsizes r on r.rom_size_id = pd.rom_size_id where p.phone_id >0 order by p.phone_id asc;";
+                        inner join romsizes r on r.rom_size_id = pd.rom_size_id where p.phone_id > 0 order by p.phone_id asc;";
                         break;
                     case PhoneFilter.FILTER_BY_PHONE_INFORMATION:
-                        query = @"SELECT p.*, b.*, s.*, pd.*, c.*, r.*
+                        query = $@"SELECT p.*, b.*, s.*, pd.*, c.*, r.*
                         FROM phones p
                         inner join brands b on p.brand_id = b.brand_id
                         inner join staffs s on s.staff_id = p.create_by
                         inner join phonedetails pd on p.phone_id = pd.phone_id
                         inner join colors c on c.color_id = pd.color_id
                         inner join romsizes r on r.rom_size_id = pd.rom_size_id
-                        where (concat(p.phone_name,b.brand_name, r.rom_size, p.ram, p.camera, p.battery_capacity, p.os, p.screen, c.color_name) like @input) and p.phone_id > 0 order by p.phone_id asc;";
+                        where (concat(p.phone_name, ' ', b.brand_name, ' ', p.phone_name) like @input) and p.phone_id > 0 order by p.phone_id asc;";
                         break;
                     case PhoneFilter.FILTER_BY_PHONE_HAVE_DISCOUNT:
                         query = @"SELECT p.phone_id, p.phone_name, b.brand_name, p.camera, p.ram, p.weight, p.processor, p.battery_capacity,
@@ -112,13 +113,16 @@ namespace DAL
                         where dp.discount_price != '0';";
                         break;
                     default:
+                        Console.WriteLine("???");
+                        Console.ReadLine();
                         break;
                 }
                 command.CommandText = query;
                 if (phoneFilter == PhoneFilter.FILTER_BY_PHONE_INFORMATION)
                 {
                     command.Parameters.Clear();
-                    command.Parameters.AddWithValue("@input", "%" + input + "%");
+                    if (input != null)
+                        command.Parameters.AddWithValue("@input", "%" + Regex.Replace(input, @"\s+", " ").Trim() + "%");
                 }
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())

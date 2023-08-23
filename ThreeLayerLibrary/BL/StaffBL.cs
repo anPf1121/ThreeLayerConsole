@@ -9,9 +9,8 @@ namespace BL;
 public class StaffBL : IStaffBL
 {
     public Staff LoggedInStaff { get; private set; }
-    private Staff loggedInStaff;
+    private Staff? loggedInStaff;
     private StaffDAL idal = new StaffDAL();
-
     public bool Login(string username, string password)
     {
         Staff? staff = null;
@@ -28,7 +27,6 @@ public class StaffBL : IStaffBL
         }
         return false;
     }
-
     public void Logout()
     {
         LoggedInStaff = null;
