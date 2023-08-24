@@ -25,7 +25,6 @@ public class CustomerDAL
             if (connection.State == System.Data.ConnectionState.Closed)
             {
                 connection.Open();
-
             }
             query = @"select * from customers where customer_id = @id;";
             MySqlCommand command = new MySqlCommand(query, connection);
@@ -53,10 +52,9 @@ public class CustomerDAL
     {
         int result = 0;
             
-       if (connection.State == System.Data.ConnectionState.Closed)
+            if (connection.State == System.Data.ConnectionState.Closed)
             {
                 connection.Open();
-
             }
 
             using (MySqlCommand command = new MySqlCommand("sp_createCustomer", connection))
@@ -78,6 +76,11 @@ public class CustomerDAL
                     }
                 }
             }
+            
+                if (connection.State == System.Data.ConnectionState.Open)
+                {
+                    connection.Close();
+                }
 
         return result;
     }

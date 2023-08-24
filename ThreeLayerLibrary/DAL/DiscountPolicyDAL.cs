@@ -87,9 +87,9 @@ namespace DAL
             {
                 Console.WriteLine(ex.Message);
             }
-            if (connection.State == System.Data.ConnectionState.Closed)
+            if (connection.State == System.Data.ConnectionState.Open)
             {
-                connection.Open();
+                connection.Close();
             }
             List<DiscountPolicy> output = new List<DiscountPolicy>();
             foreach (var l in lst)

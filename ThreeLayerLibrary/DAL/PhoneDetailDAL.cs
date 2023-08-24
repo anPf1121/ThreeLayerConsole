@@ -126,7 +126,6 @@ namespace DAL
                 new PhoneDetail(reader.GetInt32("phone_detail_id"), new Phone(0, "", new Brand(0, "", ""), "", "", "", "", "", "", "", "", "", new DateTime(), "", new Staff(0, "", "", "", "", "", StaffEnum.Role.Seller, StaffEnum.Status.Active), new DateTime(), ""), new ROMSize(0, ""), new PhoneColor(0, ""), 0, 0, PhoneEnum.Status.Type1, new Staff(0, "", "", "", "", "", StaffEnum.Role.Seller, StaffEnum.Status.Active), new DateTime()),
                 reader.GetString("phone_imei"),
                 (PhoneEnum.ImeiStatus)Enum.ToObject(typeof(PhoneEnum.ImeiStatus), reader.GetInt32("status"))
-
             );
             return imei;
         }
@@ -239,13 +238,17 @@ namespace DAL
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                   phoneDetail = GetPhoneDetail(reader);
+                    phoneDetail = GetPhoneDetail(reader);
                 }
                 reader.Close();
             }
             catch (MySqlException ex)
             {
                 Console.WriteLine(ex.Message);
+            }
+            if (connection.State == System.Data.ConnectionState.Open)
+            {
+                connection.Close();
             }
             phoneDetail.Phone = new PhoneDAL().GetPhoneById(phoneDetail.Phone.PhoneID);
             phoneDetail.PhoneColor = GetPhoneColoreByID(phoneDetail.PhoneColor.ColorID);

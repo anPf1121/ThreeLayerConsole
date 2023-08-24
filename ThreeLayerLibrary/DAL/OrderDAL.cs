@@ -35,7 +35,6 @@ namespace DAL
             CustomerDAL customerDAL = new CustomerDAL();
             PhoneDetailsDAL phoneDetailsDAL = new PhoneDetailsDAL();
             Order order = new Order("", new DateTime(), new Staff(0, "", "", "", "", "", StaffEnum.Role.Seller, StaffEnum.Status.Active), new Staff(0, "", "", "", "", "", StaffEnum.Role.Accountant, StaffEnum.Status.Active), new Customer(0, "", "", ""), new List<Imei>(), OrderEnum.Status.Pending, new List<DiscountPolicy>(), "", 0);
-
             // Dau tien lay ra thong tin cua Customer, Seller, Accountant theo order id
             try
             {
@@ -58,10 +57,12 @@ namespace DAL
             {
                 Console.WriteLine(ex.Message);
             }
-
-            if (connection.State == System.Data.ConnectionState.Open)
+            finally
             {
-                connection.Close();
+                if (connection.State == System.Data.ConnectionState.Open)
+                {
+                    connection.Close();
+                }
             }
             // trong order chi chua thuoc tinh id cua customer, accountant, seller
             // de lay toan bo thong tin cua 3 actor tren ta can phai get tat ca gia tri thong qua id nhu sau: 
@@ -94,9 +95,12 @@ namespace DAL
             {
                 Console.WriteLine(ex.Message);
             }
-            if (connection.State == System.Data.ConnectionState.Open)
+            finally
             {
-                connection.Close();
+                if (connection.State == System.Data.ConnectionState.Open)
+                {
+                    connection.Close();
+                }
             }
 
 
@@ -243,7 +247,7 @@ namespace DAL
                         }
                         else break;
                     }
-                    catch {}
+                    catch { }
                 }
                 if (countphone == order.ListImeiInOrder.Count() && order.ListImeiInOrder.Count() > 0) result = true;
                 else result = false;
@@ -264,9 +268,12 @@ namespace DAL
                 }
                 Console.WriteLine(ex.Message);
             }
-            if (connection.State == System.Data.ConnectionState.Open)
+            finally
             {
-                connection.Close();
+                if (connection.State == System.Data.ConnectionState.Open)
+                {
+                    connection.Close();
+                }
             }
             return result;
         }

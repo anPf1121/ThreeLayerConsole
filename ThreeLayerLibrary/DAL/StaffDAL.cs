@@ -12,7 +12,7 @@ namespace DAL
         private string query = "";
         public Staff GetAccountByUsername(string userName)
         {
-           Staff staff = new Staff(0, "", "", "", "", "", StaffEnum.Role.Seller, StaffEnum.Status.Active);
+            Staff staff = new Staff(0, "", "", "", "", "", StaffEnum.Role.Seller, StaffEnum.Status.Active);
             try
             {
                 if (connection.State == System.Data.ConnectionState.Closed)
@@ -70,9 +70,11 @@ namespace DAL
                 return sb.ToString();
             }
         }
-        public Staff GetStaffByID(int id){
+        public Staff GetStaffByID(int id)
+        {
             Staff output = new Staff(0, "", "", "", "", "", StaffEnum.Role.Seller, StaffEnum.Status.Active);
-            try{
+            try
+            {
                 if (connection.State == System.Data.ConnectionState.Closed)
                 {
                     connection.Open();
@@ -82,16 +84,17 @@ namespace DAL
                 command.Parameters.Clear();
                 command.Parameters.AddWithValue("@id", id);
                 MySqlDataReader reader = command.ExecuteReader();
-                if(reader.Read())output = GetStaff(reader);
+                if (reader.Read()) output = GetStaff(reader);
                 reader.Close();
             }
-            catch(MySqlException ex){
+            catch (MySqlException ex)
+            {
                 Console.WriteLine(ex.Message);
             }
             if (connection.State == System.Data.ConnectionState.Open)
-                {
-                    connection.Close();
-                }
+            {
+                connection.Close();
+            }
             return output;
         }
     }
