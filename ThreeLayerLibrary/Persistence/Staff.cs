@@ -11,7 +11,7 @@ public class Staff
     public string Address { get; set; }
     public StaffEnum.Status Status { get; set; }
     public StaffEnum.Role Role { get; set; }
-    
+    public Staff() {}
     public Staff(int staffID, string staffName, string phoneNumber, string userName, string password, string address, StaffEnum.Role role, StaffEnum.Status status){
         this.StaffID = staffID;
         this.StaffName = staffName;

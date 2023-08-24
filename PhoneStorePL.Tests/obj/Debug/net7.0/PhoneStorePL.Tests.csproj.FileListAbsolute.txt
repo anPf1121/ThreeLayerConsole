@@ -21,9 +21,6 @@ C:\Users\anngu\Desktop\ThreeLayerConsole\PhoneStorePL.Tests\obj\Debug\net7.0\ref
 C:\Users\anngu\Desktop\ThreeLayerConsole\PhoneStorePL.Tests\bin\Debug\net7.0\CoverletSourceRootsMapping
 C:\Users\anngu\Desktop\ThreeLayerConsole\PhoneStorePL.Tests\bin\Debug\net7.0\testhost.dll
 C:\Users\anngu\Desktop\ThreeLayerConsole\PhoneStorePL.Tests\bin\Debug\net7.0\testhost.exe
-C:\Users\anngu\Desktop\ThreeLayerConsole\PhoneStorePL.Tests\bin\Debug\net7.0\xunit.runner.visualstudio.dotnetcore.testadapter.dll
-C:\Users\anngu\Desktop\ThreeLayerConsole\PhoneStorePL.Tests\bin\Debug\net7.0\xunit.runner.reporters.netcoreapp10.dll
-C:\Users\anngu\Desktop\ThreeLayerConsole\PhoneStorePL.Tests\bin\Debug\net7.0\xunit.runner.utility.netcoreapp10.dll
 C:\Users\anngu\Desktop\ThreeLayerConsole\PhoneStorePL.Tests\bin\Debug\net7.0\PhoneStorePL.Tests.runtimeconfig.json
 C:\Users\anngu\Desktop\ThreeLayerConsole\PhoneStorePL.Tests\bin\Debug\net7.0\Microsoft.VisualStudio.CodeCoverage.Shim.dll
 C:\Users\anngu\Desktop\ThreeLayerConsole\PhoneStorePL.Tests\bin\Debug\net7.0\Microsoft.TestPlatform.CoreUtilities.dll
@@ -106,3 +103,6 @@ C:\Users\anngu\Desktop\ThreeLayerConsole\PhoneStorePL.Tests\bin\Debug\net7.0\zh-
 C:\Users\anngu\Desktop\ThreeLayerConsole\PhoneStorePL.Tests\bin\Debug\net7.0\zh-Hant\Microsoft.TestPlatform.CrossPlatEngine.resources.dll
 C:\Users\anngu\Desktop\ThreeLayerConsole\PhoneStorePL.Tests\bin\Debug\net7.0\zh-Hant\Microsoft.VisualStudio.TestPlatform.Common.resources.dll
 C:\Users\anngu\Desktop\ThreeLayerConsole\PhoneStorePL.Tests\obj\Debug\net7.0\PhoneStorePL.Tests.genruntimeconfig.cache
+C:\Users\anngu\Desktop\ThreeLayerConsole\PhoneStorePL.Tests\bin\Debug\net7.0\xunit.runner.visualstudio.dotnetcore.testadapter.dll
+C:\Users\anngu\Desktop\ThreeLayerConsole\PhoneStorePL.Tests\bin\Debug\net7.0\xunit.runner.reporters.netcoreapp10.dll
+C:\Users\anngu\Desktop\ThreeLayerConsole\PhoneStorePL.Tests\bin\Debug\net7.0\xunit.runner.utility.netcoreapp10.dll

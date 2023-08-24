@@ -162,111 +162,104 @@ namespace DAL
             bool result = false;
             int countphone = 0;
             MySqlTransaction? tr = null;
+            if (connection.State == System.Data.ConnectionState.Closed)
+            {
+                connection.Open();
+            }
             try
             {
-                if (connection.State == System.Data.ConnectionState.Closed)
+                using (tr = connection.BeginTransaction())
                 {
-                    connection.Open();
-                }
-                tr = connection.BeginTransaction();
-                MySqlCommand command = new MySqlCommand(connection, tr);
-                MySqlDataReader? reader = null;
-                if (order.Customer.CustomerID == 0)
-                {
-                    command.CommandText = $@"insert into Customers(name, address, phone_number)
-                    values ('{order.Customer.CustomerName}','{order.Customer.Address}','{order.Customer.PhoneNumber}');";
-                    command.ExecuteNonQuery();
-
-                    command.CommandText = "select customer_id from customers order by customer_id desc limit 1;";
-                    reader = command.ExecuteReader();
-                    if (reader.Read())
+                    using (MySqlCommand command = connection.CreateCommand())
                     {
-                        order.Customer.CustomerID = reader.GetInt32("customer_id");
-                    }
-                    reader.Close();
-                }
-                else
-                {
-                    command.CommandText = "select * from customers where phone_number = @phonenumber;";
-                    command.Parameters.Clear();
-                    command.Parameters.AddWithValue("@phonenumber", order.Customer.PhoneNumber);
-                    reader = command.ExecuteReader();
-                    if (reader.Read())
-                    {
-                        order.Customer.CustomerID = reader.GetInt32("customer_id");
-                        order.Customer.CustomerName = reader.GetString("name");
-                        order.Customer.PhoneNumber = reader.GetString("phone_number");
-                        order.Customer.Address = reader.GetString("address");
-                    }
-                }
-                query = @"insert into orders(customer_id, seller_id, order_id) 
-                value (@cusid, @sellerid, @orderid);";
-                command.CommandText = query;
-                command.Parameters.Clear();
-                command.Parameters.AddWithValue("@cusid", order.Customer.CustomerID);
-                command.Parameters.AddWithValue("@sellerid", order.Seller.StaffID);
-                command.Parameters.AddWithValue("@orderid", order.OrderID);
-                command.ExecuteNonQuery();
-
-                foreach (var imei in order.ListImeiInOrder)
-                {
-                    int quantity = 0;
-                    bool mySqlReader = false;
-                    try
-                    {
-
-                        query = @"select pd.quantity from imeis i
-                        inner join phonedetails pd on i.phone_detail_id = pd.phone_detail_id
-                        where pd.phone_detail_id = @phonedetailid;";
-                        command.CommandText = query;
-                        command.Parameters.Clear();
-                        command.Parameters.AddWithValue("@phonedetailid", imei.PhoneDetail.PhoneDetailID);
-                        reader = command.ExecuteReader();
-                        mySqlReader = reader.Read();
-                        if (mySqlReader)
+                        command.Connection = connection;
+                        command.Transaction = tr;
+                        MySqlDataReader? reader = null;
+                        if (order.Customer.CustomerID == 0)
                         {
-                            quantity = reader.GetInt32("quantity");
-                        }
-                        reader.Close();
-                        if (mySqlReader)
-                        {
-                            if (imei.PhoneDetail.Quantity > quantity) break;
-                            else
+                            command.CommandText = $@"insert into Customers(name, address, phone_number) values ('{order.Customer.CustomerName}','{order.Customer.Address}','{order.Customer.PhoneNumber}');";
+                            command.ExecuteNonQuery();
+                            command.CommandText = "select customer_id from customers order by customer_id desc limit 1;";
+                            reader = command.ExecuteReader();
+                            if (reader.Read())
                             {
-                                query = @"insert into orderdetails(order_id, phone_imei) value (@orderid, @phoneimei);";
-                                command.CommandText = query;
-                                foreach (Imei imei2 in order.ListImeiInOrder)
-                                {
-                                    command.Parameters.Clear();
-                                    command.Parameters.AddWithValue("@orderid", order.OrderID);
-                                    command.Parameters.AddWithValue("@phoneimei", imei2.PhoneImei);
-                                    command.ExecuteNonQuery();
-                                    countphone++;
-                                }
+                                order.Customer.CustomerID = reader.GetInt32("customer_id");
+                            }
+                            reader.Close();
+                        }
+                        else
+                        {
+                            command.CommandText = "select * from customers where phone_number = @phonenumber;";
+                            command.Parameters.Clear();
+                            command.Parameters.AddWithValue("@phonenumber", order.Customer.PhoneNumber);
+                            reader = command.ExecuteReader();
+                            if (reader.Read())
+                            {
+                                order.Customer.CustomerID = reader.GetInt32("customer_id");
+                                order.Customer.CustomerName = reader.GetString("name");
+                                order.Customer.PhoneNumber = reader.GetString("phone_number");
+                                order.Customer.Address = reader.GetString("address");
                             }
                         }
-                        else break;
+                        command.CommandText = @"insert into orders(customer_id, seller_id, order_id) values (@cusid, @sellerid, @orderid);";
+                        command.Parameters.Clear();
+                        command.Parameters.AddWithValue("@cusid", order.Customer.CustomerID);
+                        command.Parameters.AddWithValue("@sellerid", order.Seller.StaffID);
+                        command.Parameters.AddWithValue("@orderid", order.OrderID);
+                        command.ExecuteNonQuery();
+
+                        foreach (var imei in order.ListImeiInOrder)
+                        {
+                            int quantity = 0;
+                            bool mySqlReader = false;
+                            try
+                            {
+
+                                query = @"select pd.quantity from imeis i
+                        inner join phonedetails pd on i.phone_detail_id = pd.phone_detail_id
+                        where pd.phone_detail_id = @phonedetailid;";
+                                command.CommandText = query;
+                                command.Parameters.Clear();
+                                command.Parameters.AddWithValue("@phonedetailid", imei.PhoneDetail.PhoneDetailID);
+                                reader = command.ExecuteReader();
+                                mySqlReader = reader.Read();
+                                if (mySqlReader)
+                                {
+                                    quantity = reader.GetInt32("quantity");
+                                }
+                                reader.Close();
+                                if (mySqlReader)
+                                {
+                                    if (imei.PhoneDetail.Quantity > quantity) break;
+                                    else
+                                    {
+                                        query = @"insert into orderdetails(order_id, phone_imei) value (@orderid, @phoneimei);";
+                                        command.CommandText = query;
+                                        foreach (Imei imei2 in order.ListImeiInOrder)
+                                        {
+                                            command.Parameters.Clear();
+                                            command.Parameters.AddWithValue("@orderid", order.OrderID);
+                                            command.Parameters.AddWithValue("@phoneimei", imei2.PhoneImei);
+                                            command.ExecuteNonQuery();
+                                            countphone++;
+                                        }
+                                    }
+                                }
+                                else break;
+                            }
+                            catch { }
+                        }
+                        if (countphone == order.ListImeiInOrder.Count() && order.ListImeiInOrder.Count() > 0) result = true;
+                        else result = false;
+                        if (result == true) tr.Commit();
+                        else tr.Rollback();
                     }
-                    catch { }
                 }
-                if (countphone == order.ListImeiInOrder.Count() && order.ListImeiInOrder.Count() > 0) result = true;
-                else result = false;
-                if (result == true) tr.Commit();
-                else tr.Rollback();
             }
-            catch (MySqlException ex)
+            catch
             {
-                try
-                {
-                    if (tr != null)
-                        tr.Rollback();
-                    result = false;
-                }
-                catch (MySqlException ex1)
-                {
-                    Console.WriteLine(ex1.Message);
-                }
-                Console.WriteLine(ex.Message);
+                result = false;
+                if (tr != null) tr.Rollback();
             }
             finally
             {
@@ -275,6 +268,7 @@ namespace DAL
                     connection.Close();
                 }
             }
+
             return result;
         }
         public bool UpdateOrder(OrderEnum.Status orderStatus, Order order)
@@ -349,8 +343,6 @@ namespace DAL
             {
                 if (order.DiscountPolicies.Count() != 0 || order.DiscountPolicies != null)
                 {
-
-
                     query = @"insert into discountpolicydetails(order_id, policy_id) value(@orderid, @policyid);";
                     MySqlCommand command = new MySqlCommand(query, connection);
                     foreach (var dc in order.DiscountPolicies)
