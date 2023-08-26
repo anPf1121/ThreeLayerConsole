@@ -13,18 +13,7 @@ public class Order
     public List<DiscountPolicy> DiscountPolicies { get; set; }
     public string PaymentMethod { get; set; }
     public decimal TotalDue { get; set; }
-    public Order() {
-        this.OrderID = Guid.NewGuid().ToString("N").Substring(0, 12).ToUpper();
-        this.CreateAt = DateTime.Now;
-        this.Seller = new Staff();
-        this.Accountant = new Staff();
-        this.Customer = new Customer();
-        this.ListImeiInOrder = new List<Imei>();
-        this.OrderStatus = OrderEnum.Status.Pending;
-        this.DiscountPolicies = new List<DiscountPolicy>();
-        this.PaymentMethod = "VNPay";
-        this.TotalDue = 0;
-    }
+    public Order() { }
     //     Phone: “Iphone 11”
     // ROM: “512GB”
     // Color: “Pink”

@@ -161,14 +161,13 @@ namespace DAL
         {
             bool result = false;
             int countphone = 0;
-            MySqlTransaction? tr = null;
-            if (connection.State == System.Data.ConnectionState.Closed)
-            {
-                connection.Open();
-            }
             try
             {
-                using (tr = connection.BeginTransaction())
+                if (connection.State == System.Data.ConnectionState.Closed)
+                {
+                    connection.Open();
+                }
+                using (MySqlTransaction tr = connection.BeginTransaction())
                 {
                     using (MySqlCommand command = connection.CreateCommand())
                     {
@@ -189,17 +188,15 @@ namespace DAL
                         }
                         else
                         {
-                            command.CommandText = "select * from customers where phone_number = @phonenumber;";
+                            command.CommandText = "select * from customers where customer_id=@customerId;";
                             command.Parameters.Clear();
-                            command.Parameters.AddWithValue("@phonenumber", order.Customer.PhoneNumber);
+                            command.Parameters.AddWithValue("@customerId", order.Customer.CustomerID);
                             reader = command.ExecuteReader();
                             if (reader.Read())
                             {
-                                order.Customer.CustomerID = reader.GetInt32("customer_id");
-                                order.Customer.CustomerName = reader.GetString("name");
-                                order.Customer.PhoneNumber = reader.GetString("phone_number");
-                                order.Customer.Address = reader.GetString("address");
+                                order.Customer = new CustomerDAL().GetCustomer(reader);
                             }
+                            reader.Close();
                         }
                         command.CommandText = @"insert into orders(customer_id, seller_id, order_id) values (@cusid, @sellerid, @orderid);";
                         command.Parameters.Clear();
@@ -214,7 +211,6 @@ namespace DAL
                             bool mySqlReader = false;
                             try
                             {
-
                                 query = @"select pd.quantity from imeis i
                         inner join phonedetails pd on i.phone_detail_id = pd.phone_detail_id
                         where pd.phone_detail_id = @phonedetailid;";
@@ -247,19 +243,24 @@ namespace DAL
                                 }
                                 else break;
                             }
-                            catch { }
+                            catch
+                            {
+                                try
+                                {
+                                    tr.Rollback();
+                                }
+                                catch { }
+                            }
                         }
                         if (countphone == order.ListImeiInOrder.Count() && order.ListImeiInOrder.Count() > 0) result = true;
-                        else result = false;
-                        if (result == true) tr.Commit();
-                        else tr.Rollback();
+                        if (result == false) tr.Rollback();
+                        tr.Commit();
                     }
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                result = false;
-                if (tr != null) tr.Rollback();
+                Console.WriteLine(ex.Message);
             }
             finally
             {
@@ -279,44 +280,47 @@ namespace DAL
                 {
                     connection.Open();
                 }
-                MySqlCommand command = new MySqlCommand("", connection);
-                switch (orderStatus)
+                using (MySqlCommand command = connection.CreateCommand())
                 {
-                    case OrderEnum.Status.Confirmed:
-                        query = @"update orders set accountant_id = @accountantid, order_status = @orderstatus, 
+                    command.Connection = connection;
+                    switch (orderStatus)
+                    {
+                        case OrderEnum.Status.Confirmed:
+                            query = @"update orders set accountant_id = @accountantid, order_status = @orderstatus, 
                         update_at = current_timestamp(), payment_method = @paymentmethod 
                         where order_id = @orderid;";
-                        command.CommandText = query;
-                        command.Parameters.Clear();
-                        command.Parameters.AddWithValue("@accountantid", order.Accountant.StaffID);
-                        command.Parameters.AddWithValue("@orderstatus", (int)OrderEnum.Status.Confirmed);
-                        command.Parameters.AddWithValue("@orderid", order.OrderID);
-                        command.Parameters.AddWithValue("@paymentmethod", order.PaymentMethod);
-                        command.ExecuteNonQuery();
-                        break;
-                    case OrderEnum.Status.Canceled:
-                        query = @"update orders set order_status = @orderstatus,update_at = current_timestamp(),
+                            command.CommandText = query;
+                            command.Parameters.Clear();
+                            command.Parameters.AddWithValue("@accountantid", order.Accountant.StaffID);
+                            command.Parameters.AddWithValue("@orderstatus", (int)OrderEnum.Status.Confirmed);
+                            command.Parameters.AddWithValue("@orderid", order.OrderID);
+                            command.Parameters.AddWithValue("@paymentmethod", order.PaymentMethod);
+                            command.ExecuteNonQuery();
+                            break;
+                        case OrderEnum.Status.Canceled:
+                            query = @"update orders set order_status = @orderstatus,update_at = current_timestamp(),
                         accountant_id = @accountantid where order_id = @orderid;";
-                        command.CommandText = query;
-                        command.Parameters.Clear();
-                        command.Parameters.AddWithValue("@accountantid", order.Accountant.StaffID);
-                        command.Parameters.AddWithValue("@orderstatus", (int)OrderEnum.Status.Canceled);
-                        command.Parameters.AddWithValue("@orderid", order.OrderID);
-                        command.ExecuteNonQuery();
-                        break;
-                    case OrderEnum.Status.Completed:
-                        query = @"update orders set order_status = @orderstatus, update_at = current_timestamp() 
+                            command.CommandText = query;
+                            command.Parameters.Clear();
+                            command.Parameters.AddWithValue("@accountantid", order.Accountant.StaffID);
+                            command.Parameters.AddWithValue("@orderstatus", (int)OrderEnum.Status.Canceled);
+                            command.Parameters.AddWithValue("@orderid", order.OrderID);
+                            command.ExecuteNonQuery();
+                            break;
+                        case OrderEnum.Status.Completed:
+                            query = @"update orders set order_status = @orderstatus, update_at = current_timestamp() 
                         where order_id = @orderid;";
-                        command.CommandText = query;
-                        command.Parameters.Clear();
-                        command.Parameters.AddWithValue("@orderstatus", (int)OrderEnum.Status.Completed);
-                        command.Parameters.AddWithValue("@orderid", order.OrderID);
-                        command.ExecuteNonQuery();
-                        break;
-                    case OrderEnum.Status.Pending:
-                        break;
-                    default:
-                        return false;
+                            command.CommandText = query;
+                            command.Parameters.Clear();
+                            command.Parameters.AddWithValue("@orderstatus", (int)OrderEnum.Status.Completed);
+                            command.Parameters.AddWithValue("@orderid", order.OrderID);
+                            command.ExecuteNonQuery();
+                            break;
+                        case OrderEnum.Status.Pending:
+                            break;
+                        default:
+                            return false;
+                    }
                 }
             }
             catch (MySqlException ex)

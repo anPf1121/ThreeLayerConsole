@@ -106,10 +106,10 @@ namespace Ults
                     {
                         if (currentChoice - 1 == i)
                         {
-                            if (colorCount % 2 == 0) Console.ForegroundColor = ConsoleColor.DarkCyan;
+                            if (colorCount % 2 == 0) Console.ForegroundColor = ConsoleColor.DarkMagenta;
                             else if (colorCount % 3 == 0) Console.ForegroundColor = ConsoleColor.Blue;
                             else if (colorCount % 5 == 0) Console.ForegroundColor = ConsoleColor.Green;
-                            else Console.ForegroundColor = ConsoleColor.Yellow;
+                            else Console.ForegroundColor = ConsoleColor.DarkCyan;
                             if(menuItem[i].ToLower() == "Log Out".ToLower()) Console.ForegroundColor = ConsoleColor.Red;
                             Console.WriteLine(spaces + "| {0, 50} |", (iconBackhand + " " + consoleUI.SetTextBolder(menuItem[i])).PadRight(90));
                             Console.ForegroundColor = ConsoleColor.White;
