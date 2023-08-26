@@ -253,8 +253,8 @@ namespace DAL
                             }
                         }
                         if (countphone == order.ListImeiInOrder.Count() && order.ListImeiInOrder.Count() > 0) result = true;
-                        if (result == false) tr.Rollback();
-                        tr.Commit();
+                        if (result == true) tr.Commit();
+                        else tr.Rollback();
                     }
                 }
             }

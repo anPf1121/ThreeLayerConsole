@@ -19,16 +19,19 @@ namespace DAL
                 {
                     connection.Open();
                 }
-                string query = @"select * from staffs where user_name = @username;";
-                MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.Clear();
-                command.Parameters.AddWithValue("@username", userName);
-                MySqlDataReader reader = command.ExecuteReader();
-                if (reader.Read())
+                using (MySqlCommand command = connection.CreateCommand())
                 {
-                    staff = GetStaff(reader);
+                    command.Connection = connection;
+                    query = @"select * from staffs where user_name = @username;";
+                    command.CommandText = query;
+                    command.Parameters.AddWithValue("@username", userName);
+                    MySqlDataReader reader = command.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        staff = GetStaff(reader);
+                    }
+                    reader.Close();
                 }
-                reader.Close();
             }
             catch (MySqlException ex)
             {

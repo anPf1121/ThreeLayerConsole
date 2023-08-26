@@ -30,6 +30,6 @@ public class StaffBL : IStaffBL
     public void Logout()
     {
         LoggedInStaff = null;
-        loggedInStaff = null;   
+        loggedInStaff = null;
     }
 }

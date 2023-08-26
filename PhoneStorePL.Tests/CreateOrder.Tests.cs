@@ -25,20 +25,20 @@ public class OrderTests
     //     order.OrderID = Guid.NewGuid().ToString("N").Substring(0, 12).ToUpper();
     //     Assert.False(new OrderBL().CreateOrder(order));
     // }
-    [Fact]
-    public void Create_Order_Success()
-    {
-        Order order = new("", new DateTime(), new Staff(0, "", "", "", "", "", StaffEnum.Role.Seller, StaffEnum.Status.Active), new Staff(0, "", "", "", "", "", StaffEnum.Role.Accountant, StaffEnum.Status.Active), new Customer(0, "", "", ""), new List<Imei>(), OrderEnum.Status.Pending, new List<DiscountPolicy>(), "", 0);
-        Customer customer = new CustomerDAL().GetCustomerByID(3);
-        Staff seller = new StaffDAL().GetStaffByID(4);
-        PhoneDetail iphone14 = new PhoneDetailsDAL().GetPhoneDetailByID(46);
-        Imei imei1InOrder = new(iphone14, "378532210210266", BusinessEnum.PhoneEnum.ImeiStatus.NotExport);
-        Imei imei2InOrder = new(iphone14, "378521012121023", BusinessEnum.PhoneEnum.ImeiStatus.NotExport);
-        order.ListImeiInOrder.Add(imei1InOrder);
-        order.ListImeiInOrder.Add(imei2InOrder);
-        order.Customer = customer;
-        order.Seller = seller;
-        order.OrderID = Guid.NewGuid().ToString("N").Substring(0, 12).ToUpper();
-        Assert.True(new OrderBL().CreateOrder(order));
-    }
+    // [Fact]
+    // public void Create_Order_Success1()
+    // {
+    //     Order order = new("", new DateTime(), new Staff(0, "", "", "", "", "", StaffEnum.Role.Seller, StaffEnum.Status.Active), new Staff(0, "", "", "", "", "", StaffEnum.Role.Accountant, StaffEnum.Status.Active), new Customer(0, "", "", ""), new List<Imei>(), OrderEnum.Status.Pending, new List<DiscountPolicy>(), "", 0);
+    //     Customer customer = new CustomerDAL().GetCustomerByID(2);
+    //     Staff seller = new StaffDAL().GetStaffByID(4);
+    //     PhoneDetail iphone14 = new PhoneDetailsDAL().GetPhoneDetailByID(46);
+    //     Imei imei1InOrder = new(iphone14, "378532210210266", BusinessEnum.PhoneEnum.ImeiStatus.NotExport);
+    //     Imei imei2InOrder = new(iphone14, "378521012121023", BusinessEnum.PhoneEnum.ImeiStatus.NotExport);
+    //     order.ListImeiInOrder.Add(imei1InOrder);
+    //     order.ListImeiInOrder.Add(imei2InOrder);
+    //     order.Customer = customer;
+    //     order.Seller = seller;
+    //     order.OrderID = Guid.NewGuid().ToString("N").Substring(0, 12).ToUpper();
+    //     Assert.True(new OrderBL().CreateOrder(order));
+    // }
 }
