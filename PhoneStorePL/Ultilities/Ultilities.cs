@@ -1179,7 +1179,7 @@ namespace Ults
                                 
                                 if(PaymentOrSkipOrCancel == 0){
                                     ConsoleUlts.Alert(ConsoleEnum.Alert.Success, "Confirm Payment");
-
+                                    orderBL.CreateOrder(orderWantToPayment);
                                     activeChoosePaymentMethod = true;
                                     activePayment = true;
                                     break;
