@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Học\\PhoneStore\\ThreeLayerConsole\\PhoneStorePL.Tests\\PhoneStorePL.Tests.csproj": {}
+    "C:\\Users\\anngu\\Desktop\\prevP\\ThreeLayerConsole\\PhoneStorePL.Tests\\PhoneStorePL.Tests.csproj": {}
   },
   "projects": {
-    "C:\\Học\\PhoneStore\\ThreeLayerConsole\\PhoneStorePL.Tests\\PhoneStorePL.Tests.csproj": {
+    "C:\\Users\\anngu\\Desktop\\prevP\\ThreeLayerConsole\\PhoneStorePL.Tests\\PhoneStorePL.Tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Học\\PhoneStore\\ThreeLayerConsole\\PhoneStorePL.Tests\\PhoneStorePL.Tests.csproj",
+        "projectUniqueName": "C:\\Users\\anngu\\Desktop\\prevP\\ThreeLayerConsole\\PhoneStorePL.Tests\\PhoneStorePL.Tests.csproj",
         "projectName": "PhoneStorePL.Tests",
-        "projectPath": "C:\\Học\\PhoneStore\\ThreeLayerConsole\\PhoneStorePL.Tests\\PhoneStorePL.Tests.csproj",
-        "packagesPath": "C:\\Users\\Acer\\.nuget\\packages\\",
-        "outputPath": "C:\\Học\\PhoneStore\\ThreeLayerConsole\\PhoneStorePL.Tests\\obj\\",
+        "projectPath": "C:\\Users\\anngu\\Desktop\\prevP\\ThreeLayerConsole\\PhoneStorePL.Tests\\PhoneStorePL.Tests.csproj",
+        "packagesPath": "C:\\Users\\anngu\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\anngu\\Desktop\\prevP\\ThreeLayerConsole\\PhoneStorePL.Tests\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Acer\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\anngu\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
@@ -26,8 +26,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "C:\\Học\\PhoneStore\\ThreeLayerConsole\\PhoneStorePL\\PhoneStorePL.csproj": {
-                "projectPath": "C:\\Học\\PhoneStore\\ThreeLayerConsole\\PhoneStorePL\\PhoneStorePL.csproj"
+              "C:\\Users\\anngu\\Desktop\\prevP\\ThreeLayerConsole\\PhoneStorePL\\PhoneStorePL.csproj": {
+                "projectPath": "C:\\Users\\anngu\\Desktop\\prevP\\ThreeLayerConsole\\PhoneStorePL\\PhoneStorePL.csproj"
               }
             }
           }
@@ -83,21 +83,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.200\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Học\\PhoneStore\\ThreeLayerConsole\\PhoneStorePL\\PhoneStorePL.csproj": {
+    "C:\\Users\\anngu\\Desktop\\prevP\\ThreeLayerConsole\\PhoneStorePL\\PhoneStorePL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Học\\PhoneStore\\ThreeLayerConsole\\PhoneStorePL\\PhoneStorePL.csproj",
+        "projectUniqueName": "C:\\Users\\anngu\\Desktop\\prevP\\ThreeLayerConsole\\PhoneStorePL\\PhoneStorePL.csproj",
         "projectName": "PhoneStorePL",
-        "projectPath": "C:\\Học\\PhoneStore\\ThreeLayerConsole\\PhoneStorePL\\PhoneStorePL.csproj",
-        "packagesPath": "C:\\Users\\Acer\\.nuget\\packages\\",
-        "outputPath": "C:\\Học\\PhoneStore\\ThreeLayerConsole\\PhoneStorePL\\obj\\",
+        "projectPath": "C:\\Users\\anngu\\Desktop\\prevP\\ThreeLayerConsole\\PhoneStorePL\\PhoneStorePL.csproj",
+        "packagesPath": "C:\\Users\\anngu\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\anngu\\Desktop\\prevP\\ThreeLayerConsole\\PhoneStorePL\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Acer\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\anngu\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
@@ -109,8 +109,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "C:\\Học\\PhoneStore\\ThreeLayerConsole\\ThreeLayerLibrary\\ThreeLayerLibrary.csproj": {
-                "projectPath": "C:\\Học\\PhoneStore\\ThreeLayerConsole\\ThreeLayerLibrary\\ThreeLayerLibrary.csproj"
+              "C:\\Users\\anngu\\Desktop\\prevP\\ThreeLayerConsole\\ThreeLayerLibrary\\ThreeLayerLibrary.csproj": {
+                "projectPath": "C:\\Users\\anngu\\Desktop\\prevP\\ThreeLayerConsole\\ThreeLayerLibrary\\ThreeLayerLibrary.csproj"
               }
             }
           }
@@ -140,21 +140,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.200\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Học\\PhoneStore\\ThreeLayerConsole\\ThreeLayerLibrary\\ThreeLayerLibrary.csproj": {
+    "C:\\Users\\anngu\\Desktop\\prevP\\ThreeLayerConsole\\ThreeLayerLibrary\\ThreeLayerLibrary.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Học\\PhoneStore\\ThreeLayerConsole\\ThreeLayerLibrary\\ThreeLayerLibrary.csproj",
+        "projectUniqueName": "C:\\Users\\anngu\\Desktop\\prevP\\ThreeLayerConsole\\ThreeLayerLibrary\\ThreeLayerLibrary.csproj",
         "projectName": "ThreeLayerLibrary",
-        "projectPath": "C:\\Học\\PhoneStore\\ThreeLayerConsole\\ThreeLayerLibrary\\ThreeLayerLibrary.csproj",
-        "packagesPath": "C:\\Users\\Acer\\.nuget\\packages\\",
-        "outputPath": "C:\\Học\\PhoneStore\\ThreeLayerConsole\\ThreeLayerLibrary\\obj\\",
+        "projectPath": "C:\\Users\\anngu\\Desktop\\prevP\\ThreeLayerConsole\\ThreeLayerLibrary\\ThreeLayerLibrary.csproj",
+        "packagesPath": "C:\\Users\\anngu\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\anngu\\Desktop\\prevP\\ThreeLayerConsole\\ThreeLayerLibrary\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Acer\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\anngu\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
@@ -199,7 +199,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.200\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
         }
       }
     }

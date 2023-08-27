@@ -10,7 +10,6 @@ public class TradeInTests
     [Fact]
     public void TradeIn_Success1()
     {
-        int count = 0;
         // Arrange
         OrderBL orderBL = new OrderBL();
         PhoneBL phoneBL = new PhoneBL();
@@ -24,20 +23,17 @@ public class TradeInTests
         list.Add(iphone12);
         List<DiscountPolicy> result1 = new DiscountPolicyBL().GetDiscountTradeIn(list);
         // So sanh so luong dien thoai trong order cua tradein function voi so luong dien thoai trong DB
+        int count = 0;
         foreach (var item in result1)
         {
-            if (item.PhoneDetail == iphone11 || item.PhoneDetail == iphone12) count++;
+            if (item.PhoneDetail.PhoneDetailID == iphone11.PhoneDetailID || item.PhoneDetail.PhoneDetailID == iphone12.PhoneDetailID)
+                count++;
         }
-        Assert.Equal(count, result1.Count());
-
+        Assert.Equal(result1.Count(), count);
         // ACT
-
-        // Test Change Tradein status 
+        // Test Change Tradein status
         bool result = orderBL.TradeIn(order);
-        
         // Assert
         Assert.True(result);
-
-
     }
 }
