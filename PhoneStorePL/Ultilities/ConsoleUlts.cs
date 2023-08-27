@@ -163,7 +163,7 @@ namespace Ults
             return currentChoice;
         }
 
-        public bool Pagination<T>(List<T> listItem, int currentPhase, string[] timeLine)
+        public bool Pagination<T>(List<T> listItem, int currentPhase, string[] timeLine, int toDo)
         {
             int currentPage = 1;
             int totalPages = (int)Math.Ceiling((double)listItem.Count / 5);
@@ -173,11 +173,11 @@ namespace Ults
             do
             {
                 if (typeof(T) == typeof(Phone))
-                    DisplayCurrentPage((List<Phone>)(object)listItem, currentPage, 5, currentPhase, timeLine);
+                    DisplayCurrentPage((List<Phone>)(object)listItem, currentPage, 5, currentPhase, timeLine, toDo);
                 else if (typeof(T) == typeof(PhoneDetail))
-                    DisplayCurrentPage((List<PhoneDetail>)(object)listItem, currentPage, 5, currentPhase, timeLine);
+                    DisplayCurrentPage((List<PhoneDetail>)(object)listItem, currentPage, 5, currentPhase, timeLine, toDo);
                 else if (typeof(T) == typeof(Order))
-                    DisplayCurrentPage((List<Order>)(object)listItem, currentPage, 5, currentPhase, timeLine);
+                    DisplayCurrentPage((List<Order>)(object)listItem, currentPage, 5, currentPhase, timeLine, toDo);
                 new ConsoleUI().GetFooterPagination(currentPage, totalPages);
                 key = Console.ReadKey();
 
@@ -194,11 +194,11 @@ namespace Ults
             return false;
         }
 
-        public void DisplayCurrentPage<T>(List<T> items, int currentPage, int itemsPerPage, int currentPhase, string[] timeLine)
+        public void DisplayCurrentPage<T>(List<T> items, int currentPage, int itemsPerPage, int currentPhase, string[] timeLine, int toDo)
         {
             int startIndex = (currentPage - 1) * itemsPerPage;
             int endIndex = Math.Min(startIndex + itemsPerPage, items.Count);
-
+            if(toDo == 0){
             for (int i = startIndex; i < endIndex; i++)
             {
 
@@ -233,6 +233,43 @@ namespace Ults
                     }
                     new ConsoleUI().PrintOrderInfo((Order)(object)items[i]!);
                 }
+            }
+            }else{
+                for (int i = startIndex; i < endIndex; i++)
+            {
+
+                if (typeof(T) == typeof(Phone))
+                {
+                    if (i == startIndex)
+                    {
+                        new ConsoleUI().PrintTimeLine(timeLine, currentPhase);
+                        new ConsoleUI().PrintTitle(new ConsoleUI().GetAppANSIText(), new ConsoleUI().GetCheckCustomerPhoneANSIText(), null);
+                        new ConsoleUI().PrintPhoneBorderLine();
+                    }
+                    new ConsoleUI().PrintPhoneInfo((Phone)(object)items[i]!);
+
+                }
+                else if (typeof(T) == typeof(PhoneDetail))
+                {
+                    if (i == startIndex)
+                    {
+                        new ConsoleUI().PrintTimeLine(timeLine, currentPhase);
+                        new ConsoleUI().PrintTitle(new ConsoleUI().GetAppANSIText(), new ConsoleUI().GetPhoneDetailANSIText(), null);
+                        new ConsoleUI().PrintPhoneModelTitle();
+                    }
+                    new ConsoleUI().PrintPhoneModelInfo((PhoneDetail)(object)items[i]!);
+                }
+                else if (typeof(T) == typeof(Order))
+                {
+                    if (i == startIndex)
+                    {
+                        new ConsoleUI().PrintTimeLine(timeLine, currentPhase);
+                        new ConsoleUI().PrintTitle(new ConsoleUI().GetAppANSIText(), new ConsoleUI().GetCheckCustomerPhoneANSIText(), null);
+                        new ConsoleUI().PrintOrderBorderLine();
+                    }
+                    new ConsoleUI().PrintOrderInfo((Order)(object)items[i]!);
+                }
+            }
             }
         }
 

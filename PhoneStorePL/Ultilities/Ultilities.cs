@@ -135,7 +135,7 @@ namespace Ults
                         }
                         else
                         {
-                            listPhoneSearch = ConsoleUlts.Pagination(listTemp, currentPhase, consoleUI.GetCreateOrderTimeLine());
+                            listPhoneSearch = ConsoleUlts.Pagination(listTemp, currentPhase, consoleUI.GetCreateOrderTimeLine(), 0);
                             if (listPhoneSearch == false) break;
                             if (listPhoneSearch == true)
                             {
@@ -229,7 +229,7 @@ namespace Ults
                             }
                             do
                             {
-                                isContinueChooseModelID = ConsoleUlts.Pagination(phonedetails, currentPhase, consoleUI.GetCreateOrderTimeLine());
+                                isContinueChooseModelID = ConsoleUlts.Pagination(phonedetails, currentPhase, consoleUI.GetCreateOrderTimeLine(), 0);
                                 if (isContinueChooseModelID != null)
                                 {
                                     if (isContinueChooseModelID == true)
@@ -572,7 +572,7 @@ namespace Ults
                         else
                         {
                             consoleUI.PrintTimeLine(listPhase, currentPhase);
-                            temp = ConsoleUlts.Pagination(listOrderTemp, currentPhase, consoleUI.GetHandleOrderTimeLine());
+                            temp = ConsoleUlts.Pagination(listOrderTemp, currentPhase, consoleUI.GetHandleOrderTimeLine(), 0);
                             if (temp == true)
                             {
                                 // nhập Id order để xem
@@ -651,7 +651,7 @@ namespace Ults
                 }
                 else
                 {
-                    bool showOrderList = ConsoleUlts.Pagination(ListOrderPending, currentPhase, consoleUI.GetTradeInTimeLine());
+                    bool showOrderList = ConsoleUlts.Pagination(ListOrderPending, currentPhase, consoleUI.GetTradeInTimeLine(), 1);
                     if (showOrderList == true)
                     {
                         do
@@ -700,7 +700,7 @@ namespace Ults
                                         ConsoleUlts.Alert(ConsoleEnum.Alert.Warning, "Skip TradeIn");
                                     }
                                 }
-                                bool listPhoneSearch = ConsoleUlts.Pagination(phoneBL.GetPhonesByInformation(input), currentPhase, consoleUI.GetTradeInTimeLine());
+                                bool listPhoneSearch = ConsoleUlts.Pagination(phoneBL.GetPhonesByInformation(input), currentPhase, consoleUI.GetTradeInTimeLine(), 1);
                                 if (listPhoneSearch == false) activeChoosePhone = false;
                                 if (listPhoneSearch == true)
                                 {
@@ -732,7 +732,7 @@ namespace Ults
                                             break;
                                         }
                                     }
-                                    bool listPhoneDetailSearch = ConsoleUlts.Pagination(phoneDetailsForTradeIn, currentPhase, consoleUI.GetTradeInTimeLine());
+                                    bool listPhoneDetailSearch = ConsoleUlts.Pagination(phoneDetailsForTradeIn, currentPhase, consoleUI.GetTradeInTimeLine(), 1);
                                     if (listPhoneDetailSearch == false) activeChoosePhone = false;
                                     if (listPhoneDetailSearch == true)
                                     {
@@ -978,7 +978,7 @@ namespace Ults
                 }
                 else
                 {
-                    bool? showOrderList = ConsoleUlts.Pagination(ListOrderPending, currentPhase, listPhase);
+                    bool? showOrderList = ConsoleUlts.Pagination(ListOrderPending, currentPhase, listPhase, 0);
                     if (showOrderList == true)
                     {
                         do
@@ -1060,6 +1060,7 @@ namespace Ults
                                     totalDue -= discountPolicyOrder.DiscountPrice;
                                 }
                                 bool activeEnterMoney = false;
+                                if(orderWantToPayment.PaymentMethod == "Cash"){
                                 do
                                 {
                                     consoleUI.PrintTimeLine(listPhase, 3);
@@ -1171,6 +1172,33 @@ namespace Ults
                                     }
                                     Console.ReadKey();
                                 } while (activeEnterMoney == false);
+                            }
+                            else{
+                                consoleUI.PrintOrder(orderWantToPayment);
+                                int PaymentOrSkipOrCancel = ConsoleUlts.PressCharacterTo("Confirm Payment", "Skip Payment", "Cancel Payment", null);
+                                
+                                if(PaymentOrSkipOrCancel == 0){
+                                    ConsoleUlts.Alert(ConsoleEnum.Alert.Success, "Confirm Payment");
+
+                                    activeChoosePaymentMethod = true;
+                                    activePayment = true;
+                                    break;
+                                }
+                                else if(PaymentOrSkipOrCancel == 1){
+                                    ConsoleUlts.Alert(ConsoleEnum.Alert.Success, "Skip Payment");
+                                    activeChoosePaymentMethod = true;
+                                    activePayment = true;
+                                    break;
+                                }
+                                else if(PaymentOrSkipOrCancel == 2){
+                                    ConsoleUlts.Alert(ConsoleEnum.Alert.Success, "Cancel Payment");
+                                    orderBL.CancelPayment(orderWantToPayment);
+                                    activeChoosePaymentMethod = true;
+                                    activePayment = true;
+
+                                    break;
+                                }
+                            }
                             } while (activeChoosePaymentMethod == false);
                         }
                         else
