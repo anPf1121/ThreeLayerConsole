@@ -241,26 +241,19 @@ namespace DAL
                                         }
                                     }
                                 }
-                                else break;
+                                if (countphone == order.ListImeiInOrder.Count() && order.ListImeiInOrder.Count() > 0) result = true;
+                                else result = false;
+                                if (result == true) tr.Commit();
+                                else tr.Rollback();
                             }
-                            catch
-                            {
-                                try
-                                {
-                                    tr.Rollback();
-                                }
-                                catch { }
-                            }
+                            catch { }
                         }
-                        if (countphone == order.ListImeiInOrder.Count() && order.ListImeiInOrder.Count() > 0) result = true;
-                        if (result == true) tr.Commit();
-                        else tr.Rollback();
                     }
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine("err: " + ex.Message);
             }
             finally
             {
