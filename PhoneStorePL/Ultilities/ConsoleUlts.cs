@@ -308,6 +308,43 @@ namespace Ults
                 }
             }
             }
+            else if(toDo == 3){
+                for (int i = startIndex; i < endIndex; i++)
+            {
+
+                if (typeof(T) == typeof(Phone))
+                {
+                    if (i == startIndex)
+                    {
+                        new ConsoleUI().PrintTimeLine(timeLine, currentPhase);
+                        new ConsoleUI().PrintTitle(new ConsoleUI().GetAppANSIText(), new ConsoleUI().GetHandleOrderANSIText(), null);
+                        new ConsoleUI().PrintPhoneBorderLine();
+                    }
+                    new ConsoleUI().PrintPhoneInfo((Phone)(object)items[i]!);
+
+                }
+                else if (typeof(T) == typeof(PhoneDetail))
+                {
+                    if (i == startIndex)
+                    {
+                        new ConsoleUI().PrintTimeLine(timeLine, currentPhase);
+                        new ConsoleUI().PrintTitle(new ConsoleUI().GetAppANSIText(), new ConsoleUI().GetPhoneDetailANSIText(), null);
+                        new ConsoleUI().PrintPhoneModelTitle();
+                    }
+                    new ConsoleUI().PrintPhoneModelInfo((PhoneDetail)(object)items[i]!);
+                }
+                else if (typeof(T) == typeof(Order))
+                {
+                    if (i == startIndex)
+                    {
+                        new ConsoleUI().PrintTimeLine(timeLine, currentPhase);
+                        new ConsoleUI().PrintTitle(new ConsoleUI().GetAppANSIText(), new ConsoleUI().GetHandleOrderANSIText(), null);
+                        new ConsoleUI().PrintOrderBorderLine();
+                    }
+                    new ConsoleUI().PrintOrderInfo((Order)(object)items[i]!);
+                }
+            }
+            }
         }
 
         public void Alert(ConsoleEnum.Alert alertType, string msg)

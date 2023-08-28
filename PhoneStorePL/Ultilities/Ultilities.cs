@@ -572,7 +572,7 @@ namespace Ults
                         else
                         {
                             consoleUI.PrintTimeLine(listPhase, currentPhase);
-                            temp = ConsoleUlts.Pagination(listOrderTemp, currentPhase, consoleUI.GetHandleOrderTimeLine(), 0);
+                            temp = ConsoleUlts.Pagination(listOrderTemp, currentPhase, consoleUI.GetHandleOrderTimeLine(), 3);
                             if (temp == true)
                             {
                                 // nhập Id order để xem
@@ -1172,8 +1172,8 @@ namespace Ults
                                 int PaymentOrSkipOrCancel = ConsoleUlts.PressCharacterTo("Confirm Payment", "Skip Payment", "Cancel Payment", null);
                                 
                                 if(PaymentOrSkipOrCancel == 0){
+                                    orderBL.Payment(orderWantToPayment);
                                     ConsoleUlts.Alert(ConsoleEnum.Alert.Success, "Confirm Payment");
-                                    orderBL.CreateOrder(orderWantToPayment);
                                     activeChoosePaymentMethod = true;
                                     activePayment = true;
                                     break;
