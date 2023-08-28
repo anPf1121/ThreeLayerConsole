@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e" pages="6">
     <diagram id="plzzUm9Q1-YNLyNBZAM-" name="UseCase">
-        <mxGraphModel dx="2772" dy="2116" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="2068" dy="1741" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -239,7 +239,7 @@
         </mxGraphModel>
     </diagram>
     <diagram id="g4R_9UVsEIdJczepRnOr" name="Activity Diagram">
-        <mxGraphModel dx="5062" dy="289" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" background="none" math="0" shadow="0">
+        <mxGraphModel dx="5618" dy="641" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" background="none" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -693,7 +693,7 @@
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
                 <mxCell id="S4fob24frIIazLDnf8l4-120" value="Choose Discount policy by ID" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;fontColor=#000000;fillColor=#ffffc0;strokeColor=#ff0000;strokeWidth=2;fontSize=13;" parent="1" vertex="1">
-                    <mxGeometry x="650.87" y="1221.0400000000002" width="132" height="50" as="geometry"/>
+                    <mxGeometry x="650.87" y="1219.5900000000001" width="132" height="50" as="geometry"/>
                 </mxCell>
                 <mxCell id="S4fob24frIIazLDnf8l4-310" style="edgeStyle=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.462;entryY=0.421;entryDx=0;entryDy=0;entryPerimeter=0;strokeColor=#000000;endArrow=classic;endFill=1;fillColor=#e51400;strokeWidth=2;fontSize=13;" parent="1" source="S4fob24frIIazLDnf8l4-123" target="S4fob24frIIazLDnf8l4-274" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
@@ -1826,7 +1826,7 @@
         </mxGraphModel>
     </diagram>
     <diagram id="SclG0AHc9vTqV28twZBe" name="Class Diagram">
-        <mxGraphModel dx="2388" dy="1913" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="2068" dy="1741" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -2602,30 +2602,30 @@
                 <mxCell id="J0J_lCvP92sIY_NsG6YU-556" value="&lt;p style=&quot;margin: 4px 0px 0px; text-align: center; font-size: 14px;&quot;&gt;&lt;b style=&quot;font-size: 14px;&quot;&gt;DiscountPolicyBL&lt;/b&gt;&lt;/p&gt;&lt;hr style=&quot;font-size: 14px;&quot;&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 14px;&quot;&gt;- discountDAL: DiscountPolicyDAL&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 14px;&quot;&gt;&lt;br style=&quot;font-size: 14px;&quot;&gt;&lt;/p&gt;&lt;hr style=&quot;font-size: 14px;&quot;&gt;&lt;p style=&quot;border-color: var(--border-color); margin: 0px 0px 0px 4px; font-size: 14px;&quot;&gt;+ GetDiscountForPaymentMethod(order: Order): DiscountPolicy[]&lt;/p&gt;&lt;p style=&quot;border-color: var(--border-color); margin: 0px 0px 0px 4px; font-size: 14px;&quot;&gt;+ GetDiscountTradeIn(phoneDetails: PhoneDetail[]): DiscountPolicy[]&amp;nbsp;&lt;/p&gt;&lt;p style=&quot;border-color: var(--border-color); margin: 0px 0px 0px 4px; font-size: 14px;&quot;&gt;+ GetDiscountForOrder(order: Order): DiscountPolicy&lt;/p&gt;&lt;p style=&quot;border-color: var(--border-color); margin: 0px 0px 0px 4px; font-size: 14px;&quot;&gt;&lt;br style=&quot;font-size: 14px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot;border-color: var(--border-color); margin: 0px 0px 0px 4px; font-size: 14px;&quot;&gt;&lt;br style=&quot;font-size: 14px;&quot;&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;gradientColor=none;fillColor=#FFE2B0;rotation=0;" parent="J0J_lCvP92sIY_NsG6YU-550" vertex="1">
                     <mxGeometry x="62" y="440.62" width="505.55819849843857" height="138.5130569430377" as="geometry"/>
                 </mxCell>
-                <mxCell id="H2rX_NQ7vLa9L7avuflE-16" style="edgeStyle=none;html=1;endArrow=none;endFill=0;exitX=0.579;exitY=-0.026;exitDx=0;exitDy=0;exitPerimeter=0;fontSize=14;strokeWidth=1;endSize=24;startArrow=blockThin;startFill=0;startSize=20;entryX=0.564;entryY=0.992;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="J0J_lCvP92sIY_NsG6YU-550" source="J0J_lCvP92sIY_NsG6YU-554" target="H2rX_NQ7vLa9L7avuflE-5">
+                <mxCell id="H2rX_NQ7vLa9L7avuflE-16" style="edgeStyle=none;html=1;endArrow=none;endFill=0;exitX=0.579;exitY=-0.026;exitDx=0;exitDy=0;exitPerimeter=0;fontSize=14;strokeWidth=1;endSize=24;startArrow=blockThin;startFill=0;startSize=20;entryX=0.564;entryY=0.992;entryDx=0;entryDy=0;entryPerimeter=0;" parent="J0J_lCvP92sIY_NsG6YU-550" source="J0J_lCvP92sIY_NsG6YU-554" target="H2rX_NQ7vLa9L7avuflE-5" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="547.2247065885317" y="587.4709002597215" as="sourcePoint"/>
                         <Array as="points"/>
                         <mxPoint x="760.6451004934602" y="500.6167562036039" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="H2rX_NQ7vLa9L7avuflE-18" value="extends" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="H2rX_NQ7vLa9L7avuflE-16">
+                <mxCell id="H2rX_NQ7vLa9L7avuflE-18" value="extends" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="H2rX_NQ7vLa9L7avuflE-16" vertex="1" connectable="0">
                     <mxGeometry x="0.0632" y="-1" relative="1" as="geometry">
-                        <mxPoint as="offset"/>
+                        <mxPoint y="-5" as="offset"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="H2rX_NQ7vLa9L7avuflE-17" value="" style="group" vertex="1" connectable="0" parent="J0J_lCvP92sIY_NsG6YU-550">
+                <mxCell id="H2rX_NQ7vLa9L7avuflE-17" value="" style="group" parent="J0J_lCvP92sIY_NsG6YU-550" vertex="1" connectable="0">
                     <mxGeometry x="601.32510049346" y="290.6167562036039" width="350" height="200" as="geometry"/>
                 </mxCell>
-                <mxCell id="H2rX_NQ7vLa9L7avuflE-5" value="Interface" style="shape=folder;fontStyle=1;tabWidth=110;tabHeight=30;tabPosition=left;html=1;boundedLbl=1;labelInHeader=1;container=0;collapsible=0;labelBackgroundColor=none;strokeColor=#000000;fillColor=#FFE2B0;fontSize=14;rotation=0;" vertex="1" parent="H2rX_NQ7vLa9L7avuflE-17">
+                <mxCell id="H2rX_NQ7vLa9L7avuflE-5" value="Interface" style="shape=folder;fontStyle=1;tabWidth=110;tabHeight=30;tabPosition=left;html=1;boundedLbl=1;labelInHeader=1;container=0;collapsible=0;labelBackgroundColor=none;strokeColor=#000000;fillColor=#FFE2B0;fontSize=14;rotation=0;" parent="H2rX_NQ7vLa9L7avuflE-17" vertex="1">
                     <mxGeometry width="350" height="180" as="geometry"/>
                 </mxCell>
-                <mxCell id="H2rX_NQ7vLa9L7avuflE-6" value="" style="html=1;strokeColor=default;resizeWidth=1;resizeHeight=1;fillColor=#FFF0D6;part=1;connectable=0;allowArrows=0;deletable=0;labelBackgroundColor=none;fontColor=#000000;fontSize=14;rotation=0;" vertex="1" parent="H2rX_NQ7vLa9L7avuflE-17">
+                <mxCell id="H2rX_NQ7vLa9L7avuflE-6" value="" style="html=1;strokeColor=default;resizeWidth=1;resizeHeight=1;fillColor=#FFF0D6;part=1;connectable=0;allowArrows=0;deletable=0;labelBackgroundColor=none;fontColor=#000000;fontSize=14;rotation=0;" parent="H2rX_NQ7vLa9L7avuflE-17" vertex="1">
                     <mxGeometry x="10" y="40" width="330" height="130" as="geometry">
                         <mxPoint y="30" as="offset"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="H2rX_NQ7vLa9L7avuflE-13" value="&lt;p style=&quot;margin: 4px 0px 0px; text-align: center; font-size: 14px;&quot;&gt;&lt;b style=&quot;font-size: 14px;&quot;&gt;Istaff&lt;/b&gt;&lt;/p&gt;&lt;hr style=&quot;font-size: 14px;&quot;&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 14px;&quot;&gt;+ LoggedInStaff: Staff&amp;nbsp;&lt;br&gt;&lt;/p&gt;&lt;hr style=&quot;font-size: 14px;&quot;&gt;&lt;p style=&quot;border-color: var(--border-color); margin: 0px 0px 0px 4px; font-size: 14px;&quot;&gt;+ Login(username: string, password: string): bool&lt;/p&gt;&lt;p style=&quot;border-color: var(--border-color); margin: 0px 0px 0px 4px; font-size: 14px;&quot;&gt;+ Logout(): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;gradientColor=none;fillColor=#FFE2B0;rotation=0;" vertex="1" parent="H2rX_NQ7vLa9L7avuflE-17">
+                <mxCell id="H2rX_NQ7vLa9L7avuflE-13" value="&lt;p style=&quot;margin: 4px 0px 0px; text-align: center; font-size: 14px;&quot;&gt;&lt;b style=&quot;font-size: 14px;&quot;&gt;Istaff&lt;/b&gt;&lt;/p&gt;&lt;hr style=&quot;font-size: 14px;&quot;&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 14px;&quot;&gt;+ LoggedInStaff: Staff&amp;nbsp;&lt;br&gt;&lt;/p&gt;&lt;hr style=&quot;font-size: 14px;&quot;&gt;&lt;p style=&quot;border-color: var(--border-color); margin: 0px 0px 0px 4px; font-size: 14px;&quot;&gt;+ Login(username: string, password: string): bool&lt;/p&gt;&lt;p style=&quot;border-color: var(--border-color); margin: 0px 0px 0px 4px; font-size: 14px;&quot;&gt;+ Logout(): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;gradientColor=none;fillColor=#FFE2B0;rotation=0;" parent="H2rX_NQ7vLa9L7avuflE-17" vertex="1">
                     <mxGeometry x="20" y="50" width="310" height="110" as="geometry"/>
                 </mxCell>
                 <mxCell id="J0J_lCvP92sIY_NsG6YU-557" value="DAL" style="shape=folder;fontStyle=1;tabWidth=110;tabHeight=30;tabPosition=left;html=1;boundedLbl=1;labelInHeader=1;container=1;collapsible=0;labelBackgroundColor=none;strokeColor=default;fillColor=#FFE2B0;fontSize=14;rotation=0;" parent="f16Lv3-p0osGRq2GdC-Z-2" vertex="1">
@@ -2660,7 +2660,7 @@
                 </mxCell>
                 <mxCell id="J0J_lCvP92sIY_NsG6YU-565" value="" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=none;endFill=0;strokeColor=#000000;entryX=0.464;entryY=-0.035;entryDx=0;entryDy=0;entryPerimeter=0;fontSize=14;startArrow=blockThin;startFill=0;endSize=24;startSize=17;" parent="J0J_lCvP92sIY_NsG6YU-557" target="J0J_lCvP92sIY_NsG6YU-563" edge="1">
                     <mxGeometry width="160" relative="1" as="geometry">
-                        <mxPoint x="1076.6451004934602" y="170.61675620360393" as="sourcePoint"/>
+                        <mxPoint x="1086.6451004934602" y="170.61675620360393" as="sourcePoint"/>
                         <mxPoint x="1152" y="476" as="targetPoint"/>
                         <Array as="points">
                             <mxPoint x="1146.6451004934602" y="170.61675620360393"/>
@@ -2676,7 +2676,7 @@
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="J0J_lCvP92sIY_NsG6YU-567" value="" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=none;endFill=0;strokeColor=#000000;fontSize=14;startArrow=blockThin;startFill=0;endSize=24;startSize=17;exitX=0.867;exitY=0.994;exitDx=0;exitDy=0;exitPerimeter=0;" parent="J0J_lCvP92sIY_NsG6YU-557" edge="1" source="J0J_lCvP92sIY_NsG6YU-561">
+                <mxCell id="J0J_lCvP92sIY_NsG6YU-567" value="" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=none;endFill=0;strokeColor=#000000;fontSize=14;startArrow=blockThin;startFill=0;endSize=24;startSize=17;exitX=0.867;exitY=0.994;exitDx=0;exitDy=0;exitPerimeter=0;" parent="J0J_lCvP92sIY_NsG6YU-557" source="J0J_lCvP92sIY_NsG6YU-561" edge="1">
                     <mxGeometry width="160" relative="1" as="geometry">
                         <mxPoint x="509" y="295" as="sourcePoint"/>
                         <mxPoint x="1069" y="509" as="targetPoint"/>
@@ -2714,7 +2714,7 @@
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="J0J_lCvP92sIY_NsG6YU-616" value="" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=none;endFill=0;exitX=0.896;exitY=1.034;exitDx=0;exitDy=0;strokeColor=#000000;jumpSize=14;fontSize=14;exitPerimeter=0;strokeWidth=1;endSize=24;startArrow=blockThin;startFill=0;startSize=20;entryX=0.451;entryY=0.998;entryDx=0;entryDy=0;entryPerimeter=0;" parent="f16Lv3-p0osGRq2GdC-Z-2" source="J0J_lCvP92sIY_NsG6YU-554" edge="1" target="J0J_lCvP92sIY_NsG6YU-564">
+                <mxCell id="J0J_lCvP92sIY_NsG6YU-616" value="" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=none;endFill=0;exitX=0.896;exitY=1.034;exitDx=0;exitDy=0;strokeColor=#000000;jumpSize=14;fontSize=14;exitPerimeter=0;strokeWidth=1;endSize=24;startArrow=blockThin;startFill=0;startSize=20;entryX=0.451;entryY=0.998;entryDx=0;entryDy=0;entryPerimeter=0;" parent="f16Lv3-p0osGRq2GdC-Z-2" source="J0J_lCvP92sIY_NsG6YU-554" target="J0J_lCvP92sIY_NsG6YU-564" edge="1">
                     <mxGeometry width="160" relative="1" as="geometry">
                         <mxPoint x="1657" y="1151" as="sourcePoint"/>
                         <mxPoint x="1519" y="1798" as="targetPoint"/>
@@ -2745,7 +2745,7 @@
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="J0J_lCvP92sIY_NsG6YU-619" style="edgeStyle=none;html=1;endArrow=none;endFill=0;exitX=0.94;exitY=0.988;exitDx=0;exitDy=0;exitPerimeter=0;entryX=1;entryY=0.143;entryDx=0;entryDy=0;entryPerimeter=0;fontSize=14;strokeWidth=1;endSize=24;startArrow=blockThin;startFill=0;startSize=20;" parent="f16Lv3-p0osGRq2GdC-Z-2" source="J0J_lCvP92sIY_NsG6YU-556" target="J0J_lCvP92sIY_NsG6YU-569" edge="1">
+                <mxCell id="J0J_lCvP92sIY_NsG6YU-619" style="edgeStyle=none;html=1;endArrow=none;endFill=0;exitX=0.94;exitY=0.988;exitDx=0;exitDy=0;exitPerimeter=0;entryX=1.001;entryY=0.123;entryDx=0;entryDy=0;entryPerimeter=0;fontSize=14;strokeWidth=1;endSize=24;startArrow=blockThin;startFill=0;startSize=20;" parent="f16Lv3-p0osGRq2GdC-Z-2" source="J0J_lCvP92sIY_NsG6YU-556" target="J0J_lCvP92sIY_NsG6YU-569" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1371" y="1416" as="sourcePoint"/>
                         <Array as="points">
@@ -3045,10 +3045,10 @@
                 <mxCell id="J0J_lCvP92sIY_NsG6YU-614" value="&lt;b style=&quot;font-size: 14px;&quot;&gt;*...&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;rotation=0;" parent="f16Lv3-p0osGRq2GdC-Z-2" vertex="1">
                     <mxGeometry x="1200.6100000000001" y="394.62" width="47.79211214262193" height="19.14251066308924" as="geometry"/>
                 </mxCell>
-                <mxCell id="H2rX_NQ7vLa9L7avuflE-2" value="&lt;p style=&quot;margin: 4px 0px 0px; text-align: center; font-size: 14px;&quot;&gt;&lt;b&gt;ConsoleUlts&lt;/b&gt;&lt;/p&gt;&lt;hr style=&quot;font-size: 14px;&quot;&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 14px;&quot;&gt;&lt;br&gt;&lt;/p&gt;&lt;hr style=&quot;font-size: 14px;&quot;&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;+ GetUserName(): string&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;+ GetPassword(): string&lt;/p&gt;&amp;nbsp;+&amp;nbsp;&lt;span style=&quot;background-color: initial;&quot;&gt;GetCustomerInfo(): Customer&lt;/span&gt;&lt;br&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;+ GetInputString(string requestToEnter): string&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;+ GetInputInt(string requestToEnter): int&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;+ InputIDValidation(int maximumValue, string requestToEnter, string errorMessage,&amp;nbsp;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;string spaceToCenter): int&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;+ PressYesOrNo(string yesAction, string noAction): bool&amp;nbsp;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;+ PressCharacterTo(string firstAction, string? secondAction, string? thirdAction,&amp;nbsp;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;string? fourthAction): int&amp;nbsp;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;+ MenuHandle(string? title, string? subTitle, string[] menuItem, Staff loginStaff): int&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;+ Pagination&amp;lt;T&amp;gt;(List&amp;lt;T&amp;gt; listItem, int currentPhase, string[] timeLine): bool&amp;nbsp;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;+ DisplayCurrentPage&amp;lt;T&amp;gt;(List&amp;lt;T&amp;gt; items, int currentPage, int itemsPerPage&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;, int currentPhase, string[] timeLine): void&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;+ Alert(ConsoleEnum.Alert alertType, string msg): void&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;+ PressEnterTo(string? action): void&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;+ ClearCurrentConsoleLine(): void&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;+ FormatPrice(decimal price): string&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;+ ConvertToWords(long number): string&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;+ ConvertNumberToWords(decimal number): string&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;+ AlignCenter(string content): string&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;labelBackgroundColor=none;strokeColor=#000000;fontColor=#000000;fillColor=#FFE2B0;rotation=0;" vertex="1" parent="f16Lv3-p0osGRq2GdC-Z-2">
+                <mxCell id="H2rX_NQ7vLa9L7avuflE-2" value="&lt;p style=&quot;margin: 4px 0px 0px; text-align: center; font-size: 14px;&quot;&gt;&lt;b&gt;ConsoleUlts&lt;/b&gt;&lt;/p&gt;&lt;hr style=&quot;font-size: 14px;&quot;&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 14px;&quot;&gt;&lt;br&gt;&lt;/p&gt;&lt;hr style=&quot;font-size: 14px;&quot;&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;+ GetUserName(): string&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;+ GetPassword(): string&lt;/p&gt;&amp;nbsp;+&amp;nbsp;&lt;span style=&quot;background-color: initial;&quot;&gt;GetCustomerInfo(): Customer&lt;/span&gt;&lt;br&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;+ GetInputString(string requestToEnter): string&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;+ GetInputInt(string requestToEnter): int&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;+ InputIDValidation(int maximumValue, string requestToEnter, string errorMessage,&amp;nbsp;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;string spaceToCenter): int&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;+ PressYesOrNo(string yesAction, string noAction): bool&amp;nbsp;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;+ PressCharacterTo(string firstAction, string? secondAction, string? thirdAction,&amp;nbsp;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;string? fourthAction): int&amp;nbsp;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;+ MenuHandle(string? title, string? subTitle, string[] menuItem, Staff loginStaff): int&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;+ Pagination&amp;lt;T&amp;gt;(List&amp;lt;T&amp;gt; listItem, int currentPhase, string[] timeLine): bool&amp;nbsp;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;+ DisplayCurrentPage&amp;lt;T&amp;gt;(List&amp;lt;T&amp;gt; items, int currentPage, int itemsPerPage&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;, int currentPhase, string[] timeLine): void&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;+ Alert(ConsoleEnum.Alert alertType, string msg): void&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;+ PressEnterTo(string? action): void&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;+ ClearCurrentConsoleLine(): void&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;+ FormatPrice(decimal price): string&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;+ ConvertToWords(long number): string&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;+ ConvertNumberToWords(decimal number): string&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;+ AlignCenter(string content): string&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;labelBackgroundColor=none;strokeColor=#000000;fontColor=#000000;fillColor=#FFE2B0;rotation=0;" parent="f16Lv3-p0osGRq2GdC-Z-2" vertex="1">
                     <mxGeometry x="117" y="1071.62" width="534.8" height="438.38" as="geometry"/>
                 </mxCell>
-                <mxCell id="H2rX_NQ7vLa9L7avuflE-3" value="" style="endArrow=block;html=1;rounded=0;fontColor=#000000;exitX=0;exitY=0.25;exitDx=0;exitDy=0;endFill=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=14;endSize=24;startSize=24;" edge="1" parent="f16Lv3-p0osGRq2GdC-Z-2" source="J0J_lCvP92sIY_NsG6YU-541" target="J0J_lCvP92sIY_NsG6YU-542">
+                <mxCell id="H2rX_NQ7vLa9L7avuflE-3" value="" style="endArrow=block;html=1;rounded=0;fontColor=#000000;exitX=0;exitY=0.25;exitDx=0;exitDy=0;endFill=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=14;endSize=24;startSize=24;" parent="f16Lv3-p0osGRq2GdC-Z-2" source="J0J_lCvP92sIY_NsG6YU-541" target="J0J_lCvP92sIY_NsG6YU-542" edge="1">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
                         <mxPoint x="407.16354566168786" y="224.18454052491597" as="sourcePoint"/>
                         <mxPoint x="409.3196000000004" y="389.77599999999984" as="targetPoint"/>
@@ -3058,7 +3058,7 @@
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="H2rX_NQ7vLa9L7avuflE-4" value="" style="endArrow=block;html=1;rounded=0;fontColor=#000000;exitX=-0.004;exitY=0.902;exitDx=0;exitDy=0;endFill=0;entryX=-0.002;entryY=0.418;entryDx=0;entryDy=0;fontSize=14;endSize=24;startSize=24;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="f16Lv3-p0osGRq2GdC-Z-2" source="J0J_lCvP92sIY_NsG6YU-541" target="H2rX_NQ7vLa9L7avuflE-2">
+                <mxCell id="H2rX_NQ7vLa9L7avuflE-4" value="" style="endArrow=block;html=1;rounded=0;fontColor=#000000;exitX=-0.004;exitY=0.902;exitDx=0;exitDy=0;endFill=0;entryX=-0.002;entryY=0.418;entryDx=0;entryDy=0;fontSize=14;endSize=24;startSize=24;exitPerimeter=0;entryPerimeter=0;" parent="f16Lv3-p0osGRq2GdC-Z-2" source="J0J_lCvP92sIY_NsG6YU-541" target="H2rX_NQ7vLa9L7avuflE-2" edge="1">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
                         <mxPoint x="179.0000000000001" y="896.4999999999995" as="sourcePoint"/>
                         <mxPoint x="179.0000000000001" y="560.7000000000003" as="targetPoint"/>
@@ -3072,7 +3072,7 @@
         </mxGraphModel>
     </diagram>
     <diagram id="-bjvW6NvgdDjrA8WrIxP" name="ER - Diagram">
-        <mxGraphModel dx="1888" dy="1741" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="2068" dy="1741" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>

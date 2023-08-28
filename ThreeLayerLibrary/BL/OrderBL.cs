@@ -27,7 +27,6 @@ public class OrderBL
     public List<Order> GetOrdersConfirmedInDay()
     {
         return orderDAL.GetOrders(BusinessEnum.OrderEnum.Status.Confirmed);
-
     }
     public bool Payment(Order order)
     {

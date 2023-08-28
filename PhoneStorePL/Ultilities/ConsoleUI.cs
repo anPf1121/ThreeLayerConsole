@@ -277,9 +277,7 @@ class ConsoleUI
         }
         if (staffLoggedIn != null)
         {
-            ConsoleForegroundColor(ConsoleEnum.Color.Green);
             Console.WriteLine(spaces + "| {0, -50} |", (((staffLoggedIn.Role == StaffEnum.Role.Accountant) ? "Accountant: " : "Seller: ") + staffLoggedIn.StaffName + " - ID: " + staffLoggedIn.StaffID).PadRight(90));
-            ConsoleForegroundColor(ConsoleEnum.Color.White);
         }
         PrintLine();
     }
@@ -519,5 +517,17 @@ class ConsoleUI
         int centeredPosition = (Console.WindowWidth - content.Length) / 2;
         string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
         return spaces;
+    }
+    public void GetTradeInTitle()
+    {
+        string line = "|============================================================================================|";
+        string spaces = AlignCenter(line);
+        Console.WriteLine(AlignCenter(line) + line);
+        Console.WriteLine(GetAppANSIText());
+        Console.WriteLine(spaces + line);
+        Console.WriteLine(GetTradeInANSIText());
+        Console.WriteLine(spaces + line);
+        Console.WriteLine(GetCheckCustomerPhoneANSIText());
+        Console.WriteLine(spaces + line);
     }
 }

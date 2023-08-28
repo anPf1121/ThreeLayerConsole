@@ -110,7 +110,7 @@ namespace Ults
                             else if (colorCount % 3 == 0) Console.ForegroundColor = ConsoleColor.Blue;
                             else if (colorCount % 5 == 0) Console.ForegroundColor = ConsoleColor.Green;
                             else Console.ForegroundColor = ConsoleColor.DarkCyan;
-                            if(menuItem[i].ToLower() == "Log Out".ToLower()) Console.ForegroundColor = ConsoleColor.Red;
+                            if (menuItem[i].ToLower() == "Log Out".ToLower()) Console.ForegroundColor = ConsoleColor.Red;
                             Console.WriteLine(spaces + "| {0, 50} |", (iconBackhand + " " + consoleUI.SetTextBolder(menuItem[i])).PadRight(90));
                             Console.ForegroundColor = ConsoleColor.White;
                         }
@@ -198,152 +198,157 @@ namespace Ults
         {
             int startIndex = (currentPage - 1) * itemsPerPage;
             int endIndex = Math.Min(startIndex + itemsPerPage, items.Count);
-            if(toDo == 0){
-            for (int i = startIndex; i < endIndex; i++)
+            if (toDo == 0)
             {
-
-                if (typeof(T) == typeof(Phone))
-                {
-                    if (i == startIndex)
-                    {
-                        new ConsoleUI().PrintTimeLine(timeLine, currentPhase);
-                        new ConsoleUI().PrintTitle(new ConsoleUI().GetAppANSIText(), new ConsoleUI().GetAddPhoneToOrderANSIText(), null);
-                        new ConsoleUI().PrintPhoneBorderLine();
-                    }
-                    new ConsoleUI().PrintPhoneInfo((Phone)(object)items[i]!);
-
-                }
-                else if (typeof(T) == typeof(PhoneDetail))
-                {
-                    if (i == startIndex)
-                    {
-                        new ConsoleUI().PrintTimeLine(timeLine, currentPhase);
-                        new ConsoleUI().PrintTitle(new ConsoleUI().GetAppANSIText(), new ConsoleUI().GetPhoneDetailANSIText(), null);
-                        new ConsoleUI().PrintPhoneModelTitle();
-                    }
-                    new ConsoleUI().PrintPhoneModelInfo((PhoneDetail)(object)items[i]!);
-                }
-                else if (typeof(T) == typeof(Order))
-                {
-                    if (i == startIndex)
-                    {
-                        new ConsoleUI().PrintTimeLine(timeLine, currentPhase);
-                        new ConsoleUI().PrintTitle(new ConsoleUI().GetAppANSIText(), new ConsoleUI().GetAddPhoneToOrderANSIText(), null);
-                        new ConsoleUI().PrintOrderBorderLine();
-                    }
-                    new ConsoleUI().PrintOrderInfo((Order)(object)items[i]!);
-                }
-            }
-            }else if(toDo == 1){
                 for (int i = startIndex; i < endIndex; i++)
+                {
+
+                    if (typeof(T) == typeof(Phone))
+                    {
+                        if (i == startIndex)
+                        {
+                            new ConsoleUI().PrintTimeLine(timeLine, currentPhase);
+                            new ConsoleUI().PrintTitle(new ConsoleUI().GetAppANSIText(), new ConsoleUI().GetAddPhoneToOrderANSIText(), null);
+                            new ConsoleUI().PrintPhoneBorderLine();
+                        }
+                        new ConsoleUI().PrintPhoneInfo((Phone)(object)items[i]!);
+
+                    }
+                    else if (typeof(T) == typeof(PhoneDetail))
+                    {
+                        if (i == startIndex)
+                        {
+                            new ConsoleUI().PrintTimeLine(timeLine, currentPhase);
+                            new ConsoleUI().PrintTitle(new ConsoleUI().GetAppANSIText(), new ConsoleUI().GetPhoneDetailANSIText(), null);
+                            new ConsoleUI().PrintPhoneModelTitle();
+                        }
+                        new ConsoleUI().PrintPhoneModelInfo((PhoneDetail)(object)items[i]!);
+                    }
+                    else if (typeof(T) == typeof(Order))
+                    {
+                        if (i == startIndex)
+                        {
+                            new ConsoleUI().PrintTimeLine(timeLine, currentPhase);
+                            new ConsoleUI().PrintTitle(new ConsoleUI().GetAppANSIText(), new ConsoleUI().GetAddPhoneToOrderANSIText(), null);
+                            new ConsoleUI().PrintOrderBorderLine();
+                        }
+                        new ConsoleUI().PrintOrderInfo((Order)(object)items[i]!);
+                    }
+                }
+            }
+            else if (toDo == 1)
             {
-
-                if (typeof(T) == typeof(Phone))
-                {
-                    if (i == startIndex)
-                    {
-                        new ConsoleUI().PrintTimeLine(timeLine, currentPhase);
-                        new ConsoleUI().PrintTitle(new ConsoleUI().GetAppANSIText(), new ConsoleUI().GetCheckCustomerPhoneANSIText(), null);
-                        new ConsoleUI().PrintPhoneBorderLine();
-                    }
-                    new ConsoleUI().PrintPhoneInfo((Phone)(object)items[i]!);
-
-                }
-                else if (typeof(T) == typeof(PhoneDetail))
-                {
-                    if (i == startIndex)
-                    {
-                        new ConsoleUI().PrintTimeLine(timeLine, currentPhase);
-                        new ConsoleUI().PrintTitle(new ConsoleUI().GetAppANSIText(), new ConsoleUI().GetPhoneDetailANSIText(), null);
-                        new ConsoleUI().PrintPhoneModelTitle();
-                    }
-                    new ConsoleUI().PrintPhoneModelInfo((PhoneDetail)(object)items[i]!);
-                }
-                else if (typeof(T) == typeof(Order))
-                {
-                    if (i == startIndex)
-                    {
-                        new ConsoleUI().PrintTimeLine(timeLine, currentPhase);
-                        new ConsoleUI().PrintTitle(new ConsoleUI().GetAppANSIText(), new ConsoleUI().GetCheckCustomerPhoneANSIText(), null);
-                        new ConsoleUI().PrintOrderBorderLine();
-                    }
-                    new ConsoleUI().PrintOrderInfo((Order)(object)items[i]!);
-                }
-            }
-            }
-            else if(toDo == 2){
                 for (int i = startIndex; i < endIndex; i++)
+                {
+
+                    if (typeof(T) == typeof(Phone))
+                    {
+                        if (i == startIndex)
+                        {
+                            new ConsoleUI().PrintTimeLine(timeLine, currentPhase);
+                            new ConsoleUI().PrintTitle(new ConsoleUI().GetAppANSIText(), new ConsoleUI().GetCheckCustomerPhoneANSIText(), null);
+                            new ConsoleUI().PrintPhoneBorderLine();
+                        }
+                        new ConsoleUI().PrintPhoneInfo((Phone)(object)items[i]!);
+
+                    }
+                    else if (typeof(T) == typeof(PhoneDetail))
+                    {
+                        if (i == startIndex)
+                        {
+                            new ConsoleUI().PrintTimeLine(timeLine, currentPhase);
+                            new ConsoleUI().PrintTitle(new ConsoleUI().GetAppANSIText(), new ConsoleUI().GetPhoneDetailANSIText(), null);
+                            new ConsoleUI().PrintPhoneModelTitle();
+                        }
+                        new ConsoleUI().PrintPhoneModelInfo((PhoneDetail)(object)items[i]!);
+                    }
+                    else if (typeof(T) == typeof(Order))
+                    {
+                        if (i == startIndex)
+                        {
+                            new ConsoleUI().PrintTimeLine(timeLine, currentPhase);
+                            new ConsoleUI().PrintTitle(new ConsoleUI().GetAppANSIText(), new ConsoleUI().GetCheckCustomerPhoneANSIText(), null);
+                            new ConsoleUI().PrintOrderBorderLine();
+                        }
+                        new ConsoleUI().PrintOrderInfo((Order)(object)items[i]!);
+                    }
+                }
+            }
+            else if (toDo == 2)
             {
-
-                if (typeof(T) == typeof(Phone))
-                {
-                    if (i == startIndex)
-                    {
-                        new ConsoleUI().PrintTimeLine(timeLine, currentPhase);
-                        new ConsoleUI().PrintTitle(new ConsoleUI().GetAppANSIText(), new ConsoleUI().GetPaymentANSIText(), null);
-                        new ConsoleUI().PrintPhoneBorderLine();
-                    }
-                    new ConsoleUI().PrintPhoneInfo((Phone)(object)items[i]!);
-
-                }
-                else if (typeof(T) == typeof(PhoneDetail))
-                {
-                    if (i == startIndex)
-                    {
-                        new ConsoleUI().PrintTimeLine(timeLine, currentPhase);
-                        new ConsoleUI().PrintTitle(new ConsoleUI().GetAppANSIText(), new ConsoleUI().GetPhoneDetailANSIText(), null);
-                        new ConsoleUI().PrintPhoneModelTitle();
-                    }
-                    new ConsoleUI().PrintPhoneModelInfo((PhoneDetail)(object)items[i]!);
-                }
-                else if (typeof(T) == typeof(Order))
-                {
-                    if (i == startIndex)
-                    {
-                        new ConsoleUI().PrintTimeLine(timeLine, currentPhase);
-                        new ConsoleUI().PrintTitle(new ConsoleUI().GetAppANSIText(), new ConsoleUI().GetPaymentANSIText(), null);
-                        new ConsoleUI().PrintOrderBorderLine();
-                    }
-                    new ConsoleUI().PrintOrderInfo((Order)(object)items[i]!);
-                }
-            }
-            }
-            else if(toDo == 3){
                 for (int i = startIndex; i < endIndex; i++)
-            {
+                {
 
-                if (typeof(T) == typeof(Phone))
-                {
-                    if (i == startIndex)
+                    if (typeof(T) == typeof(Phone))
                     {
-                        new ConsoleUI().PrintTimeLine(timeLine, currentPhase);
-                        new ConsoleUI().PrintTitle(new ConsoleUI().GetAppANSIText(), new ConsoleUI().GetHandleOrderANSIText(), null);
-                        new ConsoleUI().PrintPhoneBorderLine();
-                    }
-                    new ConsoleUI().PrintPhoneInfo((Phone)(object)items[i]!);
+                        if (i == startIndex)
+                        {
+                            new ConsoleUI().PrintTimeLine(timeLine, currentPhase);
+                            new ConsoleUI().PrintTitle(new ConsoleUI().GetAppANSIText(), new ConsoleUI().GetPaymentANSIText(), null);
+                            new ConsoleUI().PrintPhoneBorderLine();
+                        }
+                        new ConsoleUI().PrintPhoneInfo((Phone)(object)items[i]!);
 
-                }
-                else if (typeof(T) == typeof(PhoneDetail))
-                {
-                    if (i == startIndex)
-                    {
-                        new ConsoleUI().PrintTimeLine(timeLine, currentPhase);
-                        new ConsoleUI().PrintTitle(new ConsoleUI().GetAppANSIText(), new ConsoleUI().GetPhoneDetailANSIText(), null);
-                        new ConsoleUI().PrintPhoneModelTitle();
                     }
-                    new ConsoleUI().PrintPhoneModelInfo((PhoneDetail)(object)items[i]!);
-                }
-                else if (typeof(T) == typeof(Order))
-                {
-                    if (i == startIndex)
+                    else if (typeof(T) == typeof(PhoneDetail))
                     {
-                        new ConsoleUI().PrintTimeLine(timeLine, currentPhase);
-                        new ConsoleUI().PrintTitle(new ConsoleUI().GetAppANSIText(), new ConsoleUI().GetHandleOrderANSIText(), null);
-                        new ConsoleUI().PrintOrderBorderLine();
+                        if (i == startIndex)
+                        {
+                            new ConsoleUI().PrintTimeLine(timeLine, currentPhase);
+                            new ConsoleUI().PrintTitle(new ConsoleUI().GetAppANSIText(), new ConsoleUI().GetPhoneDetailANSIText(), null);
+                            new ConsoleUI().PrintPhoneModelTitle();
+                        }
+                        new ConsoleUI().PrintPhoneModelInfo((PhoneDetail)(object)items[i]!);
                     }
-                    new ConsoleUI().PrintOrderInfo((Order)(object)items[i]!);
+                    else if (typeof(T) == typeof(Order))
+                    {
+                        if (i == startIndex)
+                        {
+                            new ConsoleUI().PrintTimeLine(timeLine, currentPhase);
+                            new ConsoleUI().PrintTitle(new ConsoleUI().GetAppANSIText(), new ConsoleUI().GetPaymentANSIText(), null);
+                            new ConsoleUI().PrintOrderBorderLine();
+                        }
+                        new ConsoleUI().PrintOrderInfo((Order)(object)items[i]!);
+                    }
                 }
             }
+            else if (toDo == 3)
+            {
+                for (int i = startIndex; i < endIndex; i++)
+                {
+
+                    if (typeof(T) == typeof(Phone))
+                    {
+                        if (i == startIndex)
+                        {
+                            new ConsoleUI().PrintTimeLine(timeLine, currentPhase);
+                            new ConsoleUI().PrintTitle(new ConsoleUI().GetAppANSIText(), new ConsoleUI().GetHandleOrderANSIText(), null);
+                            new ConsoleUI().PrintPhoneBorderLine();
+                        }
+                        new ConsoleUI().PrintPhoneInfo((Phone)(object)items[i]!);
+
+                    }
+                    else if (typeof(T) == typeof(PhoneDetail))
+                    {
+                        if (i == startIndex)
+                        {
+                            new ConsoleUI().PrintTimeLine(timeLine, currentPhase);
+                            new ConsoleUI().PrintTitle(new ConsoleUI().GetAppANSIText(), new ConsoleUI().GetPhoneDetailANSIText(), null);
+                            new ConsoleUI().PrintPhoneModelTitle();
+                        }
+                        new ConsoleUI().PrintPhoneModelInfo((PhoneDetail)(object)items[i]!);
+                    }
+                    else if (typeof(T) == typeof(Order))
+                    {
+                        if (i == startIndex)
+                        {
+                            new ConsoleUI().PrintTimeLine(timeLine, currentPhase);
+                            new ConsoleUI().PrintTitle(new ConsoleUI().GetAppANSIText(), new ConsoleUI().GetHandleOrderANSIText(), null);
+                            new ConsoleUI().PrintOrderBorderLine();
+                        }
+                        new ConsoleUI().PrintOrderInfo((Order)(object)items[i]!);
+                    }
+                }
             }
         }
 
@@ -528,76 +533,86 @@ namespace Ults
             }
         }
         public string GenerateID() => Guid.NewGuid().ToString("N").Substring(0, 12).ToUpper();
-        public decimal EnterMoney(){
-    decimal output = 0;
-    string append = "";
-    ConsoleKeyInfo cki;
-    int centeredPosition = (Console.WindowWidth - "|--------------------------------------------------------------------------------------------|".Length) / 2;
-            string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
-    Console.Write(spaces+"Enter money: ");
-    bool checkMoneyOutOfRangeDecimal = false;
-    do
-    {
-
-        int numout;
-        cki = Console.ReadKey(true);
-        if (Char.IsNumber(cki.KeyChar))
+        public decimal EnterMoney()
         {
-            if(int.TryParse(cki.KeyChar.ToString(), out numout)){
-                append+=numout.ToString();
-            }
-            try{
-            ClearCurrentConsoleLine(1,spaces+"Enter money: "+consoleUI.SetTextBolder(consoleUI.FormatPrice(Convert.ToDecimal(append))));
+            decimal output = 0;
+            string append = "";
+            ConsoleKeyInfo cki;
+            int centeredPosition = (Console.WindowWidth - "|--------------------------------------------------------------------------------------------|".Length) / 2;
+            string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
+            Console.Write(spaces + "Enter money: ");
+            bool checkMoneyOutOfRangeDecimal = false;
+            do
+            {
+                int numout;
+                cki = Console.ReadKey(true);
+                if (Char.IsNumber(cki.KeyChar))
+                {
+                    if (int.TryParse(cki.KeyChar.ToString(), out numout))
+                    {
+                        append += numout.ToString();
+                    }
+                    try
+                    {
+                        ClearCurrentConsoleLine(1, spaces + "Enter money: " + consoleUI.SetTextBolder(consoleUI.FormatPrice(Convert.ToDecimal(append))));
+                    }
+                    catch (Exception ex)
+                    {
+                        checkMoneyOutOfRangeDecimal = true;
+                        Console.WriteLine();
+                        Alert(ConsoleEnum.Alert.Warning, "Money input too large! This cant be apply for our Store!");
+                        break;
+                    }
+                    if (append.Length > 9)
+                    {
+                        checkMoneyOutOfRangeDecimal = true;
+                        Console.WriteLine();
+                        Alert(ConsoleEnum.Alert.Warning, "Money input too large! This cant be apply for our Store!");
+                        break;
+                    }
+                }
+                else
+                {
+                    if (cki.Key == ConsoleKey.Backspace)
+                    {
+                        string temp = "";
+                        for (int i = 0; i < append.Length; i++)
+                        {
+                            if (i == append.Length - 1) break;
+                            temp += append[i];
+                        }
+                        append = temp;
+                        if (append.Length != 0) ClearCurrentConsoleLine(2, spaces + "Enter money: " + consoleUI.SetTextBolder(consoleUI.FormatPrice(Convert.ToDecimal(append))));
 
-            }catch(Exception ex){
-                checkMoneyOutOfRangeDecimal = true;
-                Console.WriteLine();
-                Alert(ConsoleEnum.Alert.Warning,"Money input too large! This cant be apply for our Store!");
-                break;
+                    }
+                }
             }
-            if(append.Length >9){
-                checkMoneyOutOfRangeDecimal = true;
-                Console.WriteLine();
-                Alert(ConsoleEnum.Alert.Warning,"Money input too large! This cant be apply for our Store!");
-                break;
+            while (cki.Key != ConsoleKey.Enter);
+            if (append == "") Console.WriteLine("");
+            else
+            {
+                if (!checkMoneyOutOfRangeDecimal)
+                    output = Convert.ToDecimal(append);
             }
+            return output;
         }
-        else{
-        if(cki.Key == ConsoleKey.Backspace){
-            string temp = "";
-            for(int i = 0;i<append.Length;i++){
-                if(i == append.Length-1)break;
-                temp+=append[i];
-            }
-            append = temp;
-            if(append.Length != 0)ClearCurrentConsoleLine(2,spaces+"Enter money: "+consoleUI.SetTextBolder(consoleUI.FormatPrice(Convert.ToDecimal(append))));
-   
-        }
-        }
-    }
-    while (cki.Key != ConsoleKey.Enter);
-    if(append == "")Console.WriteLine("");
-    else{
-        if(!checkMoneyOutOfRangeDecimal)
-        output = Convert.ToDecimal(append);
-    }
-    return output;
- }
 
-public void ClearCurrentConsoleLine(int ver, string input)
-{
-    int currentLineCursor = Console.CursorTop;
-    Console.SetCursorPosition(0, Console.CursorTop);
-    Console.Write(new string(' ', Console.WindowWidth)); 
-    if(ver == 2){
-        Console.SetCursorPosition(0, currentLineCursor-1);
-        Console.Write(new string(' ', Console.WindowWidth)); 
-        Console.Write(input);
-    }
-    if(ver == 1){
-        Console.SetCursorPosition(0, currentLineCursor);
-        Console.Write(input);
-    }
-}
+        public void ClearCurrentConsoleLine(int ver, string input)
+        {
+            int currentLineCursor = Console.CursorTop;
+            Console.SetCursorPosition(0, Console.CursorTop);
+            Console.Write(new string(' ', Console.WindowWidth));
+            if (ver == 2)
+            {
+                Console.SetCursorPosition(0, currentLineCursor - 1);
+                Console.Write(new string(' ', Console.WindowWidth));
+                Console.Write(input);
+            }
+            if (ver == 1)
+            {
+                Console.SetCursorPosition(0, currentLineCursor);
+                Console.Write(input);
+            }
+        }
     }
 }
