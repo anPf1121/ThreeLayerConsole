@@ -978,7 +978,7 @@ namespace Ults
                 }
                 else
                 {
-                    bool? showOrderList = ConsoleUlts.Pagination(ListOrderPending, currentPhase, listPhase, 0);
+                    bool? showOrderList = ConsoleUlts.Pagination(ListOrderPending, currentPhase, listPhase, 2);
                     if (showOrderList == true)
                     {
                         do
@@ -1065,15 +1065,9 @@ namespace Ults
                                 {
                                     consoleUI.PrintTimeLine(listPhase, 3);
                                     consoleUI.PrintOrder(orderWantToPayment);
-                                    Console.Write(spaces + "Enter Money: ");
-                                    decimal moneyOfCustomerPaid;
-                                    input = Console.ReadLine() ?? "";
-                                    while (!(decimal.TryParse(input, out moneyOfCustomerPaid) && moneyOfCustomerPaid >= 0))
-                                    {
-                                        Console.Write(spaces + "Invalid Input! Input again: ");
-                                        input = Console.ReadLine() ?? "";
-                                    }
-                                    moneyOfCustomerPaid = Convert.ToDecimal(input);
+                                    
+                                    decimal moneyOfCustomerPaid = ConsoleUlts.EnterMoney();
+                                    Console.WriteLine();
                                     if (moneyOfCustomerPaid >= totalDue)
                                     {
                                         int ConfirmOrCancelOrSkip = ConsoleUlts.PressCharacterTo("Confirm Payment", "Cancel Payment", "Skip Payment", null);
@@ -1215,6 +1209,7 @@ namespace Ults
                 }
             } while (activePayment == false);
         }
+    
     }
 }
 
