@@ -98,5 +98,41 @@ namespace DAL
             }
             return output;
         }
+        public List<DiscountPolicy> GetListDiscountTradeIn(List<PhoneDetail> phoneDetails){
+            List<DiscountPolicy> lst = new List<DiscountPolicy>();
+            try
+            {
+                if (connection.State == System.Data.ConnectionState.Closed)
+                {
+                    connection.Open();
+                }
+                query = @"select * from discountpolicies where date(from_date) <= current_timestamp() and date(to_date) >=current_timestamp() and phone_detail_id = @phonedetailid;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                foreach(var phonedt in phoneDetails){
+                    command.Parameters.Clear();
+                    command.Parameters.AddWithValue("@phonedetailid", phonedt.PhoneDetailID);
+                    MySqlDataReader reader = command.ExecuteReader();
+                if (reader.Read())
+                {
+                    lst.Add(GetDiscountPolicy(reader));
+                }
+                reader.Close();
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            if (connection.State == System.Data.ConnectionState.Open)
+            {
+                connection.Close();
+            }
+            List<DiscountPolicy> output = new List<DiscountPolicy>();
+            foreach (var l in lst)
+            {
+                output.Add(GetDiscountPolicyById(l.PolicyID));
+            }
+            return output;
+        }
     }
 }

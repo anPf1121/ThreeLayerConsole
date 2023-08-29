@@ -18,25 +18,10 @@ public class DiscountPolicyBL {
             }
 
         }
-        List<DiscountPolicy> output = new List<DiscountPolicy>();
-        foreach(var dc in lst){
-            int count = 0;
-            foreach(var o in output){
-                if(o.Title == dc.Title)count++;
-            }
-            if(count == 0)output.Add(dc);
-        }
-
         return lst;
     }
     public List<DiscountPolicy> GetDiscountTradeIn(List<PhoneDetail> phoneDetails)  {
-        List<DiscountPolicy> lst = new List<DiscountPolicy>();
-        List<DiscountPolicy> discountPoliciesValidated = discountPolicyDAL.GetDiscountValidated();
-        foreach(var dc in discountPoliciesValidated){
-            foreach(var phone in phoneDetails){
-                if(dc.PhoneDetail.PhoneDetailID == phone.PhoneDetailID && dc.MoneySupported !=0)lst.Add(dc);
-            }
-        }
+        List<DiscountPolicy> lst = discountPolicyDAL.GetListDiscountTradeIn(phoneDetails);
         return lst;
     }
     public DiscountPolicy GetDiscountForOrder(Order order){

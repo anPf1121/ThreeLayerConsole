@@ -665,7 +665,7 @@ namespace Ults
                                             {
                                                 Console.WriteLine(consoleUI.AlignCenter("Show Discount TradeIn in Order Apply for Customer's Phone") + "Show Discount TradeIn in Order Apply for Customer's Phone");
                                                 int countUp = 1;
-                                                List<DiscountPolicy> DiscountForcheckRepeat = new List<DiscountPolicy>();
+                                                List<string> DiscountForcheckRepeat = new List<string>();
                                                 foreach (var discountInOrder in new DiscountPolicyBL().GetDiscountTradeIn(ListPhoneInOrder))
                                                 {
                                                     bool IsApply = false;
@@ -673,8 +673,8 @@ namespace Ults
                                                     foreach (var discountForCusPhone in DiscountTradeInForCustomerPhones)
                                                         if (discountForCusPhone.Title == discountInOrder.Title) IsApply = true;
                                                     foreach (var discountNotRepeat in DiscountForcheckRepeat)
-                                                        if (discountNotRepeat.Title == discountInOrder.Title) IsRepeat = true;
-                                                    if (IsRepeat == false) DiscountForcheckRepeat.Add(discountInOrder);
+                                                        if (discountNotRepeat == discountInOrder.Title) IsRepeat = true;
+                                                    if (IsRepeat == false) DiscountForcheckRepeat.Add(discountInOrder.Title);
                                                     if (IsApply && IsRepeat == false) Console.ForegroundColor = ConsoleColor.Green;
                                                     if (IsRepeat == false) Console.WriteLine(consoleUI.AlignCenter($"{countUp}. {discountInOrder.Title}") + countUp + ". " + discountInOrder.Title);
                                                     countUp++;
@@ -692,19 +692,20 @@ namespace Ults
                                                 List<DiscountPolicy> newListDc = new List<DiscountPolicy>();
                                                 List<DiscountPolicy> discountForCustomerPhones = new DiscountPolicyBL().GetDiscountTradeIn(ListPhoneOfCustomerWantTradeIn);
                                                 List<DiscountPolicy> discountForPhoneInOrder = new DiscountPolicyBL().GetDiscountTradeIn(ListPhoneInOrder);
-                                                List<DiscountPolicy> discountForPhoneInOrderOutput = new List<DiscountPolicy>();
+                                                List<string> discountForPhoneInOrderOutput = new List<string>();
+                                                
                                                 foreach (var discount in discountForPhoneInOrder)
                                                 {
                                                     bool isWork = false;
                                                     foreach (var discountOut in discountForPhoneInOrderOutput)
-                                                        if (discountOut.Title == discount.Title) isWork = true;
-                                                    if (!isWork) discountForPhoneInOrderOutput.Add(discount);
+                                                        if (discountOut == discount.Title) isWork = true;
+                                                    if (!isWork) discountForPhoneInOrderOutput.Add(discount.Title);
                                                 }
                                                 // Lay ra Discount Tradein cua nhung dien thoai co trong order
                                                 // So sanh voi nhung Discount Tradein cua nhung chiec dien thoai ma Customer mang den de tradein 
                                                 foreach (var TIorder in discountForPhoneInOrderOutput)
                                                     foreach (var TIcustomer in discountForCustomerPhones)
-                                                        if (TIorder.Title == TIcustomer.Title) newListDc.Add(TIcustomer);
+                                                        if (TIorder == TIcustomer.Title) newListDc.Add(TIcustomer);
                                                 if (order.DiscountPolicies.Count() == 0) order.DiscountPolicies = newListDc;
                                                 else
                                                     foreach (var newdiscount in newListDc)
