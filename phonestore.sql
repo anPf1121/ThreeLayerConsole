@@ -163,11 +163,11 @@ VALUE ('15','Samsung Note 14', '2', '200 grams', '4,000 mAh', '2', '5828 x 1792'
 INSERT INTO phones (phone_id, phone_name, brand_id, weight, battery_capacity, sim_slot,screen, release_date, create_by, os, connection)
 VALUE ('16','Samsung Note 15', '2', '200 grams', '4,000 mAh', '2', '6828 x 1792','2023-10-15', '1', 'Android','4G' );
 INSERT INTO phones (phone_id, phone_name, brand_id, weight, battery_capacity, sim_slot,screen, release_date, create_by, os, connection)
-VALUE ('17','realme C55', '2', '200 grams', '4,000 mAh', '2', '6828 x 1792','2023-10-15', '1', 'Android','4G' );
+VALUE ('17','realme C55', '6', '200 grams', '4,000 mAh', '2', '6828 x 1792','2023-10-15', '1', 'Android','4G' );
 INSERT INTO phones (phone_id, phone_name, brand_id, weight, battery_capacity, sim_slot,screen, release_date, create_by, os, connection)
-VALUE ('18','realme C33', '2', '200 grams', '4,000 mAh', '2', '6828 x 1792','2023-10-15', '1', 'Android','4G' );
+VALUE ('18','realme C33', '6', '200 grams', '4,000 mAh', '2', '6828 x 1792','2023-10-15', '1', 'Android','4G' );
 INSERT INTO phones (phone_id, phone_name, brand_id, weight, battery_capacity, sim_slot,screen, release_date, create_by, os, connection)
-VALUE ('19','realme C30s', '2', '200 grams', '4,000 mAh', '2', '6828 x 1792','2023-10-15', '1', 'Android','4G' );
+VALUE ('19','realme C30s', '6', '200 grams', '4,000 mAh', '2', '6828 x 1792','2023-10-15', '1', 'Android','4G' );
 
 CREATE TABLE phonedetails(
 phone_detail_id INT PRIMARY KEY,
@@ -239,6 +239,10 @@ INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_
 INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('35','1', '3','1', '4', '6900000');
 
 INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('36','2', '1','1', '0', '15890000');
+INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('37','2', '1','1', '1', '12500000');
+INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('38','2', '1','1', '2', '10890000');
+INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('39','2', '1','1', '3', '9890000');
+INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('40','2', '1','1', '4', '6890000');
 
 INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('41','3', '1','1', '0', '19490000');
 INSERT INTO phonedetails(phone_detail_id, phone_id, color_id,rom_size_id, phone_status_type, price) VALUE('42','3', '1','1', '1', '15000000');
@@ -444,6 +448,20 @@ INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378532447883459', '35');
 INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378531233312233', '35');
 INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378532130342326', '35');
 INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378532442348799', '36');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378532135772233', '36');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378532164657866', '36');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378535515555799', '37');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378532166666233', '37');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378532788888669', '37');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378532441444299', '38');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378532138223355', '38');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378532541454545', '38');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378532435353535', '39');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378532131451413', '39');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378538448484886', '39');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378532222200029', '40');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378532131414413', '40');
+INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378532130841186', '40');
 INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378532447820229', '41');
 INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378532102101113', '41');
 INSERT INTO imeis(phone_imei, phone_detail_id) VALUE('378532138181816', '41');
@@ -693,6 +711,10 @@ INSERT INTO discountpolicies(title, from_date, to_date, phone_detail_id, money_s
 INSERT INTO discountpolicies(title, from_date, to_date, phone_detail_id, money_supported, create_by) VALUE('TradeIn Policy for Iphone', '2023-07-07', '2024-07-07', '34', '100000', '2');
 INSERT INTO discountpolicies(title, from_date, to_date, phone_detail_id, money_supported, create_by) VALUE('TradeIn Policy for Iphone', '2023-07-07', '2024-07-07', '35', '100000', '2');
 INSERT INTO discountpolicies(title, from_date, to_date, phone_detail_id, money_supported, create_by) VALUE('TradeIn Policy for Iphone', '2023-07-07', '2024-07-07', '36', '100000', '2');
+INSERT INTO discountpolicies(title, from_date, to_date, phone_detail_id, money_supported, create_by) VALUE('TradeIn Policy for Iphone', '2023-07-07', '2024-07-07', '37', '400000', '2');
+INSERT INTO discountpolicies(title, from_date, to_date, phone_detail_id, money_supported, create_by) VALUE('TradeIn Policy for Iphone', '2023-07-07', '2024-07-07', '38', '400000', '2');
+INSERT INTO discountpolicies(title, from_date, to_date, phone_detail_id, money_supported, create_by) VALUE('TradeIn Policy for Iphone', '2023-07-07', '2024-07-07', '39', '200000', '2');
+INSERT INTO discountpolicies(title, from_date, to_date, phone_detail_id, money_supported, create_by) VALUE('TradeIn Policy for Iphone', '2023-07-07', '2024-07-07', '40', '500000', '2');
 INSERT INTO discountpolicies(title, from_date, to_date, phone_detail_id, money_supported, create_by) VALUE('TradeIn Policy for Iphone', '2023-07-07', '2024-07-07', '41', '700000', '2');
 INSERT INTO discountpolicies(title, from_date, to_date, phone_detail_id, money_supported, create_by) VALUE('TradeIn Policy for Iphone', '2023-07-07', '2024-07-07', '42', '100000', '2');
 INSERT INTO discountpolicies(title, from_date, to_date, phone_detail_id, money_supported, create_by) VALUE('TradeIn Policy for Iphone', '2023-07-07', '2024-07-07', '43', '1000000', '2');

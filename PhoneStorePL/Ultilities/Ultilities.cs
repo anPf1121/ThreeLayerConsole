@@ -819,13 +819,14 @@ namespace Ults
                                 int checkHaveDiiscountTradeIn = 0;
                                 foreach (var discountinorder in orderWantToPayment.DiscountPolicies)
                                     if (discountinorder.MoneySupported != 0) checkHaveDiiscountTradeIn++;
-                                foreach (var discount in new DiscountPolicyBL().GetDiscountForPaymentmethod(orderWantToPayment))
+                                
+                                if (checkHaveDiiscountTradeIn == 0)
+                                {
+                                    foreach (var discount in new DiscountPolicyBL().GetDiscountForPaymentmethod(orderWantToPayment))
                                 {
                                     orderWantToPayment.DiscountPolicies.Add(discount);
                                     if (discount.DiscountPrice != 0) totalDue -= discount.DiscountPrice;
                                 }
-                                if (checkHaveDiiscountTradeIn == 0)
-                                {
                                     DiscountPolicy discountPolicyOrder = new DiscountPolicyBL().GetDiscountForOrder(orderWantToPayment);
                                     orderWantToPayment.DiscountPolicies.Add(discountPolicyOrder);
                                     totalDue -= discountPolicyOrder.DiscountPrice;
