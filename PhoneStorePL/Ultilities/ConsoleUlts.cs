@@ -628,7 +628,6 @@ namespace Ults
                 return false;
             }
             else{
-                if(imei[0]!='3')return false;
                 for(int i = 0;i<15;i++){
                     int numOut;
                     if(!int.TryParse(imei[i].ToString(), out numOut))return false;

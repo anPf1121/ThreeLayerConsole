@@ -440,11 +440,11 @@ class ConsoleUI
     }
     public string[] GetPaymentTimeLine()
     {
-        return new string[] { AlignCenter("> Choose an Order > Choose Paymentmethod > Enter Money > Confirm or Cancel or Skip Payment") + "Choose an Order", "Choose Paymentmethod", "Enter Money", "Confirm or Cancel or Skip Payment" };
+        return new string[] { AlignCenter("> Choose an Order > Choose Paymentmethod > Enter Money > Confirm or Cancel or Skip Payment") + "> Choose an Order", "> Choose Paymentmethod", "> Enter Money", "> Confirm or Cancel or Skip Payment" };
     }
     public string[] GetTradeInTimeLine()
     {
-        return new string[] { AlignCenter("> Choose an Order > Confirm Customer's Phone > Confirm or Cancel TradeIn") + "Choose an Order", "Confirm Customer's Phone", "Confirm or Cancel TradeIn" };
+        return new string[] { AlignCenter("> Confirm Customer Phone > Add Phone To Order > Add More Phone? > Enter Customer Info > Confirm Order > Payment") + "> Confirm Customer Phone", "> Add Phone To Order", "> Add More Phone?", "> Enter Customer Info", "> Confirm Order", "> Payment" };
     }
     public string[] GetHandleOrderTimeLine()
     {

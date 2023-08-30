@@ -52,7 +52,7 @@ namespace PhoneStoreUI
                             switch (consoleUlts.MenuHandle(consoleUI.GetAppANSIText(), null, menuItem, staffBL.LoggedInStaff))
                             {
                                 case 1:
-                                    Ults.CreateOrder(new List<PhoneDetail>(), new List<Imei>());
+                                    Ults.CreateOrder(new List<PhoneDetail>(), new List<Imei>(), new string[] {}, 0);
                                     break;
                                 case 2:
                                     HandleResult = Ults.HandleOrder();
@@ -81,7 +81,7 @@ namespace PhoneStoreUI
                             switch (consoleUlts.MenuHandle(consoleUI.GetAppANSIText(), null, menuItem, staffBL.LoggedInStaff))
                             {
                                 case 1:
-                                    Ults.Payment(new List<PhoneDetail>(), new List<Imei>(), new Order());
+                                    Ults.Payment(new List<PhoneDetail>(), new List<Imei>(), new Order(), new string[] {}, 0);
                                     break;
                                 case 2:
                                     Ults.TradeIn();
