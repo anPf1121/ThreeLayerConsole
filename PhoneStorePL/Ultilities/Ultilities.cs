@@ -45,7 +45,7 @@ namespace Ults
             else if (searchChoice == 2) return null;
             return result;
         }
-        public void CreateOrder()
+        public void CreateOrder(List<PhoneDetail> listTradeInPhone, List<Imei> imeiTemp)
         {
             string searchTitle = consoleUI.GetSearchANSIText(), orderGenerateID = ConsoleUlts.GenerateID(), spaces = consoleUI.AlignCenter("|============================================================================================|");
             string[] menuSearchChoice = consoleUI.GetMenuItemSearch(), listPhase = consoleUI.GetCreateOrderTimeLine();
@@ -365,7 +365,7 @@ namespace Ults
                             item.PhoneDetail.Quantity = order.ListImeiInOrder.Count(x => x.PhoneDetail.PhoneDetailID == target);
                         }
                         order.ListImeiInOrder.Sort((x, y) => x.PhoneDetail.PhoneDetailID.CompareTo(y.PhoneDetail.PhoneDetailID));
-                        consoleUI.PrintOrder(order);
+                        consoleUI.PrintOrder(order, listTradeInPhone,imeiTemp);
                         phaseChoice = ConsoleUlts.PressCharacterTo("Back Previous Phase", "Enter Customer Info", "Add More Phone", null);
                         if (phaseChoice == 0)
                         {
@@ -397,7 +397,7 @@ namespace Ults
                         if (customer != null)
                             order.Customer = customer;
                         consoleUI.PrintTimeLine(listPhase, currentPhase);
-                        consoleUI.PrintOrder(order);
+                        consoleUI.PrintOrder(order, new List<PhoneDetail>(), new List<Imei>());
                         if (ConsoleUlts.PressYesOrNo("Create Order", "Cancel Order"))
                         {
                             order.ListImeiInOrder = imeisToInsert;
@@ -454,13 +454,7 @@ namespace Ults
                             temp = ConsoleUlts.Pagination(listOrderTemp, currentPhase, consoleUI.GetHandleOrderTimeLine(), 3);
                             if (temp == true)
                             { // nhập Id order để xem
-                                do
-                                {
-                                    orderId = ConsoleUlts.GetInputString($"{spaces} Enter Order ID").ToUpper(); // lấy ra order bằng order ID
-                                    orderTemp = orderBL.GetOrderById(orderId);
-                                    if (orderTemp.OrderID == "") ConsoleUlts.Alert(ConsoleEnum.Alert.Error, "Invalid Order ID Please Try Again");
-                                } while (orderTemp.OrderID == "");
-                                order = orderTemp;
+                                order = ConsoleUlts.GetAnOrder(this.loginManager);
                                 order.Seller = loginManager.LoggedInStaff;
                                 currentPhase++;
                             }
@@ -470,7 +464,7 @@ namespace Ults
                         break;
                     case 2:
                         consoleUI.PrintTimeLine(listPhase, currentPhase);
-                        consoleUI.PrintOrder(order);
+                        consoleUI.PrintOrder(order, new List<PhoneDetail>(), new List<Imei>());
                         if (!ConsoleUlts.PressYesOrNo("Confirm Product", "Cancel Order"))
                         {
                             if (orderBL.UpdateOrder(OrderEnum.Status.Canceled, order) == true) return 0;
@@ -491,38 +485,8 @@ namespace Ults
             bool activeTradeIn = true;
             List<int> choicePattern = new List<int>();
             List<Order>? ListOrderPending = null;
-            Order? order = new Order("", new DateTime(), new Staff(0, "", "", "", "", "", StaffEnum.Role.Seller, StaffEnum.Status.Active), new Staff(0, "", "", "", "", "", StaffEnum.Role.Accountant, StaffEnum.Status.Active), new Customer(0, "", "", ""), new List<Imei>(), OrderEnum.Status.Pending, new List<DiscountPolicy>(), "", 0);
-            do
-            {
-                currentPhase = 1;
-                ListOrderPending = SearchOrder(currentPhase, OrderEnum.Status.Pending);
-                if (ListOrderPending == null)
-                {
-                    ConsoleUlts.Alert(ConsoleEnum.Alert.Error, "NO ORDER EXIST");
-                    return;
-                }
-                else
-                {
-                    bool showOrderList = ConsoleUlts.Pagination(ListOrderPending, currentPhase, consoleUI.GetTradeInTimeLine(), 1);
-                    if (showOrderList == true)
-                    {
-                        do
-                        {
-                            orderID = ConsoleUlts.GetInputString($"{spaces} Choose An Order ID").ToUpper();
-                            order = new OrderBL().GetOrderById(orderID) ?? null;
-                            if (order!.OrderID == "") ConsoleUlts.Alert(ConsoleEnum.Alert.Error, "Invalid Order ID");
-                            else order.Accountant = this.loginManager.LoggedInStaff;
-                        } while (order.OrderID == "");
-                        consoleUI.PrintTimeLine(listPhase, 1);
-                        consoleUI.PrintOrder(order);
-                        if (order.ListImeiInOrder.Count() == 0)
-                        {
-                            ConsoleUlts.Alert(ConsoleEnum.Alert.Error, "Order Doesn't Have Any Phone!");
-                            break;
-                        }
-                        bool resultContinueOrChooseAgain = ConsoleUlts.PressYesOrNo("Continue TradeIn", "Choose Order Again");
-                        if (resultContinueOrChooseAgain == true)
-                        {
+            Order order = new Order();
+            
                             List<PhoneDetail> ListPhoneOfCustomerWantTradeIn = new List<PhoneDetail>();
                             bool activeChoosePhone = false;
                             do
@@ -560,6 +524,7 @@ namespace Ults
                                         if (listPhoneDetailSearch == false) activeChoosePhone = false;
                                         if (listPhoneDetailSearch == true)
                                         {
+                                            List<Imei> imeis = new List<Imei>();
                                             Console.Write(spaces + "Choose A Phone Model ID: ");
                                             input = Console.ReadLine() ?? "";
                                             while (!ConsoleUlts.CheckInputIDValid(input, choicePattern))
@@ -574,132 +539,57 @@ namespace Ults
                                             if (acceptOrNotChoose == true)
                                             {
                                                 consoleUI.PrintTimeLine(listPhase, 2);
-                                                consoleUI.GetTradeInTitle();
-                                                bool IsPhoneApplyForTradeIn = false; // Xu li Hien thi Discount TradeIn
-                                                List<PhoneDetail> listPhoneCustomer = new List<PhoneDetail>();
-                                                listPhoneCustomer.Add(phoneBL.GetPhoneDetailByID(Convert.ToInt32(input)));
-                                                List<DiscountPolicy> DiscountTradeInForCustomerPhones = new DiscountPolicyBL().GetDiscountTradeIn(listPhoneCustomer);
-                                                List<PhoneDetail> ListTemp = new List<PhoneDetail>();
-                                                foreach (var imei in order.ListImeiInOrder)
-                                                    ListTemp.Add(imei.PhoneDetail);
-                                                List<PhoneDetail> ListPhoneInOrder = new List<PhoneDetail>();
-                                                foreach (var phone in ListTemp)
-                                                {
-                                                    bool checkRepeate = false;
-                                                    foreach (var phone1 in ListPhoneInOrder)
-                                                    {
-                                                        if (phone.PhoneDetailID == phone1.PhoneDetailID) checkRepeate = true;
-                                                    }
-                                                    if (!checkRepeate) ListPhoneInOrder.Add(phone);
+                                                consoleUI.PrintPhoneTradeInDetailInfo(phoneBL.GetPhoneDetailByID(Convert.ToInt32(input)));
+                                                Console.Write(spaces+"Input Quantity: ");
+                                                int quantity;
+                                                while(!int.TryParse(Console.ReadLine()??"", out quantity)){
+                                                    consoleUI.PrintTimeLine(listPhase, 2);
+                                                    consoleUI.PrintPhoneTradeInDetailInfo(phoneBL.GetPhoneDetailByID(Convert.ToInt32(input)));
+                                                    Console.Write(spaces+"Input again: ");
                                                 }
-                                                foreach (var discountInOrder in new DiscountPolicyBL().GetDiscountTradeIn(ListPhoneInOrder))
-                                                    foreach (var discountForCusPhone in DiscountTradeInForCustomerPhones)
-                                                        if (discountInOrder.Title == discountForCusPhone.Title) IsPhoneApplyForTradeIn = true;
-                                                if (IsPhoneApplyForTradeIn == false)
-                                                {
-                                                    int countUp = 1;
-                                                    Console.WriteLine(consoleUI.AlignCenter("This Customer's Phone Doesnt Match With Any TradeIn Policy In Order") + "This Customer's Phone Doesnt Match With Any TradeIn Policy In Order");
-                                                    Console.WriteLine(consoleUI.AlignCenter("Show Discount TradeIn Exist In Order: ") + "Show Discount TradeIn Exist In Order: ");
-                                                    List<DiscountPolicy> DiscountForcheckRepeat = new List<DiscountPolicy>();
-                                                    foreach (var discountInOrder in new DiscountPolicyBL().GetDiscountTradeIn(ListPhoneInOrder))
-                                                    {
-                                                        bool IsRepeat = false;
-                                                        foreach (var discountNotRepeat in DiscountForcheckRepeat)
-                                                            if (discountNotRepeat.Title == discountInOrder.Title) IsRepeat = true;
-                                                        if (IsRepeat == false)
-                                                        {
-                                                            DiscountForcheckRepeat.Add(discountInOrder);
-                                                            Console.WriteLine(consoleUI.AlignCenter((countUp + ". " + discountInOrder.Title).ToString()) + countUp + ". " + discountInOrder.Title);
-                                                            countUp++;
+                                                PhoneDetail phonedetailTemp = phoneBL.GetPhoneDetailByID(Convert.ToInt32(input));
+                                                phonedetailTemp.Quantity = quantity;
+                                                ListPhoneOfCustomerWantTradeIn.Add(phonedetailTemp);
+                                                List<Imei> imeiTemp = new List<Imei>();
+                                                for(int i = 0;i<quantity;i++){
+                                                    Console.Write(spaces+$" Input imei {i+1}: ");
+                                                    string imei = Console.ReadLine()??"";
+                                                    while(!ConsoleUlts.CheckImeiValid(imei)){
+
+                                                        Console.WriteLine();
+                                                        ConsoleUlts.Alert(ConsoleEnum.Alert.Error, "Invalid Imei");
+                                                        Console.Write(spaces+$" Input imei {i+1}: ");
+                                                        imei = Console.ReadLine()??"";
+                                                        Console.WriteLine(spaces);
+                                                        if(ConsoleUlts.CheckImeiValid(imei)){
+                                                            ConsoleUlts.Alert(ConsoleEnum.Alert.Success, "Enter Imei Successfully");
                                                         }
                                                     }
-                                                    bool ChooseAgainOrNot = ConsoleUlts.PressYesOrNo("Choose Phone TradeIn Again", "Keep TradeIn");
-                                                    if (ChooseAgainOrNot) continue;
-                                                    else ListPhoneOfCustomerWantTradeIn.Add(phoneBL.GetPhoneDetailByID(Convert.ToInt32(input)));
+                                                    Imei imeiValid = new Imei(new PhoneDetail(), imei, PhoneEnum.ImeiStatus.NotExport);
+                                                    imeiTemp.Add(imeiValid);
                                                 }
-                                                else
-                                                {
-                                                    Console.WriteLine(consoleUI.AlignCenter("Show Discount TradeIn In Order") + "Show Discount TradeIn In Order");
-                                                    int countUp = 1;
-                                                    List<string> DiscountForcheckRepeat = new List<string>();
-                                                    foreach (var discountInOrder in new DiscountPolicyBL().GetDiscountTradeIn(ListPhoneInOrder))
-                                                    {
-                                                        bool IsApply = false;
-                                                        bool IsRepeat = false;
-                                                        foreach (var discountForCusPhone in DiscountTradeInForCustomerPhones)
-                                                            if (discountForCusPhone.Title == discountInOrder.Title) IsApply = true;
-                                                        foreach (var discountNotRepeat in DiscountForcheckRepeat)
-                                                            if (discountNotRepeat == discountInOrder.Title) IsRepeat = true;
-                                                        if (IsRepeat == false) DiscountForcheckRepeat.Add(discountInOrder.Title);
-                                                        if (IsApply && IsRepeat == false) Console.ForegroundColor = ConsoleColor.Green;
-                                                        if (IsRepeat == false) Console.WriteLine(consoleUI.AlignCenter($"{countUp}. {discountInOrder.Title}") + countUp + ". " + discountInOrder.Title);
-                                                        countUp++;
-                                                        if (IsApply && IsRepeat == false) Console.ForegroundColor = ConsoleColor.White;
-                                                    }
-                                                    bool ChooseAgainOrNot = ConsoleUlts.PressYesOrNo("Choose Phone To Confirm Again", "Keep TradeIn");
-                                                    if (ChooseAgainOrNot) continue;
-                                                    else ListPhoneOfCustomerWantTradeIn.Add(phoneBL.GetPhoneDetailByID(Convert.ToInt32(input)));
-                                                }
+                                                imeis= imeiTemp;
+                                            }
+                                            else
+                                            {  
+                                                continue;
+                                            }
                                                 consoleUI.GetTradeInTitle();
-                                                bool chooseMoreOrNot = ConsoleUlts.PressYesOrNo("Confirm More Orther Phone", "Confirm TradeIn");
+                                                bool chooseMoreOrNot = ConsoleUlts.PressYesOrNo("Confirm More Orther Phone", "Stop Add Phone To TradeIn");
                                                 if (chooseMoreOrNot == true) continue;
                                                 else
                                                 {
-                                                    List<DiscountPolicy> newListDc = new List<DiscountPolicy>();
-                                                    List<DiscountPolicy> discountForCustomerPhones = new DiscountPolicyBL().GetDiscountTradeIn(ListPhoneOfCustomerWantTradeIn);
-                                                    List<DiscountPolicy> discountForPhoneInOrder = new DiscountPolicyBL().GetDiscountTradeIn(ListPhoneInOrder);
-                                                    List<string> discountForPhoneInOrderOutput = new List<string>();
-
-                                                    foreach (var discount in discountForPhoneInOrder)
-                                                    {
-                                                        bool isWork = false;
-                                                        foreach (var discountOut in discountForPhoneInOrderOutput)
-                                                            if (discountOut == discount.Title) isWork = true;
-                                                        if (!isWork) discountForPhoneInOrderOutput.Add(discount.Title);
-                                                    }
-                                                    // Lay ra Discount Tradein cua nhung dien thoai co trong order
-                                                    // So sanh voi nhung Discount Tradein cua nhung chiec dien thoai ma Customer mang den de tradein 
-                                                    foreach (var TIorder in discountForPhoneInOrderOutput)
-                                                        foreach (var TIcustomer in discountForCustomerPhones)
-                                                            if (TIorder == TIcustomer.Title) newListDc.Add(TIcustomer);
-                                                    if (order.DiscountPolicies.Count() == 0) order.DiscountPolicies = newListDc;
-                                                    else
-                                                        foreach (var newdiscount in newListDc)
-                                                            order.DiscountPolicies.Add(newdiscount);
-                                                    // Xu li trung lap Discount TradeIn: Neu trong Order truoc do da ton tai Discount thi khong duoc add them discount trade in nao trung lap voi cac discount co san trong order
-                                                    consoleUI.PrintOrder(order);
-                                                    bool TradeInOrSkip = ConsoleUlts.PressYesOrNo("TradeIn", "Skip TradeIn");
-                                                    if (TradeInOrSkip == true)
-                                                    {
-                                                        order.DiscountPolicies = newListDc;
-                                                        orderBL.TradeIn(order);
-                                                        ConsoleUlts.Alert(ConsoleEnum.Alert.Success, "TradeIn Completed");
-                                                        activeTradeIn = true;
-                                                        break;
-                                                    }
-                                                    else
-                                                    {
-                                                        ConsoleUlts.Alert(ConsoleEnum.Alert.Warning, "TradeIn False");
-                                                        activeTradeIn = true;
-                                                        break;
-                                                    }
+                                                    bool activeChooseNewPhoneTradeIn = false;
+                                                    do{
+                                                    CreateOrder(ListPhoneOfCustomerWantTradeIn,imeis);
+                                                    }while(activeChooseNewPhoneTradeIn == false);
                                                 }
                                             }
                                         }
                                     }
-                                }
-                            } while (activeChoosePhone == false);
-                        }
-                        else
-                        {
-                            activeTradeIn = false;
-                            continue;
-                        }
+                                }while (activeChoosePhone == false);
                     }
-                    else if (showOrderList == false) activeTradeIn = true;
-                }
-            } while (activeTradeIn == false);
-        }
+        
         public void Payment()
         {
             int currentPhase = 1, centeredPosition = (Console.WindowWidth - "|--------------------------------------------------------------------------------------------|".Length) / 2, secondcenteredPosition = (Console.WindowWidth - "|===================================================================================================|".Length) / 2;
@@ -726,16 +616,10 @@ namespace Ults
                     bool? showOrderList = ConsoleUlts.Pagination(ListOrderPending, currentPhase, listPhase, 2);
                     if (showOrderList == true)
                     {
-                        do
-                        {
-                            orderID = ConsoleUlts.GetInputString($"{spaces} Choose An Order ID To Payment").ToUpper();
-                            orderWantToPayment = new OrderBL().GetOrderById(orderID) ?? null;
-                            if (orderWantToPayment!.OrderID == "") ConsoleUlts.Alert(ConsoleEnum.Alert.Error, "Invalid Order ID");
-                            else orderWantToPayment.Accountant = this.loginManager.LoggedInStaff;
-                        } while (orderWantToPayment.OrderID == "");
+                        orderWantToPayment = ConsoleUlts.GetAnOrder(this.loginManager);
                         //Wait to display orderdetail
                         consoleUI.PrintTimeLine(listPhase, 1);
-                        consoleUI.PrintOrder(orderWantToPayment);
+                        consoleUI.PrintOrder(orderWantToPayment, new List<PhoneDetail>(), new List<Imei>());
                         int check = 0;
                         if (orderWantToPayment.DiscountPolicies.Count() != 0) check++;
                         if (orderWantToPayment.ListImeiInOrder.Count() == 0)
@@ -787,14 +671,14 @@ namespace Ults
                                     do
                                     {
                                         consoleUI.PrintTimeLine(listPhase, 3);
-                                        consoleUI.PrintOrder(orderWantToPayment);
+                                        consoleUI.PrintOrder(orderWantToPayment, new List<PhoneDetail>(), new List<Imei>());
                                         decimal moneyOfCustomerPaid = ConsoleUlts.EnterMoney();
                                         Console.WriteLine();
                                         if (moneyOfCustomerPaid >= totalDue)
                                         {
                                             int ConfirmOrCancelOrSkip = ConsoleUlts.PressCharacterTo("Confirm Payment", "Cancel Payment", "Skip Payment", null);
                                             consoleUI.PrintTimeLine(listPhase, 4);
-                                            consoleUI.PrintOrder(orderWantToPayment);
+                                            consoleUI.PrintOrder(orderWantToPayment, new List<PhoneDetail>(), new List<Imei>());
                                             if (ConfirmOrCancelOrSkip == 0)
                                             {
                                                 List<DiscountPolicy> ListDiscountResult = new List<DiscountPolicy>();
@@ -837,7 +721,7 @@ namespace Ults
                                         else if (moneyOfCustomerPaid < totalDue)
                                         {
                                             consoleUI.PrintTimeLine(listPhase, 4);
-                                            consoleUI.PrintOrder(orderWantToPayment);
+                                            consoleUI.PrintOrder(orderWantToPayment, new List<PhoneDetail>(), new List<Imei>());
                                             Console.WriteLine(spaces + $"Missing: " + consoleUI.FormatPrice(totalDue - moneyOfCustomerPaid).ToString());
                                             int SkipOrReInputOrCancel = ConsoleUlts.PressCharacterTo("Skip Payment", "Re-Input Money", "Cancel Payment", null);
                                             if (SkipOrReInputOrCancel == 0)
@@ -867,7 +751,7 @@ namespace Ults
                                 }
                                 else
                                 {
-                                    consoleUI.PrintOrder(orderWantToPayment);
+                                    consoleUI.PrintOrder(orderWantToPayment, new List<PhoneDetail>(), new List<Imei>());
                                     int PaymentOrSkipOrCancel = ConsoleUlts.PressCharacterTo("Confirm Payment", "Skip Payment", "Cancel Payment", null);
                                     if (PaymentOrSkipOrCancel == 0)
                                     {

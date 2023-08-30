@@ -7,7 +7,7 @@ using System.Globalization; // thu vien format tien
 using BL;
 using UI;
 using System.Text.RegularExpressions;
-
+using Interface;
 
 namespace Ults
 {
@@ -393,7 +393,6 @@ namespace Ults
             else
                 PressEnterTo(null);
         }
-
         public void ClearCurrentConsoleLine()
         {
             int currentLineCursor = Console.CursorTop;
@@ -401,14 +400,12 @@ namespace Ults
             Console.Write(new string(' ', Console.WindowWidth));
             Console.SetCursorPosition(0, currentLineCursor);
         }
-
         public string GetUserName()
         {
             string spaces = consoleUI.AlignCenter("|--------------------------------------------------------------------------------------------|");
             string userName = GetInputString(spaces + " User Name");
             return userName;
         }
-
         public string GetPassword()
         {
             string spaces = consoleUI.AlignCenter("|--------------------------------------------------------------------------------------------|");
@@ -439,7 +436,6 @@ namespace Ults
             Console.Write("\n");
             return pass;
         }
-
         public Customer GetCustomerInfo()
         {
             string PatternName = @"^.{0,28}[a-zA-Z\s]$";
@@ -462,7 +458,6 @@ namespace Ults
             Customer customer = new Customer(0, customerName, phoneNumber, address);
             return customer;
         }
-
         public string GetInputString(string requestToEnter)
         {
             string str = "";
@@ -598,7 +593,6 @@ namespace Ults
             }
             return output;
         }
-
         public void ClearCurrentConsoleLine(int ver, string input)
         {
             int currentLineCursor = Console.CursorTop;
@@ -615,6 +609,33 @@ namespace Ults
                 Console.SetCursorPosition(0, currentLineCursor);
                 Console.Write(input);
             }
+        }
+        public Order GetAnOrder(IStaffBL loginManager){
+            int currentPhase = 1, centeredPosition = (Console.WindowWidth - "|--------------------------------------------------------------------------------------------|".Length) / 2, secondcenteredPosition = (Console.WindowWidth - "|===================================================================================================|".Length) / 2;
+            string input = "", spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "", orderID = "";
+            Order order = new Order();
+            do
+                        {
+                            orderID = GetInputString($"{spaces} Choose An Order ID").ToUpper();
+                            order = new OrderBL().GetOrderById(orderID) ?? null;
+                            if (order!.OrderID == "") Alert(ConsoleEnum.Alert.Error, "Invalid Order ID");
+                            else order.Accountant = loginManager.LoggedInStaff;
+                        } while (order.OrderID == "");
+                        return order;
+        }
+        public bool CheckImeiValid(string imei){
+            if(imei.Length != 15){
+                return false;
+            }
+            else{
+                if(imei[0]!='3')return false;
+                for(int i = 0;i<15;i++){
+                    int numOut;
+                    if(!int.TryParse(imei[i].ToString(), out numOut))return false;
+                }
+            }
+            return true;
+
         }
     }
 }

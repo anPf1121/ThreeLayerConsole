@@ -149,7 +149,7 @@ class ConsoleUI
         FullWidthTinyLine();
         itemCount = 0;
     }
-    public void PrintOrder(Order ord)
+    public void PrintOrder(Order ord, List<PhoneDetail> listTradeInPhone, List<Imei> imeiTemp)
     {
         Dictionary<DiscountPolicy, int> DiscountAndRepeatTime = new Dictionary<DiscountPolicy, int>();
         // Xu li lan lap Discount cua TradeInPolicy
@@ -191,6 +191,24 @@ class ConsoleUI
             Console.WriteLine(spaces + "| Phone Number: {0, -12}|", ord.Customer.PhoneNumber.PadRight(108));
         }
         Console.Write((ord.Accountant.StaffID != 0) ? (spaces + "| Payment Method: {0, 35} |" + "\n") : "", ord.PaymentMethod.PadRight(105));
+        if(listTradeInPhone.Count() !=0){
+            Order temp = new Order();
+            temp.ListImeiInOrder = new List<Imei>();
+            int i = 0;
+            foreach(var phone in listTradeInPhone){
+                Imei itemp = new Imei(new PhoneDetail(), imeiTemp[i].PhoneImei, PhoneEnum.ImeiStatus.NotExport);
+                itemp.PhoneDetail = phone;
+                temp.ListImeiInOrder.Add(itemp);
+                i++;
+            }
+        
+            Console.WriteLine(spaces + "|===========================================================================================================================|");
+            Console.WriteLine(spaces+"| {0,20} | ", "Trade In Phones".PadRight(121));
+            Console.WriteLine(spaces + "|===========================================================================================================================|");
+        PrintOrderDetails(temp);
+        Console.WriteLine(spaces + "|===========================================================================================================================|");
+        }
+        Console.WriteLine(spaces+"| {0,20} | ", "New Phone".PadRight(121));
         Console.WriteLine(spaces + "|===========================================================================================================================|");
         PrintOrderDetails(ord);
         Console.WriteLine(spaces + "|===========================================================================================================================|");
@@ -205,7 +223,21 @@ class ConsoleUI
                 if (ord.OrderStatus == OrderEnum.Status.Pending || ord.OrderStatus == OrderEnum.Status.Confirmed) ord.TotalDue -= dp.Key.DiscountPrice;
             }
         }
-        Console.WriteLine(spaces + "| {0, 40}{1, -26}{2, 15}|", "", "Total Due: ", SetTextBolder(FormatPrice(ord.GetTotalDue()).PadRight(56)));
+        decimal totaldue = ord.GetTotalDue();
+        decimal totaldueOfcustomerphone = 0;
+        if(listTradeInPhone.Count()!=0){
+            foreach(var phone in listTradeInPhone){
+                totaldueOfcustomerphone+=phone.Quantity*phone.Price;
+            }
+        }
+        decimal finalTotalDue = 0;
+        if(totaldue>=totaldueOfcustomerphone){
+            finalTotalDue = totaldue-totaldueOfcustomerphone;
+        }else{
+            finalTotalDue = 0;
+        }
+
+        Console.WriteLine(spaces + "| {0, 40}{1, -26}{2, 15}|", "", "Total Due: ", SetTextBolder(FormatPrice(finalTotalDue).PadRight(56)));
         if (ord.Accountant.StaffID != 0)
         {
             Console.WriteLine(spaces + "| {0, 40}{1, -26}{2, 23}|", "", "Discount Price: ", SetTextBolder(FormatPrice(ord.TotalDue - ord.GetTotalDue()).ToString().PadRight(56)));

@@ -52,7 +52,7 @@ namespace PhoneStoreUI
                             switch (consoleUlts.MenuHandle(consoleUI.GetAppANSIText(), null, menuItem, staffBL.LoggedInStaff))
                             {
                                 case 1:
-                                    Ults.CreateOrder();
+                                    Ults.CreateOrder(new List<PhoneDetail>(), new List<Imei>());
                                     break;
                                 case 2:
                                     HandleResult = Ults.HandleOrder();
