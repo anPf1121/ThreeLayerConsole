@@ -6,6 +6,7 @@ using System.Globalization; // thu vien format tien
 using Ults;
 using BL;
 
+
 namespace UI;
 class ConsoleUI
 {
@@ -196,21 +197,22 @@ class ConsoleUI
             temp.ListImeiInOrder = new List<Imei>();
             int i = 0;
             foreach(var phone in listTradeInPhone){
-                Imei itemp = new Imei(new PhoneDetail(), imeiTemp[i].PhoneImei, PhoneEnum.ImeiStatus.NotExport);
-                itemp.PhoneDetail = phone;
-                temp.ListImeiInOrder.Add(itemp);
-                i++;
+                for(int j = 0;j<phone.Quantity;j++){
+                    Imei ITemp = new Imei(phone, imeiTemp[i].PhoneImei, PhoneEnum.ImeiStatus.NotExport);
+                    temp.ListImeiInOrder.Add(ITemp);
+                    i++;
+                }
             }
         
             Console.WriteLine(spaces + "|===========================================================================================================================|");
             Console.WriteLine(spaces+"| {0,20} | ", "Trade In Phones".PadRight(121));
             Console.WriteLine(spaces + "|===========================================================================================================================|");
-        PrintOrderDetails(temp);
+        PrintOrderDetails(temp, true);
         Console.WriteLine(spaces + "|===========================================================================================================================|");
         }
         Console.WriteLine(spaces+"| {0,20} | ", "New Phone".PadRight(121));
         Console.WriteLine(spaces + "|===========================================================================================================================|");
-        PrintOrderDetails(ord);
+        PrintOrderDetails(ord, false);
         Console.WriteLine(spaces + "|===========================================================================================================================|");
         if (ord.DiscountPolicies.Count() != 0)
         {
@@ -224,36 +226,40 @@ class ConsoleUI
             }
         }
         decimal totaldue = ord.GetTotalDue();
-        decimal totaldueOfcustomerphone = 0;
         if(listTradeInPhone.Count()!=0){
             foreach(var phone in listTradeInPhone){
-                totaldueOfcustomerphone+=phone.Quantity*phone.Price;
+                totaldue-=phone.Quantity*phone.Price;
             }
         }
-        decimal finalTotalDue = 0;
-        if(totaldue>=totaldueOfcustomerphone){
-            finalTotalDue = totaldue-totaldueOfcustomerphone;
-        }else{
-            finalTotalDue = 0;
-        }
 
-        Console.WriteLine(spaces + "| {0, 40}{1, -26}{2, 15}|", "", "Total Due: ", SetTextBolder(FormatPrice(finalTotalDue).PadRight(56)));
+        Console.WriteLine(spaces + "| {0, 40}{1, -26}{2, 15}|", "", "Total Due: ", SetTextBolder(FormatPrice(totaldue).PadRight(56)));
         if (ord.Accountant.StaffID != 0)
         {
-            Console.WriteLine(spaces + "| {0, 40}{1, -26}{2, 23}|", "", "Discount Price: ", SetTextBolder(FormatPrice(ord.TotalDue - ord.GetTotalDue()).ToString().PadRight(56)));
+            if(listTradeInPhone.Count() == 0){
+                Console.WriteLine(spaces + "| {0, 40}{1, -26}{2, 23}|", "", "Discount Price: ", SetTextBolder(FormatPrice(ord.TotalDue - totaldue).ToString().PadRight(56)));
             Console.WriteLine(spaces + "| {0, 40}{1, -15}{2, 21}|", "", "Total Due After Discount: ", SetTextBolder(FormatPrice(ord.TotalDue).ToString().PadRight(56)));
+            }
         }
 
-
-        Console.WriteLine(spaces + "| {0, 40}{1, -26}{2, 49}|", "", "To String: ", (ord.Accountant.StaffID != 0) ? SetTextBolder(ConvertNumberToWords(ord.TotalDue).PadRight(56)) : SetTextBolder(ConvertNumberToWords(ord.GetTotalDue()).PadRight(56)));
+        if(listTradeInPhone.Count()!= 0){
+            if(totaldue < 0){
+                totaldue = -totaldue;
+            Console.WriteLine(spaces + "| {0, 40}{1, -26}{2, 49}|", "", "To String: ", (ord.Accountant.StaffID != 0) ? SetTextBolder("minus "+ConvertNumberToWords(totaldue).PadRight(50)) : SetTextBolder("minus "+ConvertNumberToWords(totaldue).PadRight(50)));
+            totaldue = -totaldue;
+        }
+        else Console.WriteLine(spaces + "| {0, 40}{1, -26}{2, 49}|", "", "To String: ", (ord.Accountant.StaffID != 0) ? SetTextBolder(ConvertNumberToWords(totaldue).PadRight(56)) : SetTextBolder(ConvertNumberToWords(totaldue).PadRight(56)));
+        }
+        else{
+        Console.WriteLine(spaces + "| {0, 40}{1, -26}{2, 49}|", "", "To String: ", (ord.Accountant.StaffID != 0) ? SetTextBolder(ConvertNumberToWords(ord.TotalDue).PadRight(56)) : SetTextBolder(ConvertNumberToWords(totaldue).PadRight(56)));
+        }
         Console.WriteLine(spaces + "|---------------------------------------------------------------------------------------------------------------------------|");
         Console.WriteLine(spaces + "|===========================================================================================================================|");
         Console.WriteLine(spaces + "|{0, 10}{1, -35} {2, -40} {3, -36}|", " ", "Customer", "Seller", "Accountant", " ");
         Console.WriteLine(spaces + "|{0, 10}{1, -35} {2, -40} {3, -36}|", " ", (ord.Customer.CustomerName != "") ? ord.Customer.CustomerName : "", ord.Seller.StaffName + " - ID: " + ord.Seller.StaffID, (ord.Accountant.StaffID == 0) ? "" : (ord.Accountant.StaffName + " - ID: " + ord.Accountant.StaffID), " ");
         Console.WriteLine(spaces + "|===========================================================================================================================|");
-        ord.TotalDue = ord.GetTotalDue();
+        ord.TotalDue = totaldue;
     }
-    public void PrintOrderDetails(Order ord)
+    public void PrintOrderDetails(Order ord, bool isPrintForTradeIn)
     {
         List<PhoneDetail> ListTemp = new List<PhoneDetail>();
         foreach (var imei in ord.ListImeiInOrder)
@@ -297,7 +303,10 @@ class ConsoleUI
                 if (imei.Key.PhoneDetailID == imei1.PhoneDetail.PhoneDetailID)
                 {
                     quan += 1;
-                    Console.WriteLine(spaces + "| {0, -16} | {1, -30} | {2, -15} | {3, 15} | {4, 15} | {5, 15} |", (printImeiHandle != printImeiHandle2) ? imei1.PhoneDetail.PhoneDetailID : "", (printImeiHandle != printImeiHandle2) ? (imei1.PhoneDetail.Phone.PhoneName + " " + imei1.PhoneDetail.PhoneColor.Color + " " + imei1.PhoneDetail.ROMSize.ROM + $" ({imei1.PhoneDetail.PhoneStatusType})") : "", imei1.PhoneImei, (printImeiHandle != printImeiHandle2) ? imei.Value : "", (printImeiHandle != printImeiHandle2) ? FormatPrice(imei1.PhoneDetail.Price) : "", (printImeiHandle != printImeiHandle2) ? FormatPrice(ord.GetTotalDueForEachPhone(imei1.PhoneDetail.PhoneDetailID)) : "");
+                    if(!isPrintForTradeIn)Console.WriteLine(spaces + "| {0, -16} | {1, -30} | {2, -15} | {3, 15} | {4, 15} | {5, 15} |", (printImeiHandle != printImeiHandle2) ? imei1.PhoneDetail.PhoneDetailID : "", (printImeiHandle != printImeiHandle2) ? (imei1.PhoneDetail.Phone.PhoneName + " " + imei1.PhoneDetail.PhoneColor.Color + " " + imei1.PhoneDetail.ROMSize.ROM + $" ({imei1.PhoneDetail.PhoneStatusType})") : "", imei1.PhoneImei, (printImeiHandle != printImeiHandle2) ? imei.Value : "", (printImeiHandle != printImeiHandle2) ? FormatPrice(imei1.PhoneDetail.Price) : "", (printImeiHandle != printImeiHandle2) ? FormatPrice(ord.GetTotalDueForEachPhone(imei1.PhoneDetail.PhoneDetailID)) : "");
+                    else{
+                        Console.WriteLine(spaces + "| {0, -16} | {1, -30} | {2, -15} | {3, 15} | {4, 15} | {5, 15} |", (printImeiHandle != printImeiHandle2) ? imei1.PhoneDetail.PhoneDetailID : "", (printImeiHandle != printImeiHandle2) ? (imei1.PhoneDetail.Phone.PhoneName + " " + imei1.PhoneDetail.PhoneColor.Color + " " + imei1.PhoneDetail.ROMSize.ROM + $" ({imei1.PhoneDetail.PhoneStatusType})") : "", imei1.PhoneImei, (printImeiHandle != printImeiHandle2) ? imei.Value : "", (printImeiHandle != printImeiHandle2) ? ("-"+FormatPrice(imei1.PhoneDetail.Price)) : "", (printImeiHandle != printImeiHandle2) ? ("-"+FormatPrice(ord.GetTotalDueForEachPhone(imei1.PhoneDetail.PhoneDetailID))) : "");
+                    }
                     printImeiHandle2 = printImeiHandle;
                 }
             }
@@ -506,9 +515,9 @@ class ConsoleUI
     }
     public string ConvertToWords(long number)
     {
-        string[] ones = { "", "một", "hai", "ba", "bốn", "năm", "sáu", "bảy", "tám", "chín" };
-        string[] teens = { "mười", "mười một", "mười hai", "mười ba", "mười bốn", "mười lăm", "mười sáu", "mười bảy", "mười tám", "mười chín" };
-        string[] tens = { "", "", "hai mươi", "ba mươi", "bốn mươi", "năm mươi", "sáu mươi", "bảy mươi", "tám mươi", "chín mươi" };
+        string[] ones = { "", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" };
+        string[] teens = { "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen" };
+        string[] tens = { "", "", "twenty", "thirty", "fourty", "fifty", "sixty", "seventy", "eighty", "ninety" };
         if (number < 10)
         {
             return ones[number];
@@ -524,19 +533,19 @@ class ConsoleUI
         else if (number < 1000)
         {
             return ones[number / 100]
-                + " trăm"
+                + " hundred"
                 + (number % 100 > 0 ? " " + ConvertToWords(number % 100) : "");
         }
         else if (number < 1000000)
         {
             return ConvertToWords(number / 1000)
-                + " nghìn"
+                + " thousand"
                 + (number % 1000 > 0 ? " " + ConvertToWords(number % 1000) : "");
         }
         else if (number < 1000000000)
         {
             return ConvertToWords(number / 1000000)
-                + " triệu"
+                + " million"
                 + (number % 1000000 > 0 ? " " + ConvertToWords(number % 1000000) : "");
         }
         else
@@ -547,16 +556,16 @@ class ConsoleUI
     public string ConvertNumberToWords(decimal number)
     {
         if (number == 0)
-            return "không đồng";
+            return "zero Dong";
 
         long nguyen = (long)Math.Truncate(number);
         int thapPhan = (int)((number - nguyen) * 100);
 
-        string result = ConvertToWords(nguyen) + " đồng";
+        string result = ConvertToWords(nguyen) + " Dong";
 
         if (thapPhan > 0)
         {
-            result += " và " + ConvertToWords(thapPhan) + " Hào";
+            result += " and " + ConvertToWords(thapPhan) + " Hao";
         }
 
         return result;

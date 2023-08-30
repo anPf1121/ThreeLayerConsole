@@ -81,7 +81,7 @@ namespace PhoneStoreUI
                             switch (consoleUlts.MenuHandle(consoleUI.GetAppANSIText(), null, menuItem, staffBL.LoggedInStaff))
                             {
                                 case 1:
-                                    Ults.Payment();
+                                    Ults.Payment(new List<PhoneDetail>(), new List<Imei>(), new Order());
                                     break;
                                 case 2:
                                     Ults.TradeIn();
