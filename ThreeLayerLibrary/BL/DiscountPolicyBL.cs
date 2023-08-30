@@ -6,7 +6,7 @@ using Model;
 namespace BL;
 public class DiscountPolicyBL {
     private DiscountPolicyDAL discountPolicyDAL = new DiscountPolicyDAL();
-    public List<DiscountPolicy> GetDiscountForPaymentmethod(Order order){
+    public List<DiscountPolicy> GetDiscountForPaymentMethod(Order order){
         List<DiscountPolicy> lst = new List<DiscountPolicy>();
         List<DiscountPolicy> discountPoliciesValidated = discountPolicyDAL.GetDiscountValidated();
         foreach(var dc in discountPoliciesValidated){
@@ -16,7 +16,6 @@ public class DiscountPolicyBL {
                     if(order.TotalDue >= dc.MinimumPurchaseAmount && order.TotalDue <=dc.MaximumPurchaseAmount)lst.Add(dc);
                 }
             }
-
         }
         return lst;
     }

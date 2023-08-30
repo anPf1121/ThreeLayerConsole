@@ -70,6 +70,26 @@ class ConsoleUI
         string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
         Console.WriteLine(spaces + "| {0, -13} | {1, -25} | {2, -23} | {3, -20} |", order.OrderID, order.Customer.CustomerName, order.CreateAt, order.OrderStatus);
     }
+    public void PrintPaymentMethodTitle()
+    {
+        string line = "|============================================================================================|";
+        string spaces = AlignCenter(line);
+        Console.WriteLine(spaces + line);
+        Console.WriteLine(GetAppANSIText());
+        Console.WriteLine(spaces + line);
+        Console.WriteLine(GetPaymentANSIText());
+        Console.WriteLine(spaces + line);
+        Console.WriteLine(GetChoosePaymentMethodText());
+    }
+    public void PrintListPaymentMethod(Dictionary<int, string> paymentMethods)
+    {
+        string line = "|============================================================================================|";
+        string spaces = AlignCenter(line);
+        Console.WriteLine(spaces + "|============================================================================================|");
+        foreach (var payment in paymentMethods)
+            Console.WriteLine(spaces + "| {0, 30} |", (payment.Key + ". " + payment.Value).PadRight(90));
+        Console.WriteLine(spaces + "|============================================================================================|");
+    }
     public void PrintPhoneModelTitle()
     {
         string spaces = AlignCenter("|============================================================================================|");
@@ -112,16 +132,16 @@ class ConsoleUI
         FullWidthTinyLine();
         foreach (string item in phase)
         {
-            itemCount++;
+            itemCount++;  
             if (itemCount == currentPhase)
             {
                 ConsoleForegroundColor(ConsoleEnum.Color.Green);
-                Console.Write(((itemCount == currentPhase) ? " > " + item : " > " + item));
+                Console.Write(" " + item);
                 ConsoleForegroundColor(ConsoleEnum.Color.White);
             }
             else
             {
-                Console.Write(((itemCount == currentPhase) ? " > " + item : " > " + item));
+                Console.Write(" " + item);
             }
             if (itemCount == phase.Length)
                 Console.Write("\n");
@@ -342,9 +362,8 @@ class ConsoleUI
         Console.WriteLine(spaces + "| {0,42}" + "< " + $"{currentPage}/{countPage}" + " >".PadRight(44) + "|", " ");
         Console.WriteLine(spaces + "|============================================================================================|");
         Console.WriteLine(spaces + "| Press 'Left Arrow' To Back Previous Page, 'Right Arror' To Next Page                       |");
-        Console.WriteLine(spaces + "| Press 'Space' To Choose a phone, 'B' To Back Previous Menu                                 |");
+        Console.WriteLine(spaces + "| Press 'Space' To Choose A Phone, 'B' To Back Previous Menu                                 |");
         Console.WriteLine(spaces + "|============================================================================================|");
-
     }
     public string GetSearchANSIText()
     {
@@ -376,15 +395,15 @@ class ConsoleUI
     // }
     public string[] GetCreateOrderTimeLine()
     {
-        return new string[] { "Search Phone", "Add Phone To Order", "Add More Phone?", "Enter Customer Info", "Confirm Order" };
+        return new string[] { AlignCenter("> Search Phone > Add Phone To Order > Add More Phone? > Enter Customer Info > Confirm Order") + "> Search Phone", "> Add Phone To Order", "> Add More Phone?", "> Enter Customer Info", "> Confirm Order" };
     }
     public string[] GetPaymentTimeLine()
     {
-        return new string[] { "Choose an Order", "Choose Paymentmethod", "Enter Money", "Confirm or Cancel or Skip Payment" };
+        return new string[] { AlignCenter("> Choose an Order > Choose Paymentmethod > Enter Money > Confirm or Cancel or Skip Payment") + "Choose an Order", "Choose Paymentmethod", "Enter Money", "Confirm or Cancel or Skip Payment" };
     }
     public string[] GetTradeInTimeLine()
     {
-        return new string[] { "Choose an Order", "Check and Add Customer's Phone", "Confirm or Cancel TradeIn" };
+        return new string[] { AlignCenter("> Choose an Order > Confirm Customer's Phone > Confirm or Cancel TradeIn") + "Choose an Order", "Confirm Customer's Phone", "Confirm or Cancel TradeIn" };
     }
     public string[] GetHandleOrderTimeLine()
     {
@@ -394,8 +413,7 @@ class ConsoleUI
     {
         int centeredPosition = (Console.WindowWidth - "|--------------------------------------------------------------------------------------------|".Length) / 2;
         string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
-        string title =
-            $@"{spaces}|                                                                                            |                                                                      
+        string title = $@"{spaces}|                                                                                            |
 {spaces}|          ┌─┐┌┐┌┌┬┐┌─┐┬─┐  ┌─┐┬ ┬┌─┐┌┬┐┌─┐┌┬┐┌─┐┬─┐  ┬┌┐┌┌─┐┌─┐┬─┐┌┬┐┌─┐┌┬┐┬┌─┐┌┐┌          |
 {spaces}|          ├┤ │││ │ ├┤ ├┬┘  │  │ │└─┐ │ │ ││││├┤ ├┬┘  ││││├┤ │ │├┬┘│││├─┤ │ ││ ││││          |
 {spaces}|          └─┘┘└┘ ┴ └─┘┴└─  └─┘└─┘└─┘ ┴ └─┘┴ ┴└─┘┴└─  ┴┘└┘└  └─┘┴└─┴ ┴┴ ┴ ┴ ┴└─┘┘└┘          |
@@ -418,9 +436,9 @@ class ConsoleUI
         int centeredPosition = (Console.WindowWidth - "|--------------------------------------------------------------------------------------------|".Length) / 2;
         string spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
         return $@"{spaces}|                                                                                            |
-{spaces}|                ╔═╗┬ ┬┌─┐┌─┐┬┌─  ╔═╗┬ ┬┌─┐┌┬┐┌─┐┌┬┐┌─┐┬─┐┌─┐  ╔═╗┬ ┬┌─┐┌┐┌┌─┐               |
-{spaces}|                ║  ├─┤├┤ │  ├┴┐  ║  │ │└─┐ │ │ ││││├┤ ├┬┘└─┐  ╠═╝├─┤│ ││││├┤                |
-{spaces}|                ╚═╝┴ ┴└─┘└─┘┴ ┴  ╚═╝└─┘└─┘ ┴ └─┘┴ ┴└─┘┴└─└─┘  ╩  ┴ ┴└─┘┘└┘└─┘               |
+{spaces}|                    ┌─┐┬ ┬┌─┐┌┐┌┌─┐  ┌─┐┌─┐┌┐┌┌─┐┬┬─┐┌┬┐┌─┐┌┬┐┬┌─┐┌┐┌                       |
+{spaces}|                    ├─┘├─┤│ ││││├┤   │  │ ││││├┤ │├┬┘│││├─┤ │ ││ ││││                       |
+{spaces}|                    ┴  ┴ ┴└─┘┘└┘└─┘  └─┘└─┘┘└┘└  ┴┴└─┴ ┴┴ ┴ ┴ ┴└─┘┘└┘                       |
 {spaces}|                                                                                            |";
     }
     public string GetLoginANSIText()

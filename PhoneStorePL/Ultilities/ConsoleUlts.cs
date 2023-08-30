@@ -85,9 +85,9 @@ namespace Ults
         }
         public int MenuHandle(string? title, string? subTitle, string[] menuItem, Staff loginStaff)
         {
+            Console.Clear();
             ConsoleUlts consoleUlts = new ConsoleUlts();
             string spaces = consoleUI.AlignCenter("|--------------------------------------------------------------------------------------------|");
-            Console.Clear();
             Console.OutputEncoding = System.Text.Encoding.UTF8;
             ConsoleKeyInfo keyInfo;
             string iconBackhand = "   ";
@@ -122,7 +122,6 @@ namespace Ults
                     consoleUI.PrintLine();
 
                     keyInfo = Console.ReadKey();
-
                     if (keyInfo.Key == ConsoleKey.Enter)
                     {
                         Console.Clear();
@@ -158,6 +157,7 @@ namespace Ults
                         Console.Clear();
                     }
                     Console.Clear();
+
                 }
             }
             return currentChoice;
@@ -179,6 +179,7 @@ namespace Ults
                 else if (typeof(T) == typeof(Order))
                     DisplayCurrentPage((List<Order>)(object)listItem, currentPage, 5, currentPhase, timeLine, toDo);
                 new ConsoleUI().GetFooterPagination(currentPage, totalPages);
+
                 key = Console.ReadKey();
 
                 if (key.Key == ConsoleKey.RightArrow && currentPage < totalPages)
@@ -441,13 +442,14 @@ namespace Ults
 
         public Customer GetCustomerInfo()
         {
-            string PatternName = "^[a-zA-Z\\s]+$";
-            string PatternPhone = @"[0-9]$";
+            string PatternName = @"^.{0,28}[a-zA-Z\s]$";
+            string PatternPhone = @"^\d{6,15}$";
+    
             string spaces = consoleUI.AlignCenter("|--------------------------------------------------------------------------------------------|");
             string customerName = GetInputString($"{spaces} Customer Name");
             while (!Regex.IsMatch(customerName, PatternName))
             {
-                Alert(ConsoleEnum.Alert.Error, "Invalid Customer Name customer names are not allowed to have special characters and numbers");
+                Alert(ConsoleEnum.Alert.Error, "Invalid Customer Name customer names are not allowed to have special characters, numbers or more than 30 characters");
                 customerName = GetInputString($"{spaces} Customer Name");
             }
             string phoneNumber = GetInputString($"{spaces} Phone Number");
