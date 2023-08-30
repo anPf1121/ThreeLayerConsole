@@ -231,13 +231,13 @@ namespace Ults
                         if (reChooseModelAfterBackPrevPhase == 2)
                         {
                             currentPhase++;
-                        curPhase = currentPhase;
+                            curPhase = currentPhase;
                             break;
                         }
                         else if (reChooseModelAfterBackPrevPhase == 1 || !reEnterPhoneModelID || isContinueChooseModelID == false)
                         {
                             currentPhase--;
-                        curPhase = currentPhase;
+                            curPhase = currentPhase;
                             break;
                         }
                         int phoneDetailQuantity = 0;
@@ -281,13 +281,13 @@ namespace Ults
                                 else if (continueToCreateOrder == 1)
                                 {
                                     currentPhase++;
-                        curPhase = currentPhase;
+                                    curPhase = currentPhase;
                                     break;
                                 }
                                 else if (continueToCreateOrder == 2)
                                 {
                                     currentPhase--;
-                        curPhase = currentPhase;
+                                    curPhase = currentPhase;
                                     break;
                                 }
                             }
@@ -298,7 +298,7 @@ namespace Ults
                                 else if (continueToCreateOrder == 1)
                                 {
                                     currentPhase--;
-                        curPhase = currentPhase;
+                                    curPhase = currentPhase;
                                     break;
                                 }
                             }
@@ -353,13 +353,13 @@ namespace Ults
                             {
                                 listImeiInOrder.RemoveAll(item => imeisHandle.Contains(item));
                                 currentPhase--;
-                        curPhase = currentPhase;
+                                curPhase = currentPhase;
                             }
                             else
                             {
                                 listImeiInOrder = imeis;
                                 currentPhase++;
-                        curPhase = currentPhase;
+                                curPhase = currentPhase;
                             }
                             break;
                         } while (phaseChoice != 1 && phaseChoice != 2);
@@ -404,6 +404,7 @@ namespace Ults
                         else if (phaseChoice == 1) currentPhase++;
                         else
                         {
+                            consoleUI.PrintTimeLine(listPhase, curPhase);
                             consoleUI.PrintOrder(order, listTradeInPhone, imeiTemp);
                             currentPhase = 1;
                         }
@@ -653,7 +654,8 @@ namespace Ults
             Dictionary<int, string> ListPaymentMethod = new Dictionary<int, string>() { { 1, PaymentEnum.PaymentMethod.VNPay.ToString() }, { 2, PaymentEnum.PaymentMethod.Banking.ToString() }, { 3, PaymentEnum.PaymentMethod.Cash.ToString() } };
             Order? orderWantToPayment = new Order("", new DateTime(), new Staff(0, "", "", "", "", "", StaffEnum.Role.Seller, StaffEnum.Status.Active), new Staff(0, "", "", "", "", "", StaffEnum.Role.Accountant, StaffEnum.Status.Active), new Customer(0, "", "", ""), new List<Imei>(), OrderEnum.Status.Pending, new List<DiscountPolicy>(), "", 0);
             bool activePayment = true;
-            if(timeLine.Count() != 0 && phase != 0) {
+            if (timeLine.Count() != 0 && phase != 0)
+            {
                 listPhase = timeLine;
             }
             if (listTradeInPhone.Count() == 0)
@@ -661,7 +663,7 @@ namespace Ults
                 do
                 {
                     currentPhase = 1;
-                    if(phase == 0) ListOrderPending = SearchOrder(currentPhase, OrderEnum.Status.Pending);
+                    if (phase == 0) ListOrderPending = SearchOrder(currentPhase, OrderEnum.Status.Pending);
                     else ListOrderPending = SearchOrder(phase, OrderEnum.Status.Pending);
                     if (ListOrderPending == null)
                     {
@@ -672,13 +674,13 @@ namespace Ults
                     {
                         bool? showOrderList = null;
                         currentPhase = 2;
-                        if(phase == 0) showOrderList = ConsoleUlts.Pagination(ListOrderPending, currentPhase, listPhase, currentPhase);
+                        if (phase == 0) showOrderList = ConsoleUlts.Pagination(ListOrderPending, currentPhase, listPhase, currentPhase);
                         else showOrderList = ConsoleUlts.Pagination(ListOrderPending, currentPhase, listPhase, phase);
                         if (showOrderList == true)
                         {
                             orderWantToPayment = ConsoleUlts.GetAnOrder(this.loginManager);
                             //Wait to display orderdetail
-                            if(phase == 0) consoleUI.PrintTimeLine(listPhase, 1);
+                            if (phase == 0) consoleUI.PrintTimeLine(listPhase, 1);
                             else consoleUI.PrintTimeLine(listPhase, phase);
                             consoleUI.PrintOrder(orderWantToPayment, new List<PhoneDetail>(), new List<Imei>());
                             int check = 0;
@@ -709,7 +711,7 @@ namespace Ults
             {
                 int inputPaymentMethodChoice = 0;
                 currentPhase = 2;
-                if(phase == 0) consoleUI.PrintTimeLine(listPhase, currentPhase);
+                if (phase == 0) consoleUI.PrintTimeLine(listPhase, currentPhase);
                 else consoleUI.PrintTimeLine(listPhase, phase);
                 // hiển thị các Payment Method (phương thức thanh toán)
                 consoleUI.PrintPaymentMethodTitle();
@@ -723,9 +725,9 @@ namespace Ults
                 } while (inputPaymentMethodChoice <= 0 || inputPaymentMethodChoice > ListPaymentMethod.Count());
 
                 Console.Clear();
-                if(phase == 0) consoleUI.PrintTimeLine(listPhase, currentPhase);
+                if (phase == 0) consoleUI.PrintTimeLine(listPhase, currentPhase);
                 else consoleUI.PrintTimeLine(listPhase, phase);
-                
+
                 foreach (var payment in ListPaymentMethod)
                     if (payment.Key == inputPaymentMethodChoice) orderWantToPayment.PaymentMethod = payment.Value;
                 decimal totalDue = orderWantToPayment.GetTotalDue();
@@ -785,7 +787,7 @@ namespace Ults
                     {
                         do
                         {
-                            if(phase == 0) consoleUI.PrintTimeLine(listPhase, 3);
+                            if (phase == 0) consoleUI.PrintTimeLine(listPhase, 3);
                             else consoleUI.PrintTimeLine(listPhase, phase);
                             consoleUI.PrintOrder(orderWantToPayment, listTradeInPhone, imeiTemp);
 
@@ -794,7 +796,7 @@ namespace Ults
                             if (moneyOfCustomerPaid >= totalDue)
                             {
                                 int ConfirmOrCancelOrSkip = ConsoleUlts.PressCharacterTo("Confirm Payment", "Cancel Payment", "Skip Payment", null);
-                                if(phase == 0) consoleUI.PrintTimeLine(listPhase, 4);
+                                if (phase == 0) consoleUI.PrintTimeLine(listPhase, 4);
                                 else consoleUI.PrintTimeLine(listPhase, phase);
                                 consoleUI.PrintOrder(orderWantToPayment, new List<PhoneDetail>(), new List<Imei>());
                                 if (ConfirmOrCancelOrSkip == 0)
@@ -838,7 +840,7 @@ namespace Ults
                             }
                             else if (moneyOfCustomerPaid < totalDue)
                             {
-                                if(phase == 0) consoleUI.PrintTimeLine(listPhase, 4);
+                                if (phase == 0) consoleUI.PrintTimeLine(listPhase, 4);
                                 else consoleUI.PrintTimeLine(listPhase, phase);
                                 consoleUI.PrintOrder(orderWantToPayment, listTradeInPhone, imeiTemp);
                                 if (listTradeInPhone.Count() != 0)
