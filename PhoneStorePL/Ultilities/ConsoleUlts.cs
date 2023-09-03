@@ -46,12 +46,9 @@ namespace Ults
             string firstStr = $"Press 'Q' To {firstAction} - Press 'W' To {secondAction} - Press 'E' To {thirdAction}";
             string secondStr = $"Press 'Q' To {firstAction} - Press 'W' To {secondAction}";
             string thirdStr = $"Press 'Q' To {firstAction} - Press 'W' To {secondAction} - Press 'E' To {thirdAction} - Press 'R' To {fourthAction}";
-            int centeredPosition = (Console.WindowWidth - firstStr.Length) / 2;
-            int secondCenteredPosition = (Console.WindowWidth - secondStr.Length) / 2;
-            int thirdCenteredPosition = (Console.WindowWidth - thirdStr.Length) / 2;
-            string firstSpaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "";
-            string secondSpaces = secondCenteredPosition > 0 ? new string(' ', secondCenteredPosition) : "";
-            string thirdSpaces = secondCenteredPosition > 0 ? new string(' ', thirdCenteredPosition) : "";
+            string firstSpaces = consoleUI.AlignCenter(firstStr);
+            string secondSpaces = consoleUI.AlignCenter(secondStr);
+            string thirdSpaces = consoleUI.AlignCenter(thirdStr);
             ConsoleKeyInfo input = new ConsoleKeyInfo();
             bool active = true;
             if (thirdAction != null && fourthAction == null) Console.Write(firstSpaces + firstStr);
@@ -440,7 +437,7 @@ namespace Ults
         {
             string PatternName = @"^.{0,28}[a-zA-Z\s]$";
             string PatternPhone = @"^\d{6,15}$";
-    
+
             string spaces = consoleUI.AlignCenter("|--------------------------------------------------------------------------------------------|");
             string customerName = GetInputString($"{spaces} Customer Name");
             while (!Regex.IsMatch(customerName, PatternName))
@@ -610,27 +607,32 @@ namespace Ults
                 Console.Write(input);
             }
         }
-        public Order GetAnOrder(IStaffBL loginManager){
+        public Order GetAnOrder(IStaffBL loginManager)
+        {
             int currentPhase = 1, centeredPosition = (Console.WindowWidth - "|--------------------------------------------------------------------------------------------|".Length) / 2, secondcenteredPosition = (Console.WindowWidth - "|===================================================================================================|".Length) / 2;
             string input = "", spaces = centeredPosition > 0 ? new string(' ', centeredPosition) : "", orderID = "";
             Order order = new Order();
             do
-                        {
-                            orderID = GetInputString($"{spaces} Choose An Order ID").ToUpper();
-                            order = new OrderBL().GetOrderById(orderID) ?? null;
-                            if (order!.OrderID == "") Alert(ConsoleEnum.Alert.Error, "Invalid Order ID");
-                            else order.Accountant = loginManager.LoggedInStaff;
-                        } while (order.OrderID == "");
-                        return order;
+            {
+                orderID = GetInputString($"{spaces} Choose An Order ID").ToUpper();
+                order = new OrderBL().GetOrderById(orderID) ?? null;
+                if (order!.OrderID == "") Alert(ConsoleEnum.Alert.Error, "Invalid Order ID");
+                else order.Accountant = loginManager.LoggedInStaff;
+            } while (order.OrderID == "");
+            return order;
         }
-        public bool CheckImeiValid(string imei){
-            if(imei.Length != 15){
+        public bool CheckImeiValid(string imei)
+        {
+            if (imei.Length != 15)
+            {
                 return false;
             }
-            else{
-                for(int i = 0;i<15;i++){
+            else
+            {
+                for (int i = 0; i < 15; i++)
+                {
                     int numOut;
-                    if(!int.TryParse(imei[i].ToString(), out numOut))return false;
+                    if (!int.TryParse(imei[i].ToString(), out numOut)) return false;
                 }
             }
             return true;

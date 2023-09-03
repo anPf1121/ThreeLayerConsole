@@ -198,11 +198,21 @@ namespace DAL
                             }
                             reader.Close();
                         }
-                        command.CommandText = @"insert into orders(customer_id, seller_id, order_id) values (@cusid, @sellerid, @orderid);";
-                        command.Parameters.Clear();
-                        command.Parameters.AddWithValue("@cusid", order.Customer.CustomerID);
-                        command.Parameters.AddWithValue("@sellerid", order.Seller.StaffID);
-                        command.Parameters.AddWithValue("@orderid", order.OrderID);
+                        if (order.Seller.StaffID != 0)
+                        {
+                            command.CommandText = @"insert into orders(customer_id, seller_id, order_id) values (@cusid, @sellerid, @orderid);";
+                            command.Parameters.Clear();
+                            command.Parameters.AddWithValue("@cusid", order.Customer.CustomerID);
+                            command.Parameters.AddWithValue("@sellerid", order.Seller.StaffID);
+                            command.Parameters.AddWithValue("@orderid", order.OrderID);
+                        }
+                        else
+                        {
+                            command.CommandText = @"insert into orders(customer_id, order_id) values (@cusid, @orderid);";
+                            command.Parameters.Clear();
+                            command.Parameters.AddWithValue("@cusid", order.Customer.CustomerID);
+                            command.Parameters.AddWithValue("@orderid", order.OrderID);
+                        }
                         command.ExecuteNonQuery();
 
                         foreach (var imei in order.ListImeiInOrder)

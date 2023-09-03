@@ -40,4 +40,8 @@ public class OrderBL
     {
         return orderDAL.UpdateOrder(BusinessEnum.OrderEnum.Status.Pending, order);
     }
+    public bool HandleTradeIn(Order order)
+    {
+        return orderDAL.UpdateOrder(BusinessEnum.OrderEnum.Status.Completed, order);
+    }
 }

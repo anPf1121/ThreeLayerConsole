@@ -133,7 +133,7 @@ class ConsoleUI
         FullWidthTinyLine();
         foreach (string item in phase)
         {
-            itemCount++;  
+            itemCount++;
             if (itemCount == currentPhase)
             {
                 ConsoleForegroundColor(ConsoleEnum.Color.Green);
@@ -192,25 +192,28 @@ class ConsoleUI
             Console.WriteLine(spaces + "| Phone Number: {0, -12}|", ord.Customer.PhoneNumber.PadRight(108));
         }
         Console.Write((ord.Accountant.StaffID != 0) ? (spaces + "| Payment Method: {0, 35} |" + "\n") : "", ord.PaymentMethod.PadRight(105));
-        if(listTradeInPhone.Count() !=0){
+        if (listTradeInPhone.Count() != 0)
+        {
             Order temp = new Order();
             temp.ListImeiInOrder = new List<Imei>();
             int i = 0;
-            foreach(var phone in listTradeInPhone){
-                for(int j = 0;j<phone.Quantity;j++){
+            foreach (var phone in listTradeInPhone)
+            {
+                for (int j = 0; j < phone.Quantity; j++)
+                {
                     Imei ITemp = new Imei(phone, imeiTemp[i].PhoneImei, PhoneEnum.ImeiStatus.NotExport);
                     temp.ListImeiInOrder.Add(ITemp);
                     i++;
                 }
             }
-        
+
             Console.WriteLine(spaces + "|===========================================================================================================================|");
-            Console.WriteLine(spaces+"| {0,20} | ", "Trade In Phones".PadRight(121));
+            Console.WriteLine(spaces + "| {0,20} | ", "Trade In Phones".PadRight(121));
             Console.WriteLine(spaces + "|===========================================================================================================================|");
-        PrintOrderDetails(temp, true);
-        Console.WriteLine(spaces + "|===========================================================================================================================|");
+            PrintOrderDetails(temp, true);
         }
-        Console.WriteLine(spaces+"| {0,20} | ", "New Phone".PadRight(121));
+        Console.WriteLine(spaces + "|===========================================================================================================================|");
+        Console.WriteLine(spaces + "| {0,20} | ", "New Phone".PadRight(121));
         Console.WriteLine(spaces + "|===========================================================================================================================|");
         PrintOrderDetails(ord, false);
         Console.WriteLine(spaces + "|===========================================================================================================================|");
@@ -226,36 +229,42 @@ class ConsoleUI
             }
         }
         decimal totaldue = ord.GetTotalDue();
-        if(listTradeInPhone.Count()!=0){
-            foreach(var phone in listTradeInPhone){
-                totaldue-=phone.Quantity*phone.Price;
+        if (listTradeInPhone.Count() != 0)
+        {
+            foreach (var phone in listTradeInPhone)
+            {
+                totaldue -= phone.Quantity * phone.Price;
             }
         }
 
         Console.WriteLine(spaces + "| {0, 40}{1, -26}{2, 15}|", "", "Total Due: ", SetTextBolder(FormatPrice(totaldue).PadRight(56)));
         if (ord.Accountant.StaffID != 0)
         {
-            if(listTradeInPhone.Count() == 0){
+            if (listTradeInPhone.Count() == 0)
+            {
                 Console.WriteLine(spaces + "| {0, 40}{1, -26}{2, 23}|", "", "Discount Price: ", SetTextBolder(FormatPrice(ord.TotalDue - totaldue).ToString().PadRight(56)));
-            Console.WriteLine(spaces + "| {0, 40}{1, -15}{2, 21}|", "", "Total Due After Discount: ", SetTextBolder(FormatPrice(ord.TotalDue).ToString().PadRight(56)));
+                Console.WriteLine(spaces + "| {0, 40}{1, -15}{2, 21}|", "", "Total Due After Discount: ", SetTextBolder(FormatPrice(ord.TotalDue).ToString().PadRight(56)));
             }
         }
 
-        if(listTradeInPhone.Count()!= 0){
-            if(totaldue < 0){
+        if (listTradeInPhone.Count() != 0)
+        {
+            if (totaldue < 0)
+            {
                 totaldue = -totaldue;
-            Console.WriteLine(spaces + "| {0, 40}{1, -26}{2, 49}|", "", "To String: ", (ord.Accountant.StaffID != 0) ? SetTextBolder("minus "+ConvertNumberToWords(totaldue).PadRight(50)) : SetTextBolder("minus "+ConvertNumberToWords(totaldue).PadRight(50)));
-            totaldue = -totaldue;
+                Console.WriteLine(spaces + "| {0, 40}{1, -26}{2, 49}|", "", "To String: ", (ord.Accountant.StaffID != 0) ? SetTextBolder("minus " + ConvertNumberToWords(totaldue).PadRight(50)) : SetTextBolder("minus " + ConvertNumberToWords(totaldue).PadRight(50)));
+                totaldue = -totaldue;
+            }
+            else Console.WriteLine(spaces + "| {0, 40}{1, -26}{2, 49}|", "", "To String: ", (ord.Accountant.StaffID != 0) ? SetTextBolder(ConvertNumberToWords(totaldue).PadRight(56)) : SetTextBolder(ConvertNumberToWords(totaldue).PadRight(56)));
         }
-        else Console.WriteLine(spaces + "| {0, 40}{1, -26}{2, 49}|", "", "To String: ", (ord.Accountant.StaffID != 0) ? SetTextBolder(ConvertNumberToWords(totaldue).PadRight(56)) : SetTextBolder(ConvertNumberToWords(totaldue).PadRight(56)));
-        }
-        else{
-        Console.WriteLine(spaces + "| {0, 40}{1, -26}{2, 49}|", "", "To String: ", (ord.Accountant.StaffID != 0) ? SetTextBolder(ConvertNumberToWords(ord.TotalDue).PadRight(56)) : SetTextBolder(ConvertNumberToWords(totaldue).PadRight(56)));
+        else
+        {
+            Console.WriteLine(spaces + "| {0, 40}{1, -26}{2, 49}|", "", "To String: ", (ord.Accountant.StaffID != 0) ? SetTextBolder(ConvertNumberToWords(ord.TotalDue).PadRight(56)) : SetTextBolder(ConvertNumberToWords(totaldue).PadRight(56)));
         }
         Console.WriteLine(spaces + "|---------------------------------------------------------------------------------------------------------------------------|");
         Console.WriteLine(spaces + "|===========================================================================================================================|");
         Console.WriteLine(spaces + "|{0, 10}{1, -35} {2, -40} {3, -36}|", " ", "Customer", "Seller", "Accountant", " ");
-        Console.WriteLine(spaces + "|{0, 10}{1, -35} {2, -40} {3, -36}|", " ", (ord.Customer.CustomerName != "") ? ord.Customer.CustomerName : "", ord.Seller.StaffName + " - ID: " + ord.Seller.StaffID, (ord.Accountant.StaffID == 0) ? "" : (ord.Accountant.StaffName + " - ID: " + ord.Accountant.StaffID), " ");
+        Console.WriteLine(spaces + "|{0, 10}{1, -35} {2, -40} {3, -36}|", " ", (ord.Customer.CustomerName != "") ? ord.Customer.CustomerName : "", (ord.Seller.StaffID != 0) ? (ord.Seller.StaffName + " - ID: " + ord.Seller.StaffID) : "", (ord.Accountant.StaffID == 0) ? "" : (ord.Accountant.StaffName + " - ID: " + ord.Accountant.StaffID), " ");
         Console.WriteLine(spaces + "|===========================================================================================================================|");
         ord.TotalDue = totaldue;
     }
@@ -303,9 +312,10 @@ class ConsoleUI
                 if (imei.Key.PhoneDetailID == imei1.PhoneDetail.PhoneDetailID)
                 {
                     quan += 1;
-                    if(!isPrintForTradeIn)Console.WriteLine(spaces + "| {0, -16} | {1, -30} | {2, -15} | {3, 15} | {4, 15} | {5, 15} |", (printImeiHandle != printImeiHandle2) ? imei1.PhoneDetail.PhoneDetailID : "", (printImeiHandle != printImeiHandle2) ? (imei1.PhoneDetail.Phone.PhoneName + " " + imei1.PhoneDetail.PhoneColor.Color + " " + imei1.PhoneDetail.ROMSize.ROM + $" ({imei1.PhoneDetail.PhoneStatusType})") : "", imei1.PhoneImei, (printImeiHandle != printImeiHandle2) ? imei.Value : "", (printImeiHandle != printImeiHandle2) ? FormatPrice(imei1.PhoneDetail.Price) : "", (printImeiHandle != printImeiHandle2) ? FormatPrice(ord.GetTotalDueForEachPhone(imei1.PhoneDetail.PhoneDetailID)) : "");
-                    else{
-                        Console.WriteLine(spaces + "| {0, -16} | {1, -30} | {2, -15} | {3, 15} | {4, 15} | {5, 15} |", (printImeiHandle != printImeiHandle2) ? imei1.PhoneDetail.PhoneDetailID : "", (printImeiHandle != printImeiHandle2) ? (imei1.PhoneDetail.Phone.PhoneName + " " + imei1.PhoneDetail.PhoneColor.Color + " " + imei1.PhoneDetail.ROMSize.ROM + $" ({imei1.PhoneDetail.PhoneStatusType})") : "", imei1.PhoneImei, (printImeiHandle != printImeiHandle2) ? imei.Value : "", (printImeiHandle != printImeiHandle2) ? ("-"+FormatPrice(imei1.PhoneDetail.Price)) : "", (printImeiHandle != printImeiHandle2) ? ("-"+FormatPrice(ord.GetTotalDueForEachPhone(imei1.PhoneDetail.PhoneDetailID))) : "");
+                    if (!isPrintForTradeIn) Console.WriteLine(spaces + "| {0, -16} | {1, -30} | {2, -15} | {3, 15} | {4, 15} | {5, 15} |", (printImeiHandle != printImeiHandle2) ? imei1.PhoneDetail.PhoneDetailID : "", (printImeiHandle != printImeiHandle2) ? (imei1.PhoneDetail.Phone.PhoneName + " " + imei1.PhoneDetail.PhoneColor.Color + " " + imei1.PhoneDetail.ROMSize.ROM + $" ({imei1.PhoneDetail.PhoneStatusType})") : "", imei1.PhoneImei, (printImeiHandle != printImeiHandle2) ? imei.Value : "", (printImeiHandle != printImeiHandle2) ? FormatPrice(imei1.PhoneDetail.Price) : "", (printImeiHandle != printImeiHandle2) ? FormatPrice(ord.GetTotalDueForEachPhone(imei1.PhoneDetail.PhoneDetailID)) : "");
+                    else
+                    {
+                        Console.WriteLine(spaces + "| {0, -16} | {1, -30} | {2, -15} | {3, 15} | {4, 15} | {5, 15} |", (printImeiHandle != printImeiHandle2) ? imei1.PhoneDetail.PhoneDetailID : "", (printImeiHandle != printImeiHandle2) ? (imei1.PhoneDetail.Phone.PhoneName + " " + imei1.PhoneDetail.PhoneColor.Color + " " + imei1.PhoneDetail.ROMSize.ROM + $" ({imei1.PhoneDetail.PhoneStatusType})") : "", imei1.PhoneImei, (printImeiHandle != printImeiHandle2) ? imei.Value : "", (printImeiHandle != printImeiHandle2) ? ("-" + FormatPrice(imei1.PhoneDetail.Price)) : "", (printImeiHandle != printImeiHandle2) ? ("-" + FormatPrice(ord.GetTotalDueForEachPhone(imei1.PhoneDetail.PhoneDetailID))) : "");
                     }
                     printImeiHandle2 = printImeiHandle;
                 }
@@ -448,7 +458,7 @@ class ConsoleUI
     }
     public string[] GetHandleOrderTimeLine()
     {
-        return new string[] { "Show orders", "Confirm Handle" };
+        return new string[] { AlignCenter(" > Show orders > Confirm Handle") + " > Show orders", "> Confirm Handle" };
     }
     public string GetCustomerInfoANSIText()
     {
