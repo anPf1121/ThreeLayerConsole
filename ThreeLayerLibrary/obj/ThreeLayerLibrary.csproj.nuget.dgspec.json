@@ -1,25 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Học\\PhoneStore\\ThreeLayerConsole\\ThreeLayerLibrary\\ThreeLayerLibrary.csproj": {}
+    "C:\\Users\\PC\\Desktop\\New folder (3)\\ThreeLayerConsole\\ThreeLayerLibrary\\ThreeLayerLibrary.csproj": {}
   },
   "projects": {
-    "C:\\Học\\PhoneStore\\ThreeLayerConsole\\ThreeLayerLibrary\\ThreeLayerLibrary.csproj": {
+    "C:\\Users\\PC\\Desktop\\New folder (3)\\ThreeLayerConsole\\ThreeLayerLibrary\\ThreeLayerLibrary.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Học\\PhoneStore\\ThreeLayerConsole\\ThreeLayerLibrary\\ThreeLayerLibrary.csproj",
+        "projectUniqueName": "C:\\Users\\PC\\Desktop\\New folder (3)\\ThreeLayerConsole\\ThreeLayerLibrary\\ThreeLayerLibrary.csproj",
         "projectName": "ThreeLayerLibrary",
-        "projectPath": "C:\\Học\\PhoneStore\\ThreeLayerConsole\\ThreeLayerLibrary\\ThreeLayerLibrary.csproj",
-        "packagesPath": "C:\\Users\\Acer\\.nuget\\packages\\",
-        "outputPath": "C:\\Học\\PhoneStore\\ThreeLayerConsole\\ThreeLayerLibrary\\obj\\",
+        "projectPath": "C:\\Users\\PC\\Desktop\\New folder (3)\\ThreeLayerConsole\\ThreeLayerLibrary\\ThreeLayerLibrary.csproj",
+        "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\PC\\Desktop\\New folder (3)\\ThreeLayerConsole\\ThreeLayerLibrary\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Acer\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -59,7 +61,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.200\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
         }
       }
     }

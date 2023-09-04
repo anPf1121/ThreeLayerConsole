@@ -633,7 +633,17 @@ namespace Ults
                                     else
                                     {
                                         bool paymentResult = Payment(ListPhoneOfCustomerWantTradeIn, imeis, orderAfterCreateForTradeIn, listPhase, listPhase.Count());
-                                        ConsoleUlts.Alert(ConsoleEnum.Alert.Success, "TradeIn Completed");
+                                        consoleUI.PrintOrder(orderAfterCreateForTradeIn, ListPhoneOfCustomerWantTradeIn, imeis);
+                                        if(paymentResult){
+                                            bool TradeInOrNot = ConsoleUlts.PressYesOrNo("TradeIn", "Cancel TradeIn");
+                                            if(TradeInOrNot){
+                                                ConsoleUlts.Alert(ConsoleEnum.Alert.Success, "TradeIn Completed");
+                                            }
+                                            else{
+                                                orderBL.CancelTradeIn(orderAfterCreateForTradeIn);
+                                                ConsoleUlts.Alert(ConsoleEnum.Alert.Error, "TradeIn False");
+                                            }
+                                        }
 
                                         activeChooseNewPhoneTradeIn = true;
                                         activeChoosePhone = true;
@@ -831,9 +841,12 @@ namespace Ults
                             if (phase == 0) consoleUI.PrintTimeLine(listPhase, 3);
                             else consoleUI.PrintTimeLine(listPhase, phase);
                             consoleUI.PrintOrder(orderWantToPayment, listTradeInPhone, imeiTemp);
+                            foreach(var discount in orderWantToPayment.DiscountPolicies){
+                                orderWantToPayment.TotalDue -= discount.DiscountPrice;
+                            }
                             decimal moneyOfCustomerPaid = ConsoleUlts.EnterMoney();
                             Console.WriteLine();
-                            if (moneyOfCustomerPaid >= totalDue)
+                            if (moneyOfCustomerPaid >= orderWantToPayment.TotalDue)
                             {
                                 int ConfirmOrCancelOrSkip = ConsoleUlts.PressCharacterTo("Confirm Payment", "Cancel Payment", "Skip Payment", null);
                                 if (phase == 0) consoleUI.PrintTimeLine(listPhase, 4);
@@ -885,7 +898,7 @@ namespace Ults
                                     }
                                 }
                             }
-                            else if (moneyOfCustomerPaid < totalDue)
+                            else if (moneyOfCustomerPaid < orderWantToPayment.TotalDue)
                             {
                                 if (phase == 0) consoleUI.PrintTimeLine(listPhase, 4);
                                 else consoleUI.PrintTimeLine(listPhase, phase);
@@ -994,6 +1007,7 @@ namespace Ults
             {
                 orderBL.HandleTradeIn(orderForTradeIn);
             }
+            
             return PaymentResult;
         }
     }
